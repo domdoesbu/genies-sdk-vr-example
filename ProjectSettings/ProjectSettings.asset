@@ -816,7 +816,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
+    Android: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING;TOOLBOX_FORCE_DEFAULT_LISTS
     Standalone: OVR_DISABLE_HAND_PINCH_BUTTON_MAPPING
   additionalCompilerArguments: {}
   platformArchitecture: {}
@@ -847,7 +847,9 @@ PlayerSettings:
   scriptingRuntimeVersion: 1
   gcIncremental: 1
   gcWBarrierValidation: 0
-  apiCompatibilityLevelPerPlatform: {}
+  apiCompatibilityLevelPerPlatform:
+    Android: 3
+    iPhone: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: genies-sdk-vr-example-3
