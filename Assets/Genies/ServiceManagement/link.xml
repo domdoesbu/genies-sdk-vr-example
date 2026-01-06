@@ -1,0 +1,90 @@
+﻿<linker>
+  <assembly fullname="Genies.Addressables">
+    <type fullname="Genies.Addressables.DummyContentOverrideService" preserve="all" />
+    <type fullname="Genies.Addressables.AddressablesCatalogProvider" preserve="all" />
+    <type fullname="Genies.Addressables.AddressablesCatalogService" preserve="all" />
+    <type fullname="Genies.Addressables.CustomResourceLocation.CustomResourceLocationService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Animations">
+    <type fullname="Genies.Animations.AddressablesAnimationLoader" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.ApiResolver">
+    <type fullname="Genies.APIResolver.APIResolverService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Assets.Services">
+    <type fullname="Genies.Assets.Services.AddressableAssetsService" preserve="all" />
+    <type fullname="Genies.Assets.Services.ShaderlessAssetService" preserve="all" />
+    <type fullname="Genies.Assets.Services.LabeledAssetsProvider`1" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Avatars.Context">
+    <type fullname="Genies.Avatars.Context.ProjectedTexturesProvider" preserve="all" />
+    <type fullname="Genies.Avatars.Context.UgcTemplateLoader" preserve="all" />
+    <type fullname="Genies.Avatars.Context.UgcElementLoader" preserve="all" />
+    <type fullname="Genies.Avatars.Context.UgcTemplateDataService" preserve="all" />
+    <type fullname="Genies.Avatars.Context.ProjectedTextureRemoteLoaderService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Ugc">
+    <type fullname="Genies.Ugc.UgcTemplateAsset" preserve="all" />
+    <type fullname="Genies.Ugc.UgcElementAsset" preserve="all" />
+    <type fullname="Genies.Ugc.CustomHairColorData" preserve="all" />
+    <type fullname="Genies.Ugc.CustomHair.HairColorService" preserve="all" />
+    <type fullname="Genies.Ugc.Pattern" preserve="all" />
+    <type fullname="Genies.Ugc.CustomPattern.CustomPatternRemoteLoaderService" preserve="all" />
+    <type fullname="Genies.Ugc.SkinColorData" preserve="all" />
+    <type fullname="Genies.Ugc.CustomSkin.SkinColorService" preserve="all" />
+    <type fullname="Genies.Ugc.Style" preserve="all" />
+    <type fullname="Genies.Ugc.RemoteStyleDataRepository" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Avatars">
+    <type fullname="Genies.Avatars.FlairColorPreset" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Avatars.Services">
+    <type fullname="Genies.Avatars.Services.Flair.FlairCustomColorPresetService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Closet">
+    <type fullname="Genies.Closet.ClosetService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Services.DynamicConfigs">
+    <type fullname="Genies.Services.DynamicConfigs.DynamicConfigServiceFromApi" preserve="all" />
+    <type fullname="Genies.Services.DynamicConfigs.DynamicConfigServiceFromStatsig" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.FeatureFlags">
+    <type fullname="Genies.Components.FeatureFlags.FeatureFlagsManagerFromApi" preserve="all" />
+    <type fullname="Genies.FeatureFlags.FeatureManager" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Inventory">
+    <type fullname="Genies.Inventory.InventoryService" preserve="all" />
+    <type fullname="Genies.Inventory.DefaultInventoryService" preserve="all" />
+    <type fullname="Genies.Inventory.Providers.UniversalContentLocationsFromInventory" preserve="all" />
+    <type fullname="Genies.Inventory.UserInventoryItem" preserve="all" />
+    <type fullname="Genies.Inventory.Providers.UniversalContentLocationsFromDefaultInventory" preserve="all" />
+    <type fullname="Genies.Inventory.DefaultInventoryAsset" preserve="all" />
+    <type fullname="Genies.Inventory.Providers.DynamicContentLocationsFromDefaultInventory" preserve="all" />
+    <type fullname="Genies.Inventory.DefaultAnimationLibraryAsset" preserve="all" />
+    <type fullname="Genies.Inventory.Providers.DynamicContentLocationsFromInventory" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Looks">
+    <type fullname="Genies.Looks.Service.LooksService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Naf.Addressables">
+    <type fullname="Genies.Naf.Addressables.NafContentResourceProvider" preserve="all" />
+    <type fullname="Genies.Naf.Content.NafContentLocationsFromInventory" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Naf.Content">
+    <type fullname="Genies.Inventory.ContentConfigService" preserve="all" />
+    <type fullname="Genies.Naf.Content.NafContentService" preserve="all" />
+    <type fullname="Genies.Naf.Content.NafContentLocalParamsService" preserve="all" />
+    <type fullname="Genies.Naf.Content.NafInventoryEventHandler" preserve="all" />
+    <type fullname="Genies.Naf.Content.NafContentChainedParamsService" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Components.DataModels">
+    <type fullname="Genies.Models.ElementContainer" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Utilities">
+    <type fullname="Genies.Utilities.GeniesAppStateManager" preserve="all" />
+    <type fullname="Genies.Utilities.ImageLoader" preserve="all" />
+  </assembly>
+  <assembly fullname="Genies.Wearables">
+    <type fullname="Genies.Wearables.WearableService" preserve="all" />
+  </assembly>
+</linker>
