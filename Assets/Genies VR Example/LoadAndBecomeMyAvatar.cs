@@ -8,9 +8,9 @@ namespace Genies.VRExample
 {
     public class LoadAndBecomeMyAvatar : MonoBehaviour
     {
-        public event Action<bool> OnAvatarLoaded;
-
         public ManagedAvatar LoadedAvatar;
+
+        [SerializeField] private GeniesAvatarControllerVR _geniesAvatarControllerVR;
 
         private void Start()
         {
@@ -26,12 +26,10 @@ namespace Genies.VRExample
 
         private async void LoadAvatar()
         {
-            LoadedAvatar = await AvatarSdk.LoadUserAvatarAsync();
+            LoadedAvatar = await AvatarSdk.LoadUserAvatarAsync(parent: _geniesAvatarControllerVR.transform);
 
-            if (LoadedAvatar != null)
-            {
-                OnAvatarLoaded?.Invoke(true);
-            }
+            _geniesAvatarControllerVR.InitializeWithLoadedAvatar(LoadedAvatar);
+
         }
     }
 }
