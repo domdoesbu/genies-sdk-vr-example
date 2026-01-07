@@ -192,6 +192,7 @@ namespace Genies.VRExample
 
         private async void LogOutAndExit()
         {
+            Debug.Log("Log out button clicked.");
             await AvatarSdk.LogOutAsync();
 #if UNITY_EDITOR
             // Exiting play mode immediately after the log out call will crash the Unity Editor.
