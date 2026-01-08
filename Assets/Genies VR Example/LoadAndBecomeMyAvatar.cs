@@ -28,7 +28,7 @@ namespace Genies.VRExample
         {
             LoadedAvatar = await AvatarSdk.LoadUserAvatarAsync(parent: _geniesAvatarControllerVR.transform);
 
-            _geniesAvatarControllerVR.InitializeWithLoadedAvatar();
+            _geniesAvatarControllerVR.InitializeWithLoadedAvatar(LoadedAvatar);
 
         }
     }
