@@ -4622,6 +4622,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AvatarSpawn
       objectReference: {fileID: 0}
+    - target: {fileID: 483100790703933497, guid: 85fc1f4f20a964341a667f22a535a16d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2034388439322597874, guid: 85fc1f4f20a964341a667f22a535a16d,
         type: 3}
       propertyPath: _inputSystemType

@@ -9,10 +9,16 @@ namespace Genies.VRExample
 {
     public class GeniesAvatarControllerVR : MonoBehaviour
     {
-        public void InitializeWithLoadedAvatar(ManagedAvatar loadedAvatar)
+        [SerializeField] private TextAsset _config;
+        [SerializeField] private GeniesCharacterRetargeterForMeta _retargeter;
+        [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
+
+        public void InitializeWithLoadedAvatar()
         {
-            // Attach the Character Retargeter
-            var retargeter = gameObject.AddComponent<CharacterRetargeter>();
+            _retargeter.gameObject.SetActive(true);
+            _retargeter.ConfigAsset = _config;
+            _retargeter.enabled = true;
+            _metaSourceDataProvider.enabled = true;
         }
     }
 }
