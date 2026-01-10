@@ -2,12 +2,12 @@ Shader "Hidden/Genies/NoDraw_NoWrite_URP"
 {
     SubShader
     {
-        Tags { "RenderPipeline"="UniversalRenderPipeline" "Queue"="Transparent" "RenderType"="Transparent" }
+        Tags { "RenderPipeline"="UniversalPipeline" "Queue"="Transparent" "RenderType"="Transparent" }
 
         Pass
         {
             Name "NoDrawNoWrite"
-            Tags { "LightMode"="UniversalForward" }
+            Tags { "LightMode"="SRPDefaultUnlit" }
 
             Cull Off
             ZWrite Off
@@ -21,31 +21,38 @@ Shader "Hidden/Genies/NoDraw_NoWrite_URP"
             #pragma fragment frag
             #pragma multi_compile_instancing
 
-            #include "UnityCG.cginc"
+            // Match URP's pattern so DOTS instancing variants compile correctly.
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-            struct appdata
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes
             {
-                float4 vertex : POSITION;
+                float4 positionOS : POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            struct v2f
+            struct Varyings
             {
-                float4 pos : SV_POSITION;
+                float4 positionHCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            v2f vert(appdata v)
+            Varyings vert(Attributes input)
             {
-                v2f o;
-                UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-                o.pos = UnityObjectToClipPos(v.vertex);
-                return o;
+                Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_TRANSFER_INSTANCE_ID(input, output);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+                output.positionHCS = TransformObjectToHClip(input.positionOS.xyz);
+                return output;
             }
 
-            half4 frag(v2f i) : SV_Target
+            half4 frag(Varyings input) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 return 0;
             }
             ENDHLSL

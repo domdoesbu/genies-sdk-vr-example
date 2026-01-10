@@ -17,6 +17,7 @@ namespace Genies.VRExample
         [SerializeField] private GeniesCharacterRetargeterForMeta _retargeter;
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
         [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
+        [SerializeField] private Shader _noDrawNoWriteShader;
 
         private ManagedAvatar _avatar;
 
@@ -40,7 +41,7 @@ namespace Genies.VRExample
             // This stuff isn't working on device, so we're just going to ignore it.
             SkinnedMeshRenderer avatarRenderer = _avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
             //ApplyUpdatedSkinShader(avatarRenderer);
-            //HideHead(avatarRenderer);
+            HideHead(avatarRenderer);
         }
 
         private void Update() 
@@ -115,15 +116,15 @@ namespace Genies.VRExample
                     continue;
                 }
 
-                // Switch off the head on the skin shader (requires the updated skin shader).
-                if (materialName.Contains("skin"))
-                {
-                    mat.SetFloat(HeadId, 0f);
-                    mat.SetFloat(AlphaClipId, 1f);
+                // // Switch off the head on the skin shader (requires the updated skin shader).
+                // if (materialName.Contains("skin"))
+                // {
+                //     mat.SetFloat(HeadId, 0f);
+                //     mat.SetFloat(AlphaClipId, 1f);
 
-                    // If the shader gates alpha clipping behind a keyword, make sure it's enabled.
-                    mat.EnableKeyword("_ALPHATEST_ON");
-                }
+                //     // If the shader gates alpha clipping behind a keyword, make sure it's enabled.
+                //     mat.EnableKeyword("_ALPHATEST_ON");
+                // }
             }
 
             // Assign back the same array you modified.
@@ -132,10 +133,27 @@ namespace Genies.VRExample
 
         private Material CreateInvisibleMaterial()
         {
-            Debug.Log("Finding invisible shader...");
-            var shader = Shader.Find("Hidden/Genies/NoDraw_NoWrite_URP");
-            Debug.Log(shader != null ? shader.name : "Shader not found!");
-            var mat = new Material(shader);
+            // Prefer a serialized reference to avoid build-time shader stripping.
+            var shader = _noDrawNoWriteShader != null
+                ? _noDrawNoWriteShader
+                : Shader.Find("Hidden/Genies/NoDraw_NoWrite_URP");
+                
+            if (shader == null)
+            {
+                Debug.LogError("[GeniesAvatarControllerVR] Could not find shader: 'Hidden/Genies/NoDraw_NoWrite_URP'.");
+                return null;
+            }
+
+            if (!shader.isSupported)
+            {
+                Debug.LogError($"[GeniesAvatarControllerVR] Shader is not supported on this device ('{shader.name}'). Expect magenta.");
+            }
+
+            var mat = new Material(shader)
+            {
+                name = "GeniesVR_NoDrawNoWrite"
+            };
+
             return mat;
         }
 
