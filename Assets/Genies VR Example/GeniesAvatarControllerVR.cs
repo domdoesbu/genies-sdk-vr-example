@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks.Triggers;
+using Genies.Components.Dynamics;
 using Genies.Sdk;
 using Meta.XR.Movement.FaceTracking.Samples;
 using Meta.XR.Movement.Retargeting;
@@ -9,6 +10,7 @@ using UnityEngine;
 
 namespace Genies.VRExample
 {
+    [DefaultExecutionOrder(-1000)]
     public class GeniesAvatarControllerVR : MonoBehaviour
     {
         [SerializeField] private TextAsset _config;
@@ -19,6 +21,9 @@ namespace Genies.VRExample
         private ManagedAvatar _avatar;
 
         private Material _invisible;
+
+        private Vector3 _lastAppliedScale;
+        private bool _hasAppliedScale;
 
         private static readonly int HeadId = Shader.PropertyToID("_Head");
         private static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
@@ -32,24 +37,51 @@ namespace Genies.VRExample
             _retargeter.enabled = true;
             _metaSourceDataProvider.enabled = true;
 
+            // This stuff isn't working on device, so we're just going to ignore it.
             SkinnedMeshRenderer avatarRenderer = _avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
-            
-            ApplyUpdatedSkinShader(avatarRenderer);
-
-            HideHead(avatarRenderer);
+            //ApplyUpdatedSkinShader(avatarRenderer);
+            //HideHead(avatarRenderer);
         }
 
-        private void LateUpdate() 
+        private void Update() 
         {
             if (_avatar == null || _avatar.Root == null || _retargeter == null) return;
+
             // Match the avatar's root transform to the retargeter's transform. (Ideally this would be done automatically
             // via parenting, but I'm getting a weird bug when I try to spawn the avatar as a child of the retargeter.)
             _avatar.Root.transform.position = _retargeter.transform.position;
             _avatar.Root.transform.rotation = _retargeter.transform.rotation;
 
-            if (!Application.isEditor)
+            // Scaling is a different issue. For some reason, the _retargeter's scale in the Editor is (0, 0, 0), so only do it on device.
+
+            if (Application.isEditor) return;
+
+            // In order to not break hair/head dynamics stability, only apply scale changes that are significant enough.
+
+            const float scaleThreshold = 0.01f;
+
+            Vector3 targetScale = _retargeter.transform.localScale;
+
+            if (!_hasAppliedScale ||
+                Mathf.Abs(targetScale.x - _lastAppliedScale.x) > scaleThreshold ||
+                Mathf.Abs(targetScale.y - _lastAppliedScale.y) > scaleThreshold ||
+                Mathf.Abs(targetScale.z - _lastAppliedScale.z) > scaleThreshold)
             {
-                _avatar.Root.transform.localScale = _retargeter.transform.localScale;
+                _avatar.Root.transform.localScale = targetScale;
+                _lastAppliedScale = targetScale;
+                _hasAppliedScale = true;
+
+                // DynamicsStructure prewarms itself in LateUpdate. If scale changes after it has been initialized,
+                // request a prewarm so particles/links/colliders re-stabilize under the new scale.
+                var dynamicsStructures = _avatar.Root.GetComponentsInChildren<DynamicsStructure>(includeInactive: true);
+                for (int i = 0; i < dynamicsStructures.Length; i++)
+                {
+                    var dynamicsStructure = dynamicsStructures[i];
+                    if (dynamicsStructure != null)
+                    {
+                        dynamicsStructure.RequestPrewarmOnNextFrame();
+                    }
+                }
             }
         }
 
