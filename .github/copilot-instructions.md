@@ -36,5 +36,9 @@
 - VS Code is set up to attach to Unity via `visualstudiotoolsforunity.vstuc` (see `.vscode/launch.json`).
 - Note: this repo’s `.vscode/settings.json` hides many Unity asset types (`*.unity`, `*.asset`, `ProjectSettings/`, etc.). If you need to inspect those, temporarily disable excludes or use tools that search ignored files.
 
+## IntelliSense / assemblies note
+- Unity is responsible for generating assemblies and the C# project files. When new scripts are added or moved, VS Code IntelliSense may be temporarily out of date until Unity recompiles.
+- If types/files aren’t being recognized after script changes, ask the developer to bring the Unity Editor into focus so it can compile and regenerate assemblies/project files.
+
 ## Coding guidelines (for agents)
 - Keep changes minimal and targeted; avoid over-engineering or excessive edge-case guarding unless the surrounding code already does it.

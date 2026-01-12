@@ -15,6 +15,8 @@ EditorBuildSettings:
     path: Assets/Samples/Meta XR Movement SDK/83.0.0/Body Tracking Samples/Scenes/MovementBody.unity
     guid: d707936252ce4564e857133f9d24167d
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: ff5f55b47a5d0448eadce3fbb920bcae,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e3419be1e786344f98d947060fb6884c,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 6d1f58b78a60240c6a61ba3ae7653e9d,

@@ -21,15 +21,12 @@ namespace Genies.VRExample
 
         private ManagedAvatar _avatar;
 
-        private Material _invisible;
+        private HeadHider _headHider;
 
         private Vector3 _lastAppliedScale;
         private bool _hasAppliedScale;
 
-        private static readonly int HeadId = Shader.PropertyToID("_Head");
-        private static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
-
-        private const string AlphaTestKeyword = "_ALPHATEST_ON";
+        private bool _isHeadShown;
 
         public void InitializeWithLoadedAvatar(ManagedAvatar avatar)
         {
@@ -43,7 +40,17 @@ namespace Genies.VRExample
             // This stuff isn't working on device, so we're just going to ignore it.
             SkinnedMeshRenderer avatarRenderer = _avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
             ApplyUpdatedSkinShader(avatarRenderer);
-            HideHead(avatarRenderer);
+
+            _headHider = new HeadHider(avatarRenderer);
+            ShowHead(show: false);
+            _isHeadShown = false;
+        }
+
+        // Public API to control head visibility at runtime.
+        // show: true = show head, false = hide head.
+        public void ShowHead(bool show)
+        {
+            _headHider?.ShowHead(show);
         }
 
         private void Update() 
@@ -55,8 +62,14 @@ namespace Genies.VRExample
             _avatar.Root.transform.position = _retargeter.transform.position;
             _avatar.Root.transform.rotation = _retargeter.transform.rotation;
 
-            // Scaling is a different issue. For some reason, the _retargeter's scale in the Editor is (0, 0, 0), so only do it on device.
+            // TEST: Toggle head visibility.
+            if (ShouldToggleHeadThisFrame())
+            {
+                _isHeadShown = !_isHeadShown;
+                ShowHead(_isHeadShown);
+            }
 
+            // Scaling is a different issue. For some reason, the _retargeter's scale in the Editor is (0, 0, 0), so only do it on device.
             if (Application.isEditor) return;
 
             // In order to not break hair/head dynamics stability, only apply scale changes that are significant enough.
@@ -88,103 +101,14 @@ namespace Genies.VRExample
             }
         }
 
-        private void HideHead(Renderer avatarRenderer)
+        private static bool ShouldToggleHeadThisFrame()
         {
-            // Show or hide the avatar's head to prevent rendering issues in VR.
-            
-            if (avatarRenderer == null)
-            {
-                Debug.LogError("Could not find SkinnedMeshRenderer on avatar to show/hide head.");
-                return;
-            }
-
-            if (_invisible == null)
-            {
-                _invisible = CreateInvisibleMaterial();
-            }
-
-            // IMPORTANT: use renderer.materials (instanced) consistently when you intend to mutate per-renderer values.
-            var materials = avatarRenderer.materials;
-
-            for (int i = 0; i < materials.Length; i++)
-            {
-                var mat = materials[i];
-                var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
-
-                // Swap out certain submeshes to an invisible material.
-                if (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race") || materialName.Contains("hat"))
-                {
-                    materials[i] = _invisible;
-                    continue;
-                }
-
-                // Switch off the head on the skin shader (requires the updated skin shader).
-                if (materialName.Contains("skin"))
-                {
-                    mat.SetFloat(HeadId, 0f);
-                    if (mat.HasProperty(AlphaClipId))
-                    {
-                        mat.SetFloat(AlphaClipId, 1f);
-                    }
-
-                    // If the shader gates alpha clipping behind a keyword, make sure it's enabled.
-                    SetMaterialKeyword(mat, AlphaTestKeyword, enabled: true);
-
-                    Debug.Log("Head: " + mat.GetFloat(HeadId));
-                    Debug.Log("AlphaClip property exists: " + mat.HasProperty(AlphaClipId));
-                    if (mat.HasProperty(AlphaClipId))
-                    {
-                        Debug.Log("AlphaClip: " + mat.GetFloat(AlphaClipId));
-                    }
-                    Debug.Log("AlphaTest keyword enabled: " + mat.IsKeywordEnabled(AlphaTestKeyword));
-                    Debug.Log("Keywords: " + string.Join(", ", mat.shaderKeywords));
-                }
-            }
-
-            // Assign back the same array you modified.
-            avatarRenderer.materials = materials;
-        }
-
-        private static void SetMaterialKeyword(Material material, string keyword, bool enabled)
-        {
-            if (material == null || material.shader == null || string.IsNullOrWhiteSpace(keyword)) return;
-
-            // ShaderGraph/URP commonly uses local keywords (shader_feature_local). Using LocalKeyword avoids
-            // silently toggling the wrong keyword set on some platforms.
-            try
-            {
-                var localKeyword = new LocalKeyword(material.shader, keyword);
-                material.SetKeyword(localKeyword, enabled);
-            }
-            catch
-            {
-                if (enabled) material.EnableKeyword(keyword);
-                else material.DisableKeyword(keyword);
-            }
-        }
-
-        private Material CreateInvisibleMaterial()
-        {
-            // Prefer a serialized reference to avoid build-time shader stripping.
-            var shader = Shader.Find("Hidden/Genies/NoDraw_NoWrite_URP");
-
-            if (shader == null)
-            {
-                Debug.LogError("[GeniesAvatarControllerVR] Could not find shader: 'Hidden/Genies/NoDraw_NoWrite_URP'.");
-                return null;
-            }
-
-            if (!shader.isSupported)
-            {
-                Debug.LogError($"[GeniesAvatarControllerVR] Shader is not supported on this device ('{shader.name}'). Expect magenta.");
-            }
-
-            var mat = new Material(shader)
-            {
-                name = "GeniesVR_NoDrawNoWrite"
-            };
-
-            return mat;
+    #if UNITY_EDITOR
+            return Input.GetMouseButtonDown(1);
+    #else
+            // Meta XR / Quest: use OVRInput (A on right controller / X on left controller).
+            return OVRInput.GetDown(OVRInput.Button.One);
+    #endif
         }
 
         private void ApplyUpdatedSkinShader(Renderer avatarRenderer)
