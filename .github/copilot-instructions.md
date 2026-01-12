@@ -42,3 +42,11 @@
 
 ## Coding guidelines (for agents)
 - Keep changes minimal and targeted; avoid over-engineering or excessive edge-case guarding unless the surrounding code already does it.
+- Avoid in-line `if` statements. Prefer brace-wrapped blocks even for early returns.
+  - Avoid:
+    - `if (something) return;`
+  - Prefer:
+    - `if (something)`
+    - `{`
+    - `    return;`
+    - `}`

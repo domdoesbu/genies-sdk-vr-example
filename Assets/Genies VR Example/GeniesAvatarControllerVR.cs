@@ -18,6 +18,7 @@ namespace Genies.VRExample
         [SerializeField] private GeniesCharacterRetargeterForMeta _retargeter;
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
         [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
+        [SerializeField] private Camera _vrCamera;
 
         private ManagedAvatar _avatar;
 
@@ -25,8 +26,6 @@ namespace Genies.VRExample
 
         private Vector3 _lastAppliedScale;
         private bool _hasAppliedScale;
-
-        private bool _isHeadShown;
 
         public void InitializeWithLoadedAvatar(ManagedAvatar avatar)
         {
@@ -42,8 +41,11 @@ namespace Genies.VRExample
             ApplyUpdatedSkinShader(avatarRenderer);
 
             _headHider = new HeadHider(avatarRenderer);
-            ShowHead(show: false);
-            _isHeadShown = false;
+            // Visible by default for all non-VR cameras.
+            ShowHead(show: true);
+
+            RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
+            RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
         }
 
         // Public API to control head visibility at runtime.
@@ -51,6 +53,12 @@ namespace Genies.VRExample
         public void ShowHead(bool show)
         {
             _headHider?.ShowHead(show);
+        }
+
+        private void OnDestroy()
+        {
+            RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
+            RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
         }
 
         private void Update() 
@@ -61,13 +69,6 @@ namespace Genies.VRExample
             // via parenting, but I'm getting a weird bug when I try to spawn the avatar as a child of the retargeter.)
             _avatar.Root.transform.position = _retargeter.transform.position;
             _avatar.Root.transform.rotation = _retargeter.transform.rotation;
-
-            // TEST: Toggle head visibility.
-            if (ShouldToggleHeadThisFrame())
-            {
-                _isHeadShown = !_isHeadShown;
-                ShowHead(_isHeadShown);
-            }
 
             // Scaling is a different issue. For some reason, the _retargeter's scale in the Editor is (0, 0, 0), so only do it on device.
             if (Application.isEditor) return;
@@ -101,14 +102,23 @@ namespace Genies.VRExample
             }
         }
 
-        private static bool ShouldToggleHeadThisFrame()
+        private void OnBeginCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-    #if UNITY_EDITOR
-            return Input.GetMouseButtonDown(1);
-    #else
-            // Meta XR / Quest: use OVRInput (A on right controller / X on left controller).
-            return OVRInput.GetDown(OVRInput.Button.One);
-    #endif
+            if (!IsVrCamera(camera)) return;
+            _headHider?.ShowHead(false);
+        }
+
+        private void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
+        {
+            if (!IsVrCamera(camera)) return;
+
+            _headHider?.ShowHead(true);
+        }
+
+        private bool IsVrCamera(Camera camera)
+        {
+            if (_vrCamera == null) return false;
+            return camera == _vrCamera;
         }
 
         private void ApplyUpdatedSkinShader(Renderer avatarRenderer)

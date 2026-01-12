@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 namespace Genies.VRExample
 {
@@ -14,8 +14,13 @@ namespace Genies.VRExample
 
         private readonly Renderer _renderer;
 
-        private Material[] _originalMaterials;
+        private bool _initialized;
+        private bool _isHidden;
+
         private Material _invisibleMaterial;
+        private Material[] _showMaterials;
+        private Material[] _hideMaterials;
+        private Material[] _skinMaterials;
 
         public HeadHider(Renderer renderer)
         {
@@ -26,78 +31,91 @@ namespace Genies.VRExample
         {
             if (_renderer == null) return;
 
-            if (_originalMaterials == null)
-            {
-                // Capture the starting point so we can restore later.
-                // Using renderer.materials ensures we are working with instanced materials.
-                var mats = _renderer.materials;
-                _originalMaterials = (Material[])mats.Clone();
-            }
+            EnsureInitialized();
 
             if (show)
             {
-                // Restore original materials first (undo invisible swaps).
-                _renderer.materials = (Material[])_originalMaterials.Clone();
+                if (!_isHidden) return;
 
-                // Then ensure the skin materials are put back into the visible state.
-                var materials = _renderer.materials;
-                for (int i = 0; i < materials.Length; i++)
+                ApplySkinState(show: true);
+
+                if (_showMaterials != null)
                 {
-                    var mat = materials[i];
-                    if (mat == null) continue;
-
-                    var materialName = mat.name.ToLowerInvariant();
-                    if (!materialName.Contains("skin")) continue;
-
-                    mat.SetFloat(HeadId, 1f);
-
-                    if (mat.HasProperty(AlphaClipId))
-                    {
-                        mat.SetFloat(AlphaClipId, 0f);
-                    }
-
-                    SetMaterialKeyword(mat, AlphaTestKeyword, enabled: false);
+                    _renderer.sharedMaterials = _showMaterials;
                 }
 
-                _renderer.materials = materials;
+                _isHidden = false;
                 return;
             }
 
-            // Hide
+            if (_isHidden) return;
+
+            ApplySkinState(show: false);
+
+            if (_hideMaterials != null)
+            {
+                _renderer.sharedMaterials = _hideMaterials;
+            }
+
+            _isHidden = true;
+        }
+
+        private void EnsureInitialized()
+        {
+            if (_initialized) return;
+
+            // Force instanced materials once (avoids allocations later).
+            var instanced = _renderer.materials;
+            _showMaterials = instanced;
+
             if (_invisibleMaterial == null)
             {
                 _invisibleMaterial = CreateInvisibleMaterial();
             }
 
-            var hideMaterials = _renderer.materials;
+            _hideMaterials = (Material[])instanced.Clone();
 
-            for (int i = 0; i < hideMaterials.Length; i++)
+            var skinList = new List<Material>(capacity: instanced.Length);
+
+            for (int i = 0; i < instanced.Length; i++)
             {
-                var mat = hideMaterials[i];
+                var mat = instanced[i];
                 var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
 
-                // Swap out certain submeshes to an invisible material.
-                if (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race") || materialName.Contains("hat"))
-                {
-                    hideMaterials[i] = _invisibleMaterial;
-                    continue;
-                }
-
-                // Switch off the head on the skin shader.
                 if (mat != null && materialName.Contains("skin"))
                 {
-                    mat.SetFloat(HeadId, 0f);
+                    skinList.Add(mat);
+                }
 
-                    if (mat.HasProperty(AlphaClipId))
-                    {
-                        mat.SetFloat(AlphaClipId, 1f);
-                    }
-
-                    SetMaterialKeyword(mat, AlphaTestKeyword, enabled: true);
+                if (_invisibleMaterial != null &&
+                    (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race") || materialName.Contains("hat")))
+                {
+                    _hideMaterials[i] = _invisibleMaterial;
                 }
             }
 
-            _renderer.materials = hideMaterials;
+            _skinMaterials = skinList.ToArray();
+            _initialized = true;
+        }
+
+        private void ApplySkinState(bool show)
+        {
+            if (_skinMaterials == null) return;
+
+            for (int i = 0; i < _skinMaterials.Length; i++)
+            {
+                var mat = _skinMaterials[i];
+                if (mat == null) continue;
+
+                mat.SetFloat(HeadId, show ? 1f : 0f);
+
+                if (mat.HasProperty(AlphaClipId))
+                {
+                    mat.SetFloat(AlphaClipId, show ? 0f : 1f);
+                }
+
+                SetMaterialKeyword(mat, AlphaTestKeyword, enabled: !show);
+            }
         }
 
         private static void SetMaterialKeyword(Material material, string keyword, bool enabled)
