@@ -7,6 +7,7 @@ using Genies.Sdk;
 using Meta.XR.Movement.FaceTracking.Samples;
 using Meta.XR.Movement.Retargeting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Genies.VRExample
 {
@@ -17,7 +18,6 @@ namespace Genies.VRExample
         [SerializeField] private GeniesCharacterRetargeterForMeta _retargeter;
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
         [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
-        [SerializeField] private Shader _noDrawNoWriteShader;
 
         private ManagedAvatar _avatar;
 
@@ -28,6 +28,8 @@ namespace Genies.VRExample
 
         private static readonly int HeadId = Shader.PropertyToID("_Head");
         private static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
+
+        private const string AlphaTestKeyword = "_ALPHATEST_ON";
 
         public void InitializeWithLoadedAvatar(ManagedAvatar avatar)
         {
@@ -40,7 +42,7 @@ namespace Genies.VRExample
 
             // This stuff isn't working on device, so we're just going to ignore it.
             SkinnedMeshRenderer avatarRenderer = _avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
-            //ApplyUpdatedSkinShader(avatarRenderer);
+            ApplyUpdatedSkinShader(avatarRenderer);
             HideHead(avatarRenderer);
         }
 
@@ -110,34 +112,62 @@ namespace Genies.VRExample
                 var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
 
                 // Swap out certain submeshes to an invisible material.
-                if (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race"))
+                if (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race") || materialName.Contains("hat"))
                 {
                     materials[i] = _invisible;
                     continue;
                 }
 
-                // // Switch off the head on the skin shader (requires the updated skin shader).
-                // if (materialName.Contains("skin"))
-                // {
-                //     mat.SetFloat(HeadId, 0f);
-                //     mat.SetFloat(AlphaClipId, 1f);
+                // Switch off the head on the skin shader (requires the updated skin shader).
+                if (materialName.Contains("skin"))
+                {
+                    mat.SetFloat(HeadId, 0f);
+                    if (mat.HasProperty(AlphaClipId))
+                    {
+                        mat.SetFloat(AlphaClipId, 1f);
+                    }
 
-                //     // If the shader gates alpha clipping behind a keyword, make sure it's enabled.
-                //     mat.EnableKeyword("_ALPHATEST_ON");
-                // }
+                    // If the shader gates alpha clipping behind a keyword, make sure it's enabled.
+                    SetMaterialKeyword(mat, AlphaTestKeyword, enabled: true);
+
+                    Debug.Log("Head: " + mat.GetFloat(HeadId));
+                    Debug.Log("AlphaClip property exists: " + mat.HasProperty(AlphaClipId));
+                    if (mat.HasProperty(AlphaClipId))
+                    {
+                        Debug.Log("AlphaClip: " + mat.GetFloat(AlphaClipId));
+                    }
+                    Debug.Log("AlphaTest keyword enabled: " + mat.IsKeywordEnabled(AlphaTestKeyword));
+                    Debug.Log("Keywords: " + string.Join(", ", mat.shaderKeywords));
+                }
             }
 
             // Assign back the same array you modified.
             avatarRenderer.materials = materials;
         }
 
+        private static void SetMaterialKeyword(Material material, string keyword, bool enabled)
+        {
+            if (material == null || material.shader == null || string.IsNullOrWhiteSpace(keyword)) return;
+
+            // ShaderGraph/URP commonly uses local keywords (shader_feature_local). Using LocalKeyword avoids
+            // silently toggling the wrong keyword set on some platforms.
+            try
+            {
+                var localKeyword = new LocalKeyword(material.shader, keyword);
+                material.SetKeyword(localKeyword, enabled);
+            }
+            catch
+            {
+                if (enabled) material.EnableKeyword(keyword);
+                else material.DisableKeyword(keyword);
+            }
+        }
+
         private Material CreateInvisibleMaterial()
         {
             // Prefer a serialized reference to avoid build-time shader stripping.
-            var shader = _noDrawNoWriteShader != null
-                ? _noDrawNoWriteShader
-                : Shader.Find("Hidden/Genies/NoDraw_NoWrite_URP");
-                
+            var shader = Shader.Find("Hidden/Genies/NoDraw_NoWrite_URP");
+
             if (shader == null)
             {
                 Debug.LogError("[GeniesAvatarControllerVR] Could not find shader: 'Hidden/Genies/NoDraw_NoWrite_URP'.");
