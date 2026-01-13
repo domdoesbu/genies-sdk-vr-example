@@ -634,7 +634,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 794078901}
+  - {fileID: 1725782347}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1132,7 +1132,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 23
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1506182916}
+  m_TargetTexture: {fileID: 2134386330}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -1447,37 +1447,6 @@ MonoBehaviour:
   target: {fileID: 1171031674}
   smoothFactor: 5
   yThreshold: 0.05
---- !u!21 &794078901
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1506182916}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,44 +3077,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425951149}
   m_Mesh: {fileID: 6129358574221967040, guid: 479d627c07ecbfe49a4be981663e6aed, type: 3}
---- !u!84 &1506182916
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1280
-  m_Height: 720
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 57
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1511730947
 GameObject:
   m_ObjectHideFlags: 0
@@ -3531,382 +3462,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722212695}
   m_Mesh: {fileID: -6109348017574948787, guid: 479d627c07ecbfe49a4be981663e6aed, type: 3}
---- !u!1 &1741669301
-GameObject:
+--- !u!21 &1725782347
+Material:
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1741669302}
-  - component: {fileID: 1741669304}
-  - component: {fileID: 1741669303}
-  m_Layer: 0
-  m_Name: MetaCharacter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1741669302
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741669301}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2121574094}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1741669303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741669301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3ebb6547662534aaef8337c5627f3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _providedSkeletonType: 1
-  _validBodyTrackingDelay: 0.25
-  _debugDrawSkeleton: 0
-  _debugSkeletonColor: {r: 1, g: 1, b: 1, a: 1}
-  _enableAIMotionSynthesizer: 0
-  _aiMotionSynthesizerConfig:
-    Config: {fileID: 0}
-    ModelAsset: {fileID: 0}
-    GuidanceAsset: {fileID: 0}
-    InputProvider: {fileID: 0}
-    RootMotionMode: 1
-    ReferenceTransform: {fileID: 0}
-    EnableSynthesizedStandingPose: 0
-    UpperBodySource: 0
-    LowerBodySource: 1
-    BlendMode: 1
-    BlendFactor: 0
-    ManualVelocity: {x: 0, y: 0, z: 0}
-    ManualDirection: {x: 0, y: 0, z: 1}
-    BlendInTime: 0.25
-    BlendOutTime: 1
-    DebugDrawAIMotionSynthesizer: 0
-    DebugAIMotionSynthesizerColor: {r: 0, g: 0, b: 1, a: 1}
---- !u!114 &1741669304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741669301}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e88b2f9d6ea456abad648c2b85eb84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _config: {fileID: 0}
-  _jointPairs:
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  - Joint: {fileID: 0}
-    ParentJoint: {fileID: 0}
-  _shapePoseData: []
-  _maxFaceshapeValue: 100
-  _debugDrawSourceSkeleton: 0
-  _debugDrawSourceSkeletonColor: {r: 1, g: 1, b: 1, a: 1}
-  _debugDrawTargetSkeleton: 0
-  _debugDrawTargetSkeletonColor: {r: 0, g: 1, b: 0, a: 1}
-  _debugDrawInvalidTargetSkeletonColor: {r: 1, g: 0, b: 0, a: 1}
-  _debugDrawInvalidSourceSkeletonColor: {r: 1, g: 0, b: 1, a: 1}
-  _skeletonRetargeter:
-    HipsScale: {x: 0, y: 0, z: 0}
-    _retargetingBehavior: 0
-    _hideLowerBodyWhenUpperBodyTracking: 0
-    _hideLegScale: {x: 0, y: 0, z: 0}
-    _applyRootScale: 1
-    _applyHeadScale: 1
-    _currentScale: 1
-    _headScaleFactor: 0.95
-    _scaleRange: {x: 0.8, y: 1.2}
-  _sourceProcessorContainers: []
-  _targetProcessorContainers: []
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2134386330}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1 &1759657467
 GameObject:
   m_ObjectHideFlags: 0
@@ -4837,6 +4423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2121574094}
   - component: {fileID: 2121574098}
+  - component: {fileID: 2121574099}
   m_Layer: 0
   m_Name: GeniesAvatarControllerVR
   m_TagString: Untagged
@@ -4856,8 +4443,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1741669302}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2121574098
@@ -4872,12 +4458,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f5533151d8d4ec2a4d134301e53a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _config: {fileID: 4900000, guid: 6158a7655128240a19e5c465240c2b3e, type: 3}
-  _retargeter: {fileID: 1741669304}
-  _metaSourceDataProvider: {fileID: 1741669303}
+  _metaSourceDataProvider: {fileID: 2121574099}
   _skinShaderWithInvisibleHeadSupport: {fileID: -6465566751694194690, guid: fc732695c0456c24e9660b06242b9324,
     type: 3}
   _vrCamera: {fileID: 1171031675}
+--- !u!114 &2121574099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121574093}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3ebb6547662534aaef8337c5627f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _providedSkeletonType: 1
+  _validBodyTrackingDelay: 0.25
+  _debugDrawSkeleton: 0
+  _debugSkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  _enableAIMotionSynthesizer: 0
+  _aiMotionSynthesizerConfig:
+    Config: {fileID: 0}
+    ModelAsset: {fileID: 0}
+    GuidanceAsset: {fileID: 0}
+    InputProvider: {fileID: 0}
+    RootMotionMode: 1
+    ReferenceTransform: {fileID: 0}
+    EnableSynthesizedStandingPose: 0
+    UpperBodySource: 0
+    LowerBodySource: 1
+    BlendMode: 1
+    BlendFactor: 0
+    ManualVelocity: {x: 0, y: 0, z: 0}
+    ManualDirection: {x: 0, y: 0, z: 1}
+    BlendInTime: 0.25
+    BlendOutTime: 1
+    DebugDrawAIMotionSynthesizer: 0
+    DebugAIMotionSynthesizerColor: {r: 0, g: 0, b: 1, a: 1}
+--- !u!84 &2134386330
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1280
+  m_Height: 720
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 57
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1120726647942768124
 GameObject:
   m_ObjectHideFlags: 0
