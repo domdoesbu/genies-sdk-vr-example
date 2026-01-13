@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19d1e02490929e41b903b049fc91c34, type: 3}
-  m_Name: Clementine-metadata
+  m_Name: Genie-metadata
   m_EditorClassIdentifier: 
   _model: {fileID: 919132149155446097, guid: bf88cb4dbf25c47c290dde11710e441f, type: 3}
-  _configJson: {fileID: 4900000, guid: 6e6024e41af8f4e99a5d68f709aee170, type: 3}
+  _configJson: {fileID: 4900000, guid: 6158a7655128240a19e5c465240c2b3e, type: 3}
