@@ -31,7 +31,12 @@ namespace Genies.VRExample
             _avatar = avatar;
 
             _retargeter = this.gameObject.AddComponent<GeniesCharacterRetargeterForMeta>();
-            _retargeter.SkeletonRetargeter.ApplyRootScale = false;
+
+            if (Application.isEditor) 
+            {
+                // Don't apply root scale in Editor, otherwise we'll get a "zero" scale for some reason.
+                _retargeter.SkeletonRetargeter.ApplyRootScale = false;
+            }
             
             _metaSourceDataProvider.enabled = true;
 
