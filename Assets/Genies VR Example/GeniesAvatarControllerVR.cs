@@ -51,27 +51,16 @@ namespace Genies.VRExample
             
             _metaSourceDataProvider.enabled = true;
 
-            // This stuff isn't working on device, so we're just going to ignore it.
-            SkinnedMeshRenderer avatarRenderer = _avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
-            ApplyUpdatedSkinShader(avatarRenderer);
-
-            _headHider = new HeadHider(avatarRenderer);
+            _headHider = new HeadHider(_avatar, _skinShaderWithInvisibleHeadSupport);
+            
             // Visible by default for all non-VR cameras.
-            ShowHead(show: true);
+            _headHider.ShowHead(show: true);
 
             RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
             RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
 
             CacheDynamicsStructuresIfNeeded();
         }
-
-        // Public API to control head visibility at runtime.
-        // show: true = show head, false = hide head.
-        public void ShowHead(bool show)
-        {
-            _headHider?.ShowHead(show);
-        }
-
         private void OnDestroy()
         {
             RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
@@ -139,49 +128,32 @@ namespace Genies.VRExample
 
         private void OnBeginCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-            if (!IsVrCamera(camera)) return;
-            _headHider?.ShowHead(false);
+            if (!IsVrCamera(camera)) 
+            {
+                return;
+            }
+
+            _headHider.ShowHead(false);
         }
 
         private void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
         {
-            if (!IsVrCamera(camera)) return;
+            if (!IsVrCamera(camera)) 
+            {
+                return;
+            }
 
-            _headHider?.ShowHead(true);
+            _headHider.ShowHead(true);
         }
 
         private bool IsVrCamera(Camera camera)
         {
-            if (_vrCamera == null) return false;
+            if (_vrCamera == null) 
+            {
+                return false;
+            }
             return camera == _vrCamera;
         }
 
-        private void ApplyUpdatedSkinShader(Renderer avatarRenderer)
-        {
-            // Use a newer version of the skin shader, which includes visual and perf improvements,
-            // and, crucially, support for an invisible head.
-    
-            if (avatarRenderer == null)
-            {
-                Debug.LogError("Could not find SkinnedMeshRenderer on avatar to update skin shader.");
-                return;
-            }
-
-            // Same rule here: mutate renderer.materials and assign back to renderer.materials.
-            var materials = avatarRenderer.materials;
-
-            for (int i = 0; i < materials.Length; i++)
-            {
-                var mat = materials[i];
-                var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
-
-                if (materialName.Contains("skin") && mat.shader != _skinShaderWithInvisibleHeadSupport)
-                {
-                    mat.shader = _skinShaderWithInvisibleHeadSupport;
-                }
-            }
-
-            avatarRenderer.materials = materials;
-        }
     }   
 }

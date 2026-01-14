@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using Genies.Sdk;
 
 namespace Genies.VRExample
 {
     public sealed class HeadHider
     {
+        private static readonly string[] ScaleHideJointNames = { "FaceBind" };
         private static readonly int HeadId = Shader.PropertyToID("_Head");
         private static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
 
@@ -13,8 +16,12 @@ namespace Genies.VRExample
         private const string InvisibleShaderName = "Hidden/Genies/NoDraw_NoWrite_URP";
 
         private readonly Renderer _renderer;
+        private readonly SkinnedMeshRenderer _skinnedMeshRenderer;
+        private readonly Shader _skinShaderWithInvisibleHeadSupport;
+        private readonly Transform _skeletonRoot;
 
-        private bool _initialized;
+        private bool _materialsInitialized;
+        private bool _scaleHideJointsInitialized;
         private bool _isHidden;
 
         private Material _invisibleMaterial;
@@ -22,16 +29,48 @@ namespace Genies.VRExample
         private Material[] _hideMaterials;
         private Material[] _skinMaterials;
 
-        public HeadHider(Renderer renderer)
+        private Transform[] _scaleHideJoints;
+        private Vector3[] _scaleHideJointOriginalScales;
+
+        public HeadHider(ManagedAvatar avatar, Shader skinShaderWithInvisibleHeadSupport)
         {
-            _renderer = renderer;
+            if (avatar != null && avatar.ModelRoot != null)
+            {
+                _skinnedMeshRenderer = avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
+                _renderer = _skinnedMeshRenderer;
+
+                if (_skinnedMeshRenderer != null)
+                {
+                    // In SRP/XR, skinned meshes may not reflect transform changes made during rendering
+                    // unless matrices are recalculated per render. (If we don't do this, the joints hidden by
+                    // scaling to zero may not update properly).
+                    _skinnedMeshRenderer.forceMatrixRecalculationPerRender = true;
+                }
+            }
+            else 
+            {
+                Debug.LogError("[HeadHider] Avatar or ModelRoot is null. Cannot initialize HeadHider.");
+            }
+
+            if (avatar != null)
+            {
+                _skeletonRoot = avatar.SkeletonRoot;
+            }
+
+            _skinShaderWithInvisibleHeadSupport = skinShaderWithInvisibleHeadSupport;
         }
 
         public void ShowHead(bool show)
         {
-            if (_renderer == null) return;
+            EnsureScaleHideJointsInitialized();
+            ApplyScaleHideJointState(show);
 
-            EnsureInitialized();
+            if (_renderer == null)
+            {
+                return;
+            }
+
+            EnsureMaterialsInitialized();
 
             if (show)
             {
@@ -60,12 +99,25 @@ namespace Genies.VRExample
             _isHidden = true;
         }
 
-        private void EnsureInitialized()
+        private void EnsureMaterialsInitialized()
         {
-            if (_initialized) return;
+            if (_materialsInitialized)
+            {
+                return;
+            }
+
+            if (_renderer == null)
+            {
+                return;
+            }
 
             // Force instanced materials once (avoids allocations later).
             var instanced = _renderer.materials;
+
+            ApplyUpdatedSkinShader(instanced);
+
+            // Same rule here: mutate renderer.materials and assign back to renderer.materials.
+            _renderer.materials = instanced;
             _showMaterials = instanced;
 
             if (_invisibleMaterial == null)
@@ -88,14 +140,117 @@ namespace Genies.VRExample
                 }
 
                 if (_invisibleMaterial != null &&
-                    (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race") || materialName.Contains("hat")))
+                    (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race")))
                 {
                     _hideMaterials[i] = _invisibleMaterial;
                 }
             }
 
             _skinMaterials = skinList.ToArray();
-            _initialized = true;
+
+            _materialsInitialized = true;
+        }
+
+        private void EnsureScaleHideJointsInitialized()
+        {
+            if (_scaleHideJointsInitialized)
+            {
+                return;
+            }
+
+            if (_skeletonRoot == null)
+            {
+                _scaleHideJointsInitialized = true;
+                _scaleHideJoints = Array.Empty<Transform>();
+                _scaleHideJointOriginalScales = Array.Empty<Vector3>();
+                return;
+            }
+
+            var joints = new List<Transform>();
+            var originalScales = new List<Vector3>();
+
+            Transform[] all = _skeletonRoot.GetComponentsInChildren<Transform>(includeInactive: true);
+
+            for (int i = 0; i < all.Length; i++)
+            {
+                Transform t = all[i];
+                if (t == null)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < ScaleHideJointNames.Length; j++)
+                {
+                    string jointName = ScaleHideJointNames[j];
+                    if (string.IsNullOrEmpty(jointName))
+                    {
+                        continue;
+                    }
+
+                    if (t.name == jointName)
+                    {
+                        joints.Add(t);
+                        originalScales.Add(t.localScale);
+                        break;
+                    }
+                }
+            }
+
+            _scaleHideJoints = joints.ToArray();
+            _scaleHideJointOriginalScales = originalScales.ToArray();
+            _scaleHideJointsInitialized = true;
+        }
+
+        private void ApplyScaleHideJointState(bool show)
+        {
+            if (_scaleHideJoints == null || _scaleHideJointOriginalScales == null)
+            {
+                return;
+            }
+
+            int count = _scaleHideJoints.Length;
+            if (_scaleHideJointOriginalScales.Length < count)
+            {
+                count = _scaleHideJointOriginalScales.Length;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                Transform t = _scaleHideJoints[i];
+                if (t == null)
+                {
+                    continue;
+                }
+
+                t.localScale = show ? _scaleHideJointOriginalScales[i] : Vector3.zero;
+            }
+        }
+
+        private void ApplyUpdatedSkinShader(Material[] materials)
+        {
+            // Use a newer version of the skin shader, which includes visual and perf improvements,
+            // and, crucially, support for an invisible head.
+
+            if (materials == null)
+            {
+                return;
+            }
+
+            if (_skinShaderWithInvisibleHeadSupport == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                var mat = materials[i];
+                var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
+
+                if (materialName.Contains("skin") && mat != null && mat.shader != _skinShaderWithInvisibleHeadSupport)
+                {
+                    mat.shader = _skinShaderWithInvisibleHeadSupport;
+                }
+            }
         }
 
         private void ApplySkinState(bool show)
