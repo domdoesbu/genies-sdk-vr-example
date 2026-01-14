@@ -14,6 +14,7 @@ namespace Genies.VRExample
     [DefaultExecutionOrder(-1000)]
     public class GeniesAvatarControllerVR : MonoBehaviour
     {
+        public bool IsAvatarLoaded => _avatar != null;
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
         [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
         [SerializeField] private Camera _vrCamera;

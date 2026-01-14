@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/Meta XR Movement SDK/83.0.0/Body Tracking Samples/Scenes/MovementBody.unity
     guid: d707936252ce4564e857133f9d24167d
+  - enabled: 0
+    path: "Assets/Samples/Meta XR Interaction \u200BSDK/83.0.1/Example Scenes/LocomotionExamples.unity"
+    guid: d37ed7e92220d1045a36bc73c7c4cf16
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ff5f55b47a5d0448eadce3fbb920bcae,
       type: 2}
