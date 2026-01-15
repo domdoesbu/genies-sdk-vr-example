@@ -13,22 +13,24 @@ This example Unity project demonstrates the integration of the Genies’ and Met
 
 - Unity **2022.3.62f2**
 - Android build support installed via Unity Hub
-- A Genies developer app (Client ID / Client Secret)
+- Git installed and accessible to Unity/UPM (required to fetch the Meta Movement SDK Git dependency)
 - Network access on first open (some packages restore from GitHub)
 
 ## What’s included
 
 - Rendering: URP (`com.unity.render-pipelines.universal`)
 - XR: OpenXR + XR Management (`com.unity.xr.openxr`, `com.unity.xr.management`)
-- Meta: Meta XR SDK **83.0.1** (`com.meta.xr.sdk.core`, `com.meta.xr.sdk.interaction.ovr`)
-- Movement sample package pulled via Git URL: `com.meta.xr.sdk.movement`
-- Genies Avatar SDK: vendored under `Packages/com.genies.avatar-sdk.client/`
+- Meta XR SDKs (remote UPM dependencies, auto-downloaded; not redistributed):
+   - Core (`com.meta.xr.sdk.core`) **83.0.1**
+   - Interaction (`com.meta.xr.sdk.interaction.ovr`) **83.0.1**
+   - Movement (`com.meta.xr.sdk.movement`, UPM Git dependency)
+- Genies Avatar SDK **1.3.1** (vendored UPM package; redistributed): `Packages/com.genies.avatar-sdk.client/`
 
 ## Getting started
 
 1. Open the project in Unity 2022.3.62f2 or later.
 2. Wait for packages to resolve.
-   - If you’re on a fresh clone, Unity may need to fetch `com.meta.xr.sdk.movement` from GitHub.
+   - If you’re on a fresh clone, Unity may need to fetch `com.meta.xr.sdk.movement` from GitHub (requires Git).
 3. Run the Genies bootstrap wizard:
    - **Tools > Genies > SDK Bootstrap Wizard**
 
@@ -38,7 +40,7 @@ For Genies SDK configuration details (IL2CPP, .NET 4.8, ARM64, min API level 31,
 ## Scenes
 
 - `Assets/Scenes/Main.unity`: Core scene for testing.
-- `Assets/Scenes/Clementine.unity`: Useful for character configuration.
+- `Assets/Scenes/StagingAndConfiguration.unity`: Useful for authoring and testing avatar retargeting.
 
 ## Runtime flow (high level)
 
@@ -65,7 +67,18 @@ Typical build checklist:
 
 ## Third-party code redistribution
 
-This repository redistributes some third-party code, specifically **Meta’s XR Samples** (and related Meta XR SDK content).
+This repository does **not** redistribute any of the Meta XR SDK packages themselves.
+Core, Interaction, and Movement are remote dependencies that Unity’s Package Manager will auto-download when you open the project.
+
+The one Package Manager dependency that *is* redistributed is the **Genies Avatar SDK** package, which is directly included under `Packages/com.genies.avatar-sdk.client/`.
+
+It **does** include and redistribute various **Meta XR Samples**, sourced from:
+
+- Meta XR Core SDK
+- Meta XR Interaction SDK
+- Meta XR Movement SDK
+
+Notes:
 
 - Review the applicable third-party licenses and notices included with the Meta packages and any bundled sample content.
 - The Genies Avatar SDK package also contains third-party notices under `Packages/com.genies.avatar-sdk.client/Internal/**/ThirdPartyNotices`.
