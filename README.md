@@ -33,9 +33,7 @@ This example Unity project demonstrates the integration of the Genies’ and Met
 1. Open the project in Unity 2022.3.62f2 or later.
 2. Wait for packages to resolve.
    - If you’re on a fresh clone, Unity will need to fetch `com.meta.xr.sdk.movement` from GitHub (requires Git).
-3. Run the Genies bootstrap wizard:
-   - **Tools > Genies > SDK Bootstrap Wizard**
-4. If you haven't done so already, create an account and customize a Genie in the AvatarStarter unity scene in the Genies SDK.
+3. If you haven't done so already, create an account and customize a Genie in the AvatarStarter scene located here: `Assets/Samples/Genies Avatar SDK/1.3.1/Avatar Starter Scene/Scene/AvatarStarter.unity`
 
 For Genies SDK configuration details (IL2CPP, .NET 4.8, ARM64, min API level 31, Vulkan, TMP essentials, Input System), see:
 - `Packages/com.genies.avatar-sdk.client/README.md`
@@ -48,6 +46,7 @@ For Genies SDK configuration details (IL2CPP, .NET 4.8, ARM64, min API level 31,
 
 - `Assets/Scenes/Main.unity`: Core scene for testing. Use the UI to login, and wait for your Genie to spawn.
 - `Assets/Scenes/StagingAndConfiguration.unity`: Useful for authoring and testing avatar retargeting.
+- `Assets/Samples/Genies Avatar SDK/1.3.1/Avatar Starter Scene/Scene/AvatarStarter.unity`: Non-VR scene from the Genies SDK, Useful for creating a Genie account and customizing an avatar.
 
 ## Runtime flow (high level)
 
