@@ -18,8 +18,10 @@ This example Unity project demonstrates the integration of the Genies’ and Met
 
 ## What’s included
 
-- Rendering: URP (`com.unity.render-pipelines.universal`)
-- XR: OpenXR + XR Management (`com.unity.xr.openxr`, `com.unity.xr.management`)
+- Unity packages (remote UPM dependencies, auto-downloaded; not redistributed):
+   - URP (`com.unity.render-pipelines.universal`)
+   - OpenXR (`com.unity.xr.openxr`)
+   - XR Management (`com.unity.xr.management`)
 - Meta XR SDKs (remote UPM dependencies, auto-downloaded; not redistributed):
    - Core (`com.meta.xr.sdk.core`) **83.0.1**
    - Interaction (`com.meta.xr.sdk.interaction.ovr`) **83.0.1**
@@ -30,7 +32,7 @@ This example Unity project demonstrates the integration of the Genies’ and Met
 
 1. Open the project in Unity 2022.3.62f2 or later.
 2. Wait for packages to resolve.
-   - If you’re on a fresh clone, Unity may need to fetch `com.meta.xr.sdk.movement` from GitHub (requires Git).
+   - If you’re on a fresh clone, Unity will need to fetch `com.meta.xr.sdk.movement` from GitHub (requires Git).
 3. Run the Genies bootstrap wizard:
    - **Tools > Genies > SDK Bootstrap Wizard**
 4. If you haven't done so already, create an account and customize a Genie in the AvatarStarter unity scene in the Genies SDK.
