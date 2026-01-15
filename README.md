@@ -1,6 +1,6 @@
 # Genies SDK VR Example (Meta Quest 3)
 
-This example Unity project demonstrates the integration of the Genies’ and Meta’s SDK’s, and is buildable to Meta Quest 3.
+This example Unity project demonstrates the integration of the Genies’ and Meta’s SDKs, and is buildable to Meta Quest 3.
 
 ## Key Unlocks for Devs
 
@@ -33,13 +33,18 @@ This example Unity project demonstrates the integration of the Genies’ and Met
    - If you’re on a fresh clone, Unity may need to fetch `com.meta.xr.sdk.movement` from GitHub (requires Git).
 3. Run the Genies bootstrap wizard:
    - **Tools > Genies > SDK Bootstrap Wizard**
+4. If you haven't done so already, create an account and customize a Genie in the AvatarStarter unity scene in the Genies SDK.
 
 For Genies SDK configuration details (IL2CPP, .NET 4.8, ARM64, min API level 31, Vulkan, TMP essentials, Input System), see:
 - `Packages/com.genies.avatar-sdk.client/README.md`
 
+## Account & avatar prerequisites (recommended)
+
+- A VR-friendly avatar editor is **not** included in this example project. (A developer should be able to port/adapt the avatar editor experience from the Genies SDK, if needed.)
+
 ## Scenes
 
-- `Assets/Scenes/Main.unity`: Core scene for testing.
+- `Assets/Scenes/Main.unity`: Core scene for testing. Use the UI to login, and wait for your Genie to spawn.
 - `Assets/Scenes/StagingAndConfiguration.unity`: Useful for authoring and testing avatar retargeting.
 
 ## Runtime flow (high level)
@@ -53,17 +58,13 @@ For Genies SDK configuration details (IL2CPP, .NET 4.8, ARM64, min API level 31,
 
 This repo is intended to be buildable to Quest 3.
 
-Typical build checklist:
-
-1. Switch platform to **Android** in **Build Settings**.
-2. Ensure **ARM64** + **IL2CPP** are selected (the Genies bootstrap wizard will guide this).
-3. Verify XR setup (OpenXR/XR Management + Meta XR packages are installed).
-4. Build & Run to a Quest 3 device.
+To build to Quest 3, follow the guidelines from the Meta Quest documentation: https://developers.meta.com/horizon/documentation/unity/unity-build/
 
 ## Notes / gotchas
 
 - Some avatar scaling and stabilization behaviors are device-only (Editor vs on-device behavior can differ).
 - If VS Code search seems to “miss” Unity assets, check `.vscode/settings.json` workspace excludes.
+- Presently, the Genies SDK is not yet compatible with the Genies Party iOS app. Accounts and Genies cannot transfer between Genies Party and apps made with the Genies SDK. Genies plans to address this in a future update.
 
 ## Third-party code redistribution
 
