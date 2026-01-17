@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks.Triggers;
 using Genies.Components.Dynamics;
 using Genies.Sdk;
-using Meta.XR.Movement.FaceTracking.Samples;
 using Meta.XR.Movement.Retargeting;
+using Oculus.Interaction.Locomotion;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -18,6 +17,10 @@ namespace Genies.VRExample
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
         [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
         [SerializeField] private Camera _vrCamera;
+        [SerializeField] private OVRCameraRig _ovrCameraRig;
+        [SerializeField] private FirstPersonLocomotor _firstPersonLocomotor;
+        [SerializeField] private RuntimeAnimatorController _locomotionAnimatorController;
+
         private ManagedAvatar _avatar;
 
         private HeadHider _headHider;
@@ -49,6 +52,8 @@ namespace Genies.VRExample
                 // Don't apply root scale in Editor, otherwise we'll get a "zero" scale for some reason.
                 _retargeter.SkeletonRetargeter.ApplyRootScale = false;
             }
+
+            _retargeter.SetUpForLocomotion(_ovrCameraRig.transform, _avatar, _firstPersonLocomotor, _locomotionAnimatorController);
             
             _metaSourceDataProvider.enabled = true;
 
@@ -62,6 +67,7 @@ namespace Genies.VRExample
 
             CacheDynamicsStructuresIfNeeded();
         }
+
         private void OnDestroy()
         {
             RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
@@ -155,6 +161,5 @@ namespace Genies.VRExample
             }
             return camera == _vrCamera;
         }
-
     }   
 }

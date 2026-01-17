@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Meta.XR.Movement.Retargeting;
+using Genies.Sdk;
+using Oculus.Interaction.Locomotion;
+using System;
+using System.Reflection;
+using Cysharp.Threading.Tasks;
 
 namespace Genies.VRExample
 {
@@ -229,6 +234,92 @@ namespace Genies.VRExample
             _targetProcessorContainers = new TargetProcessorContainer[0];
 
             base.Awake();
+        }
+
+        public void SetUpForLocomotion(Transform ovrRigRoot, ManagedAvatar avatar, FirstPersonLocomotor locomotor, RuntimeAnimatorController locomotionAnimatorController)
+        {
+            avatar.Animator.runtimeAnimatorController = locomotionAnimatorController;
+
+             var newProcessors = new GeniesTargetProcessorContainer[2]
+            {
+                new GeniesTargetProcessorContainer(),
+                new GeniesTargetProcessorContainer(),
+            };
+
+            newProcessors[0].SetAsAnimationTargetProcessor();
+            newProcessors[1].SetAsLocomotionTargetProcessor(ovrRigRoot, avatar, locomotor );
+
+            _targetProcessorContainers = newProcessors;
+
+            Debug.Log("Locomotion Event Handler2: " + newProcessors[1].LocomotionProcessor.LocomotionEventHandler);
+
+            newProcessors[1].LocomotionProcessor.Initialize(this);
+        }
+    }
+
+    public class GeniesTargetProcessorContainer : TargetProcessorContainer
+    {
+        public LocomotionSkeletalProcessor LocomotionProcessor => _locomotionProcessor;
+
+        public void SetAsAnimationTargetProcessor()
+        {
+            _currentProcessorType = TargetProcessor.ProcessorType.Animation;
+
+            _animationProcessor = new AnimationSkeletalProcessor()
+            {
+                Weight = 0.0f,
+            };
+
+            // Apply lower body blend indices.
+            _animationProcessor.AnimBlendIndices = new TargetJointIndex[]
+            {
+                new TargetJointIndex(2),
+                new TargetJointIndex(3),
+                new TargetJointIndex(4),
+                new TargetJointIndex(5),
+                new TargetJointIndex(6),
+                new TargetJointIndex(7),
+                new TargetJointIndex(8),
+                new TargetJointIndex(9),
+                new TargetJointIndex(10),
+                new TargetJointIndex(11),
+            };
+        }
+
+        public void SetAsLocomotionTargetProcessor(Transform _ovrCameraRigRoot, ManagedAvatar avatar, FirstPersonLocomotor locomotor)
+        {
+            _currentProcessorType = TargetProcessor.ProcessorType.Locomotion;
+            _locomotionProcessor = new LocomotionSkeletalProcessor()
+            {
+                Weight = 1.0f,
+                //LocomotionEventHandler = locomotor,
+                CameraRig = _ovrCameraRigRoot,
+                Animator = avatar.Animator,
+                // AnimatorHorizontalParam = "Horizontal",
+                AnimatorVerticalParam = "Vertical",
+                AnimationSpeed = 2,
+            };
+
+            // There's a mistake in the Meta SDK that causes AnimatorHorizontalParam to also be a getter/setter for AnimatorVerticalParam. To get around this,
+            // we have to use reflection to set the horizontal param.
+            var horizontalField = typeof(LocomotionSkeletalProcessor).GetField("_animatorHorizontalParam", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (horizontalField == null)
+            {
+                Debug.LogError("Meta LocomotionSkeletalProcessor no longer has a private field named '_animatorHorizontalParam'. Update reflection lookup.");
+                return;
+            }
+
+            horizontalField.SetValue(_locomotionProcessor, "Horizontal");
+
+            // In addition, we have to set the private field for the ILocomotionEventHandler since setting the public property doesn't work correctly.
+            var locomotionHandlerObjectField = typeof(LocomotionSkeletalProcessor).GetField("_locomotionEventHandlerObject", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (locomotionHandlerObjectField == null)
+            {
+                Debug.LogError("Meta LocomotionSkeletalProcessor no longer has a private field named '_locomotionEventHandlerObject'. Update reflection lookup.");
+                return;
+            }
+
+            locomotionHandlerObjectField.SetValue(_locomotionProcessor, locomotor);
         }
     }
 }
