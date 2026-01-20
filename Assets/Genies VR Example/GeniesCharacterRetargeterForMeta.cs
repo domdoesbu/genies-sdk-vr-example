@@ -250,10 +250,6 @@ namespace Genies.VRExample
             newProcessors[1].SetAsLocomotionTargetProcessor(ovrRigRoot, avatar, locomotor );
 
             _targetProcessorContainers = newProcessors;
-
-            Debug.Log("Locomotion Event Handler2: " + newProcessors[1].LocomotionProcessor.LocomotionEventHandler);
-
-            newProcessors[1].LocomotionProcessor.Initialize(this);
         }
     }
 
