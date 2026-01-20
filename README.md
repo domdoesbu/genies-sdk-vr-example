@@ -64,7 +64,6 @@ To build to Quest 3, follow the guidelines from the Meta Quest documentation: ht
 ## Notes / gotchas
 
 - Some avatar scaling and stabilization behaviors are device-only (Editor vs on-device behavior can differ).
-- If VS Code search seems to “miss” Unity assets, check `.vscode/settings.json` workspace excludes.
 - Presently, the Genies SDK is not yet compatible with the Genies Party iOS app. Accounts and Genies cannot transfer between Genies Party and apps made with the Genies SDK. Genies plans to address this in a future update.
 
 ## Third-party code redistribution
