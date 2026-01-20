@@ -9,23 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
-    path: Assets/Scenes/StagingAndConfiguration.unity
-    guid: f5c85b94906d44724bac8dcbf1522cc1
-  - enabled: 0
-    path: Assets/Samples/Meta XR Movement SDK/83.0.0/Body Tracking Samples/Scenes/MovementBody.unity
-    guid: d707936252ce4564e857133f9d24167d
-  - enabled: 0
-    path: "Assets/Samples/Meta XR Interaction \u200BSDK/83.0.1/Example Scenes/LocomotionExamples.unity"
-    guid: d37ed7e92220d1045a36bc73c7c4cf16
-  - enabled: 0
-    path: Assets/Samples/Meta XR Movement SDK/83.0.0/Advanced Samples/Scenes/MovementISDKLocomotion.unity
-    guid: f218e4b84bfc26549a67cf06a00d10cd
-  - enabled: 0
     path: Assets/Scenes/LocomotionTest.unity
     guid: 8892968db787c4278aed5574faf04179
-  - enabled: 0
-    path: Assets/Scenes/MovementISDKLocomotion_GeniesTest.unity
-    guid: 7d44efa4cc8bd49dba2a131b396c0198
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ff5f55b47a5d0448eadce3fbb920bcae,
       type: 2}
