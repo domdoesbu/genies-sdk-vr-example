@@ -18,7 +18,11 @@ namespace Genies.Avatars.Services
     /// Default implementation of <see cref="IAvatarService"/> that provides avatar management functionality through remote APIs.
     /// This service handles avatar creation, retrieval, updates, and synchronization with backend systems.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarService : IAvatarService
+#else
     public class AvatarService : IAvatarService
+#endif
     {
         private readonly IAvatarApi _avatarClient;
         private readonly AvatarServiceApiPathResolver _avatarServiceApiPathResolver = new();
@@ -29,7 +33,7 @@ namespace Genies.Avatars.Services
         private Genies.Naf.AvatarDefinition LoadedDefinition { get; set; }
 
         private Avatar _loadedAvatar;
-        
+
         /// <summary>
         /// Gets or sets the currently loaded avatar, automatically handling definition deserialization and error recovery.
         /// </summary>
@@ -133,7 +137,7 @@ namespace Genies.Avatars.Services
             {
                 _avatarClient.Configuration.AccessToken = token;
             };
-            
+
             _apiInitializationSource.TrySetResult();
             _apiInitializationSource = null;
         }
@@ -397,7 +401,7 @@ namespace Genies.Avatars.Services
             try
             {
                 var result = _avatarClient.GetAvatarImageUploadUrl(avatarId, contentType: "image/png");
-                
+
                 using (var httpClient = new HttpClient())
                 using (var request = new HttpRequestMessage(HttpMethod.Put, result.PresignedUrl))
                 {
@@ -426,7 +430,7 @@ namespace Genies.Avatars.Services
                 throw;
             }
         }
-        
+
         public async UniTask<Naf.AvatarDefinition> GetOrCreateAvatarAsync(string bodyType)
         {
             if (LoadedAvatar != null && LoadedDefinition != null)
@@ -449,7 +453,7 @@ namespace Genies.Avatars.Services
 
             return LoadedDefinition;
         }
-        
-        
+
+
     }
 }

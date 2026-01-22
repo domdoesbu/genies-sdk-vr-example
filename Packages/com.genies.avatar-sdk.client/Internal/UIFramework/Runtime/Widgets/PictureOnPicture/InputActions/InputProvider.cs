@@ -4,7 +4,12 @@ using UnityEngine.InputSystem;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class InputProvider : MonoBehaviour
+#else
     public class InputProvider : MonoBehaviour
+#endif
     {
         private InputControls _inputControls;
 

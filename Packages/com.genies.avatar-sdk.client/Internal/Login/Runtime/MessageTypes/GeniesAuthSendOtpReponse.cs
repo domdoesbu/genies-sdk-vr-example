@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the OTP verification process.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthSendOtpResponse : GeniesAuthMessage
+#else
     public class GeniesAuthSendOtpResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>
         /// The specific status code for the OTP submission operation.

@@ -5,7 +5,11 @@ namespace UMA
 	/// <summary>
 	/// UMA avatar which can automatically load on start.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMADynamicAvatar : UMAAvatarBase
+#else
 	public class UMADynamicAvatar : UMAAvatarBase
+#endif
 	{
 		public bool loadOnStart;
 		public override void Start()

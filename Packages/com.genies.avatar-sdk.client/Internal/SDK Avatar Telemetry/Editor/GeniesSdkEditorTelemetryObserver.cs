@@ -1,8 +1,11 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Genies.Sdk.Bootstrap;
 using Genies.Sdk.Bootstrap.Editor;
 using Genies.Telemetry;
+using Genies.Telemetry.Editor;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -26,14 +29,26 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
         // ------------------------------------------------------------
         // Telemetry consent (editor-only, asked once)
         // ------------------------------------------------------------
-        private const string TelemetryConsentAskedKey =
-            "Genies.Telemetry.Consent.Asked";
+        private const string TelemetryConsentAskedKey = "Genies.Telemetry.Consent.Asked";
+
+        // ------------------------------------------------------------
+        // SDK version cache (Resources-backed) so runtime can read it
+        // ------------------------------------------------------------
+        private const string VersionCacheResourcesFolder = "Assets/Genies/Resources";
+        private static readonly string VersionCacheAssetPath = $"{VersionCacheResourcesFolder}/{GeniesTelemetryInstaller.CacheName}.asset";
 
         static GeniesSdkEditorTelemetryObserver()
         {
+            // Ensure version cache exists/updated on editor load
+            EditorApplication.delayCall -= EnsureVersionCacheWritten;
+            EditorApplication.delayCall += EnsureVersionCacheWritten;
+
             // Ask once, after editor UI is ready
             EditorApplication.delayCall -= EnsureTelemetryConsentPrompted;
             EditorApplication.delayCall += EnsureTelemetryConsentPrompted;
+
+            EditorApplication.delayCall -= InitializePreAuthTelemetry;
+            EditorApplication.delayCall += InitializePreAuthTelemetry;
 
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
@@ -41,19 +56,70 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
             EnsureSubscribed(); // cover normal editor load + compile
         }
 
+        private static async void InitializePreAuthTelemetry()
+        {
+            if (GeniesTelemetry.IsInitialized())
+            {
+                return;
+            }
+
+            // Initialize for pre-auth telemetry
+            GeniesTelemetryInstaller installer = new GeniesTelemetryInstaller();
+            await installer.Initialize();
+        }
+
+        // Get the SDK version + save it to a Resources ScriptableObject.
+        private static void EnsureVersionCacheWritten()
+        {
+            try
+            {
+                EnsureFolder(VersionCacheResourcesFolder);
+
+                string currentVersion = GeniesSdkVersionChecker.GetInstalledSdkVersion();
+                var existing = AssetDatabase.LoadAssetAtPath<GeniesSdkVersionCache>(VersionCacheAssetPath);
+
+                // If we can read a version, create/update the cache (only write if different)
+                if (!string.IsNullOrWhiteSpace(currentVersion))
+                {
+                    if (existing == null || existing.Version != currentVersion)
+                    {
+                        WriteVersionCache(currentVersion, notes: null);
+                    }
+
+                    return;
+                }
+
+                // If version metadata isn't available, still ensure the asset exists with "unknown"
+                if (existing == null)
+                {
+                    string notes = GeniesSdkPrerequisiteChecker.IsSdkInstalled()
+                        ? "package.json missing/unreadable or version field not found"
+                        : "SDK not installed";
+
+                    WriteVersionCache("unknown", notes);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[Genies SDK Bootstrap] Failed to ensure version cache: {e.Message}");
+            }
+        }
+
         private static void EnsureTelemetryConsentPrompted()
         {
-            if (EditorPrefs.GetBool(TelemetryConsentAskedKey, false))
+            if (EditorUserSettings.GetConfigValue(TelemetryConsentAskedKey) == "true")
+            {
                 return;
+            }
 
-            EditorPrefs.SetBool(TelemetryConsentAskedKey, true);
+            EditorUserSettings.SetConfigValue(TelemetryConsentAskedKey, "true");
 
             const string title = "Genies SDK Telemetry";
             const string message =
                 "Genies gathers information about how you use the SDK (such as configuration and feature usage). " +
                 "We collect this data to help us improve the SDK for future updates. " +
                 "You can change this setting in \n\n" + "Project Settings → Genies → Telemetry Settings.";
-            
+
             EditorUtility.DisplayDialog(title, message, "OK");
 
             // Enable telemetry by default (canonical gate lives in GeniesTelemetry)
@@ -133,7 +199,7 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
                 { "prereq_tmp_essentials_imported", tmpEssentials },
             };
 
-            GeniesTelemetry.RecordEvent(
+            GeniesTelemetry.RecordPreauthEvent(
                 TelemetryEvent.Create(
                     name: allMet ? "dev_prereq_snapshot_met" : "dev_prereq_snapshot_not_met",
                     properties: properties
@@ -154,6 +220,9 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
             GeniesSdkBootstrapWizard.CredentialsSet -= CredentialsSet;
             GeniesSdkBootstrapWizard.CredentialsSet += CredentialsSet;
 
+            GeniesTelemetrySettingsWindow.OnTelemetrySet -= GeniesOnTelemetrySettingsEditorStateOnOnTelemetrySet;
+            GeniesTelemetrySettingsWindow.OnTelemetrySet += GeniesOnTelemetrySettingsEditorStateOnOnTelemetrySet;
+
             GeniesSdkBootstrapWizard.SdkConfiguredSuccessfully -= GeniesSdkBootstrapWizardOnSdkConfiguredSuccessfully;
             GeniesSdkBootstrapWizard.SdkConfiguredSuccessfully += GeniesSdkBootstrapWizardOnSdkConfiguredSuccessfully;
 
@@ -161,11 +230,23 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
             GeniesSdkBootstrapWizard.SdkConfigurationFailed += GeniesSdkBootstrapWizardOnSdkConfigurationFailed;
         }
 
+        private static void GeniesOnTelemetrySettingsEditorStateOnOnTelemetrySet(bool telemetryEnabled)
+        {
+            // We force the telemetry setting through even if opted out just so we know.
+            GeniesTelemetry.RecordPreauthEvent(
+                TelemetryEvent.Create(
+                    name: telemetryEnabled ? "telemetry_enabled" : "telemetry_disabled",
+                    properties: new Dictionary<string, object> { { "context", "Avatar SDK" } }
+                ),
+                force: true
+            );
+        }
+
         private static void GeniesSdkBootstrapWizardOnSdkConfigurationFailed()
         {
             RecordPrereqSnapshot(reason: "wizard_closed_incomplete");
 
-            GeniesTelemetry.RecordEvent(
+            GeniesTelemetry.RecordPreauthEvent(
                 TelemetryEvent.Create(
                     name: "bootstrap_wizard_setup_incomplete",
                     properties: new Dictionary<string, object> { { "context", "Avatar SDK" } }
@@ -177,7 +258,7 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
         {
             RecordPrereqSnapshot(reason: "wizard_completed");
 
-            GeniesTelemetry.RecordEvent(
+            GeniesTelemetry.RecordPreauthEvent(
                 TelemetryEvent.Create(
                     name: "boostrap_wizard_setup_successfully",
                     properties: new Dictionary<string, object> { { "context", "Avatar SDK" } }
@@ -187,7 +268,7 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
 
         private static void CredentialsSet()
         {
-            GeniesTelemetry.RecordEvent(TelemetryEvent.Create("dev_credentials_set"));
+            GeniesTelemetry.RecordPreauthEvent(TelemetryEvent.Create("dev_credentials_set"));
         }
 
         private static void OnSceneOpened(Scene scene, OpenSceneMode mode)
@@ -203,7 +284,7 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
                 { "source", "package_samples" },
             };
 
-            GeniesTelemetry.RecordEvent(
+            GeniesTelemetry.RecordPreauthEvent(
                 TelemetryEvent.Create(
                     name: "user_open_sample_scene",
                     properties: properties
@@ -287,6 +368,47 @@ namespace Genies.Sdk.Avatar.Telemetry.Editor
                     );
                 }
             }
+        }
+
+        // ------------------------------------------------------------
+        // Helpers
+        // ------------------------------------------------------------
+
+        private static void WriteVersionCache(string version, string notes)
+        {
+            EnsureFolder(VersionCacheResourcesFolder);
+
+            var cache = AssetDatabase.LoadAssetAtPath<GeniesSdkVersionCache>(VersionCacheAssetPath);
+            if (cache == null)
+            {
+                cache = ScriptableObject.CreateInstance<GeniesSdkVersionCache>();
+                AssetDatabase.CreateAsset(cache, VersionCacheAssetPath);
+            }
+
+            cache.Version = string.IsNullOrWhiteSpace(version) ? "unknown" : version;
+            cache.LastUpdatedUtc = DateTime.UtcNow.ToString("o");
+            cache.Notes = notes ?? "";
+
+            EditorUtility.SetDirty(cache);
+            AssetDatabase.SaveAssets();
+        }
+
+        private static void EnsureFolder(string folderPath)
+        {
+            if (AssetDatabase.IsValidFolder(folderPath))
+            {
+                return;
+            }
+
+            string parent = Path.GetDirectoryName(folderPath);
+            string name = Path.GetFileName(folderPath);
+
+            if (!AssetDatabase.IsValidFolder(parent))
+            {
+                EnsureFolder(parent);
+            }
+
+            AssetDatabase.CreateFolder(parent, name);
         }
     }
 }

@@ -1,10 +1,14 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Models;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TattooLoader : BaseAssetLoader<Texture2DAsset, TattooTemplate>
+#else
     public sealed class TattooLoader : BaseAssetLoader<Texture2DAsset, TattooTemplate>
+#endif
     {
         public TattooLoader(IAssetsService assetsService) : base(assetsService){}
         protected override UniTask<Texture2DAsset> FromContainer(string assetId, string lod, TattooTemplate container)

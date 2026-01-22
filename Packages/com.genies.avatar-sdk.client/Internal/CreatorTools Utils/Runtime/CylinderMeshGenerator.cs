@@ -7,10 +7,15 @@ using Unity.Collections;
 using Unity.Burst;
 using Unity.Jobs;
 using Unity.Jobs.LowLevel.Unsafe;
-    
+
 namespace Genies.Components.CreatorTools.TexturePlacement
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CylinderMeshGenerator : MonoBehaviour
+#else
     public class CylinderMeshGenerator : MonoBehaviour
+#endif
     {
         public float Radius = 1.0f;
         public float Length = 2.0f;
@@ -192,7 +197,7 @@ namespace Genies.Components.CreatorTools.TexturePlacement
 
             return rays;
         }
-        
+
         // Tile version: rays will be at corners of subdivisions
         // public RaycastCommand[] GetRaysFromCurrentMesh()
         // {

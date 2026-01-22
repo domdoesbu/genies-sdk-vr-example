@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// Given a default set of blend shapes mapped by the slot, it will ensure that the given assets includes the default items
     /// for the empty slots that have one.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ForceDefaultBlendShapes : IAssetsValidationRule<BlendShapeAsset>
+#else
     public sealed class ForceDefaultBlendShapes : IAssetsValidationRule<BlendShapeAsset>
+#endif
     {
         // state
         private readonly Dictionary<string, BlendShapeAsset> _defaultAssetsBySlot;

@@ -4,7 +4,11 @@ using UnityEngine;
 namespace UMA
 {
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAClothProperties : ScriptableObject
+#else
 	public class UMAClothProperties : ScriptableObject
+#endif
 	{
 		#if UNITY_EDITOR
 #if GENIES_INTERNAL

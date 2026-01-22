@@ -5,7 +5,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Ugc.CustomHair
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomHairCloudSaveJsonSerializer : ICloudSaveJsonSerializer<CustomHairColorData>
+#else
     public class CustomHairCloudSaveJsonSerializer : ICloudSaveJsonSerializer<CustomHairColorData>
+#endif
     {
         public string ToJson(CustomHairColorData data)
         {

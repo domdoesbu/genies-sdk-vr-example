@@ -6,7 +6,11 @@ using UnityEditor;
 namespace UMA
 {
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AssetItem
+#else
     public class AssetItem
+#endif
 #if UNITY_EDITOR
         : System.IEquatable<AssetItem>, System.IComparable<AssetItem>, ISerializationCallbackReceiver
 #endif

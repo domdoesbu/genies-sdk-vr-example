@@ -9,7 +9,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ElementContainer", menuName = "Genies/UGCW/ElementContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ElementContainer : ScriptableObject, IShaderlessAsset
+#else
     public class ElementContainer : ScriptableObject, IShaderlessAsset
+#endif
     {
         [SerializeField] private string elementId;
         [SerializeField] private List<SlotDataAsset> slotDataAssets;

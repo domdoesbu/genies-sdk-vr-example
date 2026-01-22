@@ -1,9 +1,13 @@
-﻿using UMA;
+using UMA;
 using UnityEngine;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearSubElementContainer : OrderedScriptableObject
+#else
     public sealed class GearSubElementContainer : OrderedScriptableObject
+#endif
     {
         public bool IsEditable => editableRegionCount > 0 && editableRegionsMap;
         public string UmaMaterialAddress => slotDataAsset.material.name;

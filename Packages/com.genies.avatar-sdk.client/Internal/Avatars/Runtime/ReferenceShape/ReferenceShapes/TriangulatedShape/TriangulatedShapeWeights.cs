@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// Weights data required by the <see cref="TriangulatedShape"/> to transfer deformations. It's optimized for burst
     /// compiled jobs.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct TriangulatedShapeWeights : IDisposable
+#else
     public struct TriangulatedShapeWeights : IDisposable
+#endif
     {
         public struct Joint
         {

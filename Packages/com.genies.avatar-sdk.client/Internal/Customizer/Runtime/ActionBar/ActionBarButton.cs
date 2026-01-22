@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.Actions
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ActionBarButton : GeniesButton
+#else
     public class ActionBarButton : GeniesButton
+#endif
     {
         [Header("Action Bar Button Configuration")]
         [SerializeField]

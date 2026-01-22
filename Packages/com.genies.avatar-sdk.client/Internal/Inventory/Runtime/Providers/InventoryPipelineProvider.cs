@@ -12,7 +12,11 @@ using UnityEngine;
 
 namespace Genies.Inventory.Providers
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class InventoryPipelineProvider
+#else
     public static class InventoryPipelineProvider
+#endif
     {
         private static readonly ConcurrentDictionary<string, PipelineVersion> _pipelineVersionsCache = new ConcurrentDictionary<string, PipelineVersion>();
 

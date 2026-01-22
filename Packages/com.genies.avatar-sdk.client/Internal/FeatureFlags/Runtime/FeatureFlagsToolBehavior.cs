@@ -19,7 +19,11 @@ namespace Genies.FeatureFlags
     /// <summary>
     /// Class responsible to isolate all the logic from Feature Flag Tool Window
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsToolBehavior
+#else
     public class FeatureFlagsToolBehavior
+#endif
     {
         private const string _dataPath = "Party/Data";
         private FeatureFlagsAppState _currentAppState = new FeatureFlagsAppState();
@@ -42,32 +46,32 @@ namespace Genies.FeatureFlags
         private FeatureFlagsFileData CreateFeatureFlagsWithDefaults()
         {
             var flagsData = new FeatureFlagsFileData();
-            
+
             // Get the list of flags to populate
             var flagsToPopulate = new List<string>();
             if (_fallbackFeatureFlags != null)
             {
                 flagsToPopulate.AddRange(_fallbackFeatureFlags);
             }
-            
+
             var sharedFlags = SharedFeatureFlags.GetList();
             if (sharedFlags != null)
             {
                 flagsToPopulate.AddRange(sharedFlags);
             }
-            
+
             // Remove duplicates
             flagsToPopulate = flagsToPopulate.Distinct().ToList();
-            
+
             // Create default flag dictionaries for both environments
             var defaultFlags = flagsToPopulate.ToDictionary(flag => flag, flag => GetDefaultValueForFlag(flag));
-            
+
             flagsData.SetDataPerEnvironment(BackendEnvironment.Dev, new Dictionary<string, bool>(defaultFlags));
             flagsData.SetDataPerEnvironment(BackendEnvironment.Prod, new Dictionary<string, bool>(defaultFlags));
-            
+
             return flagsData;
         }
-        
+
         /// <summary>
         /// Gets the default value for a specific feature flag
         /// Most essential Avatar Editor flags should be enabled by default
@@ -88,7 +92,7 @@ namespace Genies.FeatureFlags
                 SharedFeatureFlags.GearContent,
                 SharedFeatureFlags.ExternalGearContent
             };
-            
+
             return enabledByDefault.Contains(flagName);
         }
 
@@ -106,7 +110,7 @@ namespace Genies.FeatureFlags
         {
             _fallbackFeatureFlags = fallbackFeatureFlags;
             _usePartnerListData = usePartnerListData;
-            
+
             var configDev = new Configuration()
             {
                 BasePath = "https://api.dev.genies.com",
@@ -157,7 +161,7 @@ namespace Genies.FeatureFlags
         public UniTask<List<string>> FetchFlagsDataInfo()
         {
             List<string> sharedFlags = SharedFeatureFlags.GetList();
-            
+
             try
             {
                 // For API-only mode, use fallback feature flags
@@ -198,7 +202,7 @@ namespace Genies.FeatureFlags
                     if (dataFiles == null || dataFiles.Length == 0)
                     {
                         Debug.LogError($"ListPartnerDataInfo not found it");
-  
+
                         return UniTask.FromResult(sharedFlags ?? new List<string>());
                     }
 
@@ -217,7 +221,7 @@ namespace Genies.FeatureFlags
                 {
                     finalList.AddRange(_listPartnerDataInfo.Data);
                 }
-                
+
                 if (sharedFlags != null)
                 {
                     finalList.AddRange(sharedFlags);
@@ -513,7 +517,11 @@ namespace Genies.FeatureFlags
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsAppState
+#else
     public class FeatureFlagsAppState
+#endif
     {
         public bool EnablingUsageToggle;
         public bool UseLocalVersion;

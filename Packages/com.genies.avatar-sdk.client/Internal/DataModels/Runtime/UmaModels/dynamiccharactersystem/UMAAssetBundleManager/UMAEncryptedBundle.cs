@@ -8,7 +8,11 @@ using System.IO;
 namespace UMA.AssetBundles
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMAEncryptedBundle : ScriptableObject
+#else
 	public partial class UMAEncryptedBundle : ScriptableObject
+#endif
 	{
 		public string assetBundleName = "";
 		public byte[] IV;

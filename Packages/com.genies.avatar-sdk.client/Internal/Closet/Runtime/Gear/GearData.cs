@@ -12,7 +12,11 @@ namespace Genies.Scripts.Gears
     /// status, creation details, and rendering information.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GearData
+#else
     public class GearData
+#endif
     {
         [JsonProperty("id")]
         [SerializeField] private string _id;

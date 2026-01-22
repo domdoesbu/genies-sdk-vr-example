@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LongPressCellView : ItemPickerCellView
+#else
     public class LongPressCellView : ItemPickerCellView
+#endif
     {
         public Action<LongPressCellView> OnLongPress;
 

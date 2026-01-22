@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// we can safely remove the suppressed assets so we can optimize and avoid loading them, otherwise they would be suppressed by UMA
     /// which has the same outcome from the user's perspective.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RemoveSuppressedSlots : IAssetsValidationRule<OutfitAsset>
+#else
     public sealed class RemoveSuppressedSlots : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         private readonly OutfitSlotsData _slotsData;
         

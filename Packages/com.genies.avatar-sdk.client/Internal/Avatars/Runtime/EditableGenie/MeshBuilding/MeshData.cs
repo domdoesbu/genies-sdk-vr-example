@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains all the data necessary to build a mesh. It uses native array buffers so it should be disposed.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshData : IDisposable
+#else
     public sealed class MeshData : IDisposable
+#endif
     {
         // submeshes
         public SubMeshDescriptor[] SubMeshDescriptors;

@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Avatars;
 using Genies.Models.MaterialData;
@@ -6,7 +6,11 @@ using Genies.Refs;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MakeupColorLoader : IAssetLoader<MakeupColorAsset>
+#else
     public sealed class MakeupColorLoader : IAssetLoader<MakeupColorAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Each slot can have zero or one assets equipped and the same asset can be equipped into multiple slots
     /// at the same time.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAssetSlotsController<TAsset>
+#else
     public interface IAssetSlotsController<TAsset>
+#endif
         where TAsset : IAsset
     {
         /// <summary>

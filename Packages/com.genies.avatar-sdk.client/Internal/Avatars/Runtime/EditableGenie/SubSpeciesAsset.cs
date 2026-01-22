@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Contains all the resources for setting up a Genie from a provided GAP avatar mesh
     /// TODO: Need to remove UnityEditor dependency!
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SubSpeciesAsset : IAsset, IDisposable
+#else
     public sealed class SubSpeciesAsset : IAsset, IDisposable
+#endif
     {
 	    public string Species => GenieSpecies.UnifiedGAP;
         public string Id { get; }

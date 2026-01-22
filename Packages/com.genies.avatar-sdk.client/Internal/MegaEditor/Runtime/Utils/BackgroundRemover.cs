@@ -4,7 +4,11 @@ using System.Collections.Generic;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BackgroundRemover
+#else
     public class BackgroundRemover
+#endif
     {
         private readonly float _contrastBoost = 1.3f;
         private readonly int _maxProcessingTime = 16;

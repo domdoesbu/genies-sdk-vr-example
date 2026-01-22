@@ -1,9 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class WorkerCoroutine
+#else
 	public abstract class WorkerCoroutine
+#endif
 	{
 	    protected abstract void Start();
 	    protected abstract IEnumerator workerMethod();

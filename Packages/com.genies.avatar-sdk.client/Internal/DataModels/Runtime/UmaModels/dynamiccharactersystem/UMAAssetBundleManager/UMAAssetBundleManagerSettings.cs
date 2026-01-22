@@ -8,7 +8,11 @@ using System.Text.RegularExpressions;
 namespace UMA.AssetBundles
 {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAAssetBundleManagerSettings : EditorWindow
+#else
 	public class UMAAssetBundleManagerSettings : EditorWindow
+#endif
 	{
 		#region PUBLIC FIELDS
 
@@ -706,7 +710,11 @@ namespace UMA.AssetBundles
 
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAABMSettingsStore
+#else
 	public class UMAABMSettingsStore
+#endif
 	{
 		public enum BundleIndexVersioningOpts { UseBuildVersion, Custom }
 
@@ -734,7 +742,11 @@ namespace UMA.AssetBundles
 		}
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class UMAABMSettings
+#else
 	public static class UMAABMSettings
+#endif
 	{
 		#region PUBLIC FIELDS
 

@@ -7,8 +7,11 @@ using VContainer;
 namespace Genies.Avatars.Context
 {
     [AutoResolve]
-    public class AvatarContextServicesInstaller : IGeniesInstaller,
-        IRequiresInstaller<AddressableServicesInstaller>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarContextServicesInstaller : IGeniesInstaller, IRequiresInstaller<AddressableServicesInstaller>
+#else
+    public class AvatarContextServicesInstaller : IGeniesInstaller, IRequiresInstaller<AddressableServicesInstaller>
+#endif
     {
         public void Install(IContainerBuilder builder)
         {

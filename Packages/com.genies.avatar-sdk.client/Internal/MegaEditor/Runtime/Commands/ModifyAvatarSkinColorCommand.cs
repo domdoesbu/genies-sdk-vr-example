@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for equipping a skin color asset with <see cref="_targetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ModifyAvatarSkinColorCommand : UnifiedGenieModificationCommand
+#else
     public class ModifyAvatarSkinColorCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly ColorAsset _previousColor;

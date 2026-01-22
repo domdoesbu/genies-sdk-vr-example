@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
@@ -11,7 +11,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcTemplateDataService : IUgcTemplateDataService
+#else
     public sealed class UgcTemplateDataService : IUgcTemplateDataService
+#endif
     {
         private const string BasicElementIdSuffix = "_lock01";
 

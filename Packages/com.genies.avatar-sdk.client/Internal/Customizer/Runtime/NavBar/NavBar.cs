@@ -8,7 +8,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.Navigation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class NavBar : MonoBehaviour
+#else
     public class NavBar : MonoBehaviour
+#endif
     {
         [SerializeField]
         private RectTransform _contentRt;

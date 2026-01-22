@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Represents a set of reference points that can hold multiple deformations and transfer them to other arbitrary points.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IReferenceShape : IDisposable
+#else
     public interface IReferenceShape : IDisposable
+#endif
     {
         string                      Id               { get; }
         int                         PointCount       { get; }

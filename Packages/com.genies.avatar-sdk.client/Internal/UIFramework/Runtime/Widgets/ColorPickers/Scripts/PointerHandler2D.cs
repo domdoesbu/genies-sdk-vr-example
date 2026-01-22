@@ -9,7 +9,12 @@ namespace Genies.UI.Widgets
     /// Handles pointer input events and provides interfaces for its normalized position value within the target rect.
     /// </summary>
     [RequireComponent(typeof(MaskableGraphic))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PointerHandler2D : MonoBehaviour, IPointerDownHandler, IDragHandler
+#else
     public class PointerHandler2D : MonoBehaviour, IPointerDownHandler, IDragHandler
+#endif
     {
         [SerializeField] private RectTransform targetRectTransform;
 

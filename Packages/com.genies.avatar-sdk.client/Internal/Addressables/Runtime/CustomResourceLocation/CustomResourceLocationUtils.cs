@@ -8,7 +8,11 @@ using UnityAddressables = UnityEngine.AddressableAssets.Addressables;
 
 namespace Genies.Addressables.CustomResourceLocation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CustomResourceLocationUtils
+#else
     public static class CustomResourceLocationUtils
+#endif
     {
         public static void AddCustomLocator(ResourceLocationMetadata locationMetadata)
         {

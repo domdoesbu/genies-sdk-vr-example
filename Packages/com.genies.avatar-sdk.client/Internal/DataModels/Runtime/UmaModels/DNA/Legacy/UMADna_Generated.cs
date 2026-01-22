@@ -13,8 +13,11 @@
 
 namespace UMA
 {
-
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract partial class UMADna
+#else
 	public abstract partial class UMADna
+#endif
 	{
 		public static string[] GetNames(System.Type dnaType)
 		{

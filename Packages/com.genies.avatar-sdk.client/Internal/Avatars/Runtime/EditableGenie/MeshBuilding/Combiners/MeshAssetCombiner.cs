@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// the groupings, which will be reflected on <see cref="GroupCount"/> and values returned by
     /// <see cref="GetAssets"/> and <see cref="RequiresTextureCombine"/>.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshAssetCombiner
+#else
     public sealed class MeshAssetCombiner
+#endif
     {
         /// <summary>
         /// Whether a recombination is needed from the last time <see cref="RecombineAssets"/> was called.

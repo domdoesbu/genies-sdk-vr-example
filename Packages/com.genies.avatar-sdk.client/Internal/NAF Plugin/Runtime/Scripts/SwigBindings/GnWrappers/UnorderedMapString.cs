@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class UnorderedMapString : global::System.IDisposable 
+#else
 public class UnorderedMapString : global::System.IDisposable 
+#endif
     , global::System.Collections.Generic.IDictionary<string, string>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;

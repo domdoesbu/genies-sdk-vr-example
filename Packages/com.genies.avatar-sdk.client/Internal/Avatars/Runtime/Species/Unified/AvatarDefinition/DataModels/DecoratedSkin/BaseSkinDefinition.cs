@@ -4,7 +4,11 @@ using Newtonsoft.Json;
 namespace Genies.UGCW.Data.DecoratedSkin
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BaseSkinDefinition : IEquatable<BaseSkinDefinition>
+#else
     public class BaseSkinDefinition : IEquatable<BaseSkinDefinition>
+#endif
     {
         [JsonProperty("MetallicSmoothness")] 
         public string MetallicSmoothness = string.Empty;

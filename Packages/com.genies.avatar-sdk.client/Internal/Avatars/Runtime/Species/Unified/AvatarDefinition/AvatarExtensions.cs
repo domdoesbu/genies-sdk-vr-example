@@ -11,7 +11,11 @@ using Genies.CrashReporting;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarExtensions
+#else
     public static class AvatarExtensions
+#endif
     {
         public static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
         private static string _cachedDefaultDef;

@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct VertexSkinBuffer : IDisposable
+#else
     public struct VertexSkinBuffer : IDisposable
+#endif
     {
         public readonly int VertexCount;
         

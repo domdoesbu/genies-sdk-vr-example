@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Contains all the extras included with our genies glTF exports.
     /// </summary>
     [Serializable, JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GenieGltfExtras
+#else
     public sealed class GenieGltfExtras
+#endif
     {
         public const string CurrentVersion = "1.0.0";
         public const string VersionKey = "version";

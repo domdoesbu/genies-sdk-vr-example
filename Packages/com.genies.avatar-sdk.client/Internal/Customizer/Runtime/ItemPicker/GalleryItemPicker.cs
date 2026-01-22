@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GalleryItemPicker : ScrollingItemPicker
+#else
     public class GalleryItemPicker : ScrollingItemPicker
+#endif
     {
         public AdjustGridLayoutCellSize adjustGridLayoutCellSize;
         public GeniesButton CollapseButton;

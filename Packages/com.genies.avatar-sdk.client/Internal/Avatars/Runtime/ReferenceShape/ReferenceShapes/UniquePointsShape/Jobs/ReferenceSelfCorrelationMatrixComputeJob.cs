@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// <see cref="UniquePointsShape"/> to transfer deforms.
     /// </summary>
     [BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ReferenceSelfCorrelationMatrixComputeJob : IJobParallelFor
+#else
     public struct ReferenceSelfCorrelationMatrixComputeJob : IJobParallelFor
+#endif
     {
         [NativeDisableParallelForRestriction]
         public NativeMatrix CorrelationMatrix;

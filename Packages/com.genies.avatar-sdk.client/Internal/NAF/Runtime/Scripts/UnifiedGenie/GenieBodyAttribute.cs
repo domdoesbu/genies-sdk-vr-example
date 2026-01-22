@@ -1,6 +1,10 @@
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieBodyAttribute
+#else
     public static class GenieBodyAttribute
+#endif
     {
         public const string BrowThickness    = "BrowThickness";
         public const string WeightLowerTorso = "WeightLowerTorso";

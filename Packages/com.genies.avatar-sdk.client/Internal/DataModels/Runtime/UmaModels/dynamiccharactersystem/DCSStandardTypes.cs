@@ -4,10 +4,18 @@ using UnityEngine;
 namespace UMA.CharacterSystem
 {
 	//The following classes are used by the pUMATextRecipe extension but also need to be available in RecipeEditor
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal enum recipeTypeOpts { Standard, WardrobeItem, DynamicCharacterAvatar, WardrobeCollection }
+#else
 	public enum recipeTypeOpts { Standard, WardrobeItem, DynamicCharacterAvatar, WardrobeCollection }
+#endif
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class WardrobeRecipeThumb
+#else
 	public class WardrobeRecipeThumb
+#endif
 	{
 		public string race = "";
 		public string filename = "";
@@ -30,7 +38,11 @@ namespace UMA.CharacterSystem
 	}
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class WardrobeSettings
+#else
 	public class WardrobeSettings
+#endif
 	{
 		public string slot;
 		public string recipe;
@@ -45,7 +57,11 @@ namespace UMA.CharacterSystem
 		}
 	}
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class WardrobeSet
+#else
 	public class WardrobeSet
+#endif
 	{
 		public string targetRace = "";
 		public List<WardrobeSettings> wardrobeSet = new List<WardrobeSettings>();
@@ -64,7 +80,11 @@ namespace UMA.CharacterSystem
 	}
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class WardrobeCollectionList
+#else
 	public class WardrobeCollectionList
+#endif
 	{
 		public List<WardrobeSet> sets = new List<WardrobeSet>();
 

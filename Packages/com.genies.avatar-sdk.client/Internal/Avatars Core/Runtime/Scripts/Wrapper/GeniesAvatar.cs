@@ -50,7 +50,7 @@ namespace Genies.Avatars.Sdk
         public Transform SkeletonRoot => _genie.SkeletonRoot;
 
         /// <summary>Animator bound to the avatar rig.</summary>
-        public Animator Animator => _genie.Animator;
+        public UnityEngine.Animator Animator => _genie.Animator;
 
         /// <summary>For advanced scenarios where direct access is needed.</summary>
         public NativeUnifiedGenieController Controller => _controller;

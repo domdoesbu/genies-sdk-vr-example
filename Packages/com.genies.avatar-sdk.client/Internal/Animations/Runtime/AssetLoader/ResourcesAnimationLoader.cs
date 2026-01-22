@@ -9,7 +9,11 @@ namespace Genies.Animations
     /// Implementation of the IAnimationLoader that loads AnimationClips from Unity's Resources folder.
     /// This loader provides synchronous-style loading wrapped in async tasks for animation clips stored in Resources.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ResourcesAnimationLoader : IAnimationLoader
+#else
     public class ResourcesAnimationLoader : IAnimationLoader
+#endif
     {
         private const string AnimationLibraryPath = "Animations";
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Genies.CrashReporting;
 using UnityEngine;
@@ -7,7 +7,12 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PopupWidget : MonoBehaviour
+#else
     public class PopupWidget : MonoBehaviour
+#endif
     {
         [Header("References")]
         [FormerlySerializedAs("shadowImage")] public Image ShadowImage;

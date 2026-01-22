@@ -8,7 +8,11 @@ using UnityEditor;
 
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataSkinContainer : MaterialDataContainer {
+#else
     public class MaterialDataSkinContainer : MaterialDataContainer {
+#endif
         [HideInInspector] public Texture2D metallicSmoothness;
         [HideInInspector] public Texture2D normalMap;
         [HideInInspector] public Texture2D translusencyMap;

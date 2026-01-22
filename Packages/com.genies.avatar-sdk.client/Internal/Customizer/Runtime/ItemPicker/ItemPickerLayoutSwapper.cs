@@ -4,7 +4,12 @@ using UnityEngine.EventSystems;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ItemPickerLayoutSwapper : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+#else
     public class ItemPickerLayoutSwapper : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+#endif
     {
         public ScrollingItemPicker horizontalItemPicker;
         public ExpandableGalleryItemPicker galleryItemPicker;

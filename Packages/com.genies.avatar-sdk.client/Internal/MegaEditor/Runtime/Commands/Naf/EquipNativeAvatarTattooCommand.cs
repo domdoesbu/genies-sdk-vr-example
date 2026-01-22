@@ -8,7 +8,11 @@ using GnWrappers;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipNativeAvatarTattooCommand : ICommand
+#else
     public class EquipNativeAvatarTattooCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly string                       _tattooGuid;

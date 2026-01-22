@@ -9,7 +9,11 @@ namespace Genies.FeatureFlags
 {
     [AutoResolve]
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureManagerInstaller : IGeniesInstaller
+#else
     public class FeatureManagerInstaller : IGeniesInstaller
+#endif
     {
         public FeatureConfig featureManagerConfig;
 

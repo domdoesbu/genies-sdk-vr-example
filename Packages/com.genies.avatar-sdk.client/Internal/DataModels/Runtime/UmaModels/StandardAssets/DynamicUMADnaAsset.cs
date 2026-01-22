@@ -6,7 +6,11 @@ using UnityEditor;
 namespace UMA
 {
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicUMADnaAsset : ScriptableObject, INameProvider
+#else
     public class DynamicUMADnaAsset : ScriptableObject, INameProvider
+#endif
     {
 		public int dnaTypeHash;
 

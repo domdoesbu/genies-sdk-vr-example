@@ -1,5 +1,5 @@
 using System.Threading;
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,15 +9,22 @@ namespace Genies.CameraSystem
     /// Cinemachine Camera Type that follows a target animated camera.
     /// It follows the animation of the camera, configuring to match the physical camera's settings.
     /// </summary>
-    [RequireComponent(typeof(AnimatedCameraState), typeof(CinemachineVirtualCamera))]
+    [RequireComponent(typeof(AnimatedCameraState), typeof(CinemachineCamera))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class AnimatedCameraController : MonoBehaviour, ICameraType
+#else
     public class AnimatedCameraController : MonoBehaviour, ICameraType
+#endif
     {
         [Tooltip("The target camera to follow")]
         private Camera _animatedCamera;
 
         //internal
         private AnimatedCameraState _animatedCameraState;
-        private CinemachineVirtualCamera _vCam;
+        private CinemachineCamera _vCam;
+        private CinemachineHardLockToTarget _vCamTarget;
+        private CinemachineRotateWithFollowTarget _vCamRotateWithFollowTarget;
 
         private bool _followedLastFrame;
 
@@ -29,14 +36,48 @@ namespace Genies.CameraSystem
         /// </summary>
         public void ConfigureVirtualCamera()
         {
-            _vCam ??= GetComponent<CinemachineVirtualCamera>();
 
-            _vCam.AddCinemachineComponent<CinemachineHardLockToTarget>();
-            _vCam.AddCinemachineComponent<CinemachineSameAsFollowTarget>();
+            if (_vCam == null)
+            {
+                _vCam = GetComponent<CinemachineCamera>();
+            }
+
+            if (_vCam == null)
+            {
+                _vCam = gameObject.AddComponent<CinemachineCamera>();
+            }
+
+            if (_vCamTarget == null)
+            {
+                _vCamTarget = GetComponent<CinemachineHardLockToTarget>();
+            }
+
+            if (_vCamTarget == null)
+            {
+                _vCamTarget = gameObject.AddComponent<CinemachineHardLockToTarget>();
+            }
+
+            if (_vCamRotateWithFollowTarget == null)
+            {
+                _vCamRotateWithFollowTarget = GetComponent<CinemachineRotateWithFollowTarget>();
+            }
+
+            if (_vCamRotateWithFollowTarget == null)
+            {
+                _vCamRotateWithFollowTarget = gameObject.AddComponent<CinemachineRotateWithFollowTarget>();
+            }
 
             _followedLastFrame = false;
 
-            _animatedCameraState = GetComponent<AnimatedCameraState>();
+            if (_animatedCameraState == null)
+            {
+                _animatedCameraState = GetComponent<AnimatedCameraState>();
+            }
+
+            if (_animatedCameraState == null)
+            {
+                _animatedCameraState = gameObject.AddComponent<AnimatedCameraState>();
+            }
         }
 
         /// <summary>
@@ -63,6 +104,11 @@ namespace Genies.CameraSystem
             // Return if behaviour hasn't been activated
             await UniTask.WaitUntil(() => _animatedCamera != null, cancellationToken: token);
 
+            if (_vCam == null)
+            {
+                return;
+            }
+
             if(_animatedCameraState.FollowingProxy)
             {
                 // First frame following
@@ -70,13 +116,13 @@ namespace Genies.CameraSystem
                 {
                     // Updates the virtual camera's settings to match the physical camera's settings when following the proxy
                     // This is necessary to replicate how the camera is configured in the original animation
-                    _vCam.m_Lens.ModeOverride = LensSettings.OverrideModes.Physical;
-                    _vCam.m_Lens.SensorSize = new Vector2(25f, 25f);
-                    _vCam.m_Lens.GateFit = Camera.GateFitMode.Overscan;
+                    _vCam.Lens.ModeOverride = LensSettings.OverrideModes.Physical;
+                    _vCam.Lens.PhysicalProperties.SensorSize = new Vector2(25f, 25f);
+                    _vCam.Lens.PhysicalProperties.GateFit = Camera.GateFitMode.Overscan;
                 }
 
                 // Match the virtual camera's field of view to the proxy camera's field of view
-                _vCam.m_Lens.FieldOfView = UpdateVirtualCameraFOV(_vCam, _animatedCamera);
+                _vCam.Lens.FieldOfView = UpdateVirtualCameraFOV(_vCam, _animatedCamera);
 
                 // Flag
                 _followedLastFrame = true;
@@ -87,7 +133,7 @@ namespace Genies.CameraSystem
                 if (_followedLastFrame)
                 {
                     // Resets them when not following the object
-                    _vCam.m_Lens.ModeOverride = LensSettings.OverrideModes.None;
+                    _vCam.Lens.ModeOverride = LensSettings.OverrideModes.None;
                 }
 
                 // Flag
@@ -110,7 +156,11 @@ namespace Genies.CameraSystem
         public void SetAnimatedCamera(Camera newAnimatedCamera)
         {
             _animatedCamera = newAnimatedCamera == null ? null : newAnimatedCamera;
-            _vCam.m_Follow = newAnimatedCamera == null ? null : newAnimatedCamera.transform;
+
+            if (_vCam != null)
+            {
+                _vCam.Follow = newAnimatedCamera == null ? null : newAnimatedCamera.transform;
+            }
         }
 
         /// <summary>
@@ -121,9 +171,9 @@ namespace Genies.CameraSystem
         /// <param name="vCam">The Virtual Camera to configure</param>
         /// <param name="proxyCam">The Proxy Camera to get the focal length from</param>
         /// <returns>The FOV value of the virtual camera</returns>
-        private float UpdateVirtualCameraFOV(CinemachineVirtualCamera vCam, Camera proxyCam)
+        private float UpdateVirtualCameraFOV(CinemachineCamera vCam, Camera proxyCam)
         {
-            var sensorHeight = vCam.m_Lens.SensorSize.y;
+            var sensorHeight = vCam.Lens.PhysicalProperties.SensorSize.y;
             var focalLength = proxyCam.focalLength;
 
             return 2f * Mathf.Atan(sensorHeight / (2 * focalLength)) * Mathf.Rad2Deg;

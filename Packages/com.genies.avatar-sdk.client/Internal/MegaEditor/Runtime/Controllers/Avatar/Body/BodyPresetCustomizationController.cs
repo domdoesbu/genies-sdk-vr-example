@@ -23,7 +23,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Controller for switching the body type of a unified genie.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BodyPresetCustomizationController : BaseCustomizationController, IItemPickerDataSource
+#else
     public class BodyPresetCustomizationController : BaseCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField]
         private List<BodyPresetData> _thumbnailData;
@@ -261,7 +265,11 @@ namespace Genies.Customization.MegaEditor
         /// Ui data for body types.
         /// </summary>
         [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal class BodyPresetData
+#else
         public class BodyPresetData
+#endif
         {
             [AssetPath.Attribute(typeof(GSkelModifierPreset), AssetPath.PathType.Resources)]
             [SerializeField]

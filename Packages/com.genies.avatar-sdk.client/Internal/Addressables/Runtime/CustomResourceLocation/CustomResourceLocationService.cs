@@ -4,7 +4,11 @@ using UnityEngine.ResourceManagement;
 
 namespace Genies.Addressables.CustomResourceLocation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomResourceLocationService : BaseAddressablesService
+#else
     public class CustomResourceLocationService : BaseAddressablesService
+#endif
     {
         public static void InitializeResourceProviders()
         {

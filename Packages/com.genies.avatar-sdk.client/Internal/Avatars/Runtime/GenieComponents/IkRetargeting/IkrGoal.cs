@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// Represents an IK goal from our IK retargeting system. It maps to one of the Unity supported <see cref="AvatarIKGoal"/>
     /// and can have an arbitrary number of targets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class IkrGoal
+#else
     public sealed class IkrGoal
+#endif
     {
         public readonly AvatarIKGoal     Goal;
         public readonly Animator         Animator;

@@ -4,7 +4,11 @@ using Genies.CrashReporting;
 
 namespace Genies.Analytics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AnalyticsReporter
+#else
     public static class AnalyticsReporter
+#endif
     {
         private static List<IAnalyticsService> _CurrentReporters { get; } = new List<IAnalyticsService>();
 

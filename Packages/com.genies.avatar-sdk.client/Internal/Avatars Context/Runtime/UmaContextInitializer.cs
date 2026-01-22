@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Genies.Utilities.Internal;
 using UMA;
@@ -9,7 +9,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Initializes the UMA context through the given prefab.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UmaContextInitializer : Initializer
+#else
     public sealed class UmaContextInitializer : Initializer
+#endif
     {
         [SerializeField]
         private UMAContextBase umaContextPrefab;

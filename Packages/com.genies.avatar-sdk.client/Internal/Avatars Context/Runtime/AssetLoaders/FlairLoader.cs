@@ -8,7 +8,11 @@ using Genies.Refs;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairLoader : ISlottedAssetLoader<FlairAsset>
+#else
     public class FlairLoader : ISlottedAssetLoader<FlairAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

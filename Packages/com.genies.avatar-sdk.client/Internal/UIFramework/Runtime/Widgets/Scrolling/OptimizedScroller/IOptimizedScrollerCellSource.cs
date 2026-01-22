@@ -5,7 +5,11 @@ namespace Genies.UI.Scroller
     /// <summary>
     /// Data source for providing cell view data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IOptimizedScrollerCellSource
+#else
     public interface IOptimizedScrollerCellSource
+#endif
     {
         /// <summary>
         /// Request to get a new instance for a cell view

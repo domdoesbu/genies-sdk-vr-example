@@ -1,11 +1,15 @@
-﻿namespace UMA
+namespace UMA
 {
     #region DNASETTER
     /// <summary>
     /// A DnaSetter is used to set a specific piece of DNA on the avatar
     /// that it is pulled from.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DnaSetter
+#else
     public class DnaSetter
+#endif
     {
         public string Name; // The name of the DNA.
         public float Value; // Current value of the DNA.

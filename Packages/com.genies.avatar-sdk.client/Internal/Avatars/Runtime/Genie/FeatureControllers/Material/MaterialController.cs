@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MaterialController : AssetSlotsController<MaterialAsset>
+#else
     public sealed class MaterialController : AssetSlotsController<MaterialAsset>
+#endif
     {
         // dependencies
         private readonly IEditableGenie _genie;

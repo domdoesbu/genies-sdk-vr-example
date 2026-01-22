@@ -8,7 +8,11 @@ using VertexAttribute = GnWrappers.VertexAttribute;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class VertexAttributeAccessorsExtensions
+#else
     public static class VertexAttributeAccessorsExtensions
+#endif
     {
         public delegate void AttributeProcessor<T>(in NativeArray<T> attributeArray) where T : struct;
 

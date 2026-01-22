@@ -15,7 +15,11 @@ namespace Genies.Closet.Gear
     /// Default implementation of <see cref="IGearService"/> that provides gear management functionality through remote APIs.
     /// This service handles gear operations including creation, retrieval, updates, and provides proper error handling and authentication.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GearService : IGearService
+#else
     public class GearService : IGearService
+#endif
     {
         private readonly IGearApi _gearApi;
         private readonly ClosetApiPathResolver _apiPathResolve = new();

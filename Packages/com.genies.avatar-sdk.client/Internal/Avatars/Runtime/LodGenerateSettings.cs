@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// Serializable settings for LOD compression type
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum LodTextureCompression
+#else
     public enum LodTextureCompression
+#endif
     {
         ETC1S, // ETC1S for all textures
         UASTC, // UASTC for all textures
@@ -19,7 +23,11 @@ namespace Genies.Avatars
     /// Serializable settings to generate LODs
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class LodGenerateSettings
+#else
     public sealed class LodGenerateSettings
+#endif
     {
         [Tooltip("Whether or not to export each LOD in parallel.")]
         public bool runInParallel = true;
@@ -38,7 +46,11 @@ namespace Genies.Avatars
     /// Serializable settings for each LOD to be generated
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class LodSettings
+#else
     public sealed class LodSettings
+#endif
     {
         [Tooltip("Name for the LOD")]
         public string name;

@@ -8,7 +8,11 @@ namespace Genies.Closet
     /// This installer registers closet-related services with the VContainer dependency injection system.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ClosetServiceInstaller : IGeniesInstaller
+#else
     public class ClosetServiceInstaller : IGeniesInstaller
+#endif
     {
         public int OperationOrder => DefaultInstallationGroups.PostCoreServices;
 

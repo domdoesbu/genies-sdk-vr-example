@@ -17,7 +17,11 @@ namespace Genies.Naf
     /// https://github.com/geniesinc/guppy/blob/main/external/com.genies.utilities/Runtime/Resources/Newtonsoft.Json-for-Unity.Converters.asset
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarDefinition
+#else
     public sealed class AvatarDefinition
+#endif
     {
         [JsonProperty("JsonVersion", Required = Required.Always)]
         public readonly string JsonVersion = "2-0-0";

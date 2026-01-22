@@ -76,7 +76,7 @@ namespace Genies.AvatarEditor.Core
         /// </summary>
         public async UniTask<bool> InitializeAsync()
         {
-#if GENIES_INTERNAL && GENIES_DEV
+#if GENIES_DEV
             return await InitializeAsync(BackendEnvironment.Dev);
 #else
             return await InitializeAsync(GeniesApiConfigManager.TargetEnvironment);
@@ -100,8 +100,6 @@ namespace Genies.AvatarEditor.Core
 
             try
             {
-                CrashReporter.Log("[AvatarEditorInitializer] Starting avatar editor initialization...");
-
                 // Load resources
                 bool resourcesLoaded = LoadResourceAssets(out Shader hairShader);
                 if (!resourcesLoaded)
@@ -135,8 +133,6 @@ namespace Genies.AvatarEditor.Core
 
                     AvatarEditorSdkInstaller.Register();
                 }
-
-                CrashReporter.Log("[AvatarEditorInitializer] Avatar editor initialization complete!");
 
                 InitializationFinished?.Invoke();
                 _initializationTask.TrySetResult(true);

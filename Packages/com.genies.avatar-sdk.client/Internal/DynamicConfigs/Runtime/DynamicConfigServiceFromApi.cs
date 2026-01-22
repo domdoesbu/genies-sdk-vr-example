@@ -8,7 +8,16 @@ using UnityEngine;
 
 namespace Genies.Services.DynamicConfigs
 {
-    public class DynamicConfigServiceFromApi: IDynamicConfigService
+    /// <summary>
+    /// Obsolete, use <see cref="WebRequestDynamicConfigsToolBehavior"/> instead
+    /// </summary>
+    // [Obsolete("Obsolete, use WebRequestDynamicConfigsToolBehavior instead")]
+    // ^ Commented out since this causes Unity ASV tests to fail.
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicConfigServiceFromApi : IDynamicConfigService
+#else
+    public class DynamicConfigServiceFromApi : IDynamicConfigService
+#endif
     {
         private GeniesAppStateManager _StateManager => this.GetService<GeniesAppStateManager>();
 
@@ -18,20 +27,19 @@ namespace Genies.Services.DynamicConfigs
         private bool _isInitialized;
 
         private UniTaskCompletionSource _apiInitializationSource;
-        private DynamicConfigsToolBehavior _toolBehavior;
+        private IDynamicConfigsToolBehavior _toolBehavior;
         private BackendEnvironment _currentEnvironment = BackendEnvironment.Dev;
         private bool _prodOverride;
 
-        public DynamicConfigServiceFromApi(DynamicConfigsToolBehavior toolBehavior, bool prodOverride = false)
+        public DynamicConfigServiceFromApi(IDynamicConfigsToolBehavior toolBehavior, bool prodOverride = false)
         {
             _prodOverride = prodOverride;
             if (_prodOverride)
             {
                 _currentEnvironment = BackendEnvironment.Prod;
             }
-            
+
             _toolBehavior = toolBehavior;
-            AwaitApiInitialization().Forget();
 
 #if PRODUCTION_BUILD
             _currentEnvironment = BackendEnvironment.Prod;
@@ -50,7 +58,21 @@ namespace Genies.Services.DynamicConfigs
                     : BackendEnvironment.Dev;
             }
 #endif
+        }
 
+        public async UniTask Initialize()
+        {
+            await AwaitApiInitialization();
+        }
+
+        private UniTask WaitUntilInitializedAsync()
+        {
+            if (_apiInitializationSource == null)
+            {
+                return UniTask.CompletedTask;
+            }
+
+            return _apiInitializationSource.Task;
         }
 
         private async UniTask AwaitApiInitialization()
@@ -113,7 +135,7 @@ namespace Genies.Services.DynamicConfigs
 
         public async UniTask<T> GetDynamicConfig<T>(string configName, string jsonKey = default)
         {
-            await AwaitApiInitialization();
+            await WaitUntilInitializedAsync();
 
             T response = default(T);
 

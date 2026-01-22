@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// to avoid disrupting behavior in hashing collections (dictionaries, hashsets, etc.) while still enabling
     /// value-based equality comparisons for model data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IModel : ICopyable
+#else
     public interface IModel : ICopyable
+#endif
     {
         /// <summary>
         /// Determines whether this model is equivalent to the specified object in terms of data content.
@@ -16,7 +20,7 @@ namespace Genies.Ugc
         /// <param name="pattern">The object to compare with this model.</param>
         /// <returns>True if the models are equivalent in data content; otherwise, false.</returns>
         bool IsEquivalentTo(object pattern);
-        
+
         /// <summary>
         /// Computes a hash code based on the model's data content.
         /// This method provides value-based hashing without overriding System.Object.GetHashCode.
@@ -24,13 +28,17 @@ namespace Genies.Ugc
         /// <returns>A hash code computed from the model's data content.</returns>
         int ComputeHash();
     }
-    
+
     /// <summary>
     /// Generic version of <see cref="IModel"/> that provides strongly-typed equivalence comparison
     /// for models of a specific type, enhancing type safety and performance.
     /// </summary>
     /// <typeparam name="T">The specific type of model this interface applies to.</typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IModel<T> : IModel, ICopyable<T>
+#else
     public interface IModel<T> : IModel, ICopyable<T>
+#endif
     {
         /// <summary>
         /// Determines whether this model is equivalent to the specified model of the same type in terms of data content.

@@ -11,7 +11,11 @@ using UnityEngine;
 
 namespace Genies.Components.FeatureFlags
 {
-    public class FeatureFlagsManagerFromApi: IFeatureFlagsManager
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsManagerFromApi : IFeatureFlagsManager
+#else
+    public class FeatureFlagsManagerFromApi : IFeatureFlagsManager
+#endif
     {
         private GeniesAppStateManager _StateManager => this.GetService<GeniesAppStateManager>();
 

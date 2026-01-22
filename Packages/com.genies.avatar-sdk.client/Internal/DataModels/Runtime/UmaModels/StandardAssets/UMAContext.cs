@@ -7,7 +7,11 @@ namespace UMA
 	/// <summary>
 	/// Gloal container for various UMA objects in the scene.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAContext : UMAContextBase
+#else
 	public class UMAContext : UMAContextBase
+#endif
 	{
 		/// <summary>
 		/// The race library.

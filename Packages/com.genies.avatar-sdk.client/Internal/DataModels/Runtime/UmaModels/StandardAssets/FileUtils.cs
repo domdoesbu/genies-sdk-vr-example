@@ -6,7 +6,11 @@ namespace UMA
 	/// <summary>
 	/// File utilities.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class FileUtils
+#else
 	public static class FileUtils
+#endif
 	{
 		/// <summary>
 		/// Reads all text from a file.

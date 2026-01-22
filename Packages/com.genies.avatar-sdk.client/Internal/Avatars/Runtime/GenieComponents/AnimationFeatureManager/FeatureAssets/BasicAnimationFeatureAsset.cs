@@ -11,7 +11,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BasicAnimationFeature", menuName = "Genies/Genie Components/Animation Features/Basic Animation Feature")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BasicAnimationFeatureAsset : AnimationFeatureAsset
+#else
     public sealed class BasicAnimationFeatureAsset : AnimationFeatureAsset
+#endif
     {
         public GenieComponentAsset component;
         public List<string> animatorParameters = new();

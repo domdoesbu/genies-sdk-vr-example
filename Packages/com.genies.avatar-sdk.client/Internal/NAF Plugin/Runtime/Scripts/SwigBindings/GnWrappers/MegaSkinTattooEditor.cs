@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class MegaSkinTattooEditor : AssetBuilderEditor {
+#else
 public class MegaSkinTattooEditor : AssetBuilderEditor {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal MegaSkinTattooEditor(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.MegaSkinTattooEditor_SWIGUpcast(cPtr), cMemoryOwn) {

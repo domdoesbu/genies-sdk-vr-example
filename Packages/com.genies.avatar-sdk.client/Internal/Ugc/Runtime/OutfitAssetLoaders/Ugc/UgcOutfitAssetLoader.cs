@@ -8,7 +8,11 @@ namespace Genies.Ugc
     /// <summary>
     /// <see cref="IOutfitAssetLoader"/> implementation capable of loading UGC assets only.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcOutfitAssetLoader : OutfitAssetLoaderBase
+#else
     public sealed class UgcOutfitAssetLoader : OutfitAssetLoaderBase
+#endif
     {
         private static readonly IReadOnlyList<string> _supportedTypes
             = new List<string> { UgcOutfitAssetType.Ugc }.AsReadOnly();

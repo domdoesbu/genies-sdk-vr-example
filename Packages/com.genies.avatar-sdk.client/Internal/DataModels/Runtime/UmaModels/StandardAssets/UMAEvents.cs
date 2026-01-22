@@ -9,7 +9,11 @@ namespace UMA
 	/// UMA event occuring on UMA data.
 	/// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMADataEvent : UnityEvent<UMAData>
+#else
     public class UMADataEvent : UnityEvent<UMAData>
+#endif
     {
         public UMADataEvent()
         {
@@ -37,7 +41,11 @@ namespace UMA
 	/// UMA event occuring on slot.
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMADataSlotEvent : UnityEvent<UMAData, SlotData>
+#else
     public class UMADataSlotEvent : UnityEvent<UMAData, SlotData>
+#endif
     {
         public UMADataSlotEvent()
         {
@@ -56,7 +64,11 @@ namespace UMA
 	/// UMA event occuring on material.
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMADataSlotMaterialRectEvent : UnityEvent<UMAData, SlotData, Material, Rect>
+#else
     public class UMADataSlotMaterialRectEvent : UnityEvent<UMAData, SlotData, Material, Rect>
+#endif
     {
         public UMADataSlotMaterialRectEvent()
         {
@@ -72,7 +84,11 @@ namespace UMA
     }
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMADataWardrobeEvent : UnityEvent<UMAData, UMAWardrobeRecipe>
+#else
 	public class UMADataWardrobeEvent : UnityEvent<UMAData, UMAWardrobeRecipe>
+#endif
 	{
 		public UMADataWardrobeEvent()
 		{
@@ -88,7 +104,11 @@ namespace UMA
 	}
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAExpressionEvent: UnityEvent<UMAData, string, float>
+#else
 	public class UMAExpressionEvent: UnityEvent<UMAData, string, float>
+#endif
     {
 		public UMAExpressionEvent()
 		{
@@ -104,7 +124,11 @@ namespace UMA
 	}
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMARandomAvatarEvent: UnityEvent<GameObject, GameObject>
+#else
 	public class UMARandomAvatarEvent: UnityEvent<GameObject, GameObject>
+#endif
     {
 		public UMARandomAvatarEvent()
 		{

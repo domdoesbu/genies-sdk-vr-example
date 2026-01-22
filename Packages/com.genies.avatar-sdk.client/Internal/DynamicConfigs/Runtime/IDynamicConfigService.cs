@@ -2,8 +2,17 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.Services.DynamicConfigs
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IDynamicConfigService
+#else
     public interface IDynamicConfigService
+#endif
     {
+        /// <summary>
+        /// Calling manually to avoid process in the constructor
+        /// </summary>
+        /// <returns></returns>
+        UniTask Initialize();
         /// <summary>
         /// It will return a dynamic config object based on the type
         /// </summary>

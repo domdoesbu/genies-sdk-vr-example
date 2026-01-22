@@ -8,7 +8,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "AnimationContainer", menuName = "Genies/AnimationLibrary/GenericAnimationContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimationContainer : OrderedScriptableObject, IDynamicAsset
+#else
     public class AnimationContainer : OrderedScriptableObject, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

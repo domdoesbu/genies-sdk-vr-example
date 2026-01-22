@@ -1,6 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
-using Genies.Login.Native.Data; // for GeniesAuthSettings
+using Genies.Login.Native.Data;
 using Genies.ServiceManagement;
 using UnityEngine;
 using VContainer;
@@ -20,9 +20,10 @@ namespace Genies.Telemetry
         [SerializeField] private string _appName         = "GeniesSdk";   // must match auth installer
         [SerializeField] private string _clientId        = "";
         [SerializeField] private string _sdkVersion      = "1.0.0";
-        [SerializeField] private int    _maxBatchSize    = 10;
+        [SerializeField] private int    _maxBatchSize    = 20;
         [SerializeField] private int    _flushIntervalMs = 2000;
 
+        internal const string CacheName = "GeniesSdkVersionCache";
         /// <summary>
         /// Telemetry backend base URL (should match your telemetry API environment).
         /// </summary>
@@ -95,6 +96,20 @@ namespace Genies.Telemetry
                     _clientId = settings.ClientId;
                 }
             }
+
+            // Attempt to load SDK version from Resources version cache (if present)
+            if (string.IsNullOrWhiteSpace(_sdkVersion) || _sdkVersion == "1.0.0")
+            {
+                var cache = Resources.Load<GeniesSdkVersionCache>(
+                    CacheName);
+
+                if (cache != null &&
+                    !string.IsNullOrWhiteSpace(cache.Version) &&
+                    cache.Version != "unknown")
+                {
+                    _sdkVersion = cache.Version;
+                }
+            }
             
             // Decide effective SDK + platform metadata
             var unityVersion = Application.unityVersion;
@@ -103,7 +118,6 @@ namespace Genies.Telemetry
 
             try
             {
-                // NOTE: Initialize now takes (baseUrl, appName, clientId, sdkVersion, platform, unityVersion, ...)
                 GeniesTelemetry.Initialize(
                     _baseUrl,
                     _appName,

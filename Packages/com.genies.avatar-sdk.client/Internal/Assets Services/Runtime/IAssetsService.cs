@@ -10,7 +10,11 @@ namespace Genies.Assets.Services
     /// <summary>
     /// Singleton service that the app should use to load any external assets into memory.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAssetsService
+#else
     public interface IAssetsService
+#endif
     {
         // load a single asset with its key/location
         UniTask<Ref<T>> LoadAssetAsync<T>(object key, int? version = null, string lod = AssetLod.Default);

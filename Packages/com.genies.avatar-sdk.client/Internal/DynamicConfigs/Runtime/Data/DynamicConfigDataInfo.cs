@@ -9,7 +9,11 @@ namespace Genies.Services.DynamicConfigs
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "DynamicConfigDataInfo", menuName = "GeniesParty/Dynamic Configs/DynamicConfigDataInfo")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicConfigDataInfo : ScriptableObject
+#else
     public class DynamicConfigDataInfo : ScriptableObject
+#endif
     {
         [SerializeField] private List<string> _data;
         public List<string> Data => _data;

@@ -12,7 +12,11 @@ namespace Genies.Avatars.Context
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "GltfAvatarLoader", menuName = "Genies/Avatar Loaders/glTF Avatar Loader")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GltfAvatarLoaderAsset : AvatarLoaderAsset
+#else
     public sealed class GltfAvatarLoaderAsset : AvatarLoaderAsset
+#endif
     {
         public string url;
         public GenieGltfImporter.Settings settings = new();

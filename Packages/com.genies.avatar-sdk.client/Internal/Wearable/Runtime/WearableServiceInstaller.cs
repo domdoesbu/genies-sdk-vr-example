@@ -8,7 +8,11 @@ namespace Genies.Wearables
     /// Registers the IWearableService interface with its WearableService implementation as a singleton.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class WearableServiceInstaller : IGeniesInstaller
+#else
     public class WearableServiceInstaller : IGeniesInstaller
+#endif
     {
         /// <summary>
         /// Installs the wearable service dependencies into the DI container.

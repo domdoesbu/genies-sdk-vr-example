@@ -7,7 +7,12 @@ namespace UMA
 	/// <summary>
 	/// Gloal container for various UMA objects in the scene. Marked as partial so the developer can add to this if necessary
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal abstract class UMAContextBase : MonoBehaviour
+#else
 	public abstract class UMAContextBase : MonoBehaviour
+#endif
 	{
 		public static string IgnoreTag;
 

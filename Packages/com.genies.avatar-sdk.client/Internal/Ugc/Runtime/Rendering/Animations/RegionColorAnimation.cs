@@ -8,15 +8,19 @@ namespace Genies.Ugc
     /// <summary>
     /// A mega shader material animation for the region color.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RegionColorAnimation : MaterialAnimationBase
+#else
     public class RegionColorAnimation : MaterialAnimationBase
+#endif
     {
         public readonly int RegionIndex;
-        
+
         private Color _fromColor;
-        
+
         public RegionColorAnimation(int regionIndex)
             : this(null, regionIndex) { }
-        
+
         public RegionColorAnimation(Material material, int regionIndex)
             : base(material)
         {
@@ -26,13 +30,13 @@ namespace Genies.Ugc
         protected override async UniTask PlayAsync(ValueAnimation animation, Material material, CancellationToken cancellationToken)
         {
             const float oneThird = 1.0f / 3.0f;
-            
+
             // get the current color and compute the target color for the animation
             _fromColor = material.GetColor(MegaShaderRegionProperty.Color, RegionIndex);
             // this will be a value in the range [0, 1] which indicates how dark (close to 0) or how light (close to 1) is the color
             float average = oneThird * (_fromColor.r + _fromColor.g + _fromColor.b);
             Color toColor = average <= 0.5f ? Color.white : Color.black;
-            
+
             await animation.StartAnimationAsync(value =>
             {
                 Color currentColor = Color.LerpUnclamped(_fromColor, toColor, value);

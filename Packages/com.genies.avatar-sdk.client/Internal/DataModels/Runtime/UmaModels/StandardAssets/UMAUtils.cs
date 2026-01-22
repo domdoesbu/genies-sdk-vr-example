@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -8,7 +8,11 @@ namespace UMA
 	/// <summary>
 	/// UMA utility class with various static methods.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class UMAUtils
+#else
 	public static class UMAUtils
+#endif
 	{
 		/// <summary>
 		/// Hash value for a string.
@@ -195,7 +199,11 @@ namespace UMA
 	// Extension class for System.Collections.Generic.List<T> to get
 	// its backing array field via reflection.
 	// Author: Jackson Dunstan, http://JacksonDunstan.com/articles/3066
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class ListBackingArrayGetter
+#else
 	public static class ListBackingArrayGetter
+#endif
 	{
 		// Name of the backing array field
 		private const string FieldName = "_items";
@@ -227,7 +235,11 @@ namespace UMA
 
 	// Extension class for System.Collections.Generic.List<T> to set
 	// the value of its active size field via reflection.
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class ListSizeSetter
+#else
 	public static class ListSizeSetter
+#endif
 	{
 		// Name of the size field
 		private const string FieldName = "_size";

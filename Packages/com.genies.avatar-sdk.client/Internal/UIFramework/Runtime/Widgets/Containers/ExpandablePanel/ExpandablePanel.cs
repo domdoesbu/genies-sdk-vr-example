@@ -6,7 +6,12 @@ namespace Genies.UI
 {
     // size of this GameObject should not be controlled from other classes
     [RequireComponent(typeof(RectTransform))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class ExpandablePanel : MonoBehaviour, IExpandablePanel<int>
+#else
     public sealed class ExpandablePanel : MonoBehaviour, IExpandablePanel<int>
+#endif
     {
         public enum Direction
         {

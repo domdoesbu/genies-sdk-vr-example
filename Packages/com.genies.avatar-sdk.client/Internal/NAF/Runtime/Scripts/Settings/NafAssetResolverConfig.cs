@@ -8,7 +8,11 @@ namespace Genies.Naf
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "AssetResolverConfig", menuName = "Genies/NAF/Asset Resolver Config")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NafAssetResolverConfig : ScriptableObject
+#else
     public sealed class NafAssetResolverConfig : ScriptableObject
+#endif
     {
         public int            cacheSizeMB = 2000;
         public string         cacheFile   = "cache.bin";

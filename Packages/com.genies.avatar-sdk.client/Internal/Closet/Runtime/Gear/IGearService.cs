@@ -8,7 +8,11 @@ namespace Genies.Closet.Gear
     /// Defines the contract for managing gear items including creation, retrieval, and updates.
     /// Gear items represent wearable and collectible items that can be managed through the Genies platform.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGearService
+#else
     public interface IGearService
+#endif
     {
         /// <summary>
         /// Retrieves a paginated list of gear items.

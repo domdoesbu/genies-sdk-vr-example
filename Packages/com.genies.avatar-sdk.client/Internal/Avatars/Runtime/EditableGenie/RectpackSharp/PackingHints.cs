@@ -8,7 +8,11 @@ namespace RectpackSharp
     /// Specifies hints that help optimize the rectangle packing algorithm. 
     /// </summary>
     [Flags]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PackingHints
+#else
     public enum PackingHints
+#endif
     {
         /// <summary>Tells the rectangle packer to try inserting the rectangles ordered by area.</summary>
         TryByArea = 1,

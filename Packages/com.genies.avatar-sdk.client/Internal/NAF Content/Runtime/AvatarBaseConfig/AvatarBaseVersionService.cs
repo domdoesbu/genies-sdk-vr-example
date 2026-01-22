@@ -1,10 +1,15 @@
 using Cysharp.Threading.Tasks;
 using Genies.ServiceManagement;
 
-namespace Genies.Inventory
+namespace Genies.Naf.Content.AvatarBaseConfig
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarBaseVersionService
+#else
     public static class AvatarBaseVersionService
+#endif
     {
+        private const string DefaultAvatarBaseVersion = "1.1.0";
         private const string Config = "AvatarBase/config/avatar_base_version.json";
         private static string ConfigLocation => $"{NafContentLocations.NafContentUrl}/{Config}";
         private static IContentConfigService _contentConfigService;
@@ -14,9 +19,9 @@ namespace Genies.Inventory
             var service = GetContentConfigService();
             var config = await service.FetchConfig(ConfigLocation);
 
-            return config?.avatarBase?.version;
+            return config?.avatarBase?.version ?? DefaultAvatarBaseVersion;
         }
-        
+
         private static IContentConfigService GetContentConfigService()
         {
             if (_contentConfigService == null)
@@ -25,7 +30,7 @@ namespace Genies.Inventory
                 _contentConfigService = ServiceManager.Get<IContentConfigService>();
                 if (_contentConfigService == null)
                 {
-                    _contentConfigService = new ContentConfigService();
+                    _contentConfigService = new SimpleContentConfigService();
                     ServiceManager.RegisterService(_contentConfigService).As<IContentConfigService>();
                 }
 

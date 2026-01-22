@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Controls the skin color on a <see cref="MegaSkinGenieMaterial"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SkinColorController : ISkinColorController, IDisposable
+#else
     public sealed class SkinColorController : ISkinColorController, IDisposable
+#endif
     {
         private static readonly int _skinColorPropertyId = Shader.PropertyToID("_SkinColor");
 

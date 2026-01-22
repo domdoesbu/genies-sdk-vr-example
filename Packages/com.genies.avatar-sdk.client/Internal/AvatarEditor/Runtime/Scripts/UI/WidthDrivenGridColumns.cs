@@ -6,6 +6,7 @@ namespace Genies.AvatarEditor
     [ExecuteAlways]
     [RequireComponent(typeof(GridLayoutGroup))]
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class WidthDrivenGridColumns : MonoBehaviour
 #else
     public class WidthDrivenGridColumns : MonoBehaviour

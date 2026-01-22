@@ -16,7 +16,11 @@ namespace Genies.Ugc
     /// <see cref="IWearableRender"/> implementation that allows you to apply <see cref="Wearable"/> definitions to a wearable
     /// directly equipped to an avatar.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GeniePreviewWearableRender : IWearableRender
+#else
     public sealed class GeniePreviewWearableRender : IWearableRender
+#endif
     {
         public bool IsAlive { get; private set; }
         public GameObject Root => null;

@@ -13,7 +13,11 @@ namespace Genies.Looks.Service
     /// Concrete implementation of <see cref="ILooksService"/> that provides look management functionality.
     /// This service handles creating, updating, deleting, and retrieving avatar looks, including media upload to S3.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksService : ILooksService
+#else
     public class LooksService : ILooksService
+#endif
     {
         private readonly MemoryCachedDataRepository<LookData> _dataRepository;
         private readonly IGeniesS3Service _s3Service;

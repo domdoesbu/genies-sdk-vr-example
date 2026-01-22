@@ -3,7 +3,11 @@ using Genies.S3Service.Models;
 
 namespace Genies.S3Service
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGeniesS3Service
+#else
     public interface IGeniesS3Service
+#endif
     {
         /// <summary>
         /// Upload a local file to s3
@@ -14,7 +18,7 @@ namespace Genies.S3Service
         UniTask<string> UploadObject(string s3FilePath, string localFilePath);
 
         /// <summary>
-        /// Uploads an objects data to s3 
+        /// Uploads an objects data to s3
         /// </summary>
         /// <param name="s3FilePath"> The relative path to the file in s3, must include the file name and extension</param>
         /// <param name="data"> the byte data of the file </param>

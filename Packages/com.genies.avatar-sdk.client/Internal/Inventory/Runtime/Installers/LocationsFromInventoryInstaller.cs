@@ -7,7 +7,11 @@ using VContainer;
 namespace Genies.Inventory.Installers
 {
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LocationsFromInventoryInstaller : IGeniesInstaller
+#else
     public class LocationsFromInventoryInstaller : IGeniesInstaller
+#endif
     {
         public int OperationOrder => DefaultInstallationGroups.PostCoreServices;
         private IFeatureFlagsManager _FeatureFlagsManager => ServiceManager.Get<IFeatureFlagsManager>();
@@ -19,7 +23,7 @@ namespace Genies.Inventory.Installers
 
             builder.Register<IResourceLocationMetadataProvider<DefaultInventoryAsset>,
                 UniversalContentLocationsFromDefaultInventory>(Lifetime.Singleton);
-            
+
             builder.Register<IResourceLocationMetadataProvider<DefaultAnimationLibraryAsset>,
                 DynamicContentLocationsFromDefaultInventory>(Lifetime.Singleton);
         }

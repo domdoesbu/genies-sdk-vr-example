@@ -4,7 +4,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SerializableHumanLimit
+#else
     public struct SerializableHumanLimit
+#endif
     {
         public bool    useDefaultValues;
         public Vector3 min;

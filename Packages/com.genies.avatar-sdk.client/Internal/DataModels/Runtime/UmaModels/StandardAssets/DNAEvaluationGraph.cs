@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UMA;
 using UnityEngine;
@@ -15,7 +15,11 @@ namespace UMA
 	//Theres loads of help in the instance of DNAEvaluationGraphPresetLibrary in the project that hopefully makes it really clear.
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal sealed class DNAEvaluationGraph : System.IEquatable<DNAEvaluationGraph>
+#else
 	public sealed class DNAEvaluationGraph : System.IEquatable<DNAEvaluationGraph>
+#endif
 	{
 
 		[SerializeField]

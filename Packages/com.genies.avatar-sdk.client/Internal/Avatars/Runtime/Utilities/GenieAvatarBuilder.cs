@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Similar to Unity's <see cref="AvatarBuilder"/> but with extra utilities specific for our genies.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieAvatarBuilder
+#else
     public static class GenieAvatarBuilder
+#endif
     {
         private const string HipsBoneName = "Hips";
         

@@ -7,7 +7,11 @@ using UnityEngine;
 namespace UMA
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class OverallScaleDNAConverterPlugin : DynamicDNAPlugin
+#else
 	public class OverallScaleDNAConverterPlugin : DynamicDNAPlugin
+#endif
 	{
 
 		#region FIELDS

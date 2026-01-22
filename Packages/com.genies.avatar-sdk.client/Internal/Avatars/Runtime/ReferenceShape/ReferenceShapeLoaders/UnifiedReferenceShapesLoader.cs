@@ -8,7 +8,11 @@ using Debug = UnityEngine.Debug;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class UnifiedReferenceShapesLoader : ReferenceShapesLoaderAsset
+#else
     public abstract class UnifiedReferenceShapesLoader : ReferenceShapesLoaderAsset
+#endif
     {
         private static readonly UtilMeshName[] AllUtilMeshNames = Enum.GetValues(typeof(UtilMeshName)) as UtilMeshName[];
 

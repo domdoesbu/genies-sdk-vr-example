@@ -9,10 +9,18 @@ namespace Genies.Avatars.Behaviors
     /// Factory class for creating different types of avatar controllers and genies.
     /// This static class provides methods for instantiating avatars with various configurations including unified genies, baked genies, and non-UMA genies.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarControllerFactory
+#else
     public static class AvatarControllerFactory
+#endif
     {
         private const string ComposerUnifiedGeniePrefabPath = "UnifiedGenieInstance";
+#if GENIES_SDK
+        private const string _unifiedDefaultBodyType = "AvatarBase/recmDqoKYpEG1TQV";
+#else
         private const string _unifiedDefaultBodyType = "Static/Genie_Unified_gen13gp_Race_Container";
+#endif
         private const string _avatarLayerName = "Avatar";
 
         /// <summary>

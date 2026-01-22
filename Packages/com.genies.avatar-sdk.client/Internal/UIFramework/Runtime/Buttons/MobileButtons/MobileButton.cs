@@ -8,7 +8,11 @@ using UnityEngine.UI;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MobileButton : Button
+#else
     public class MobileButton : Button
+#endif
     {
         public enum ButtonTheme
         {

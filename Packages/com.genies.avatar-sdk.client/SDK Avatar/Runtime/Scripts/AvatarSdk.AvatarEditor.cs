@@ -60,8 +60,9 @@ namespace Genies.Sdk
         /// <summary>
         /// Closes the Avatar Editor and cleans up resources.
         /// </summary>
+        /// /// <param name="revertAvatar">Whether the avatar should be reverted to it's pre-edited self.</param>
         /// <returns>A UniTask that completes when the editor is closed.</returns>
-        public static async UniTask CloseAvatarEditorAsync() => await AvatarEditorSDK.CloseEditorAsync();
+        public static async UniTask CloseAvatarEditorAsync(bool revertAvatar) => await AvatarEditorSDK.CloseEditorAsync(revertAvatar);
 
         /// <summary>
         /// Gets the active avatar being edited in the Avatar Editor.

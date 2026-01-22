@@ -11,7 +11,11 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearOutfitAssetLoader : OutfitAssetLoaderBase
+#else
     public sealed class GearOutfitAssetLoader : OutfitAssetLoaderBase
+#endif
     {
         private static readonly IReadOnlyList<string> _supportedTypes
             = new List<string> { UgcOutfitAssetType.Gear }.AsReadOnly();

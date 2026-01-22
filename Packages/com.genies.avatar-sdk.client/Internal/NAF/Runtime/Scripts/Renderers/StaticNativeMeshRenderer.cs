@@ -7,23 +7,27 @@ namespace Genies.Naf
     /**
      * <see cref="NativeMeshRenderer"/> implementation that uses a <see cref="MeshRenderer"/>.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class StaticNativeMeshRenderer : NativeMeshRenderer
+#else
     public sealed class StaticNativeMeshRenderer : NativeMeshRenderer
+#endif
     {
         public MeshRenderer Renderer => renderer;
-        
+
         // inspector
         [SerializeField] private new MeshRenderer renderer;
-        
+
         private MeshFilter _meshFilter;
         private Mesh _mesh;
         private bool _triggerUpdatedEvent = true;
-        
+
         protected override void OnDestroy()
         {
             base.OnDestroy();
             ClearMesh();
         }
-        
+
         public void SetRenderer(MeshRenderer renderer)
         {
             if (!renderer)
@@ -38,7 +42,7 @@ namespace Genies.Naf
 
             _meshFilter = renderer.GetComponent<MeshFilter>();
             _meshFilter.sharedMesh = _mesh;
-            
+
             this.renderer = renderer;
             base.SetRenderer(renderer);
         }
@@ -48,21 +52,21 @@ namespace Genies.Naf
             _triggerUpdatedEvent = false;
             ClearMesh();
             _triggerUpdatedEvent = true;
-            
+
             if (runtimeMesh.IsNull())
             {
                 return;
             }
 
             _mesh = runtimeMesh.CreateMesh(ignoreSkinning: true);
-            
+
             // update the mesh filter and renderer bounds
             _meshFilter.sharedMesh = _mesh;
             renderer.localBounds = _mesh.bounds;
-            
+
             TriggerUpdatedMesh();
         }
-        
+
         public override void ClearMesh()
         {
             if (_mesh)
@@ -73,7 +77,7 @@ namespace Genies.Naf
             _mesh = null;
             _meshFilter ??= renderer.GetComponent<MeshFilter>();
             _meshFilter.sharedMesh = null;
-            
+
             if (_triggerUpdatedEvent)
             {
                 TriggerUpdatedMesh();

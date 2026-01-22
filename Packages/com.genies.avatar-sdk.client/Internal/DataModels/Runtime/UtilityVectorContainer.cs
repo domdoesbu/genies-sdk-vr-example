@@ -8,7 +8,11 @@ using UnityEngine;
 
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum UtilMeshName {
+#else
     public enum UtilMeshName {
+#endif
         bodysuit,
         dress,
         outerwear,
@@ -19,7 +23,11 @@ namespace Genies.Models {
         skirt,
         none
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum Region {
+#else
     public enum Region {
+#endif
         wholeTarget,
         biceps,
         calves,
@@ -34,13 +42,21 @@ namespace Genies.Models {
         waist
     }
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UtilMeshRegion {
+#else
     public class UtilMeshRegion {
+#endif
         public Region region;
         public Vector3[] uniquePoints;
     }
 
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UtilMesh {
+#else
     public class UtilMesh {
+#endif
         public UtilMeshName utilityMesh;
         public List<UtilMeshRegion> uMeshRegions;
 
@@ -49,7 +65,11 @@ namespace Genies.Models {
 #if GENIES_INTERNAL
     [CreateAssetMenu(menuName = "Genies/Editor Utilities/Races/Create Utility Vector Container", fileName = "UtilityVectorContainer.asset")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UtilityVectorContainer : ScriptableObject {
+#else
     public class UtilityVectorContainer : ScriptableObject {
+#endif
         public string vectorName;
         public string version = null;
         public List<UtilMesh> utilMeshes;

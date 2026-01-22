@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Base controller interface for customizing a genie of an specific species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ISpeciesGenieController : IDisposable
+#else
     public interface ISpeciesGenieController : IDisposable
+#endif
     {
         IGenie Genie { get; }
 

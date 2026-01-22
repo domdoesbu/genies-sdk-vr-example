@@ -2,7 +2,11 @@ using System.Collections.Generic;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BindposeBuilder
+#else
     public sealed class BindposeBuilder
+#endif
     {
         /// <summary>
         /// The total number of unique bindposes.

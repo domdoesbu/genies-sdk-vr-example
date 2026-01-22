@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains data related to outfit slots.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class OutfitSlotsData
+#else
     public sealed class OutfitSlotsData
+#endif
     {
         public struct Slot
         {

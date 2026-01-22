@@ -30,7 +30,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "MakeupCustomizationController", menuName = "Genies/Customizer/Controllers/Makeup Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MakeupCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class MakeupCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField] private MakeupPresetCategory _subcategory;
 

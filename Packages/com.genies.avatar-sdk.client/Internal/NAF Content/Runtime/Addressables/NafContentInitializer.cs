@@ -8,7 +8,11 @@ using Genies.ServiceManagement;
 
 namespace Genies.Naf.Content
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NafContentInitializer
+#else
     public static class NafContentInitializer
+#endif
     {
         public static bool IsInitialized { get; private set; }
 

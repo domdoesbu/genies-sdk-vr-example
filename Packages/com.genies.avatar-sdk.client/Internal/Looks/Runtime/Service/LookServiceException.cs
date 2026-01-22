@@ -6,19 +6,23 @@ namespace Genies.Looks.Service
     /// Exception thrown by the Looks service when an error occurs during look-related operations.
     /// This exception provides specific error information for troubleshooting looks functionality.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LookServiceException : Exception
+#else
     public class LookServiceException : Exception
+#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LookServiceException"/> class.
         /// </summary>
         public LookServiceException() { }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LookServiceException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">The message that describes the error.</param>
         public LookServiceException(string message) : base(message) { }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LookServiceException"/> class with a specified error message and inner exception.
         /// </summary>

@@ -2,7 +2,11 @@ using System.Collections.Generic;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CopyableExtensions
+#else
     public static class CopyableExtensions
+#endif
     {
         /// <summary>
         /// Performs a deep copy of the copyables list.

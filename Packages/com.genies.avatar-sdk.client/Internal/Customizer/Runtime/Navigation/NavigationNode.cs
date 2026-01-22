@@ -9,13 +9,21 @@ namespace Genies.Customization.Framework.Navigation
     /// <summary>
     /// Custom attribute to mark fields that should show child node dropdown options
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ChildNodeDropdownAttribute : PropertyAttribute
+#else
     public class ChildNodeDropdownAttribute : PropertyAttribute
+#endif
     {
         public ChildNodeDropdownAttribute() { }
     }
 
     [CreateNodeMenu("Customizer UI/Navigation Node")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavigationNode : BaseNavigationNode, INavigationNode
+#else
     public class NavigationNode : BaseNavigationNode, INavigationNode
+#endif
     {
         public bool isRootNode;
         [Tooltip("If marked false, the node will not be part of the navigation stack. This can be used for leaf nodes that don't breadcrumb")]

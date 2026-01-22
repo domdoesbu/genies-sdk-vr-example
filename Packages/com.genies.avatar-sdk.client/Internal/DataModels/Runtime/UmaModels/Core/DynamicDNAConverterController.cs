@@ -15,7 +15,11 @@ namespace UMA
 	//this is so all the assets this needs are packaged up with it UMA3 style.
 	//This asset reploaces DynamicDNAConverterBehaviour and applies the converters to the avatar
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DynamicDNAConverterController : ScriptableObject, IDNAConverter, IDynamicDNAConverter
+#else
 	public class DynamicDNAConverterController : ScriptableObject, IDNAConverter, IDynamicDNAConverter
+#endif
 	{
 
 		[SerializeField]

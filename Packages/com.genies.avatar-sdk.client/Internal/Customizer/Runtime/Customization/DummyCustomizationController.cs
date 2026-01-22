@@ -13,7 +13,11 @@ namespace Genies.Customization.Framework
     [CreateAssetMenu(fileName = "DummyCustomizationController", menuName = "Genies/Customizer/Controllers/Dummy Customization Controller")]
 #endif
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DummyCustomizationController : BaseCustomizationController
+#else
     public class DummyCustomizationController : BaseCustomizationController
+#endif
     {
         /// <summary>
         /// Determines if this controller can be initialized and opened.

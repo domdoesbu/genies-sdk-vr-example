@@ -5,7 +5,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class JointModifier
+#else
     public sealed class JointModifier
+#endif
     {
         // parameters
         [SerializeField]

@@ -14,7 +14,11 @@ namespace Genies.PerformanceMonitoring
     ///
     /// Can treat transactions as singletons or have multiple of the same type using the __Id() functions
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomInstrumentationManager
+#else
     public class CustomInstrumentationManager
+#endif
     {
         private static CustomInstrumentationManager _instance;
         private static List<ICustomInstrumentationHandler> _CurrentHandlers { get; set; } = new List<ICustomInstrumentationHandler>();

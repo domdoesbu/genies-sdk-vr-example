@@ -8,7 +8,11 @@ namespace Genies.Customization.Framework
     /// <summary>
     /// The model for the <see cref="CustomizationConfig"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ICustomizationController
+#else
     public interface ICustomizationController
+#endif
     {
         /// <summary>
         /// Used to verify if this controller can be opened. Ex: Going into UGCW creation controller requires that you first pick
@@ -102,6 +106,6 @@ namespace Genies.Customization.Framework
         /// The view config of the <see cref="Customizer"/>.
         /// </summary>
         public CustomizerViewConfig CustomizerViewConfig { get; }
-        
+
  }
 }

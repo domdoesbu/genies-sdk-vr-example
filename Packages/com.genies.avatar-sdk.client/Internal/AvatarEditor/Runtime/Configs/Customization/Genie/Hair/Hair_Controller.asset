@@ -44,6 +44,9 @@ MonoBehaviour:
     showHeaderText: 0
     headerText: 
     actionBarFlags: 24
+  _defaultCellView: {fileID: 0}
+  _defaultCellSize: {x: 88, y: 96}
   hairItemDataSource: {fileID: 11400000, guid: 0f99ef01f5001834a8fa788fd9fa133b, type: 2}
-  hairColorDataSource: {fileID: 11400000, guid: 2c10e07c632c3459295ab68daa4fa76b, type: 2}
+  hairColorDataSource: {fileID: 11400000, guid: 2c10e07c632c3459295ab68daa4fa76b,
+    type: 2}
   virtualCamera: 10

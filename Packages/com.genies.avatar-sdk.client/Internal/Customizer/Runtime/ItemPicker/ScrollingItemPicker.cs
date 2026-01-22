@@ -10,7 +10,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ScrollingItemPicker : MonoBehaviour, IOptimizedScrollerCellSource
+#else
     public class ScrollingItemPicker : MonoBehaviour, IOptimizedScrollerCellSource
+#endif
     {
         [SerializeField]
         private OptimizedScroller _scrollRect;
@@ -31,6 +36,22 @@ namespace Genies.Customization.Framework.ItemPicker
 
         [SerializeField]
         private RectMask2D _rectMask2D;
+
+        /// <summary>
+        /// When enabled, prevents modification of _rectMask2D.padding.
+        /// </summary>
+        [SerializeField]
+        private bool _disableMaskPadding = false;
+
+        /// <summary>
+        /// Gets or sets whether mask padding modifications are disabled.
+        /// </summary>
+        public bool DisableMaskPadding
+        {
+            get => _disableMaskPadding;
+            set => _disableMaskPadding = value;
+        }
+
         private float _defaultOffset;
 
         public RectTransform Content => _scrollRect.Content;
@@ -190,7 +211,7 @@ namespace Genies.Customization.Framework.ItemPicker
         {
             if (_currentCtaController == null || !_currentCtaController.gameObject.activeSelf || _TotalItemsCount <= 0)
             {
-                if (_rectMask2D != null)
+                if (_rectMask2D != null && !_disableMaskPadding)
                 {
                     var prevmaskPadding = _rectMask2D.padding;
                     _rectMask2D.padding = new Vector4(_defaultOffset,
@@ -255,7 +276,7 @@ namespace Genies.Customization.Framework.ItemPicker
 
         private void UpdateMask(float collapsedSize, float expandedSize, float fill)
         {
-            if (_rectMask2D != null)
+            if (_rectMask2D != null && !_disableMaskPadding)
             {
                 var prevmaskPadding = _rectMask2D.padding;
                 _rectMask2D.padding = new Vector4(
@@ -545,7 +566,7 @@ namespace Genies.Customization.Framework.ItemPicker
                         _contentHLG.padding.left = (int)_defaultOffset;
                     }
 
-                    if (_rectMask2D != null)
+                    if (_rectMask2D != null && !_disableMaskPadding)
                     {
                         var prevmaskPadding = _rectMask2D.padding;
                         _rectMask2D.padding = new Vector4(_defaultOffset,

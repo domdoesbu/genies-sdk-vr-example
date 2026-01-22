@@ -4,7 +4,12 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor.UGCTemplates
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CtaUgcTemplateItemPickerCellView : MonoBehaviour
+#else
     public class CtaUgcTemplateItemPickerCellView : MonoBehaviour
+#endif
     {
         [SerializeField]
         private GeniesButton ctaButton;

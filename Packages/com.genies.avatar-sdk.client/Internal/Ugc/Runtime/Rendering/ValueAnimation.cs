@@ -11,7 +11,11 @@ namespace Genies.Ugc
     /// Go to that link to understand how each parameter will work
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ValueAnimation
+#else
     public struct ValueAnimation
+#endif
     {
         public enum Direction
         {

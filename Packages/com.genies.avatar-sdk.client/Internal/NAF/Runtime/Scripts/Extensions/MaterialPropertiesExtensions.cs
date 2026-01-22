@@ -4,10 +4,14 @@ using GnWrappers;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MaterialPropertiesExtensions
+#else
     public static class MaterialPropertiesExtensions
+#endif
     {
         public delegate void PropertyProcessor<T>(string name, T value) where T : struct;
-        
+
         public static void Process<T>(this MaterialProperties properties, PropertyProcessor<T> processor)
             where T : struct
         {

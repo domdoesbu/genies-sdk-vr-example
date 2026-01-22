@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class RuntimeMeshCombinerReport : EntityAttribute {
+#else
 public class RuntimeMeshCombinerReport : EntityAttribute {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal RuntimeMeshCombinerReport(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.RuntimeMeshCombinerReport_SWIGUpcast(cPtr), cMemoryOwn) {

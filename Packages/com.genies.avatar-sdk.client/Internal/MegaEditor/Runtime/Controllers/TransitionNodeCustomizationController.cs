@@ -3,7 +3,11 @@ using Genies.Customization.Framework;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TransitionNodeCustomizationController : BaseCustomizationController
+#else
     public class TransitionNodeCustomizationController : BaseCustomizationController
+#endif
     {
         public override UniTask<bool> TryToInitialize(Customizer customizer)
         {

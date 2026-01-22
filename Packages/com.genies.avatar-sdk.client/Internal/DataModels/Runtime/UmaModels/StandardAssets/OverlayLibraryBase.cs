@@ -5,7 +5,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for overlay libraries.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal abstract class OverlayLibraryBase : MonoBehaviour
+#else
 	public abstract class OverlayLibraryBase : MonoBehaviour
+#endif
 	{
 		/// <summary>
 		/// Add an overlay asset to the library.

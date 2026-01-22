@@ -10,7 +10,11 @@ using UnityEngine.UI;
 
 namespace Genies.Looks.MultiOptionPopup.Scripts
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SelectableMultiOptionPopupWidget : MultiOptionPopupWidget
+#else
     public class SelectableMultiOptionPopupWidget : MultiOptionPopupWidget
+#endif
     {
         [Header("UI Items")]
         [SerializeField] private Color _selectedTextColor = new Color(0.33f, 0.35f, 0.92f);
@@ -138,7 +142,11 @@ namespace Genies.Looks.MultiOptionPopup.Scripts
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LinkButton
+#else
     public class LinkButton
+#endif
     {
         public readonly string DisplayName;
         public readonly Action OnClick;

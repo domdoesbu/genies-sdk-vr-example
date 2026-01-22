@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedDnaDeformsHelper
+#else
     public static class UnifiedDnaDeformsHelper
+#endif
     {
         public static MeshDeformationDescriptor GetDeformationDescriptor(string dnaKey, Mesh mesh, Allocator allocator, bool generateEmptyBindposes = true)
         {

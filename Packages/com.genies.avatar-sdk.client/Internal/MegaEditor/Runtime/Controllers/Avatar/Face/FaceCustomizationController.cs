@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FaceCustomizationController : BaseCustomizationController
+#else
     public class FaceCustomizationController : BaseCustomizationController
+#endif
     {
         //Navigation noder per types registered
         [SerializeField]

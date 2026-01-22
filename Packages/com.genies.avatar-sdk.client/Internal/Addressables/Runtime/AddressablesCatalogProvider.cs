@@ -11,7 +11,11 @@ using VContainer;
 
 namespace Genies.Addressables
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AddressablesCatalogProvider : BaseAddressableProvider
+#else
     public class AddressablesCatalogProvider : BaseAddressableProvider
+#endif
     {
         private static AddressablesCatalogProvider _instance;
 

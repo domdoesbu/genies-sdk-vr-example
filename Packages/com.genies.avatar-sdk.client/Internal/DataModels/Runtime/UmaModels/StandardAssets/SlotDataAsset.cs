@@ -8,7 +8,11 @@ namespace UMA
 	/// </summary>
 	[System.Serializable]
 	[PreferBinarySerialization] 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class SlotDataAsset : ScriptableObject, ISerializationCallbackReceiver, INameProvider
+#else
 	public partial class SlotDataAsset : ScriptableObject, ISerializationCallbackReceiver, INameProvider
+#endif
     {
 		public string slotName;
 		[System.NonSerialized]

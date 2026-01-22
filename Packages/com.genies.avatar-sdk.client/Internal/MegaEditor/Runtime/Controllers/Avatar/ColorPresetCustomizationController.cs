@@ -26,7 +26,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Wrapper interface to handle both SimpleColorUiData and GradientColorUiData uniformly
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class ColorUiDataWrapper
+#else
     public abstract class ColorUiDataWrapper
+#endif
     {
         public string AssetId;
         public string DisplayName;
@@ -45,7 +49,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Wrapper for SimpleColorUiData
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SimpleColorWrapper : ColorUiDataWrapper
+#else
     public class SimpleColorWrapper : ColorUiDataWrapper
+#endif
     {
         public SimpleColorWrapper(SimpleColorUiData data)
         {
@@ -63,7 +71,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Wrapper for GradientColorUiData
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GradientColorWrapper : ColorUiDataWrapper
+#else
     public class GradientColorWrapper : ColorUiDataWrapper
+#endif
     {
         public GradientColorWrapper(GradientColorUiData data)
         {
@@ -77,7 +89,11 @@ namespace Genies.Customization.MegaEditor
         public override Color GetPrimaryColor() => GradientColorData.ColorBase;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ColorPresetCustomizationController : BaseCustomizationController, IItemPickerDataSource
+#else
     public class ColorPresetCustomizationController : BaseCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField]
         private ColorMainTypes _mainType;
@@ -150,7 +166,7 @@ namespace Genies.Customization.MegaEditor
             AnalyticsReporter.LogEvent(CustomizationAnalyticsEvents.ColorPresetCustomizationStarted);
 
             //Aim the camera at the body area
-            CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera).Forget();
 
             _customizer.View.PrimaryItemPicker.Show(this).Forget();
         }
@@ -158,7 +174,7 @@ namespace Genies.Customization.MegaEditor
         public override void StopCustomization()
         {
             AnalyticsReporter.LogEvent(CustomizationAnalyticsEvents.ColorPresetCustomizationStopped);
-            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera).Forget();
             _customizer.View.PrimaryItemPicker.Hide();
         }
 

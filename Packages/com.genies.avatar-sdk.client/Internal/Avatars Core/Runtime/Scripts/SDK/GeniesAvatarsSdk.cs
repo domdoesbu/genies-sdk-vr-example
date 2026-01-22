@@ -37,7 +37,7 @@ namespace Genies.Avatars.Sdk
         private const string DefaultControllerResource = "GeniesAvatarRig";
 
         public static event Action<bool> LoadedAvatar;
-        
+
         #region Initialization / Service Access
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Genies.Avatars.Sdk
         /// </summary>
         public static async UniTask<bool> InitializeAsync()
         {
-#if GENIES_INTERNAL && GENIES_DEV
+#if GENIES_DEV
             return await InitializeAsync(BackendEnvironment.Dev);
 #else
             return await InitializeAsync(GeniesApiConfigManager.TargetEnvironment);
@@ -206,9 +206,9 @@ namespace Genies.Avatars.Sdk
                     parent,
                     playerAnimationController
                 );
-                
-                LoadedAvatar?.Invoke(true);    
-                
+
+                LoadedAvatar?.Invoke(true);
+
                 return new GeniesAvatar(genie);
             }
             catch (Exception ex)
@@ -244,10 +244,10 @@ namespace Genies.Avatars.Sdk
                     parent,
                     playerAnimationController
                 );
-                
+
                 var returnAvatar = new GeniesAvatar(genie);
                 LoadedAvatar?.Invoke(IsDefinitionDefault(returnAvatar));
-                
+
                 return returnAvatar;
             }
             catch (Exception ex) when (!(ex is ArgumentNullException))
@@ -283,10 +283,10 @@ namespace Genies.Avatars.Sdk
                     parent,
                     playerAnimationController
                 );
-                
+
                 var returnAvatar = new GeniesAvatar(genie);
                 LoadedAvatar?.Invoke(IsDefinitionDefault(returnAvatar));
-                
+
                 return returnAvatar;
             }
             catch (Exception ex) when (!(ex is ArgumentNullException))
@@ -379,11 +379,14 @@ namespace Genies.Avatars.Sdk
                     throw new InvalidOperationException("Failed to initialize GeniesAvatarsSdk");
                 }
 
-                // First resolve pipeline information for all asset ids (including tattoos)
-                IAssetIdConverter converter = ServiceManager.Get<IAssetIdConverter>();
-                var assetsToResolve = new List<string>(avatar.equippedAssetIds);
-                assetsToResolve.AddRange(avatar.equippedTattooIds.Values);
-                await converter.ResolveAssetsAsync(assetsToResolve);
+                if (avatar != null)
+                {
+                    // First resolve pipeline information for all asset ids (including tattoos)
+                    IAssetIdConverter converter = ServiceManager.Get<IAssetIdConverter>();
+                    var assetsToResolve = new List<string>(avatar.equippedAssetIds);
+                    assetsToResolve.AddRange(avatar.equippedTattooIds.Values);
+                    await converter.ResolveAssetsAsync(assetsToResolve);
+                }
 
                 // Then convert IDs before passing json
                 var convertedJson = await ConvertAndRemoveInvalidIds(avatar);
@@ -393,9 +396,9 @@ namespace Genies.Avatars.Sdk
 
                 if (controller != null)
                 {
-                    LoadedAvatar?.Invoke(IsDefinitionDefault(controller));    
+                    LoadedAvatar?.Invoke(IsDefinitionDefault(controller));
                 }
-                
+
                 return new GeniesAvatar(controller.Genie, controller);
             }
             catch (Exception ex)
@@ -415,13 +418,13 @@ namespace Genies.Avatars.Sdk
             var defaultDefinitionForGender = NafAvatarExtensions.GetDefaultDefinitionForGender(controller.GetBodyVariation()).SerializeDefinition();
             return controller.GetDefinition() == defaultDefinitionForGender;
         }
-        
+
         private static bool IsDefinitionDefault(GeniesAvatar avatar)
         {
             var defaultDefinitionForGender = NafAvatarExtensions.GetDefaultDefinitionForGender(avatar.GetBodyVariation()).SerializeDefinition();
             return avatar.GetDefinition() == defaultDefinitionForGender;
         }
-        
+
         // TEMPORARY METHODS...
         private static async UniTask<string> ConvertAndRemoveInvalidIds(Genies.Naf.AvatarDefinition definition)
         {

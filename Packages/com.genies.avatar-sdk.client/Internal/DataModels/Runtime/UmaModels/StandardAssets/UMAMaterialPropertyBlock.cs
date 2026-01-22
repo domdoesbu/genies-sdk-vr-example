@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,11 @@ using UnityEditor;
 namespace UMA
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class UMAProperty 
+#else
     public abstract class UMAProperty 
+#endif
     {
         public static string precision = "F4";
         public static string splitter =  ";" ;
@@ -100,7 +104,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAFloatProperty : UMAProperty
+#else
     public class UMAFloatProperty : UMAProperty
+#endif
     {
         public float Value;
         public override void Apply(Material mpb)
@@ -132,7 +140,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAColorProperty : UMAProperty
+#else
     public class UMAColorProperty : UMAProperty
+#endif
     {
         public Color Value;
         public override void Apply(Material mpb)
@@ -162,7 +174,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAVectorProperty : UMAProperty
+#else
     public class UMAVectorProperty : UMAProperty
+#endif
     {
         public Vector4 Value;
 
@@ -206,7 +222,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAVectorArrayProperty : UMAProperty
+#else
     public class UMAVectorArrayProperty : UMAProperty
+#endif
     {
         public Vector4[] Value;
 
@@ -238,7 +258,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMATextureProperty : UMAProperty
+#else
     public class UMATextureProperty : UMAProperty
+#endif
     {
         public Texture Value;
 
@@ -280,7 +304,11 @@ namespace UMA
       } */
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAFloatArrayProperty : UMAProperty
+#else
     public class UMAFloatArrayProperty : UMAProperty
+#endif
     {
         public float[] Value;
 
@@ -311,7 +339,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAIntProperty : UMAProperty
+#else
     public class UMAIntProperty : UMAProperty
+#endif
     {
         public int Value;
 
@@ -341,7 +373,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAMatrixProperty : UMAProperty
+#else
     public class UMAMatrixProperty : UMAProperty
+#endif
     {
         public Matrix4x4 Value;
 
@@ -368,7 +404,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAMatrixArrayProperty : UMAProperty
+#else
     public class UMAMatrixArrayProperty : UMAProperty
+#endif
     {
         public Matrix4x4[] Value;
 
@@ -399,7 +439,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAComputeBufferProperty : UMAProperty
+#else
     public class UMAComputeBufferProperty : UMAProperty
+#endif
     {
         public ComputeBuffer Value;
 
@@ -427,7 +471,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAConstantComputeBufferProperty : UMAProperty
+#else
     public class UMAConstantComputeBufferProperty : UMAProperty
+#endif
     {
         public ComputeBuffer Value;
         public int offset; 
@@ -460,7 +508,11 @@ namespace UMA
     /// due to serialization, we need a holder class
     /// </summary>
     [Serializable] 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PropertyHolder
+#else
     public class PropertyHolder
+#endif
     {
         public UMAFloatProperty p11;
         public UMAColorProperty p10;
@@ -608,7 +660,11 @@ namespace UMA
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAMaterialPropertyBlock : ISerializationCallbackReceiver 
+#else
     public class UMAMaterialPropertyBlock : ISerializationCallbackReceiver 
+#endif
     {
         public static string[] PropertyTypeStrings = new string[0];
         public static List<Type> availableTypes = new List<Type>();

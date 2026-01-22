@@ -6,7 +6,12 @@ using UnityEngine;
 namespace Genies.MegaEditor
 {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ColorRegionsView : MonoBehaviour
+#else
     public class ColorRegionsView : MonoBehaviour
+#endif
     {
         [SerializeField] private ColorRegionButton colorRegionButtonPrefab;
 

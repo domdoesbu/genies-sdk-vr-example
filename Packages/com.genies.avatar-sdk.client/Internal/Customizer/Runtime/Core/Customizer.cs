@@ -20,7 +20,12 @@ namespace Genies.Customization.Framework
     ///     - <see cref="NavBar" /> A navigation bar to transition between <see cref="INavigationNode" />
     ///     This class handles dispatching events and navigation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class Customizer : MonoBehaviour
+#else
     public class Customizer : MonoBehaviour
+#endif
     {
         [SerializeField]
         private bool _debugMode;

@@ -18,7 +18,11 @@ namespace Genies.Avatars
     /// You can use a <see cref="TattooController"/> to automatically initialize all the available tattoo slot controllers for
     /// a material and handle the <see cref="IEditableGenie"/> instance for you.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TattooSlotController
+#else
     public sealed class TattooSlotController
+#endif
     {
         public int SlotIndex { get; }
         public bool IsEquipped => AssetId is not null;

@@ -12,7 +12,11 @@ namespace Genies.Customizer.Editor.Navigation
     /// Editor-only migration utilities for NavigationGraph
     /// Handles migrating CustomizationControllers from CustomizationConfigs to standalone objects
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NavigationGraphMigrator
+#else
     public static class NavigationGraphMigrator
+#endif
     {
         /// <summary>
         /// Iterates through all the NavigationNodes in a NavigationGraph migrating all

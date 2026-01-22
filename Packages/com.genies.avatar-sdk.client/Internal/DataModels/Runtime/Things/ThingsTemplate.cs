@@ -10,7 +10,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ThingsTemplate", menuName = "Genies/Things/ThingsTemplate", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ThingsTemplate : OrderedScriptableObject
+#else
     public class ThingsTemplate : OrderedScriptableObject
+#endif
     {
         [SerializeField] private string assetId;
         [SerializeField] private string[] tags;

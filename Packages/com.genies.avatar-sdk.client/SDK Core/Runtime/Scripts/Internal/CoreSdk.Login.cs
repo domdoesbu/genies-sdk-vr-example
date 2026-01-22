@@ -41,6 +41,12 @@ namespace Genies.Sdk
             public bool IsLoggedIn => GeniesLoginSdk.IsUserSignedIn();
 
             /// <summary>
+            /// Checks if the current logged in user is anonymous
+            /// </summary>
+            /// <returns>True if the user is logged in and anonymous.</returns>
+            public bool IsLoggedInAnonymously => GeniesLoginSdk.IsUserSignedInAnonymously();
+            
+            /// <summary>
             /// The URL for the Genies Hub authentication and sign-up page for new users to create an account.
             /// </summary>
             public string UrlGeniesHubSignUp => GeniesLoginSdk.UrlGeniesHubSignUp;
@@ -58,7 +64,7 @@ namespace Genies.Sdk
 
                 return await GeniesLoginSdk.GetUsernameAsync();
             }
-
+            
             /// <summary>
             /// Gets the unique identifier of the currently logged in user.
             /// </summary>

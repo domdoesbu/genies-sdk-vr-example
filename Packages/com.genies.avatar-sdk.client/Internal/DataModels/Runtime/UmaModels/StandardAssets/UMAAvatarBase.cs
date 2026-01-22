@@ -6,7 +6,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for UMA character.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal abstract class UMAAvatarBase : MonoBehaviour
+#else
 	public abstract class UMAAvatarBase : MonoBehaviour
+#endif
 	{
 		public UMAContextBase context;
 		public UMAData umaData;

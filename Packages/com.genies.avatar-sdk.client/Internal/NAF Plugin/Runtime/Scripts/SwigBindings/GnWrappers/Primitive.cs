@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class Primitive : global::System.IDisposable {
+#else
 public class Primitive : global::System.IDisposable {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 

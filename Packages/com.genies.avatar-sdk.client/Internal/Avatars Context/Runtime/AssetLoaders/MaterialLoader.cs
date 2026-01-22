@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Shaders;
@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MaterialLoader : ISlottedAssetLoader<MaterialAsset>
+#else
     public sealed class MaterialLoader : ISlottedAssetLoader<MaterialAsset>
+#endif
     {
         private static readonly int ColorBaseId = Shader.PropertyToID("_ColorBase");
         private static readonly int ColorRId = Shader.PropertyToID("_ColorR");

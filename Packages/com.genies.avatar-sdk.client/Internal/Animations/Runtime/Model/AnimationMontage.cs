@@ -10,33 +10,37 @@ namespace Genies.Animations.Model
     /// and the actual animation clips, both ordered by their montage number.
     /// This is organized by animation type (genie, dolls, camera) to support different animation targets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimationMontage : IDisposable
+#else
     public class AnimationMontage : IDisposable
+#endif
     {
         /// <summary>
         /// List of asset addresses for genie (avatar) animation clips, ordered by montage sequence.
         /// </summary>
         public List<string> GenieAssetAddresses = new List<string>();
-        
+
         /// <summary>
         /// List of asset addresses for doll animation clips, ordered by montage sequence.
         /// </summary>
         public List<string> DollAssetAddresses = new List<string>();
-        
+
         /// <summary>
         /// List of asset addresses for camera animation clips, ordered by montage sequence.
         /// </summary>
         public List<string> CameraAssetAddresses = new List<string>();
-        
+
         /// <summary>
         /// Reference to the loaded genie (avatar) animation clips corresponding to the GenieAssetAddresses.
         /// </summary>
         public Ref<List<AnimationClip>> GenieAnimations;
-        
+
         /// <summary>
         /// Reference to the loaded doll animation clips corresponding to the DollAssetAddresses.
         /// </summary>
         public Ref<List<AnimationClip>> DollAnimations;
-        
+
         /// <summary>
         /// Reference to the loaded camera animation clips corresponding to the CameraAssetAddresses.
         /// </summary>

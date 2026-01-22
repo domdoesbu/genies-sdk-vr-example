@@ -10,6 +10,7 @@ namespace Genies.AvatarEditor
     [ExecuteAlways]
     [RequireComponent(typeof(GridLayoutGroup))]
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class FixedSizeGrid : MonoBehaviour
 #else
     public class FixedSizeGrid : MonoBehaviour

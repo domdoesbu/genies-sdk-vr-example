@@ -6,7 +6,11 @@ namespace Genies.Models
     /// Settings to make the Spot Light adaptive to all animations to avoid over/underexposure.
     /// </summary>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SceneSpotLightSmoothing
+#else
     public class SceneSpotLightSmoothing
+#endif
     {
         /// <summary>
         /// Adjusts intensity to compensate light falloff and keeps consistent light values over any distance.

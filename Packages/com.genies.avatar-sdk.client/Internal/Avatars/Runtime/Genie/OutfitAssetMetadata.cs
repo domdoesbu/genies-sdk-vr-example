@@ -5,7 +5,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Information about an outfit item.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct OutfitAssetMetadata : IEquatable<OutfitAssetMetadata>
+#else
     public struct OutfitAssetMetadata : IEquatable<OutfitAssetMetadata>
+#endif
     {
         private const float UgcwWearableExpirationSeconds = 5.0f;
 

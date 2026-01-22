@@ -10,7 +10,11 @@ namespace Genies.Naf
      * ID so each mesh can be identified across multiple rebuilds. The result entity from the AssetBuilder is a
      * multi-mesh entity.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NativeMultiMesh : IDisposable
+#else
     public sealed class NativeMultiMesh : IDisposable
+#endif
     {
         public Entity              Entity   { get; private set; }
         public Skeleton            Skeleton { get; private set;}

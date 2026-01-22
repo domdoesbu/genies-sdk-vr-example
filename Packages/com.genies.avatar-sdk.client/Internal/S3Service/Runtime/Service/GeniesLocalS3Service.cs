@@ -13,7 +13,11 @@ namespace Genies.S3Service
     /// Would've preferred to rename the whole package to something like FileUploadService since `LocalS3` doesn't make too much sense.
     /// But basically this class can be used to mock uploading to s3 when in reality it just stores files to disk.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesLocalS3Service : IGeniesS3Service
+#else
     public class GeniesLocalS3Service : IGeniesS3Service
+#endif
     {
         private readonly string _cachePath = Path.Combine(Application.persistentDataPath,                 "S3UploadCache");
         private readonly string _diskCacheMetadataFileName = Path.Combine(Application.persistentDataPath, "S3UploadCache", "cache-metadata.json");

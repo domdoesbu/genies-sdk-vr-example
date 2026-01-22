@@ -9,7 +9,11 @@ using AdjustmentType = UMA.OverlayData.ColorComponentAdjuster.AdjustmentType;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class ColorDNAConverterPlugin : DynamicDNAPlugin
+#else
 	public class ColorDNAConverterPlugin : DynamicDNAPlugin
+#endif
 	{
 
 		#region FIELDS

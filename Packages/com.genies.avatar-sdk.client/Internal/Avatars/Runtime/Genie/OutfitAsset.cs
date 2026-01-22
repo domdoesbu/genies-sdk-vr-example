@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains all the resources for equipping an asset to an avatar's outfit.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class OutfitAsset : IAsset, IDisposable
+#else
     public sealed class OutfitAsset : IAsset, IDisposable
+#endif
     {
         public string Id => Metadata.Id;
         public string GenieType { get; }

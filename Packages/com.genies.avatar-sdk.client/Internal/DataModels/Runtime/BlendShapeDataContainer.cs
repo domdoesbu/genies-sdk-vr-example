@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum BlendShapeType
+#else
     public enum BlendShapeType
+#endif
     {
         None = 0,
         Eyes = 1,
@@ -14,14 +18,22 @@ namespace Genies.Models
         Brow = 5
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum BlendShapeTag
+#else
     public enum BlendShapeTag
+#endif
     {
         Gen4 = 0,
         Silver = 1
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DNAItem //Unity serializable pair
+#else
     public class DNAItem //Unity serializable pair
+#endif
     {
         public string Name;
         public float Value;
@@ -30,7 +42,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BlendShapeDataContainer", menuName = "Blendshapes/BlendShapeDataContainer")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BlendShapeDataContainer : OrderedScriptableObject
+#else
     public class BlendShapeDataContainer : OrderedScriptableObject
+#endif
     {
         public BlendShapeType Type = BlendShapeType.None;
         public BlendShapeTag Tag = BlendShapeTag.Gen4;

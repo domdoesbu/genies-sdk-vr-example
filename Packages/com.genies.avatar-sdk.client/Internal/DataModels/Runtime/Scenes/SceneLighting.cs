@@ -8,7 +8,11 @@ namespace Genies.Models
     /// </summary>
     /// <remarks>Using HtmlString "#RRGGBBAA" format for Color</remarks>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SceneLighting
+#else
     public class SceneLighting
+#endif
     {
         /// <summary>
         /// Data of the allowed scene lights.

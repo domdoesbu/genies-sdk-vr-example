@@ -37,7 +37,11 @@ namespace UMA.AssetBundles
 	/// After an asset bundles download or cache retrieval opertaion is complete a LoadaedAssetBundle object is created for it. 
 	/// Loaded assetBundle contains the references count which can be used to unload dependent assetBundles automatically.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class LoadedAssetBundle
+#else
 	public class LoadedAssetBundle
+#endif
 	{
 		public AssetBundle m_AssetBundle;
 		public int m_ReferencedCount;
@@ -71,7 +75,12 @@ namespace UMA.AssetBundles
 	/// <summary>
 	/// Class takes care of loading assetBundle and its dependencies automatically, loading variants automatically.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class AssetBundleManager : MonoBehaviour
+#else
 	public class AssetBundleManager : MonoBehaviour
+#endif
 	{
 		public enum LogMode { All, JustErrors };
 		public enum LogType { Info, Warning, Error };

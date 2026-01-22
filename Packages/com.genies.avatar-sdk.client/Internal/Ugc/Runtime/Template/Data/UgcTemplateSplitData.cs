@@ -3,7 +3,11 @@ using System.Linq;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcTemplateSplitData
+#else
     public sealed class UgcTemplateSplitData
+#endif
     {
         /// <summary>
         /// The split index of this split within the <see cref="UgcTemplateData"/>.

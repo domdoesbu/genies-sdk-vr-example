@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Controls the SubSpecies of a <see cref="NonUmaGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesController : IDisposable
+#else
     public class SubSpeciesController : IDisposable
+#endif
     {
         // dependencies
         private readonly EditableGenie _genie;

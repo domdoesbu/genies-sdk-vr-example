@@ -20,14 +20,22 @@ namespace Genies.Customization.MegaEditor
     /// A customization controller that can be used to modify any chaos mode vector, ie head size
     /// leg size, etc
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BodyVectorCustomizationController : BaseCustomizationController
+#else
     public class BodyVectorCustomizationController : BaseCustomizationController
+#endif
     {
         //internal
         private ScrollRect _slidersContainer;
         private List<Slider> _sliders;
 
         [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal struct BodyVectorSliderConfig
+#else
         public struct BodyVectorSliderConfig
+#endif
         {
             public string name;
             public string bodyAttributeConfig;

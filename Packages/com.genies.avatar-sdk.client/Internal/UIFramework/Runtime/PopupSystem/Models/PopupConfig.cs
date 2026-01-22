@@ -10,7 +10,11 @@ namespace Genies.UIFramework
     /// Contains all necessary data to create and display a popup with specified layout, text, images, and buttons.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupConfig
+#else
     public class PopupConfig
+#endif
     {
         /// <summary>
         /// The layout type of the popup (SingleButton, DualButton, InputField, Custom).

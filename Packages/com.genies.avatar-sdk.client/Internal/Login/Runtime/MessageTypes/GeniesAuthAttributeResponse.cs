@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about attribute-related operations.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthAttributeResponse : GeniesAuthMessage
+#else
     public class GeniesAuthAttributeResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>
         /// The specific status code for the attribute operation.

@@ -7,8 +7,11 @@ using UnityEngine;
 
 namespace Genies.Inventory.Providers
 {
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UniversalContentLocationsFromInventory : IResourceLocationMetadataProvider<UserInventoryItem>
+#else
     public class UniversalContentLocationsFromInventory : IResourceLocationMetadataProvider<UserInventoryItem>
+#endif
     {
         public async UniTask<List<ResourceLocationMetadata>> Provide(UserInventoryItem metadata, string platform, string baseUrl, IEnumerable<string> lods, IEnumerable<string> iconSizes)
         {

@@ -5,7 +5,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains all the material slot IDs available for the unified species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedMaterialSlot
+#else
     public static class UnifiedMaterialSlot
+#endif
     {
         public const string Skin = "Skin";
         public const string Hair = "Hair";

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Models;
@@ -7,7 +7,11 @@ using Genies.Utilities;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SpeciesLoader : CachedAssetRefLoader<(string id, string lod), SpeciesAsset>, IAssetLoader<SpeciesAsset>
+#else
     public sealed class SpeciesLoader : CachedAssetRefLoader<(string id, string lod), SpeciesAsset>, IAssetLoader<SpeciesAsset>
+#endif
     {
         private static readonly Dictionary<string, string> EmptyMappedUmaIdentifiers = new();
 

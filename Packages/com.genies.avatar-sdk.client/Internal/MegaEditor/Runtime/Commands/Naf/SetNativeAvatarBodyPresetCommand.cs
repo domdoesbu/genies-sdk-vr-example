@@ -6,7 +6,11 @@ using Genies.Naf;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SetNativeAvatarBodyPresetCommand : ICommand
+#else
     public class SetNativeAvatarBodyPresetCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly GSkelModifierPreset          _preset;

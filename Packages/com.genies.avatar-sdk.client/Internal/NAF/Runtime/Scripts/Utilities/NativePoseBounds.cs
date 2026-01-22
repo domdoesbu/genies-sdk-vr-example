@@ -10,7 +10,11 @@ namespace Genies.Naf
      * Encapsulates the bounds and grounding hips offset for a collection of skinned mesh renderers when in a specific
      * skeleton pose. It provides methods to perform and invalidate the calculation.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NativePoseBounds
+#else
     public sealed class NativePoseBounds
+#endif
     {
         /**
          * True if Bounds and GroundingHipsOffset are currently valid (calculation was performed and not invalidated).

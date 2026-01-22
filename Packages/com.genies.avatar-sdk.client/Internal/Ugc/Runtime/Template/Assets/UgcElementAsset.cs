@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Contains UGC element data and assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcElementAsset : IAsset
+#else
     public sealed class UgcElementAsset : IAsset
+#endif
     {
         public string Id => Data.ElementId;
         public string Lod { get; }

@@ -13,7 +13,11 @@ namespace Genies.Looks.Customization.Commands
     /// Applies a set of makeup colors to the avatar (e.g., LipstickAll/1/2/3).
     /// Stores previous values for a proper Undo.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipMakeupColorCommand : ICommand
+#else
     public class EquipMakeupColorCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly GenieColorEntry[] _newColors;

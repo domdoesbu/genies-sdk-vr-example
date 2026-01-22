@@ -1,9 +1,13 @@
-﻿using System;
+using System;
 using System.Text;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+      internal static class UMAExtensions
+#else
       public static class UMAExtensions
+#endif
       {
             public static int WordCount(this String str)
             {

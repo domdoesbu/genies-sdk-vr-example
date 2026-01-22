@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class GnUtilsWrapper {
+#else
 public class GnUtilsWrapper {
+#endif
 }
 
 }

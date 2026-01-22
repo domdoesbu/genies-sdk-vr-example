@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Genies.Avatars
 {
     /// <summary>
     /// Component that acts as a reference between its GameObject and an <see cref="ISpeciesGenieController"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class SpeciesGenieControllerReference : MonoBehaviour
+#else
     public sealed class SpeciesGenieControllerReference : MonoBehaviour
+#endif
     {
         public ISpeciesGenieController Controller { get; private set; }
         

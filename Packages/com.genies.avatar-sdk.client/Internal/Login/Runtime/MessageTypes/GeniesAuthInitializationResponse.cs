@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the initialization process and user sign-up status.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthInitializationResponse : GeniesAuthMessage
+#else
     public class GeniesAuthInitializationResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>Indicates whether a new user was signed up during the initialization process.</summary>
         public bool UserSignedUp = false;

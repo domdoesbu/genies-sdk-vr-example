@@ -11,7 +11,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class MaxRectsBinPack{
+#else
 	public class MaxRectsBinPack{
+#endif
 	 
 		public int binWidth = 0;
 		public int binHeight = 0;

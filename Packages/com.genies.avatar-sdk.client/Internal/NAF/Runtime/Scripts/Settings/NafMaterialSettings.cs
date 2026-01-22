@@ -7,7 +7,11 @@ namespace Genies.Naf
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "NativeMaterialSettings", menuName = "Genies/NAF/Native Material Settings")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NafMaterialSettings : ScriptableObject
+#else
     public sealed class NafMaterialSettings : ScriptableObject
+#endif
     {
         public List<MaterialModel> materialModels;
 

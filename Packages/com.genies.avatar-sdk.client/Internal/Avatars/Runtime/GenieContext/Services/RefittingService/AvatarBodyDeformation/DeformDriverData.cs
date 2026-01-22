@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class DeformDriverData
+#else
     public sealed class DeformDriverData
+#endif
     {
         public Vector3[] uniquePoints;
 

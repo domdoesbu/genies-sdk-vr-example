@@ -7,7 +7,12 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ItemDetailView : MonoBehaviour
+#else
     public class ItemDetailView : MonoBehaviour
+#endif
     {
         [SerializeField]
         private PopupWidget _popupWidget;
@@ -163,8 +168,13 @@ namespace Genies.Customization.MegaEditor
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [Serializable]
+    internal struct ItemDetailData
+#else
     [Serializable]
     public struct ItemDetailData
+#endif
     {
         public string assetId;
         public Sprite thumbnail;

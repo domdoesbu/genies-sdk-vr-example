@@ -8,7 +8,11 @@ namespace Genies.Models
     /// Models the fog parameters you'll be able to tune for a given look's scene
     /// </summary>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SceneFog
+#else
     public class SceneFog
+#endif
     {
         /// <summary>
         /// Whether fog is enabled or not.

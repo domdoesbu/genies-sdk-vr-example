@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MeshDataUtility
+#else
     public static class MeshDataUtility
+#endif
     {
         /// <summary>
         /// Builds and returns a <see cref="MeshData"/> object from the given mesh assets. This method doesn't combine

@@ -56,7 +56,8 @@ namespace Genies.AvatarEditor.Core
         /// Closes the avatar editor and cleans up resources.
         /// </summary>
         /// <returns>A UniTask that completes when the editor is closed.</returns>
-        public UniTask CloseEditorAsync();
+        /// <param name="revertAvatar">Whether the avatar should be reverted to its pre-edited version.</param>
+        public UniTask CloseEditorAsync(bool revertAvatar);
 
         /// <summary>
         /// Gets the currently active avatar being edited in the editor.
@@ -230,6 +231,15 @@ namespace Genies.AvatarEditor.Core
         /// </summary>
         /// <param name="spriteRef">The ref to the sprite</param>
         public void RemoveSpriteReference(Ref<Sprite> spriteRef);
-        
+
+        /// <summary>
+        /// Sets the Save and Exit ActionBarFlags on all BaseCustomizationControllers in the InventoryNavigationGraph.
+        /// Excludes CustomHairColor_Controller, CustomEyelashColor_Controller, and CustomEyebrowColor_Controller
+        /// (which always need it to exit their custom color editing screen)
+        /// </summary>
+        /// <param name="enableSaveButton">True to enable the save button, false to disable</param>
+        /// <param name="enableExitButton">True to enable the exit button, false to disable</param>
+        public void SetSaveAndExitButtonStatus(bool enableSaveButton, bool enableExitButton);
+
     }
 }

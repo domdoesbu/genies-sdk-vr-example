@@ -5,7 +5,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SerializableHumanBone
+#else
     public struct SerializableHumanBone
+#endif
     {
         public SerializableHumanLimit limit;
         public string                 boneName;

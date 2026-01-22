@@ -9,7 +9,11 @@ namespace Genies.Animations
     /// Defines the contract for loading animation clips from various asset sources.
     /// Implementations of this interface provide different loading strategies such as Addressables or Resources.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAnimationLoader
+#else
     public interface IAnimationLoader
+#endif
     {
         /// <summary>
         /// Loads an array of animation clips from the specified asset addresses.
@@ -17,7 +21,7 @@ namespace Genies.Animations
         /// <param name="assetAddresses">List of asset addresses or paths to the animation clips.</param>
         /// <returns>A task that completes with a reference to a list of loaded animation clips.</returns>
         public UniTask<Ref<List<AnimationClip>>> LoadAnimationClips(List<string> assetAddresses);
-        
+
         /// <summary>
         /// Loads a single animation clip from the specified asset address.
         /// </summary>

@@ -3,7 +3,12 @@ using UnityEngine.InputSystem;
 
 namespace Genies.CameraSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class MoveLookInputEnabler : MonoBehaviour
+#else
     public class MoveLookInputEnabler : MonoBehaviour
+#endif
     {
         [SerializeField] private InputActionReference moveInputActionReference;
         [SerializeField] private InputActionReference lookInputActionReference;

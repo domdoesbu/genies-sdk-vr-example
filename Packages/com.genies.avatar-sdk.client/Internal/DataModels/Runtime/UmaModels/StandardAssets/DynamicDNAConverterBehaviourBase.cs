@@ -8,7 +8,11 @@ namespace UMA
     /// <summary>
     /// Base class for Legacy Dynamic DNA converter behaviours.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class DynamicDNAConverterBehaviourBase : DnaConverterBehaviour, IDynamicDNAConverter
+#else
     public abstract class DynamicDNAConverterBehaviourBase : DnaConverterBehaviour, IDynamicDNAConverter
+#endif
     {
 		[SerializeField]
 		[FormerlySerializedAs("dnaAsset")]

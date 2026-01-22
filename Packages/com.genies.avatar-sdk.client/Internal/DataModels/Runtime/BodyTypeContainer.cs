@@ -7,7 +7,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "Body Type Container", menuName = "Genies/Content/Body Type Container")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BodyTypeContainer : ScriptableObject
+#else
     public class BodyTypeContainer : ScriptableObject
+#endif
     {
         public RaceData Race;
         public RuntimeAnimatorController IdleAnimator;

@@ -4,7 +4,11 @@ using Genies.Avatars;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnequipAvatarMakeupCommand : UnifiedGenieModificationCommand
+#else
     public class UnequipAvatarMakeupCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _slotId;
         private readonly string _previousId;

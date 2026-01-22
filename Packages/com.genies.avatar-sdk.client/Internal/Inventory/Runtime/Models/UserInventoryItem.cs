@@ -2,7 +2,11 @@
 
 namespace Genies.Inventory
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal readonly struct UserInventoryItem
+#else
     public readonly struct UserInventoryItem
+#endif
     {
         public string AssetId { get; }
         public string AssetType { get; }

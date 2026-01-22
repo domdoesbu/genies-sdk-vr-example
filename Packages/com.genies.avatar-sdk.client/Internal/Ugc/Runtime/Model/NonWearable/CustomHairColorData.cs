@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Custom JSON converter for Unity Color that handles both hex strings and Color objects
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlexibleColorConverter : JsonConverter<Color>
+#else
     public class FlexibleColorConverter : JsonConverter<Color>
+#endif
     {
         public override void WriteJson(JsonWriter writer, Color value, JsonSerializer serializer)
         {
@@ -34,7 +38,7 @@ namespace Genies.Ugc
                 // Handle Color object format
                 return serializer.Deserialize<Color>(reader);
             }
-            
+
             // Fallback to black if we can't parse
             return Color.black;
         }
@@ -44,23 +48,27 @@ namespace Genies.Ugc
     /// Data for custom hair.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomHairColorData
+#else
     public class CustomHairColorData
+#endif
     {
         [JsonProperty("Id")]
         public string Id;
-        
+
         [JsonProperty("ColorBase")]
         [JsonConverter(typeof(FlexibleColorConverter))]
         public Color ColorBase = Color.black;
-        
+
         [JsonProperty("ColorR")]
         [JsonConverter(typeof(FlexibleColorConverter))]
         public Color ColorR = Color.black;
-        
+
         [JsonProperty("ColorG")]
         [JsonConverter(typeof(FlexibleColorConverter))]
         public Color ColorG = Color.black;
-        
+
         [JsonProperty("ColorB")]
         [JsonConverter(typeof(FlexibleColorConverter))]
         public Color ColorB = Color.black;

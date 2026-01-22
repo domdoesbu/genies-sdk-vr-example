@@ -8,7 +8,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for UMA character generators.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal abstract class UMAGeneratorBase : MonoBehaviour
+#else
 	public abstract class UMAGeneratorBase : MonoBehaviour
+#endif
 	{
 		public enum FitMethod {DecreaseResolution, BestFitSquare };
 

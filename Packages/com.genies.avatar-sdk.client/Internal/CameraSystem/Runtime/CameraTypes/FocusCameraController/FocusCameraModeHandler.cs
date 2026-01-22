@@ -1,24 +1,34 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Genies.CameraSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum FocusCameraMode
+#else
     public enum FocusCameraMode
+#endif
     {
         Default = 0,
         ZoomIn = 1,
         ZoomOut = 2
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FocusCameraModeHandler : MonoBehaviour
+#else
     public class FocusCameraModeHandler : MonoBehaviour
+#endif
     {
         public FocusCameraMode focusCameraMode = FocusCameraMode.Default;
         private FocusCameraMode _previousFocusCameraMode;
 
         private CinemachineMixingCamera _mixingCamera;
-        private CinemachineVirtualCamera _zoomInVirtualCamera;
-        private CinemachineVirtualCamera _zoomOutVirtualCamera;
+        private CinemachineCamera _zoomInVirtualCamera;
+        private CinemachineCamera _zoomOutVirtualCamera;
 
         private float _maxWeight = 1f;
         private float _minWeight = 0f;
@@ -30,10 +40,19 @@ namespace Genies.CameraSystem
         {
             _previousFocusCameraMode = focusCameraMode;
 
-            _mixingCamera ??= GetComponent<CinemachineMixingCamera>();
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = GetComponent<CinemachineMixingCamera>();
+            }
 
-            _zoomInVirtualCamera ??= _mixingCamera.ChildCameras[0] as CinemachineVirtualCamera;
-            _zoomOutVirtualCamera ??= _mixingCamera.ChildCameras[1] as CinemachineVirtualCamera;
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = gameObject.AddComponent<CinemachineMixingCamera>();
+            }
+
+            Assert.IsTrue(_mixingCamera.ChildCameras.Count == 2);
+            _zoomInVirtualCamera = _mixingCamera.ChildCameras[0] as CinemachineCamera;
+            _zoomOutVirtualCamera = _mixingCamera.ChildCameras[1] as CinemachineCamera;
         }
 
         private void OnValidate()

@@ -3,7 +3,11 @@
 namespace UMA.Dynamics
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class ColliderDefinition
+#else
 	public class ColliderDefinition
+#endif
 	{
 		[System.Serializable]
 		public enum ColliderType {Box, Sphere, Capsule}

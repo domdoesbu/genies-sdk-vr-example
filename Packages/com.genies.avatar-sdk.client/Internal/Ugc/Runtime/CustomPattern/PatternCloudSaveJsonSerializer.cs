@@ -5,7 +5,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Ugc.CustomPattern
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PatternCloudSaveJsonSerializer : ICloudSaveJsonSerializer<Pattern>
+#else
     public class PatternCloudSaveJsonSerializer : ICloudSaveJsonSerializer<Pattern>
+#endif
     {
         public string ToJson(Pattern data)
         {

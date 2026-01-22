@@ -4,7 +4,11 @@ using Newtonsoft.Json;
 namespace Genies.UGCW.Data.DecoratedSkin
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MakeupDefinition : IEquatable<MakeupDefinition>
+#else
     public class MakeupDefinition : IEquatable<MakeupDefinition>
+#endif
     {
         #region FRECKLES
         [JsonProperty("Freckles")] 

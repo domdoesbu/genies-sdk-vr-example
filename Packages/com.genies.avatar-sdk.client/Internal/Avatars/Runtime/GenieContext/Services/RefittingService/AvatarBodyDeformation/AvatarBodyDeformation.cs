@@ -7,7 +7,11 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarBodyDeformation
+#else
     public sealed class AvatarBodyDeformation
+#endif
     {
         private const string MaleBodyDeformKey = "male";
         private const string FemaleBodyDeformKey = "female";

@@ -3,7 +3,11 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IBodyVariationController : IBodyController
+#else
     public interface IBodyVariationController : IBodyController
+#endif
     {
         //body variations
         string CurrentVariation { get; }

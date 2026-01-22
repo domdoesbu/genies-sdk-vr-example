@@ -1,6 +1,10 @@
 namespace Genies.Analytics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CustomizationAnalyticsEvents
+#else
     public static class CustomizationAnalyticsEvents
+#endif
     {
         public const string UserGenderChangedEvent = "UserGenderChangedEvent";
         public const string HairColorPresetClickEvent = "HairColorPresetClickEvent";

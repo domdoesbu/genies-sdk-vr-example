@@ -4,7 +4,12 @@ using UnityEngine.UI;
 
 namespace Genies.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ColorRegionButton : MonoBehaviour
+#else
     public class ColorRegionButton : MonoBehaviour
+#endif
     {
         [SerializeField] protected Button button;
         [SerializeField] protected Image outline;

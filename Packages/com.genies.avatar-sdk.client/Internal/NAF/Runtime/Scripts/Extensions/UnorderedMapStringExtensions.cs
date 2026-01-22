@@ -3,7 +3,11 @@ using GnWrappers;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnorderedMapStringExtensions
+#else
     public static class UnorderedMapStringExtensions
+#endif
     {
         public static UnorderedMapString AsUnorderedMapString(this Dictionary<string, string> dictionary, bool nullIfNullOrEmpty = false)
         {

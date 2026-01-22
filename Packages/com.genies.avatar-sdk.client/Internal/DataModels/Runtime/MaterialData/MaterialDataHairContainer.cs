@@ -8,7 +8,11 @@ using UnityEditor;
 
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataHairContainer : MaterialDataContainer {
+#else
     public class MaterialDataHairContainer : MaterialDataContainer {
+#endif
         [Header("Extra Hair Options")]
         public Color IconColor;
 

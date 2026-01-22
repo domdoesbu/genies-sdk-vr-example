@@ -6,7 +6,11 @@ namespace Genies.DiskCaching
     /// A model for a cached file on disk.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct DiskCacheEntry
+#else
     public struct DiskCacheEntry
+#endif
     {
         public string s3DistributionUrl;
         public string filePath;

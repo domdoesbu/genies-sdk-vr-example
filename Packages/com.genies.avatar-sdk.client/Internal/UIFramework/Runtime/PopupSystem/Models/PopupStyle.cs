@@ -6,7 +6,11 @@ namespace Genies.UIFramework
     /// <summary>
     /// Represents a style associated with a Popup in PopupSystem. Contains background colour, button colours and button text colours
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupStyle
+#else
     public class PopupStyle
+#endif
     {
         public static readonly Color DefaultBackgroundColor = Color.white;
 

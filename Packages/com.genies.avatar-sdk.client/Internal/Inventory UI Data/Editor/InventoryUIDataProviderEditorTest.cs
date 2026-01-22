@@ -8,7 +8,12 @@ using UnityEngine.UI;
 
 namespace Genies.Inventory.UIData
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class InventoryUIDataProviderEditorTest : MonoBehaviour
+#else
     public class InventoryUIDataProviderEditorTest : MonoBehaviour
+#endif
     {
         [SerializeField] private Image _image;
 
@@ -92,7 +97,11 @@ namespace Genies.Inventory.UIData
 
 // Custom Editor to show buttons in inspector
     [CustomEditor(typeof(InventoryUIDataProviderEditorTest))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryUIDataProviderEditorTestEditor : Editor
+#else
     public class InventoryUIDataProviderEditorTestEditor : Editor
+#endif
     {
         public override void OnInspectorGUI()
         {

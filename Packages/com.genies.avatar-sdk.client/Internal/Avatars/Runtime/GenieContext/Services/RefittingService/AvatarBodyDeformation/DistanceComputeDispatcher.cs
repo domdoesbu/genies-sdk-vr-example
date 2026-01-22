@@ -10,7 +10,11 @@ using Unity.Mathematics;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class DistanceComputeDispatcher
+#else
     public sealed class DistanceComputeDispatcher
+#endif
     {
         private const int VertBufferStride = sizeof(float) * 3;
         private const int DistBufferStride = sizeof(float);

@@ -3,7 +3,11 @@ using Genies.CrashReporting;
 
 namespace Genies.PerformanceMonitoring
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class QueryPerformance
+#else
     public class QueryPerformance
+#endif
     {
         private static CustomInstrumentationManager _InstrumentationManager => CustomInstrumentationManager.Instance;
 

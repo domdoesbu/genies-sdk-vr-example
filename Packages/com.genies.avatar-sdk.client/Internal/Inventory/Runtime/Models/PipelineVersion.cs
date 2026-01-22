@@ -4,7 +4,11 @@ using Newtonsoft.Json;
 namespace Genies.Inventory
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PipelineVersion
+#else
     public class PipelineVersion
+#endif
     {
         [JsonConverter(typeof(DefaultValueConverter))]
         public int min;
@@ -13,7 +17,11 @@ namespace Genies.Inventory
         public int max;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultValueConverter : JsonConverter<int>
+#else
     public class DefaultValueConverter : JsonConverter<int>
+#endif
     {
         public override int ReadJson(JsonReader reader, Type objectType, int existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

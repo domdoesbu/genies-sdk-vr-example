@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Avatars;
@@ -10,7 +10,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// <see cref="IAvatarLoader"/> implementation that offers some generic configuration parameters.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ConfigurableAvatarLoader : IAvatarLoader
+#else
     public sealed class ConfigurableAvatarLoader : IAvatarLoader
+#endif
     {
         public string Lod;
         public IAvatarDefinitionSource DefinitionSource;
@@ -19,7 +23,7 @@ namespace Genies.Avatars.Context
         public UmaGenie UmaGeniePrefabOverride;
         public EditableGenie EditableGeniePrefabOverride;
         public SpeciesAsset SpeciesAssetOverride;
-        
+
         public async UniTask<IGenie> LoadAsync(Transform parent = null)
         {
             ISpeciesGenieController controller = await LoadControllerAsync(parent);
@@ -67,7 +71,7 @@ namespace Genies.Avatars.Context
                     await EditableGenieFactory.CreateAsync(speciesAssetRef, parent, umaGeniePrefab: EditableGeniePrefabOverride) :
                     await UmaGenieFactory.CreateAsync(speciesAssetRef, parent, Lod, umaGeniePrefab: UmaGeniePrefabOverride);
             }
-            
+
             if (umaGenie is null || umaGenie.IsDisposed)
             {
                 throw new Exception($"[{nameof(ConfigurableAvatarLoader)}] couldn't load {nameof(UmaGenie)}");
@@ -80,7 +84,7 @@ namespace Genies.Avatars.Context
                 umaGenie.Dispose();
                 throw new Exception($"[{nameof(ConfigurableAvatarLoader)}] couldn't load genie controller");
             }
-            
+
             // add components if any
             if (Components is null)
             {
@@ -92,7 +96,7 @@ namespace Genies.Avatars.Context
                 GenieComponent component = creator.CreateComponent();
                 controller.Genie.Components.Add(component);
             }
-            
+
             return controller;
         }
     }

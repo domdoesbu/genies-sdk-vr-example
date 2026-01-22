@@ -5,7 +5,11 @@ namespace Genies.Components.Dynamics
     /// <summary>
     /// A capsule collider that can affect particles.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsCapsuleCollider : DynamicsCollider
+#else
     public class DynamicsCapsuleCollider : DynamicsCollider
+#endif
     {
         [Range(0f, 1f)]
         public float Height = 0.2f;

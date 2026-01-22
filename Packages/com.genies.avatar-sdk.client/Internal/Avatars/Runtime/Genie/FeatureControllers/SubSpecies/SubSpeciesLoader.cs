@@ -5,7 +5,11 @@ using Genies.Models;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesLoader : ISubSpeciesLoader
+#else
     public class SubSpeciesLoader : ISubSpeciesLoader
+#endif
     {
 
         private readonly ISubSpeciesAssetService _assetsService;

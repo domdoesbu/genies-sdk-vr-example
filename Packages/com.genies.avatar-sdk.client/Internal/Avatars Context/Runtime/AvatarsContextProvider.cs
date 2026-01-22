@@ -18,7 +18,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarsContextProvider
+#else
     public class AvatarsContextProvider
+#endif
     {
         public static async UniTask<AvatarsContext> GetOrCreateDefaultInstance()
         {
@@ -29,10 +33,10 @@ namespace Genies.Avatars.Context
             }
 
             IAssetsService assetsService = new AddressableAssetsService();
-            
+
             return await CreateDefaultInstance(assetsService);
         }
-        
+
         public static async UniTask<AvatarsContext> GetOrCreateDefaultInstance(IAssetsService assetsService)
         {
             // skip if the default instance is already initialized

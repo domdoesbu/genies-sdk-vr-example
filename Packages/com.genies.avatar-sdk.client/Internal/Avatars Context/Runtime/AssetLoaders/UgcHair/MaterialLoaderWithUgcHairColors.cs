@@ -15,7 +15,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Special implementation for loading avatar materials that can also load the ugc hair colors.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialLoaderWithUgcHairColors : ISlottedAssetLoader<MaterialAsset>
+#else
     public class MaterialLoaderWithUgcHairColors : ISlottedAssetLoader<MaterialAsset>
+#endif
     {
         private static readonly int _colorBaseId = Shader.PropertyToID("_ColorBase");
         private static readonly int _colorRId = Shader.PropertyToID("_ColorR");

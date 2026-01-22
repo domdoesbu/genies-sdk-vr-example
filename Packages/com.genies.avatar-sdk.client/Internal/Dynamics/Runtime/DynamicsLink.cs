@@ -6,7 +6,12 @@ namespace Genies.Components.Dynamics
     /// A constraint that maintains the distance between two particles.
     /// A link can optionally maintain the relative rotations between particles.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class DynamicsLink : MonoBehaviour
+#else
     public class DynamicsLink : MonoBehaviour
+#endif
     {
         public DynamicsParticle StartParticle;
         public DynamicsParticle EndParticle;
@@ -132,7 +137,7 @@ namespace Genies.Components.Dynamics
                 // Use the public methods to get world space positions
                 Vector3 startWorldPosition = StartParticle.GetWorldSpacePosition();
                 Vector3 endWorldPosition = EndParticle.GetWorldSpacePosition();
-                
+
                 Gizmos.DrawLine(startWorldPosition, endWorldPosition);
 
                 if (AngleLimiting > Mathf.Epsilon)

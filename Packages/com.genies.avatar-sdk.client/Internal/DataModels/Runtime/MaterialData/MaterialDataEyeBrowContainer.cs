@@ -7,7 +7,11 @@ using UnityEditor;
 #endif
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataEyeBrowContainer : MaterialDataContainer {
+#else
     public class MaterialDataEyeBrowContainer : MaterialDataContainer {
+#endif
         public void Reset() {
             materialPrefix = "EyeBrowMaterial";
             dataPrefix = "EyeBrowMaterialData";

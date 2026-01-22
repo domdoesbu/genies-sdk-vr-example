@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for unequipping current blendshape
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnequipAvatarBlendshapeCommand : UnifiedGenieModificationCommand
+#else
     public class UnequipAvatarBlendshapeCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _previousId;
 

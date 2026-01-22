@@ -5,8 +5,11 @@ using VContainer;
 namespace Genies.Avatars.Services
 {
     [AutoResolve]
-    public class AvatarServiceInstaller : IGeniesInstaller,
-        IRequiresInstaller<IGeniesLoginInstaller>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarServiceInstaller : IGeniesInstaller, IRequiresInstaller<IGeniesLoginInstaller>
+#else
+    public class AvatarServiceInstaller : IGeniesInstaller, IRequiresInstaller<IGeniesLoginInstaller>
+#endif
     {
         public void Install(IContainerBuilder builder)
         {

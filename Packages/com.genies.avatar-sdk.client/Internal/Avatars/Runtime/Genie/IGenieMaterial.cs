@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Represents a material instance that can be added to an <see cref="IEditableGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGenieMaterial
+#else
     public interface IGenieMaterial
+#endif
     {
         /// <summary>
         /// The material slot ID within the genie that this material belongs to. This should never change for the same material

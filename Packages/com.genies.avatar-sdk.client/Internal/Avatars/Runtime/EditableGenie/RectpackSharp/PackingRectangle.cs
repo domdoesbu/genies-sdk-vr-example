@@ -6,7 +6,11 @@ namespace RectpackSharp
     /// <summary>
     /// A rectangle that can be used for a rectangle packing operation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct PackingRectangle : IEquatable<PackingRectangle>, IComparable<PackingRectangle>
+#else
     public struct PackingRectangle : IEquatable<PackingRectangle>, IComparable<PackingRectangle>
+#endif
     {
         /// <summary>
         /// A value that can be used to identify this <see cref="PackingRectangle"/>. This value is

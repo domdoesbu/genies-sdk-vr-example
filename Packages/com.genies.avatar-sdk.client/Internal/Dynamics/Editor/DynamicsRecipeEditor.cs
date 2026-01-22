@@ -3,7 +3,11 @@ using UnityEditor;
 namespace Genies.Components.Dynamics
 {
     [CustomEditor(typeof(DynamicsRecipe))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsRecipeEditor : Editor
+#else
     public class DynamicsRecipeEditor : Editor
+#endif
     {
         public override void OnInspectorGUI()
         {
@@ -31,7 +35,7 @@ namespace Genies.Components.Dynamics
             EditorGUILayout.PropertyField(serializedObject.FindProperty("LinkRecipes"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("SphereColliderRecipes"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("CapsuleColliderRecipes"), true);
-            
+
             // These properties inherited from Bonus Components (TODO: Update capitalization if the Avatar's package changes)
             EditorGUILayout.PropertyField(serializedObject.FindProperty("parentName"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("generatedChildName"), true);

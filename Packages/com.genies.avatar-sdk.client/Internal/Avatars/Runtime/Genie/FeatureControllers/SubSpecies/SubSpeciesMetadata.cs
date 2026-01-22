@@ -5,7 +5,11 @@ using System;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesMetadata : IEquatable<SubSpeciesMetadata>
+#else
     public class SubSpeciesMetadata : IEquatable<SubSpeciesMetadata>
+#endif
     {
         
         public bool IsValid => !string.IsNullOrEmpty(Id);

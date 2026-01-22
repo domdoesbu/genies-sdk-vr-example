@@ -11,7 +11,11 @@ namespace Genies.DataRepositoryFramework.Caching
     /// this is a niche case and it's ok since this is not a disk cache.
     /// </summary>
     /// <typeparam name="T"> The data type for the record </typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DataRepositoryMemoryCache<T>
+#else
     public class DataRepositoryMemoryCache<T>
+#endif
     {
         private readonly Func<T, string> _getRecordId;
 

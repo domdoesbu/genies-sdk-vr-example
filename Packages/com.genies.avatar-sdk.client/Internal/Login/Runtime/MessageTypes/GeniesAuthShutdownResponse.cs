@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the shutdown process and cleanup operations.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthShutdownResponse : GeniesAuthMessage
+#else
     public class GeniesAuthShutdownResponse : GeniesAuthMessage
+#endif
     {
         [NonSerialized]
         public StatusCode ResponseStatusCode = StatusCode.None;

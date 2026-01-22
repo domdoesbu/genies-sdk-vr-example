@@ -9,7 +9,11 @@ namespace Genies.FeatureFlags
     /// </summary>
     ///
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsFileData
+#else
     public class FeatureFlagsFileData
+#endif
     {
         public Dictionary<BackendEnvironment, Dictionary<string, bool>> Data { get; private set; }
 

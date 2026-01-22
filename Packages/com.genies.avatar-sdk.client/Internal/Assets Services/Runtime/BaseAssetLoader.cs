@@ -16,19 +16,23 @@ namespace Genies.Assets.Services
     /// This class implements a two-step loading process:
     /// 1. Load the container using the assets service
     /// 2. Extract the specific asset from the container using the abstract FromContainer method
-    /// 
+    ///
     /// Subclasses must implement the FromContainer method to define how to extract the asset
     /// from the loaded container.
     /// </remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class BaseAssetLoader<T, TContainer> : IAssetLoader<T>
+#else
     public abstract class BaseAssetLoader<T, TContainer> : IAssetLoader<T>
+#endif
     {
         protected readonly IAssetsService _assetsService;
-        
+
         public BaseAssetLoader(IAssetsService assetsService)
         {
             _assetsService = assetsService;
         }
-        
+
         public virtual async UniTask<Ref<T>> LoadAsync(string assetId, string lod = AssetLod.Default)
         {
             if (string.IsNullOrWhiteSpace(assetId))
@@ -46,8 +50,8 @@ namespace Genies.Assets.Services
             var asset = await FromContainer(assetId, lod, container.Item);
             return CreateRef.FromDependentResource(asset, container);
         }
-        
+
         protected abstract UniTask<T> FromContainer(string assetId, string lod, TContainer container);
-        
+
     }
 }

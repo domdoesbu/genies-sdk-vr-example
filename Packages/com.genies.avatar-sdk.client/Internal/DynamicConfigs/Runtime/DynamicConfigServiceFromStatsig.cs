@@ -6,11 +6,20 @@ using Genies.Services.Auth;
 
 namespace Genies.Services.DynamicConfigs
 {
-    public class DynamicConfigServiceFromStatsig: IDynamicConfigService
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicConfigServiceFromStatsig : IDynamicConfigService
+#else
+    public class DynamicConfigServiceFromStatsig : IDynamicConfigService
+#endif
     {
         public bool IsInitialized => _StatsigService != null ? _StatsigService.IsInitialized : true;
 
         private IABTestingService _StatsigService => this.GetService<IABTestingService>();
+
+        public UniTask Initialize()
+        {
+           return UniTask.CompletedTask;
+        }
 
         public UniTask<T> GetDynamicConfig<T>(string configName, string jsonKey = default)
         {

@@ -16,7 +16,11 @@ using UnityEngine.UI;
 
 namespace Genies.Looks.View
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomizerDrawerView : CustomizerViewBase
+#else
     public class CustomizerDrawerView : CustomizerViewBase
+#endif
     {
         private const int ExitedState = 0;
         private const int HiddenState = 1;

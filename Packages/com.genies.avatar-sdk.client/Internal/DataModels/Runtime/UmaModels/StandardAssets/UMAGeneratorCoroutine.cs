@@ -9,7 +9,11 @@ namespace UMA
 	/// Utility class for generating texture atlases
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAGeneratorCoroutine : WorkerCoroutine
+#else
 	public class UMAGeneratorCoroutine : WorkerCoroutine
+#endif
 	{
 		private struct PackSize
         {

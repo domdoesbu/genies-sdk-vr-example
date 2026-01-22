@@ -11,7 +11,11 @@ namespace Genies.Naf.Content
     /// <summary>
     /// Handles inventory events and updates NAF content metadata and locations accordingly
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafInventoryEventHandler
+#else
     public class NafInventoryEventHandler
+#endif
     {
         private bool _isSubscribed = false;
 

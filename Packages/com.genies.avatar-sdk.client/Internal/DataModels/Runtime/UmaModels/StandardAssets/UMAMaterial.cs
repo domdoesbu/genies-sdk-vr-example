@@ -6,7 +6,11 @@ namespace UMA
     /// <summary>
     /// UMA wrapper for Unity material.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAMaterial : ScriptableObject
+#else
     public class UMAMaterial : ScriptableObject
+#endif
     {
         [Serializable]
         public class ShaderParms

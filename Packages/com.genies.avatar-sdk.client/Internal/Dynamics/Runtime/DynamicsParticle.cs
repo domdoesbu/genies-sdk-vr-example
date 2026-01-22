@@ -7,7 +7,12 @@ namespace Genies.Components.Dynamics
     /// in 3D space that will be simulated using Verlet Integration.
     /// </summary>
     [ExecuteAlways]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class DynamicsParticle : MonoBehaviour
+#else
     public class DynamicsParticle : MonoBehaviour
+#endif
     {
         [Range(0, 1)]
         [Tooltip(DynamicsTooltips.PositionAnchor)]
@@ -16,7 +21,7 @@ namespace Genies.Components.Dynamics
         [Range(0, 1)]
         [Tooltip(DynamicsTooltips.RotationAnchor)]
         public float RotationAnchor;
-        
+
         [Tooltip(DynamicsTooltips.CollisionEnabled)]
         public bool CollisionEnabled = true;
 
@@ -37,7 +42,7 @@ namespace Genies.Components.Dynamics
         // Dynamics transforms of the particle is tracked outside of the Unity transform for accuracy and time step independence.
         [HideInInspector] public Vector3 CurrentPosition;
         [HideInInspector] public Vector3 CurrentCollisionCenter => CurrentPosition + Rotation * CollisionOffset;
-        
+
         /// <summary>
         /// Gets the world space collision center for collision detection.
         /// </summary>
@@ -111,7 +116,7 @@ namespace Genies.Components.Dynamics
         [HideInInspector] public GameObject ModelSpaceReference;
         [HideInInspector] public Vector3 ModelSpaceHomePosition;
         [HideInInspector] public Quaternion ModelSpaceHomeRotation;
-        
+
         /// <summary>
         /// The name of the bone to look for. The parent of this bone will be used as the model space reference. Defaults to "Root".
         /// </summary>
@@ -134,11 +139,11 @@ namespace Genies.Components.Dynamics
             if (characterRoot != null)
             {
                 return characterRoot.gameObject;
-            }            
+            }
             // If no root found, use the root GameObject
             return transform.root.gameObject;
         }
-        
+
         /// <summary>
         /// Attempts to find the character root by looking for the "Root" bone in the hierarchy.
         /// Returns the parent of the "Root" bone as the model space reference.
@@ -146,7 +151,7 @@ namespace Genies.Components.Dynamics
         private Transform FindCharacterRoot(Transform particleTransform)
         {
             Transform current = particleTransform.parent;
-            
+
             while (current != null)
             {
                 // Look for the specific "Root" bone
@@ -156,10 +161,10 @@ namespace Genies.Components.Dynamics
                     // This is the base transform that doesn't move with character movement
                     return current.parent;
                 }
-                
+
                 current = current.parent;
             }
-            
+
             return null;
         }
 
@@ -260,7 +265,7 @@ namespace Genies.Components.Dynamics
                 // Use model space home position and rotation
                 Vector3 modelSpaceHomePosition = GetModelSpaceHomePosition();
                 Quaternion modelSpaceHomeRotation = GetModelSpaceHomeRotation();
-                
+
                 this.CurrentPosition = Vector3.Lerp(this.CurrentPosition, modelSpaceHomePosition, amount);
                 this.LastPosition = Vector3.Lerp(this.LastPosition, modelSpaceHomePosition, amount);
                 this.Rotation = Quaternion.Slerp(this.Rotation, modelSpaceHomeRotation, amount);
@@ -433,10 +438,10 @@ namespace Genies.Components.Dynamics
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(PositionAnchor, PositionAnchor, 1f, 0.75f);
-            
+
             // Use the public method to get world space collision center
             Vector3 worldCollisionCenter = GetWorldSpacePosition() + GetWorldSpaceRotation() * CollisionOffset;
-            
+
             Gizmos.DrawSphere(worldCollisionCenter, ScaledCollisionRadius);
         }
 #endif

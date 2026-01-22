@@ -6,7 +6,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [SerializableAs(typeof(GenieComponent), "blendshape-animator")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BlendShapeAnimator : GenieComponent
+#else
     public sealed class BlendShapeAnimator : GenieComponent
+#endif
     {
         public override string Name { get; }
         

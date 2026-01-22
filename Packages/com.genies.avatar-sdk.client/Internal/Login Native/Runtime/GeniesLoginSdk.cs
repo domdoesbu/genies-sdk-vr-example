@@ -43,7 +43,7 @@ namespace Genies.Login.Native
         /// The URL for the Genies Hub authentication and sign-up page for new users to create an account.
         /// </summary>
         public static string UrlGeniesHubSignUp { get; }
-#if GENIES_INTERNAL && GENIES_DEV
+#if GENIES_DEV
             = "https://hub.dev.genies.com/auth";
 #else
             = "https://hub.genies.com/auth";
@@ -221,6 +221,24 @@ namespace Genies.Login.Native
         }
 
         /// <summary>
+        /// Checks if a user is currently signed in as an anonymous user
+        /// </summary>
+        /// <returns>True if a user is signed in with valid tokens that are from an anonymous sign in; otherwise, false.</returns>
+        public static bool IsUserSignedInAnonymously()
+        {
+            return _instance != null && _instance.IsUserSignedIn() && _instance.IsUserAnonymous;
+        }
+
+        /// <summary>
+        /// Checks if a given token is from an anonymous user
+        /// </summary>
+        /// <returns>True if the token was from an anonymous user</returns>
+        public static bool IsTokenAnonymous(string token)
+        {
+            return _instance != null && _instance.IsTokenAnonymous(token);
+        }
+
+        /// <summary>
         /// Performs a global logout, terminating all user sessions across all devices.
         /// This is a more comprehensive logout that invalidates sessions everywhere.
         /// </summary>
@@ -354,7 +372,7 @@ namespace Genies.Login.Native
         {
             return Instance.StartSmsOtpLogin();
         }
-        
+
         /// <summary>
         /// Starts anonymous login
         /// </summary>

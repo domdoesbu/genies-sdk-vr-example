@@ -14,7 +14,11 @@ namespace UMA
 	//so it no longer assumes certain dna or bones are available
 	//the adjustment numbers should now be considered to be more like 'padding' since none of them (apart from 'Head Ratio') are actually required in order to perform any calculations
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BaseCharacterModifier
+#else
 	public class BaseCharacterModifier
+#endif
 	{
 		#region FIELDS
 

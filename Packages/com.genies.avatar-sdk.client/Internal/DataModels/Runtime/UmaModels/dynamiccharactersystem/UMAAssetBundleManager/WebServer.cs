@@ -8,7 +8,11 @@ using UnityEditor;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SimpleWebServer
+#else
     public class SimpleWebServer
+#endif
     {
         private HttpListener _listener = new HttpListener();
         private string _hostedFolder;

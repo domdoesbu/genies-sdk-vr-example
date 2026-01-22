@@ -4,7 +4,11 @@ using Newtonsoft.Json;
 namespace Genies.UGCW.Data.DecoratedSkin
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TattooDefinition : IEquatable<TattooDefinition>
+#else
     public class TattooDefinition : IEquatable<TattooDefinition>
+#endif
     {
         #region TATTOO
 

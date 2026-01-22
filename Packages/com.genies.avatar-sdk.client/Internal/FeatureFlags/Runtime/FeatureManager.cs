@@ -34,7 +34,11 @@ namespace Genies.FeatureFlags
  *   4. Optional: if needed, do the same for custom setter.
  *
 */
-    public class FeatureManager: IFeatureFlagsManager
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureManager : IFeatureFlagsManager
+#else
+    public class FeatureManager : IFeatureFlagsManager
+#endif
     {
         private readonly IABTestingService _abTestingService;
         private IABTestingService AbTestingService => _abTestingService ?? ServiceManager.Get<IABTestingService>();

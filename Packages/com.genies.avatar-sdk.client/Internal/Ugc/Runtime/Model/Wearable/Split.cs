@@ -16,7 +16,11 @@ namespace Genies.Ugc
     /// through regions, projected textures, and material settings. Each split can have
     /// multiple regions that can be styled independently with colors, patterns, and materials.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Split : IModel<Split>
+#else
     public class Split : IModel<Split>
+#endif
     {
         /// <summary>
         /// The version of the material/shader system this split is compatible with.
@@ -24,14 +28,14 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("MaterialVersion", Required = Required.Always)]
         public string MaterialVersion = string.Empty;
-        
+
         /// <summary>
         /// The unique identifier for the 3D mesh element this split represents.
         /// This ID corresponds to a specific mesh asset in the UGC template system.
         /// </summary>
         [JsonProperty("ElementId", Required = Required.Always)]
         public string ElementId = string.Empty;
-        
+
         /// <summary>
         /// The collection of regions within this split that can be styled independently.
         /// Each region represents a specific area of the mesh that can have its own
@@ -54,11 +58,11 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("ProjectedTextures")]
         public List<ProjectedTexture> ProjectedTextures;
-        
-        
+
+
         /// <summary>
         /// Determines whether this split is equivalent to another split by comparing all properties.
-        /// Two splits are considered equivalent if they have the same MaterialVersion, ElementId, 
+        /// Two splits are considered equivalent if they have the same MaterialVersion, ElementId,
         /// Regions, UseDefaultColors setting, and ProjectedTextures.
         /// </summary>
         /// <param name="other">The other split to compare against.</param>
@@ -96,7 +100,7 @@ namespace Genies.Ugc
                 (UseDefaultColors == other.UseDefaultColors) &&
                 (ProjectedTextures?.SequenceEqual(other.ProjectedTextures, ModelComparer.Instance) ?? true);
         }
-        
+
         /// <summary>
         /// Computes a hash code for this split based on all its properties.
         /// The hash includes MaterialVersion, ElementId, Regions, UseDefaultColors, and ProjectedTextures
@@ -113,7 +117,7 @@ namespace Genies.Ugc
                 ProjectedTextures?.ComputeModelsCollectionHash()
             );
         }
-        
+
         /// <summary>
         /// Creates a deep copy of this split, including all regions, projected textures, and nested properties.
         /// The returned split is completely independent of the original and can be modified
@@ -131,7 +135,7 @@ namespace Genies.Ugc
                 ProjectedTextures = ProjectedTextures.DeepCopyList()
             };
         }
-        
+
         /// <summary>
         /// Performs a deep copy of this split's properties into the specified destination split.
         /// This method updates the destination split's properties to match this split,

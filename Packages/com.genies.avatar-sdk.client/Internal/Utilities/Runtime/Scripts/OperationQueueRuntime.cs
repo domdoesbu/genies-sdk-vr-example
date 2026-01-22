@@ -88,7 +88,7 @@ namespace Genies.Utilities
 
         public static bool CanFrameDispatchOperation(float targetDeltaTime, OperationCost cost)
         {
-            /**
+            /*
              * We must always dispatch at least one operation per frame since it could be impossible to meet the target delta time.
              * If we don't do this the operations would stay queued forever in those edgecases.
              */
@@ -166,7 +166,7 @@ namespace Genies.Utilities
             private static readonly OperationCost[] _operationCosts = Enum.GetValues(typeof(OperationCost)) as OperationCost[];
 
 #if GENIES_INTERNAL
-            [UnityEditor.MenuItem("Genies/Operation Queue Debugger")]
+            [UnityEditor.MenuItem("Tools/Genies/Operation Queue Debugger")]
 #endif
             public static void ShowWindow()
             {

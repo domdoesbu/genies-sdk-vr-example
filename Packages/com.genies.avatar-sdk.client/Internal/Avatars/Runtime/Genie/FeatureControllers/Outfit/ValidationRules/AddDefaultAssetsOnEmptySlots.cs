@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// Given a default set of assets mapped by the slot, it will ensure that the given outfit includes the default assets
     /// for the empty slots that have one.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AddDefaultAssetsOnEmptySlots : IAssetsValidationRule<OutfitAsset>, IDisposable
+#else
     public sealed class AddDefaultAssetsOnEmptySlots : IAssetsValidationRule<OutfitAsset>, IDisposable
+#endif
     {
         // dependencies
         private readonly IOutfitAssetLoader _outfitAssetLoader;

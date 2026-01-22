@@ -6,7 +6,11 @@ using XNode;
 namespace Genies.Customization.Framework.Navigation
 {
     [CreateNodeMenu("Customizer UI/Root Navigation Node")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavigationRootNode : Node, INavigationNode
+#else
     public class NavigationRootNode : Node, INavigationNode
+#endif
     {
         [FormerlySerializedAs("customizationController")]
         [FormerlySerializedAs("node")]
@@ -28,7 +32,7 @@ namespace Genies.Customization.Framework.Navigation
         public ICustomizationConfig Config => customizationConfig;
         public ICustomizationController Controller => customizationController;
 
-        public INavigationNode DefaultChildNavigationNodeToOpen { get; set; } 
+        public INavigationNode DefaultChildNavigationNodeToOpen { get; set; }
        	public INavigationNode EditItemNode => editItemNode;
         public INavigationNode CreateItemNode => createItemNode;
 

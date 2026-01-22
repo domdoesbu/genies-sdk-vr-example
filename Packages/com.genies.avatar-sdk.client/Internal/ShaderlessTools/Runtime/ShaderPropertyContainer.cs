@@ -8,7 +8,11 @@ namespace Genies.Components.ShaderlessTools
     [CreateAssetMenu(fileName = "ShaderPropertyContainer", menuName = "Genies/Shader Prop Container", order = 0)]
 #endif
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderPropertyContainer : ScriptableObject
+#else
     public class ShaderPropertyContainer : ScriptableObject
+#endif
     {
         public string materialName => shaderProperties.materialName;
         public string materialData => shaderProperties.materialJson;
@@ -19,7 +23,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ShaderPropertyContainerExtensions
+#else
     public static class ShaderPropertyContainerExtensions
+#endif
     {
         public static Material ToMaterial(this ShaderPropertyContainer spc, Material toOverride = null)
         {

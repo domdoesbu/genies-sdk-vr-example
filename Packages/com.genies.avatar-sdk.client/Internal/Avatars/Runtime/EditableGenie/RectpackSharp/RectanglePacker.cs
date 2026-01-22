@@ -8,7 +8,11 @@ namespace RectpackSharp
     /// <summary>
     /// A static class providing functionality for packing rectangles into a bin as small as possible.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class RectanglePacker
+#else
     public static class RectanglePacker
+#endif
     {
         /// <summary>A weak reference to the last list used, so it can be reused in subsequent packs.</summary>
         private static WeakReference<List<PackingRectangle>> oldListReference;

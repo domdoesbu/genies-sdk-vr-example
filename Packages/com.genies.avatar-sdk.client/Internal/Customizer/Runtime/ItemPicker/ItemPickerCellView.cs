@@ -6,13 +6,22 @@ using UnityEngine.Serialization;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ItemCellState
+#else
     public enum ItemCellState
+#endif
     {
         NotInitialized,
         Initialized,
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class ItemPickerCellView : MonoBehaviour
+#else
     public abstract class ItemPickerCellView : MonoBehaviour
+#endif
     {
         [SerializeField]
         protected GeniesButton _button;

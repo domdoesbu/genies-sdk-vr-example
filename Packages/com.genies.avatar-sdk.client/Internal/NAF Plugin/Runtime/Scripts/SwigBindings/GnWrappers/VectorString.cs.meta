@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a269b5653b76ceb40a91337a9ae212fa
+guid: 6153a9f25a4a1be4892d3c50df6bdb05
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/VectorString.cs
+  uploadId: 850608

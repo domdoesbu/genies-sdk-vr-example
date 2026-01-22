@@ -10,7 +10,12 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class CustomizerViewBase : MonoBehaviour
+#else
     public abstract class CustomizerViewBase : MonoBehaviour
+#endif
     {
         [Header("Components")]
         [SerializeField]
@@ -24,6 +29,18 @@ namespace Genies.Customization.Framework
 
         [SerializeField]
         private ScrollingItemPicker _secondaryItemPicker;
+
+        /// <summary>
+        /// When enabled, prevents modification of _primaryItemPicker's mask padding.
+        /// </summary>
+        [SerializeField]
+        private bool _disablePrimaryItemPickerMaskPadding;
+
+        /// <summary>
+        /// When enabled, prevents modification of _secondaryItemPicker's mask padding.
+        /// </summary>
+        [SerializeField]
+        private bool _disableSecondaryItemPickerMaskPadding;
 
         [SerializeField]
         private EditOrDeleteCustomColorController _editOrDeleteCustomColorController;
@@ -65,6 +82,18 @@ namespace Genies.Customization.Framework
         {
             _customizer = customizer;
             ActionBar.Initialize();
+            
+            // Configure mask padding flags for item pickers
+            if (_primaryItemPicker != null)
+            {
+                _primaryItemPicker.DisableMaskPadding = _disablePrimaryItemPickerMaskPadding;
+            }
+            
+            if (_secondaryItemPicker != null)
+            {
+                _secondaryItemPicker.DisableMaskPadding = _disableSecondaryItemPickerMaskPadding;
+            }
+            
             OnInitialized();
         }
 

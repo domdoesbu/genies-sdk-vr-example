@@ -2,7 +2,11 @@ using System.Collections.Generic;
 
 namespace Genies.Customization.Framework.Navigation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class NavigationEvaluationNode : BaseNavigationNode
+#else
     public abstract class NavigationEvaluationNode : BaseNavigationNode
+#endif
     {
         [Input(ShowBackingValue.Never)]
         public string input;

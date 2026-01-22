@@ -10,7 +10,11 @@ namespace UMA
 	/// </summary>
 	[PreferBinarySerialization]
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UmaTPose : ScriptableObject 
+#else
 	public class UmaTPose : ScriptableObject 
+#endif
 	{
 		[NonSerialized]
 		public SkeletonBone[] boneInfo;

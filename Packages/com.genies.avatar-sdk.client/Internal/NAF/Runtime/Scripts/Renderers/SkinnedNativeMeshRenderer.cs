@@ -9,7 +9,11 @@ namespace Genies.Naf
     /**
      * <see cref="NativeMeshRenderer"/> implementation that uses a <see cref="SkinnedMeshRenderer"/>.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SkinnedNativeMeshRenderer : NativeMeshRenderer
+#else
     public sealed class SkinnedNativeMeshRenderer : NativeMeshRenderer
+#endif
     {
         public SkinnedMeshRenderer Renderer => renderer;
 

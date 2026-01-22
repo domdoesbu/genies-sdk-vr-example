@@ -6,7 +6,11 @@ using Operation = Genies.Avatars.JointModifier.Operation;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GenieJointModifier
+#else
     public sealed class GenieJointModifier
+#endif
     {
         // parameters
         [SerializeField, JsonProperty, Tooltip("Defines the target joint by name or path within the Genie instance")]

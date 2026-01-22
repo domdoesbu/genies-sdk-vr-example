@@ -12,7 +12,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Memory cached local state styles data repository
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DiskStyleDataRepository : MemoryCachedDataRepository<Style>
+#else
     public class DiskStyleDataRepository : MemoryCachedDataRepository<Style>
+#endif
     {
         private DiskStyleDataRepository(IDataRepository<Style> dataSource) : base(dataSource, style => style.Id)
         {

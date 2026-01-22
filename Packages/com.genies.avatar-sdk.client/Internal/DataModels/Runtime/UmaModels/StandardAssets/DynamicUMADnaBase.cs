@@ -4,7 +4,11 @@ using UnityEngine;
 namespace UMA
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class DynamicUMADnaBase : UMADnaBase
+#else
 	public abstract class DynamicUMADnaBase : UMADnaBase
+#endif
 	{
 
 		#region Fields

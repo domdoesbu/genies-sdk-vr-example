@@ -17,7 +17,11 @@ using static Genies.Customization.MegaEditor.CustomizationContext;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FaceVectorCustomizationController : BaseCustomizationController
+#else
     public class FaceVectorCustomizationController : BaseCustomizationController
+#endif
     {
         //internal
         private ScrollRect _slidersContainer;
@@ -31,7 +35,11 @@ namespace Genies.Customization.MegaEditor
         private AvatarBaseCategory _category;
 
         [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal struct FaceVectorSliderConfig
+#else
         public struct FaceVectorSliderConfig
+#endif
         {
             public string name;
             public string bodyAttributeConfig;

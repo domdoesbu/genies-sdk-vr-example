@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,7 +7,11 @@ namespace Genies.Shaders
     /// <summary>
     /// Handy <see cref="Material"/> extensions that allows us to easily get/set properties from the mega shader.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MegaShaderMaterialExtensions
+#else
     public static class MegaShaderMaterialExtensions
+#endif
     {
         public const int MaxRegions = 4;
 

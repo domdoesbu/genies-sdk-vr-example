@@ -10,7 +10,11 @@ using UnityEngine;
 
 namespace Genies.Naf.Addressables
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentResourceProvider : ICustomResourceProvider
+#else
     public class NafContentResourceProvider : ICustomResourceProvider
+#endif
     {
         private readonly ContainerApi _containerApi;
         private IAssetParamsService _assetParamsService = ServiceManager.GetService<IAssetParamsService>(null);

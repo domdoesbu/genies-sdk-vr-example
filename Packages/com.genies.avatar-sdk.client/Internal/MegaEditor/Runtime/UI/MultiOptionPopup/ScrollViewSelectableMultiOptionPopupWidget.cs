@@ -9,7 +9,11 @@ using UnityEngine.UI;
 namespace Genies.Looks.MultiOptionPopup.Scripts
 {
     [RequireComponent(typeof(ScrollRect))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ScrollViewSelectableMultiOptionPopupWidget : MultiOptionPopupWidget
+#else
     public class ScrollViewSelectableMultiOptionPopupWidget : MultiOptionPopupWidget
+#endif
     {
         [Header("UI Items")]
         [SerializeField] private Color _selectedTextColor = new Color(0.33f, 0.35f, 0.92f);

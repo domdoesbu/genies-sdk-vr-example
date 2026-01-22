@@ -9,7 +9,11 @@ namespace Genies.Closet
     /// This service is useful for offline scenarios, testing, or when remote closet functionality is not available.
     /// All methods return empty results or complete without performing any actual operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LocalClosetService : IClosetService
+#else
     public class LocalClosetService : IClosetService
+#endif
     {
         /// <inheritdoc cref="IClosetService.GetOwnedNftGuids"/>
         public UniTask<List<string>> GetOwnedNftGuids()

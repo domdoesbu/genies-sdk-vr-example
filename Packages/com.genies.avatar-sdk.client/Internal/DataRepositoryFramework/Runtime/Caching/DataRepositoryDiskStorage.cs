@@ -11,7 +11,11 @@ namespace Genies.DataRepositoryFramework.Caching
     /// Stores data on device disk.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DataRepositoryDiskStorage<T>
+#else
     public class DataRepositoryDiskStorage<T>
+#endif
     {
         private readonly Func<T, string> _getRecordId;
         private readonly string _storagePath;

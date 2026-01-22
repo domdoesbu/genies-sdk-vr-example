@@ -4,7 +4,11 @@ namespace Genies.Shaders
     /// All the properties available on the mega shader that are specific to regions. This means that each of these properties
     /// will exist for each available region on the mega shader.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum MegaShaderRegionProperty : byte
+#else
     public enum MegaShaderRegionProperty : byte
+#endif
     {
         // Color
         Color,

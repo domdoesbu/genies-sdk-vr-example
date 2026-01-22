@@ -12,7 +12,11 @@ using UnityEngine;
 
 namespace Genies.Ugc.CustomPattern
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomPatternLocalLoaderService : ICustomPatternService
+#else
     public class CustomPatternLocalLoaderService : ICustomPatternService
+#endif
     {
         private readonly string _path = $"{Application.persistentDataPath}//CustomPatterns";
         private string PatternDataPath => $"{_path}//PatternData";

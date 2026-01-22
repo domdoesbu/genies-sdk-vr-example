@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavBar : Widget
+#else
     public class NavBar : Widget
+#endif
     {
         private const string _iconName = "Icon";
 

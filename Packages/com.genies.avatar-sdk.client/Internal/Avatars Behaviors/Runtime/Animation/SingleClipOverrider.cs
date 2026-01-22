@@ -1,23 +1,27 @@
 using UnityEngine;
 
-namespace Genies.Avatars.Behaviors 
+namespace Genies.Avatars.Behaviors
 {
     /// <summary>
     /// Provides functionality to override a single animation clip in an avatar's animator controller.
     /// This class manages the creation and manipulation of AnimatorOverrideController to replace specific animations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SingleClipOverrider
+#else
     public class SingleClipOverrider
+#endif
     {
         /// <summary>
         /// Gets the AnimatorOverrideController that manages the clip overrides.
         /// </summary>
         public AnimatorOverrideController OverrideController { get; }
-        
+
         /// <summary>
         /// The current animation clip being used as an override.
         /// </summary>
         public AnimationClip AnimationClip;
-        
+
         private IGenie _genie;
         private RuntimeAnimatorController _originalAnimatorController;
         private string _singleClipKey;

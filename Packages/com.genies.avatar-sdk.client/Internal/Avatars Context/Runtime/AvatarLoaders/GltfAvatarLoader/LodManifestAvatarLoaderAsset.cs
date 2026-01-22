@@ -15,7 +15,11 @@ namespace Genies.Avatars.Context
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "LodManifestAvatarLoader", menuName = "Genies/Avatar Loaders/LOD Manifest Avatar Loader")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class LodManifestAvatarLoaderAsset : AvatarLoaderAsset
+#else
     public sealed class LodManifestAvatarLoaderAsset : AvatarLoaderAsset
+#endif
     {
         public string lodManifestUrl;
 

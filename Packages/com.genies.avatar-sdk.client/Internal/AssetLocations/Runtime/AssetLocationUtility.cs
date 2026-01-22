@@ -1,6 +1,10 @@
 namespace Genies.AssetLocations
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AssetLocationUtility
+#else
     public static class AssetLocationUtility
+#endif
     {
         /// <summary>
         /// Returns a Uri string from the metadata of an AssetContainer (Naf Content)

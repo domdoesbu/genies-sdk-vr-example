@@ -1,8 +1,12 @@
-﻿using System;
+using System;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum BodyType
+#else
     public enum BodyType
+#endif
     {
         none,
         male,
@@ -11,7 +15,11 @@ namespace Genies.Models
         unified
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class BodyTypeExtensions
+#else
     public static class BodyTypeExtensions
+#endif
     {
         public static BodyType FromString(string bodyTypeLabel)
         {

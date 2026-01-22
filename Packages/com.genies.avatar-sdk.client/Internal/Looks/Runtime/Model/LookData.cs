@@ -11,7 +11,11 @@ namespace Genies.Looks.Models
     /// This struct contains all the necessary data to define and manage an avatar look including appearance, animations, and media.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct LookData
+#else
     public struct LookData
+#endif
     {
         /// <summary>
         /// Gets or sets the unique identifier for the look.

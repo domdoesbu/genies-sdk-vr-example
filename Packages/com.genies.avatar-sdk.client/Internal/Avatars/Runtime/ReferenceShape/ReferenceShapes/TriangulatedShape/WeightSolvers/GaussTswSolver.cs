@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Solves the weights required by the <see cref="TriangulatedShape"/> to transfer deformations using a gaussian RBF kernel.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GaussTswSolver : ITswSolver
+#else
     public sealed class GaussTswSolver : ITswSolver
+#endif
     {
         [Tooltip("The standard deviation to use in the gaussian kernel. The higher the value, the more spread the weights will be")]
         public float standardDeviation = 1.0f;

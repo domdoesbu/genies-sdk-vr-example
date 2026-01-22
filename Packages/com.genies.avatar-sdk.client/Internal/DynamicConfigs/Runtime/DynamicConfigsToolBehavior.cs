@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Genies.CrashReporting;
@@ -11,10 +12,15 @@ using Genies.Services.DynamicConfigs.Utils;
 using Genies.Services.Model;
 using Newtonsoft.Json;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Genies.Services.DynamicConfigs
 {
-    public class DynamicConfigsToolBehavior
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicConfigsToolBehavior : IDynamicConfigsToolBehavior
+#else
+    public class DynamicConfigsToolBehavior : IDynamicConfigsToolBehavior
+#endif
     {
         private DynamicConfigsAppState _currentAppState = new DynamicConfigsAppState();
         private DynamicConfigFiles _dynamicConfigFiles = new DynamicConfigFiles();
@@ -406,48 +412,5 @@ namespace Genies.Services.DynamicConfigs
 
             return _userId;
         }
-    }
-
-
-    [Serializable]
-    public class DynamicConfigsAppState
-    {
-        public bool EnablingUsageToggle;
-        public bool UseLocalVersion;
-        public List<string> DynamicConfigIdList;
-    }
-
-    /// <summary>
-    /// Represents the collection of all raw dynamic json files per environment
-    /// </summary>
-    [Serializable]
-    public class DynamicConfigFiles
-    {
-        public Dictionary<BackendEnvironment, Dictionary<string, DynamicConfigFileData>> Files;
-
-        public DynamicConfigFiles()
-        {
-            Files = new Dictionary<BackendEnvironment, Dictionary<string, DynamicConfigFileData>>();
-        }
-
-    }
-
-    /// <summary>
-    /// File that contains a json file of a Dynamic Config from Backend API
-    /// This file is totally equal to the Statsig dynamic config JSON
-    /// </summary>
-    ///
-    [Serializable]
-    public class DynamicConfigFileData
-    {
-        public DynamicConfig ApiJsonObject { get; private set; }
-        public string RawJson { get; private set; }
-
-        public DynamicConfigFileData(DynamicConfig apiJsonObject)
-        {
-            ApiJsonObject = apiJsonObject;
-            RawJson = JsonConvert.SerializeObject(ApiJsonObject);
-        }
-
     }
 }

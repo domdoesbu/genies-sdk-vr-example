@@ -11,6 +11,12 @@ namespace Genies.Sdk
         public static bool IsLoggedIn => Instance.CoreSdk.LoginApi.IsLoggedIn;
 
         /// <summary>
+        /// Checks if the current logged in user is anonymous
+        /// </summary>
+        /// <returns>True if the user is logged in and anonymous.</returns>
+        public static bool IsLoggedInAnonymously => Instance.CoreSdk.LoginApi.IsLoggedInAnonymously;
+        
+        /// <summary>
         /// The URL for the Genies Hub authentication and sign-up page for new users to create an account.
         /// </summary>
         public static string UrlGeniesHubSignUp => Instance.CoreSdk.LoginApi.UrlGeniesHubSignUp;
@@ -55,7 +61,7 @@ namespace Genies.Sdk
             await Instance.InitializeInternalAsync();
             return await Instance.CoreSdk.LoginApi.GetUserIdAsync();
         }
-
+        
         /// <summary>
         /// Gets the complete profile information of the currently logged in user.
         /// </summary>

@@ -1,6 +1,10 @@
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PopupType
+#else
     public enum PopupType
+#endif
     {
         /// <summary>
         /// Save and exit popup with 2 buttons

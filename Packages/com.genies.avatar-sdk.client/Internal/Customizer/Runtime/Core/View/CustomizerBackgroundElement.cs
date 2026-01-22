@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CustomizerBackgroundElement : MonoBehaviour
+#else
     public class CustomizerBackgroundElement : MonoBehaviour
+#endif
     {
         [SerializeField]
         private Image _bg;

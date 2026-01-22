@@ -5,7 +5,11 @@ namespace Genies.Animations
     /// </summary>
     /// <seealso cref="GeniesVirtualCamera"/>
     /// <seealso cref="LookAnimationController"/>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum AnimationVirtualCameraCatalog
+#else
     public enum AnimationVirtualCameraCatalog
+#endif
     {
         /// <summary>
         /// Option to set the main camera to follow the animated Camera (with animation) under the avatar object

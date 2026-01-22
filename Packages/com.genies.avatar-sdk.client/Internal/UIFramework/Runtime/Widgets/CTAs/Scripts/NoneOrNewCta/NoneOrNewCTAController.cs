@@ -4,7 +4,11 @@ using UnityEngine.Serialization;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum CTAButtonType
+#else
     public enum CTAButtonType
+#endif
     {
         NoneAndNewCTA,
         SingleNoneCTA,
@@ -17,7 +21,12 @@ namespace Genies.UI.Widgets
     /// - when none selected is pressed, it will dispatch an event for the collection to reset it's current selection
     /// - when create new is pressed, it will dispatch an event for the collection to create a new item.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class NoneOrNewCTAController : MonoBehaviour
+#else
     public class NoneOrNewCTAController : MonoBehaviour
+#endif
     {
         public event Action NoneSelected;
         public event Action CreateNewSelected;

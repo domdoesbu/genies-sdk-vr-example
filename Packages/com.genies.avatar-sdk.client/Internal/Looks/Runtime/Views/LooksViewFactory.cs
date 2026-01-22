@@ -10,7 +10,11 @@ namespace Genies.Looks.Core
     /// Factory class for creating different types of look views.
     /// This static class provides convenience methods for instantiating and initializing look view components.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class LooksViewFactory
+#else
     public static class LooksViewFactory
+#endif
     {
         private const string Path = "Looks/LooksRealtimeView";
 

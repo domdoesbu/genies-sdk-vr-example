@@ -13,7 +13,11 @@ namespace Genies.Animations
     /// Implementation of IAnimationSwitcher that switches between RuntimeAnimatorControllers to create animation montages.
     /// This class manages the creation and switching of animator override controllers to play animations in sequence.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RuntimeControllerSwitcher : IAnimationSwitcher
+#else
     public class RuntimeControllerSwitcher : IAnimationSwitcher
+#endif
     {
         private readonly AnimatorSwitcherComponents _components;
 
@@ -28,7 +32,7 @@ namespace Genies.Animations
         /// Gets the total duration of the animation montage in seconds.
         /// </summary>
         public float MontageTime { get; private set; }
-        
+
         /// <summary>
         /// Gets the frame rate of the animation clips in the montage.
         /// </summary>

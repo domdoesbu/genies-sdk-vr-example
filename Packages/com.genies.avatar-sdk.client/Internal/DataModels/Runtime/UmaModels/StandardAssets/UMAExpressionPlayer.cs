@@ -13,7 +13,11 @@ namespace UMA.PoseTools
 	/// UMA specific expression player.
 	/// </summary>
 	[ExecuteInEditMode]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAExpressionPlayer : ExpressionPlayer
+#else
 	public class UMAExpressionPlayer : ExpressionPlayer
+#endif
 	{
 		/// <summary>
 		/// The expression set containing poses used for animation.

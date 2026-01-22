@@ -1,4 +1,4 @@
-﻿using Genies.Avatars;
+using Genies.Avatars;
 using Genies.CameraSystem.Focusable;
 using UnityEngine;
 
@@ -8,7 +8,12 @@ namespace Genies.CameraSystem
     /// Implements <see cref="IFocusable"/> for a GameObject containing a <see cref="UmaGenie"/> component. It is a convenient
     /// adaptation to deprecate the GeniesUmaAvatar with the new Avatars package.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class GenieFocusable : MonoBehaviour, IFocusable
+#else
     public class GenieFocusable : MonoBehaviour, IFocusable
+#endif
     {
         public Vector3 TargetViewDirection { get; private set; }
 

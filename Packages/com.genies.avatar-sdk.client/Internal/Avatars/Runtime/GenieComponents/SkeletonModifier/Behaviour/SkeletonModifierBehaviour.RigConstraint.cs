@@ -6,7 +6,11 @@ using UnityEngine.Animations.Rigging;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class SkeletonModifierBehaviour
+#else
     public sealed partial class SkeletonModifierBehaviour
+#endif
     {
         private sealed class RigConstraint :
             RigConstraint<RigConstraintJob, RigConstraintData, RigConstraintJobBinder> { }

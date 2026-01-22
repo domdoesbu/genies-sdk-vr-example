@@ -9,7 +9,11 @@ namespace Genies.Customization.Framework.Navigation
     /// Controls a <see cref="INavigationNode"/> stack. Each <see cref="NavigationStack"/> has its own
     /// breadcrumbs and undo/redo commands.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavigationStack
+#else
     public class NavigationStack
+#endif
     {
         private readonly Stack<INavigationNode> _stack = new Stack<INavigationNode>();
         private readonly IUndoRedoService<ICommand> _undoRedoService = new UndoRedoService<ICommand>(200);

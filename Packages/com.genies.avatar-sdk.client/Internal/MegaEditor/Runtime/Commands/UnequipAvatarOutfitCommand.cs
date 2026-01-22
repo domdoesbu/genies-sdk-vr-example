@@ -8,7 +8,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Unequips the current equipped outfit asset
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnequipAvatarOutfitCommand : UnifiedGenieModificationCommand
+#else
     public class UnequipAvatarOutfitCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _currentEquipped;
 

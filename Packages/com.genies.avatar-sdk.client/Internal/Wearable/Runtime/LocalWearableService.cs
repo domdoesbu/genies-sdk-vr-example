@@ -15,7 +15,11 @@ namespace Genies.Wearables
     /// <summary>
     /// Wearable service that stores wearables on disk.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LocalWearableService : IWearableService
+#else
     public class LocalWearableService : IWearableService
+#endif
     {
         /// <summary>
         /// Similar to <see cref="ApiWearable"/> but exposes private properties.

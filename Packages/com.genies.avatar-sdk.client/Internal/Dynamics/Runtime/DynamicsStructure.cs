@@ -13,7 +13,12 @@ namespace Genies.Components.Dynamics
     /// <summary>
     /// A dynamics structure represents a collection of particles, constrains, and colliders that when combined create a simulated soft body object.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class DynamicsStructure : MonoBehaviour
+#else
     public class DynamicsStructure : MonoBehaviour
+#endif
     {
         // The threshhold for anchored particle position and rotation at which values are directly copied and not lerped.
         private const float _fullAnchorLimit = 0.99f;
@@ -242,7 +247,7 @@ namespace Genies.Components.Dynamics
                 collider.CollisionRadius = sphereColliderRecipe.CollisionRadius;
                 collider.Offset = sphereColliderRecipe.Offset;
                 Colliders.Add(collider);
-                
+
                 //jobs allocation
                 _colliders[x] = new ColliderDataJobs() { IsSphere = true };
             }
@@ -263,12 +268,12 @@ namespace Genies.Components.Dynamics
                 collider.Rotation = capsuleColliderRecipe.Rotation;
                 collider.CollisionRadius = capsuleColliderRecipe.CollisionRadius;
                 Colliders.Add(collider);
-                
+
                 //jobs allocation
                 _colliders[offset + x] = new ColliderDataJobs() { IsCapsule = true };
             }
         }
-        
+
         //for when the number of particles or colliders changes
         private void ReallocateJobsHeap()
         {
@@ -277,7 +282,7 @@ namespace Genies.Components.Dynamics
             _particles = new ParticleDataJobs[_particleCount];
             _colliderCount = Colliders.Count;
             _colliders = new ColliderDataJobs[_colliderCount];
-            
+
             //fill particles data
             for (var x = 0; x < Particles.Count; x++)
             {
@@ -291,7 +296,7 @@ namespace Genies.Components.Dynamics
                     ModelSpaceRotation = p.ModelSpaceReference != null ? p.ModelSpaceReference.transform.rotation : Quaternion.identity,
                 };
             }
-            
+
             //fill colliders data
             for (var x = 0; x < Colliders.Count; x++)
             {
@@ -664,7 +669,7 @@ namespace Genies.Components.Dynamics
                         var correctionBalance = 0.5f - (particleA.PositionAnchor - particleB.PositionAnchor) * 0.5f;
 
                         Vector3 dirFromAtoB = fromAtoB / distFromAtoB;
-                        
+
                         // Convert world space collision response to model space
                         if (particleA.ModelSpaceReference != null)
                         {
@@ -988,7 +993,7 @@ namespace Genies.Components.Dynamics
                         if (distance < minDistance)
                         {
                             Vector3 ejectionDirection = colliderCenterToParticleCollisionCenter / distance; // Unit vector in direction particle needs to be pushed.
-                            
+
                             // Convert world space collision response to model space
                             if (particle.ModelSpaceReference != null)
                             {
@@ -1039,7 +1044,7 @@ namespace Genies.Components.Dynamics
                 }
             }
         }
-        
+
         //update the particle position based on the colliders, utilizing the jobs and burst system
         private void CollideParticlesWithCollidersJobs()
         {

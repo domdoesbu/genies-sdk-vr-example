@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ItemPickerCellPool
+#else
     public static class ItemPickerCellPool
+#endif
     {
         private static readonly Dictionary<ItemPickerCellView, Stack<Transform>> _pools = new Dictionary<ItemPickerCellView, Stack<Transform>>();
         private static readonly Dictionary<Transform, ItemPickerCellView> _componentCache = new Dictionary<Transform, ItemPickerCellView>();

@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// takes care generating combined materials and UV transforms for each group and handles the lifecycle of the
     /// generated resources (dispose the builder to release them).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshGroupAssetBuilder : IDisposable
+#else
     public sealed class MeshGroupAssetBuilder : IDisposable
+#endif
     {
         public IReadOnlyList<IMeshGroupAsset> GroupAssets { get; }
         public IReadOnlyList<MeshAsset>       Assets      => _meshCombiner.Assets;

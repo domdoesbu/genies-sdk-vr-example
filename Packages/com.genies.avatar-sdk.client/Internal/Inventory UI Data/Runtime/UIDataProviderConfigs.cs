@@ -26,8 +26,11 @@ namespace Genies.Inventory.UIData
     /// - Filtering is done by Category and SubCategories from inventory data
     /// </summary>
 
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UIDataProviderConfigs
+#else
     public static class UIDataProviderConfigs
+#endif
     {
         private const string CategoryFlairEyebrow = "flaireyebrow";
         private const string CategoryFlairEyelash = "flaireyelash";
@@ -608,6 +611,41 @@ namespace Genies.Inventory.UIData
                     asset.Colors?.Count > 3 ? asset.Colors[3] : asset.Colors?.Count > 0 ? asset.Colors[0] : UnityEngine.Color.white) // B
             };
 
+                /// <summary>
+        /// Color presets for facial hair customization - replaces CMS-based color preset provider
+        /// Uses GradientColorUiData which provides BOTH:
+        /// • Material property: 4-color gradient using "Custom/FourColorSwatch" (for color preset data)
+        /// • GetSwatchMaterial(): Simple UI swatch using "Genies/ColorPresetIcon" (for thumbnail display)
+        /// </summary>
+        public static InventoryUIDataProviderConfig<ColoredInventoryAsset, GradientColorUiData> FacialHairColorPresetsConfig =
+            new()
+            {
+                DataGetter = async (categories, subcategory, pageSize) =>
+                {
+                    var service = ServiceManager.Get<IDefaultInventoryService>();
+                    List<ColoredInventoryAsset> data = await service.GetDefaultColorPresets(pageSize, categories ?? new List<string>{ "facialhair" });
+                    return new PagedResult<ColoredInventoryAsset>
+                    {
+                        Data = data,
+                        NextCursor = service.NextDefaultColorPresetsCursor()
+                    };
+                },
+                CategorySelector = asset => "facialhair",
+                SubcategorySelector = asset => asset.SubCategories?.FirstOrDefault(),
+                Sort = asset => asset.Order,
+                DataConverter = asset => new GradientColorUiData(
+                    asset.AssetId,
+                    asset.Name,
+                    "facialhair",
+                    asset.SubCategories?.FirstOrDefault(),
+                    asset.Order,
+                    false,
+                    asset.Colors?.Count > 0 ? asset.Colors[0] : UnityEngine.Color.white, // Base
+                    asset.Colors?.Count > 1 ? asset.Colors[1] : asset.Colors?.Count > 0 ? asset.Colors[0] : UnityEngine.Color.white, // R
+                    asset.Colors?.Count > 2 ? asset.Colors[2] : asset.Colors?.Count > 0 ? asset.Colors[0] : UnityEngine.Color.white, // G
+                    asset.Colors?.Count > 3 ? asset.Colors[3] : asset.Colors?.Count > 0 ? asset.Colors[0] : UnityEngine.Color.white) // B
+            };
+
         /// <summary>
         /// Color presets for makeup customization - replaces CMS-based color preset provider
         /// Uses GradientColorUiData which provides BOTH:
@@ -620,7 +658,7 @@ namespace Genies.Inventory.UIData
                 DataGetter = async (categories, subcategory, pageSize) =>
                 {
                     var service = ServiceManager.Get<IDefaultInventoryService>();
-                    List<ColoredInventoryAsset> data = await service.GetDefaultColorPresets(pageSize, categories);
+                    List<ColoredInventoryAsset> data = await service.GetDefaultColorPresets(pageSize, categories ?? new List<string>{ "makeup" });
                     return new PagedResult<ColoredInventoryAsset>
                     {
                         Data = data,

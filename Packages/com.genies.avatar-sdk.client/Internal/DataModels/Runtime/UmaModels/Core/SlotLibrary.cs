@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class SlotLibrary : SlotLibraryBase
+#else
 	public class SlotLibrary : SlotLibraryBase
+#endif
 	{
 		[SerializeField]
 		protected SlotDataAsset[] slotElementList = new SlotDataAsset[0];

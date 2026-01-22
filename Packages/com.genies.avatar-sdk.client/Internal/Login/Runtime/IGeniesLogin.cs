@@ -14,7 +14,11 @@ namespace Genies.Login
     /// Defines the contract for Genies authentication and login functionality.
     /// This interface provides methods for user authentication, token management, and profile operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGeniesLogin : IDisposable
+#else
     public interface IGeniesLogin : IDisposable
+#endif
     {
         public bool IsDisposed { get; }
 
@@ -59,6 +63,10 @@ namespace Genies.Login
         /// Gets the current ID token containing user identity information.
         /// </summary>
         string AuthIdToken { get; }
+        
+        public bool IsUserAnonymous { get; }
+
+        public bool IsTokenAnonymous(string token);
 
         /// <summary>
         /// Retrieves the username of the currently authenticated user.

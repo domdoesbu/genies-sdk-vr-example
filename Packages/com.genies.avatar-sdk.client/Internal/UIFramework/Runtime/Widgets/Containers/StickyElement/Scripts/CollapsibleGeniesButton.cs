@@ -7,7 +7,11 @@ using UnityEngine.Serialization;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CollapsibleGeniesButton : GeniesButton
+#else
     public class CollapsibleGeniesButton : GeniesButton
+#endif
     {
         [SerializeField]
         private Image _icon;

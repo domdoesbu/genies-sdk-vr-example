@@ -10,18 +10,22 @@ namespace Genies.Animations
     /// Defines the contract for switching between animation clips in a montage sequence.
     /// Implementations of this interface manage the playback of animation montages with timing control.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAnimationSwitcher
+#else
     public interface IAnimationSwitcher
+#endif
     {
         /// <summary>
         /// Gets the total duration of the animation montage in seconds.
         /// </summary>
         float MontageTime { get; }
-        
+
         /// <summary>
         /// Gets the frame rate of the animation clips in the montage.
         /// </summary>
         float FrameRate { get; }
-        
+
         /// <summary>
         /// Initializes the IAnimationSwitcher implementation.
         /// </summary>

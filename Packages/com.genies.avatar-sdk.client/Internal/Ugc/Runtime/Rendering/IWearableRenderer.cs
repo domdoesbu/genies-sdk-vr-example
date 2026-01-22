@@ -8,7 +8,11 @@ namespace Genies.Ugc
     /// This interface provides factory methods for creating render instances that can display
     /// UGC content with full styling and animation support.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IWearableRenderer
+#else
     public interface IWearableRenderer
+#endif
     {
         /// <summary>
         /// Creates and returns a wearable render instance for the specified wearable configuration.
@@ -17,7 +21,7 @@ namespace Genies.Ugc
         /// <param name="wearable">The wearable configuration to render.</param>
         /// <returns>A task that completes with a fully configured wearable render instance.</returns>
         UniTask<IWearableRender> RenderWearableAsync(Wearable wearable);
-        
+
         /// <summary>
         /// Creates and returns an element render instance for the specified element ID.
         /// </summary>
@@ -25,7 +29,7 @@ namespace Genies.Ugc
         /// <param name="materialVersion">Optional material version identifier for versioning support.</param>
         /// <returns>A task that completes with a fully configured element render instance.</returns>
         UniTask<IElementRender> RenderElementAsync(string elementId, string materialVersion = null);
-        
+
         /// <summary>
         /// Creates and returns an element render instance for the specified element asset reference.
         /// </summary>

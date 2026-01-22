@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// Removes from the outfit any assets occupying slots that suppresses the asset being adjusted.
     /// It uses an <see cref="OutfitSlotsData"/> instance to check what slots are suppressed by other slots.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RemoveSuppressingSlots : IAssetsAdjustmentRule<OutfitAsset>
+#else
     public sealed class RemoveSuppressingSlots : IAssetsAdjustmentRule<OutfitAsset>
+#endif
     {
         private readonly OutfitSlotsData _slotsData;
 

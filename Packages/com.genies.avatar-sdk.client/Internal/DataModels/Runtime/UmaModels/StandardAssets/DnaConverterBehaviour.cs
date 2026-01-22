@@ -6,7 +6,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for DNA converters.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class DnaConverterBehaviour : MonoBehaviour, IDNAConverter
+#else
 	public class DnaConverterBehaviour : MonoBehaviour, IDNAConverter
+#endif
 	{
 		public DnaConverterBehaviour()
 		{

@@ -12,7 +12,11 @@ namespace Genies.Shaders
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ShaderInfo", menuName = "Genies/Shader Info")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GeniesShaderInfo : ScriptableObject
+#else
     public sealed class GeniesShaderInfo : ScriptableObject
+#endif
     {
         [SerializeField]
         private Material material;

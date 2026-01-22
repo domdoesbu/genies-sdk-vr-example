@@ -3,7 +3,11 @@
     /// <summary>
     /// Constants with the LOD strings available for assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AssetLod
+#else
     public static class AssetLod
+#endif
     {
         public const string Default = Medium;
         public const string Render = High;

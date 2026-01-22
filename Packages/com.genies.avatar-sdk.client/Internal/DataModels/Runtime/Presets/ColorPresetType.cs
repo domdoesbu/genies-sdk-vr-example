@@ -1,6 +1,10 @@
-﻿namespace Genies.Models
+namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ColorPresetType
+#else
     public enum ColorPresetType
+#endif
     {
         None = -1,
         FlairEyelash = 0,

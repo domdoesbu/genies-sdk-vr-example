@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal readonly struct GearSubElement
+#else
     public readonly struct GearSubElement
+#endif
     {
         public bool IsEditable => EditableRegionCount > 0 && EditableRegionsMap;
 

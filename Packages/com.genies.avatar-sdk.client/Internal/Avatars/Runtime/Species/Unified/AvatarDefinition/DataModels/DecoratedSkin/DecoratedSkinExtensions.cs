@@ -2,7 +2,11 @@ using Newtonsoft.Json;
 
 namespace Genies.UGCW.Data.DecoratedSkin
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DecoratedSkinExtensions 
+#else
     public static class DecoratedSkinExtensions 
+#endif
     {
         public static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
 

@@ -9,7 +9,12 @@ namespace Genies.UI.Scroller
     /// The main object of the optimized scrolling, represents an empty object
     /// that is used as a stub for scaling the content of the scroller
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class OptimizedScrollerCellHolder : MonoBehaviour
+#else
     public class OptimizedScrollerCellHolder : MonoBehaviour
+#endif
     {
         public RectTransform rectTransform;
         public LayoutElement layoutElement;

@@ -5,7 +5,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "TattooLocationContainer", menuName = "Genies/Tattoos/TattooLocationContainer")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TattooLocationContainer : OrderedScriptableObject
+#else
     public class TattooLocationContainer : OrderedScriptableObject
+#endif
     {
         [SerializeField] private string _name;
         [SerializeField] private Vector2 _position;

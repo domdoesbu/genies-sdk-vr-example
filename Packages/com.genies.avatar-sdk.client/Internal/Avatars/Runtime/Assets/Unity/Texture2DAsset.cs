@@ -2,7 +2,11 @@
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class Texture2DAsset : IAsset
+#else
     public sealed class Texture2DAsset : IAsset
+#endif
     {
         public string Id { get; }
         public string Lod { get; }

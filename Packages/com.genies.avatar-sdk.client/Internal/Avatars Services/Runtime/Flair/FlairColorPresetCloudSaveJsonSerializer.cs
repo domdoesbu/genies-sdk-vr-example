@@ -4,7 +4,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Avatars.Services.Flair
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairColorPresetCloudSaveJsonSerializer : ICloudSaveJsonSerializer<FlairColorPreset>
+#else
     public class FlairColorPresetCloudSaveJsonSerializer : ICloudSaveJsonSerializer<FlairColorPreset>
+#endif
     {
         public string ToJson(FlairColorPreset data)
         {

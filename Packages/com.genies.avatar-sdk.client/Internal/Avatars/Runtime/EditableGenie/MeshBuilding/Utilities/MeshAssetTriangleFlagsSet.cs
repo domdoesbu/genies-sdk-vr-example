@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// Set collection of <see cref="MeshAssetTriangleFlags"/> targeting <see cref="TargetMeshAssetId"/>. The collection
     /// will ensure no duplicated tirangle flags with the same id. It's optimized for high performance flag retrieval.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshAssetTriangleFlagsSet
+#else
     public sealed class MeshAssetTriangleFlagsSet
+#endif
     {
         public int Count => _count;
         

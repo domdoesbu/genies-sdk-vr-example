@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieColor
+#else
     public static class GenieColor
+#endif
     {
         public const string Skin = "unified-skin";
 
@@ -45,11 +49,11 @@ namespace Genies.Naf
         public const string HairB    = "gear-hairB";
 
         // facial hair
-        public const string FacialhairAll  = "gear-facialhairAll";
-        public const string FacialhairBase = "gear-facialhairBase";
-        public const string FacialhairR    = "gear-facialhairR";
-        public const string FacialhairG    = "gear-facialhairG";
-        public const string FacialhairB    = "gear-facialhairB";
+        public const string FacialhairAll  = "gear-facialHairAll";
+        public const string FacialhairBase = "gear-facialHairBase";
+        public const string FacialhairR    = "gear-facialHairR";
+        public const string FacialhairG    = "gear-facialHairG";
+        public const string FacialhairB    = "gear-facialHairB";
 
         // eyebrows
         public const string EyebrowsAll  = "gear-eyebrowsAll";
@@ -66,7 +70,11 @@ namespace Genies.Naf
         public const string EyelashesB    = "gear-eyelashesB";
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct GenieColorEntry
+#else
     public struct GenieColorEntry
+#endif
     {
         public string ColorId;
         public Color? Value;

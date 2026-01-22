@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 namespace Genies.Avatars.Sdk
 {
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class GeniesAnimationPlayer : MonoBehaviour
 #else
     public class GeniesAnimationPlayer : MonoBehaviour

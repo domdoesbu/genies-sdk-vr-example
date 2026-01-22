@@ -11,7 +11,11 @@ namespace Genies.Ugc.CustomPattern
     /// with the VContainer dependency injection system.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomPatternServiceInstaller : IGeniesInstaller
+#else
     public class CustomPatternServiceInstaller : IGeniesInstaller
+#endif
     {
         /// <summary>
         /// Installs custom pattern services into the dependency injection container.

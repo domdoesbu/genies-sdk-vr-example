@@ -10,7 +10,12 @@ using Genies.UI.Animations;
 
 namespace Genies.UI.Components.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ScrollableToggleBar : MonoBehaviour
+#else
     public class ScrollableToggleBar : MonoBehaviour
+#endif
     {
         [SerializeField]
         private List<GeniesButton> _buttons;

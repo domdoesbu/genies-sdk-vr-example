@@ -12,10 +12,14 @@ using UnityAddressables = UnityEngine.AddressableAssets.Addressables;
 
 namespace Genies.Assets.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AddressableAssetsService : BaseAssetsService
+#else
     public sealed class AddressableAssetsService : BaseAssetsService
+#endif
     {
         private IShaderlessAssetService _shaderlessAssetService;
-        private IShaderlessAssetService ShaderlessAssetService => 
+        private IShaderlessAssetService ShaderlessAssetService =>
             _shaderlessAssetService ?? (_shaderlessAssetService = ServiceManager.Get<IShaderlessAssetService>() ?? new ShaderlessAssetService(this));
 
         public override async UniTask<Ref<T>> LoadAssetAsync<T>(object key, int? version = null, string lod = AssetLod.Default)

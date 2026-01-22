@@ -12,7 +12,11 @@ namespace Genies.CloudSave
     /// - The format should be in Json, the client should handle any version differences if the Json is updated.
     ///
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ICloudFeatureSaveService<T> : IDataRepository<T>
+#else
     public interface ICloudFeatureSaveService<T> : IDataRepository<T>
+#endif
     {
         FeatureType FeatureTypeEnum { get; }
         void SetJsonSerializer(ICloudSaveJsonSerializer<T> serializer);

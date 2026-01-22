@@ -11,7 +11,11 @@ namespace Genies.Looks.Customization.Commands
     /// Base command for any avatar modifications. Ensures the avatar is rebuilt
     /// after every modification.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class UnifiedGenieModificationCommand : ICommand
+#else
     public abstract class UnifiedGenieModificationCommand : ICommand
+#endif
     {
         private readonly UnifiedGenieController _controller;
 

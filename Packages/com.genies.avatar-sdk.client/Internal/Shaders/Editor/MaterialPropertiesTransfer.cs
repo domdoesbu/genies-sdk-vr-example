@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Shaders.Editor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialPropertiesTransfer : EditorWindow
+#else
     public class MaterialPropertiesTransfer : EditorWindow
+#endif
     {
         private Material masterMaterial;
         private Material lastCheckedMaterial;

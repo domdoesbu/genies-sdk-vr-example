@@ -9,7 +9,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Genies.Avatars.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NafAvatarExtensions
+#else
     public static class NafAvatarExtensions
+#endif
     {
         public static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
         private static string _cachedDefaultDef;

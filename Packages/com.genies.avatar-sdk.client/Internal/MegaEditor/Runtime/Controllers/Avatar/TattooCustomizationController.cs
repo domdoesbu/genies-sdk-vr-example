@@ -31,7 +31,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "TattooCustomizationController", menuName = "Genies/Customizer/Controllers/Tattoo Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TattooCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class TattooCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField]
         [Preset(nameof(_allAreas))]

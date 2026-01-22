@@ -10,7 +10,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "GearTemplate", menuName = "Genies/Gear/GearTemplate", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GearTemplate : OrderedScriptableObject
+#else
     public class GearTemplate : OrderedScriptableObject
+#endif
     {
         [SerializeField] private string assetId;
         [SerializeField] private string slot;

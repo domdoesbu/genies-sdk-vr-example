@@ -9,7 +9,11 @@ using Genies.ServiceManagement;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryPickerCellView : GenericItemPickerCellView
+#else
     public class InventoryPickerCellView : GenericItemPickerCellView
+#endif
     {
         // TODO FIGURE OUT WHAT TO DO ABOUT PENDING ASSET SERVICE
         //private IPendingAigcAssetUIService _PendingAigcAssetUIService => this.GetService<IPendingAigcAssetUIService>();

@@ -5,7 +5,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Settings used by the <see cref="WearableRandomizer"/> when performing randomization.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct WearableRandomizationSettings
+#else
     public struct WearableRandomizationSettings
+#endif
     {
         /// <summary>
         /// Whether or not to also randomize materials.

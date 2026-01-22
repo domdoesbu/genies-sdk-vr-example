@@ -3,7 +3,11 @@ using XNode;
 
 namespace Genies.Customization.Framework.Navigation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class BaseNavigationNode : Node, INavigationNode
+#else
     public abstract class BaseNavigationNode : Node, INavigationNode
+#endif
     {
         public abstract bool IsRootNode { get; }
         public abstract bool IsStackable { get; }

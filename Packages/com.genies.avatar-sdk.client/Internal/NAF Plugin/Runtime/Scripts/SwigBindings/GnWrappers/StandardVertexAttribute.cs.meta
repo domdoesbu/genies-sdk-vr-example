@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cc1683123998c264b9226a5227ecd24b
+guid: cbbc44d4d5ff6634783beebae88e55ed
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/StandardVertexAttribute.cs
+  uploadId: 850608

@@ -7,7 +7,11 @@ using VContainer;
 namespace Genies.Ugc.CustomSkin
 {
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomSkinServiceInstaller : IGeniesInstaller
+#else
     public class CustomSkinServiceInstaller : IGeniesInstaller
+#endif
     {
         public void Install(IContainerBuilder builder)
         {

@@ -8,33 +8,37 @@ namespace Genies.Closet
     /// Defines the contract for managing user closet operations including NFTs, wearables, and collectible items.
     /// This interface provides methods for retrieving, adding, and removing items from a user's virtual closet.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IClosetService
+#else
     public interface IClosetService
+#endif
     {
         /// <summary>
         /// Retrieves the GUIDs of all NFTs owned by the current user.
         /// </summary>
         /// <returns>A task that completes with a list of NFT GUIDs owned by the user.</returns>
         UniTask<List<string>> GetOwnedNftGuids();
-        
+
         /// <summary>
         /// Retrieves detailed information about all NFTs owned by the current user.
         /// </summary>
         /// <returns>A task that completes with a list of NFT information including GUIDs and IDs.</returns>
         UniTask<List<NftInfo>> GetOwnedNftInfo();
-        
+
         /// <summary>
         /// Retrieves information about all unlockable items owned by the current user.
         /// Unlockables are special reward-type NFTs that can be earned through gameplay or achievements.
         /// </summary>
         /// <returns>A task that completes with a list of unlockable item information.</returns>
         UniTask<List<UnlockablesInfo>> GetOwnedUnlockablesInfo();
-        
+
         /// <summary>
         /// Retrieves all items in the user's closet including wearables, NFTs, and things.
         /// </summary>
         /// <returns>A task that completes with a response containing all closet items.</returns>
         UniTask<ClosetItemResponse> GetClosetItems();
-        
+
         /// <summary>
         /// Adds a wearable item to the user's closet.
         /// </summary>
@@ -42,7 +46,7 @@ namespace Genies.Closet
         /// <param name="fullAssetName">The full asset name of the wearable.</param>
         /// <returns>A task that completes when the wearable has been added to the closet.</returns>
         UniTask AddWearableToCloset(string wearableId, string fullAssetName);
-        
+
         /// <summary>
         /// Adds a wearable item to the user's closet with a specific creator.
         /// This overload can be used for externally created wearables.
@@ -52,7 +56,7 @@ namespace Genies.Closet
         /// <param name="createdBy">The identifier of who created this wearable.</param>
         /// <returns>A task that completes when the wearable has been added to the closet.</returns>
         UniTask AddWearableToCloset(string wearableId, string fullAssetName, string createdBy);
-        
+
         /// <summary>
         /// Removes a wearable item from the user's closet.
         /// </summary>
@@ -61,7 +65,7 @@ namespace Genies.Closet
         /// <param name="createdBy">The identifier of who created this wearable.</param>
         /// <returns>A task that completes when the wearable has been removed from the closet.</returns>
         UniTask RemoveWearableFromCloset(string wearableId, string fullAssetName, string createdBy);
-        
+
         /// <summary>
         /// Retrieves all "Things" (collectible items) that match the specified protocol IDs.
         /// Things are special collectible items with specific protocol associations.
@@ -70,14 +74,14 @@ namespace Genies.Closet
         /// <param name="minSdk">Minimum SDK version required.</param>
         /// <returns>A task that completes with a response containing matching Things.</returns>
         UniTask<ClosetItemResponse> GetThingsByProtocol(List<string> protocolIds, string minSdk);
-        
+
         /// <summary>
         /// Adds a Thing (collectible item) to the user's closet.
         /// </summary>
         /// <param name="thingId">The unique identifier of the Thing to add.</param>
         /// <returns>A task that completes when the Thing has been added to the closet.</returns>
         UniTask AddThingToCloset(string thingId);
-        
+
         /// <summary>
         /// Contains information about an NFT including its GUID and optional numeric ID.
         /// </summary>
@@ -87,7 +91,7 @@ namespace Genies.Closet
             /// The globally unique identifier of the NFT.
             /// </summary>
             public string Guid;
-            
+
             /// <summary>
             /// The optional numeric identifier of the NFT.
             /// </summary>
@@ -104,7 +108,7 @@ namespace Genies.Closet
             /// The globally unique identifier of the unlockable item.
             /// </summary>
             public string Guid;
-            
+
             /// <summary>
             /// The string identifier of the unlockable item.
             /// </summary>

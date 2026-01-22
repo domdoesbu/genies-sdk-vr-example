@@ -1,4 +1,4 @@
-﻿using Genies.ServiceManagement;
+using Genies.ServiceManagement;
 using Genies.UIFramework;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,7 +8,11 @@ namespace Genies.Avatars.Behaviors
     /// <summary>
     /// Defines the different animation modes available for avatars.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum AvatarAnimationMode
+#else
     public enum AvatarAnimationMode
+#endif
     {
         /// <summary>
         /// No animation mode is active.
@@ -31,7 +35,12 @@ namespace Genies.Avatars.Behaviors
     /// This component handles switching between idle animations, directed animations, and custom animation clips.
     /// </summary>
     [RequireComponent(typeof(IGenie))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class GenieAnimationController : MonoBehaviour
+#else
     public class GenieAnimationController : MonoBehaviour
+#endif
     {
         private GenieInteractionController GenieController => this.GetService<GenieInteractionController>();
 

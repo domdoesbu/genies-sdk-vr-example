@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Breadcrumbs : Widget
+#else
     public class Breadcrumbs : Widget
+#endif
     {
         [SerializeField]
         private GameObject _itemPrefab;

@@ -5,7 +5,11 @@ using UnityEditor;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class Utility
+#else
 	public class Utility
+#endif
 	{
 		public const string AssetBundlesOutputPath = "AssetBundles";
 

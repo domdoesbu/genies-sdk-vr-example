@@ -22,7 +22,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Controller for the customize color view.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomHairColorCustomizationController : BaseCustomizationController
+#else
     public class CustomHairColorCustomizationController : BaseCustomizationController
+#endif
     {
         [SerializeField]
         private CustomizeColorView _prefab;
@@ -78,7 +82,7 @@ namespace Genies.Customization.MegaEditor
 
         public override void StartCustomization()
         {
-            VirtualCameraController.ActivateVirtualCamera(virtualCamera);
+            VirtualCameraController.ActivateVirtualCamera(virtualCamera).Forget();
 
             PictureInPictureController.canBeDisabled = false;
             PictureInPictureController.Enable();

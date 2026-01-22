@@ -3,7 +3,11 @@ using System;
 namespace Genies.Customization.Framework.Actions
 {
     [Flags]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ActionBarFlags
+#else
     public enum ActionBarFlags
+#endif
     {
         None = 0x0,
         Undo = 1 << 0,

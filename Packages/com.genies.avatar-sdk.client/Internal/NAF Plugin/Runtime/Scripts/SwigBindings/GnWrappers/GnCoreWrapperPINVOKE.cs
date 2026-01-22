@@ -1133,6 +1133,15 @@ class GnCoreWrapperPINVOKE {
   [global::System.Runtime.InteropServices.DllImport(Genies.NafPlugin.ImportName.Value, EntryPoint="CSharp_GnWrappers_delete_SharedSkeleton")]
   public static extern void delete_SharedSkeleton(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport(Genies.NafPlugin.ImportName.Value, EntryPoint="CSharp_GnWrappers_AnimationUtils_CreateMultiMeshPoseContext")]
+  public static extern global::System.IntPtr AnimationUtils_CreateMultiMeshPoseContext(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport(Genies.NafPlugin.ImportName.Value, EntryPoint="CSharp_GnWrappers_new_AnimationUtils")]
+  public static extern global::System.IntPtr new_AnimationUtils();
+
+  [global::System.Runtime.InteropServices.DllImport(Genies.NafPlugin.ImportName.Value, EntryPoint="CSharp_GnWrappers_delete_AnimationUtils")]
+  public static extern void delete_AnimationUtils(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport(Genies.NafPlugin.ImportName.Value, EntryPoint="CSharp_GnWrappers_EntityNode_SWIGUpcast")]
   public static extern global::System.IntPtr EntityNode_SWIGUpcast(global::System.IntPtr jarg1);
 

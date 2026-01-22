@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Genies.Login.Anonymous;
 using Genies.Login.AuthMessages;
+using Genies.Login.Native.Data;
 
 namespace Genies.NativeAPI
 {
@@ -14,34 +15,39 @@ namespace Genies.NativeAPI
 
         internal GeniesNativeAPIAnonymousFlowController(GeniesNativeAPIAuth auth) => _auth = auth;
 
-        public async Task<GeniesAuthAnonymousResponse> SignInAnonymouslyAsync(string applicationId)
+        public async Task<GeniesAuthAnonymousResponse> SignInAnonymouslyAsync(string clientId = "")
         {
-            if (string.IsNullOrWhiteSpace(applicationId))
+            if (string.IsNullOrWhiteSpace(clientId))
             {
-                return new GeniesAuthAnonymousResponse { Status = "error", Message = "Missing applicationId" };
+                var settings = GeniesAuthSettings.LoadFromResources();
+
+                if (settings != null)
+                {
+                    clientId = settings.ClientId;
+                }
             }
 
-            var res = await _auth.AnonymousSignUpAsync(applicationId);
+            if (string.IsNullOrWhiteSpace(clientId))
+            {
+                return new GeniesAuthAnonymousResponse { 
+                    Status = "error",
+                    Message = "Missing client ID. Please embed one in Genies Auth settings and try again",
+                    ErrorMessage = "Missing client ID. Please embed one in Genies Auth settings and try again",
+                };
+            }
+            
+            var res = await _auth.AnonymousSignUpAsync(clientId);
 
             // Anonymous session is still a session—hydrate + schedule
             if (res.IsSuccessful)
             {
-                await _auth.GetUserAttributesAsync();
+                // Currently, anonymous users cant have profiles
+                // await _auth.GetUserAttributesAsync();
                 _auth.StartTokenExpiryTimer();
                 _auth.InvokeOnUserLoggedIn();
             }
 
             return res;
-        }
-
-        public async Task<GeniesAuthAnonymousResponse> UpgradeAsync(string email, string birthday = "", string firstName = "", string lastName = "")
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                return new GeniesAuthAnonymousResponse { Status = "error", Message = "Missing email" };
-            }
-
-            return await _auth.AnonymousUpgradeAsync(email, birthday, firstName, lastName);
         }
 
         public void Dispose() { _auth = null; }

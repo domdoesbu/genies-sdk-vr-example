@@ -1,9 +1,13 @@
-﻿using Genies.Avatars;
+using Genies.Avatars;
 using Genies.Models;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CollisionDataExtensions
+#else
     public static class CollisionDataExtensions
+#endif
     {
         public static OutfitCollisionData ToOutfitCollisionData(this CollisionData collisionData)
         {

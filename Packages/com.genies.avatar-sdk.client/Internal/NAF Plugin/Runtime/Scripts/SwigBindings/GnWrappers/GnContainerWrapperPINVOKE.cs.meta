@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6a7c1a2f72ac4d768d8a24c1c16d4bb
+guid: 23a32fda3f536e64d8037a6e42004973
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/GnContainerWrapperPINVOKE.cs
+  uploadId: 850608

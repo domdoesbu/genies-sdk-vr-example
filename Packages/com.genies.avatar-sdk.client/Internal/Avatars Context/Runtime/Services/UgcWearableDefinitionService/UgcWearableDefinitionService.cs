@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Genies.Wearables;
 using Newtonsoft.Json;
@@ -10,7 +10,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Fetches <see cref="Wearable"/>s from any given implementation of the <see cref="IWearableService"/>.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcWearableDefinitionService : IUgcWearableDefinitionService
+#else
     public sealed class UgcWearableDefinitionService : IUgcWearableDefinitionService
+#endif
     {
         // dependencies
         private readonly IWearableService _wearableService;

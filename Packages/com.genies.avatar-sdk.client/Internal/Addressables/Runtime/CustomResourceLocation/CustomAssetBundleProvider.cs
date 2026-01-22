@@ -2,7 +2,11 @@
 
 namespace Genies.Addressables.CustomResourceLocation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomAssetBundleProvider : AssetBundleProvider
+#else
     public class CustomAssetBundleProvider : AssetBundleProvider
+#endif
     {
         private const string _providerSuffix = "dynamic_custom";
         private static string _customProviderIdOverride;

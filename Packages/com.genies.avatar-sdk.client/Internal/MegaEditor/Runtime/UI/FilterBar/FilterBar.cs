@@ -6,7 +6,12 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FilterBar : MonoBehaviour
+#else
     public class FilterBar : MonoBehaviour
+#endif
     {
         [SerializeField] private RectTransform _contentRt;
         [SerializeField] private ScrollableToggleBar _toggleBar;

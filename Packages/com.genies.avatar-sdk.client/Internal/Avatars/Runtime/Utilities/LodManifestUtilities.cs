@@ -9,7 +9,11 @@ using UnityEngine.Networking;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class LodManifestUtilities
+#else
     public static class LodManifestUtilities
+#endif
     {
         private const float BaseScreenRelativeTransitionHeight = 0.6f;
         

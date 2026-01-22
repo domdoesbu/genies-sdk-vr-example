@@ -12,7 +12,12 @@ namespace Genies.Avatars
     /// and use an animator controller with IK retargeting support.
     /// </summary>
     [RequireComponent(typeof(Animator)), DisallowMultipleComponent]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class IkRetargetingBehaviour : MonoBehaviour
+#else
     public sealed class IkRetargetingBehaviour : MonoBehaviour
+#endif
     {
         [SerializeField]
         private IkrConfig config;

@@ -8,7 +8,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "UgcTemplate", menuName = "Genies/UGCW/UgcTemplate", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UgcTemplate : ScriptableObject , IShaderlessAsset
+#else
     public class UgcTemplate : ScriptableObject , IShaderlessAsset
+#endif
     {
         [SerializeField] private string assetId;
         [SerializeField] private string slot;

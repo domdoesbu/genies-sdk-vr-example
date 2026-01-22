@@ -12,7 +12,11 @@ namespace Genies.Ugc.CustomHair
 {
     [AutoResolve]
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomHairColorServiceInstaller : IGeniesInstaller
+#else
     public class CustomHairColorServiceInstaller : IGeniesInstaller
+#endif
     {
         public Shader CustomHairShader;
 
@@ -31,7 +35,7 @@ namespace Genies.Ugc.CustomHair
             {
                 return;
             }
-            
+
             RegisterCustomHairService(builder);
 
         }

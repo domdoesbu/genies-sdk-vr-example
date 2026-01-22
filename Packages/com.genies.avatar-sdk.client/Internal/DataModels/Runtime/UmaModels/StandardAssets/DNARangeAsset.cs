@@ -17,7 +17,11 @@ namespace UMA
 	/// is a way of specifying the values which are actually valid for a race.
 	/// </remarks>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DNARangeAsset : ScriptableObject, ISerializationCallbackReceiver
+#else
 	public class DNARangeAsset : ScriptableObject, ISerializationCallbackReceiver
+#endif
 	{
 #pragma warning disable 649
 		//UMA 2.8 FixDNAPrefabs: this needs to use the new DNAConverterField

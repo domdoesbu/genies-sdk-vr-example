@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class AssetBuilder : global::System.IDisposable {
+#else
 public class AssetBuilder : global::System.IDisposable {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 

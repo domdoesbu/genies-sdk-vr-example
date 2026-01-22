@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NoOpReferenceShape : IReferenceShape
+#else
     public sealed class NoOpReferenceShape : IReferenceShape
+#endif
     {
         public string                      Id               => "NoOp";
         public int                         PointCount       => 0;

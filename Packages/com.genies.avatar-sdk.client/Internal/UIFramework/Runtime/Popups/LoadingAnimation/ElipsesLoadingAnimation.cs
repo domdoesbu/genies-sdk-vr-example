@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ElipsesLoadingAnimation : MonoBehaviour
+#else
     public class ElipsesLoadingAnimation : MonoBehaviour
+#endif
     {
         [FormerlySerializedAs("loadingDots")] public Image[] LoadingDots;
         [FormerlySerializedAs("loopTime")] public float LoopTime;

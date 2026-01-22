@@ -8,7 +8,12 @@ using UnityEngine;
 
 namespace Genies.Looks.Customization.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class ToggleWithAnimation : MonoBehaviour
+#else
     public sealed class ToggleWithAnimation : MonoBehaviour
+#endif
     {
         [SerializeField]
         private ToggleWithAnimationOptionButton optionButtonPrefab;
@@ -177,7 +182,7 @@ namespace Genies.Looks.Customization.UI
 
             var settings = AnimationSettings.WithEase(Ease.InOutSine);
             settings.AutoStart = true;
-            
+
             var group = UIAnimatation.CreateGroup();
             group.Add(selectionMarker.AnimateSizeDelta(targetSize, markerTransitionDuration, settings));
             group.AddParallel(selectionMarker.AnimateLocalMoveX(targetPositionX, markerTransitionDuration, settings));

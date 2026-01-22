@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Genies.Avatars;
 using Genies.Refs;
 using UnityEngine;
@@ -8,7 +8,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Extend this class to create <see cref="IAvatarLoader"/> implementation assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class AvatarLoaderAsset : ScriptableObject, IAvatarLoader
+#else
     public abstract class AvatarLoaderAsset : ScriptableObject, IAvatarLoader
+#endif
     {
         public virtual async UniTask<IGenie> LoadAsync(Transform parent = null)
         {

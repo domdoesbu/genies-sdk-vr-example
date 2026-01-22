@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MeshAssetUtility
+#else
     public static class MeshAssetUtility
+#endif
     {
         public static List<MeshAsset> CreateMeshAssetsFrom(UMATextRecipe recipe)
         {

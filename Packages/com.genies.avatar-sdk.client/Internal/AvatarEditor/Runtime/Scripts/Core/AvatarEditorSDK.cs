@@ -211,7 +211,7 @@ namespace Genies.AvatarEditor.Core
             }
         }
 
-        public static async UniTask CloseEditorAsync()
+        public static async UniTask CloseEditorAsync(bool revertAvatar)
         {
             try
             {
@@ -221,7 +221,7 @@ namespace Genies.AvatarEditor.Core
                 }
 
                 var avatarEditorSdkService = await GetOrCreateAvatarEditorSdkInstance();
-                await avatarEditorSdkService.CloseEditorAsync();
+                await avatarEditorSdkService.CloseEditorAsync(revertAvatar);
             }
             catch (Exception ex)
             {
@@ -632,6 +632,48 @@ namespace Genies.AvatarEditor.Core
             catch (Exception ex)
             {
                 CrashReporter.LogError($"Failed to set editor save settings: {ex.Message}");
+            }
+        }
+
+        public static async UniTask SetSaveAndExitButtonStatusAsync(bool enableSaveButton, bool enableExitButton)
+        {
+            try
+            {
+                if (await InitializeAsync() is false)
+                {
+                    throw new InvalidOperationException("Failed to initialize AvatarEditorSDK");
+                }
+
+                var avatarEditorSdkService = ServiceManager.Get<IAvatarEditorSdkService>();
+                if (avatarEditorSdkService == null)
+                {
+                    throw new NullReferenceException("AvatarEditorSdkService not found");
+                }
+
+                avatarEditorSdkService.SetSaveAndExitButtonStatus(enableSaveButton, enableExitButton);
+            }
+            catch (Exception ex)
+            {
+                CrashReporter.LogError($"Failed to set Save and Exit ActionBarFlags: {ex.Message}");
+            }
+        }
+
+        public static void SetSaveAndExitButtonStatus(bool enableSaveButton, bool enableExitButton)
+        {
+            try
+            {
+                var avatarEditorSdkService = ServiceManager.Get<IAvatarEditorSdkService>();
+                if (avatarEditorSdkService == null)
+                {
+                    CrashReporter.LogWarning("AvatarEditorSdkService not found. Make sure the SDK is initialized before calling this method.");
+                    return;
+                }
+
+                avatarEditorSdkService.SetSaveAndExitButtonStatus(enableSaveButton, enableExitButton);
+            }
+            catch (Exception ex)
+            {
+                CrashReporter.LogError($"Failed to set Save and Exit ActionBarFlags: {ex.Message}");
             }
         }
 

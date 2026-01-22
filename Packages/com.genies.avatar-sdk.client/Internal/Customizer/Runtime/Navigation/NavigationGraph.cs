@@ -9,7 +9,11 @@ namespace Genies.Customization.Framework.Navigation
     [CreateAssetMenu(fileName = "NavigationGraph", menuName = "Genies/Customizer/Navigation/Navigation Graph")]
 #endif
     [RequireNode(typeof(NavigationRootNode))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavigationGraph : NodeGraph
+#else
     public class NavigationGraph : NodeGraph
+#endif
     {
         private INavigationNode _root;
 

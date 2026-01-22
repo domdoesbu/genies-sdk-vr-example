@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal enum StandardVertexAttribute {
+#else
 public enum StandardVertexAttribute {
+#endif
   Position = 0,
   Normal = 1,
   Tangent = 2,

@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ISkinColorController
+#else
     public interface ISkinColorController
+#endif
     {
         ColorAsset CurrentColor { get; }
 

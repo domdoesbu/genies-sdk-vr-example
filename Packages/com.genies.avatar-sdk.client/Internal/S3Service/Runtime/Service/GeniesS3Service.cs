@@ -24,7 +24,11 @@ namespace Genies.S3Service
     /// This service sits on top of <see cref="ImageApi"/> and provides a way for developers to upload assets and cache them on disk. The caching is used to avoid redundant GETs of those assets.
     /// Items in the cache expire after 30 days if they haven't been used.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesS3Service : IGeniesS3Service
+#else
     public class GeniesS3Service : IGeniesS3Service
+#endif
     {
         /// <summary>
         /// Async method that returns the currently logged in user's valiud UserID.

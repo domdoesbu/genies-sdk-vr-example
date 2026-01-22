@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Genies.Analytics;
 using Genies.Assets.Services;
@@ -10,6 +11,7 @@ using Genies.Customization.Framework.ItemPicker;
 using Genies.Inventory;
 using Genies.Inventory.UIData;
 using Genies.Looks.Customization.Commands;
+using Genies.Naf.Content;
 using Genies.Refs;
 using Genies.ServiceManagement;
 using Genies.UI.Widgets;
@@ -21,7 +23,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "HairItemPickerDataSource", menuName = "Genies/Customizer/DataSource/HairItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class HairItemPickerDataSource : CustomizationItemPickerDataSource
+#else
     public class HairItemPickerDataSource : CustomizationItemPickerDataSource
+#endif
     {
         [SerializeField]
         private HairColorItemPickerDataSource hairColorDataSource;
@@ -152,23 +158,23 @@ namespace Genies.Customization.MegaEditor
         private async UniTask<bool> NoneSelectedAsync(CancellationToken cancellationToken)
         {
             OnNoneSelected?.Invoke();
-            var currentRef = await GetDataForIndexAsync(GetCurrentSelectedIndex());
+            string itemId = await GetCurrentHairAssetId();
 
-            if (currentRef.Item == null)
+            if (string.IsNullOrWhiteSpace(itemId))
             {
                 return false;
             }
 
             var props = new AnalyticProperties();
-            props.AddProperty("AssetId", currentRef.Item.AssetId);
+            props.AddProperty("AssetId", itemId);
             AnalyticsReporter.LogEvent(CustomizationAnalyticsEvents.NoOutfitSelected, props);
 
-            if (!currentRef.IsAlive || cancellationToken.IsCancellationRequested)
+            if (cancellationToken.IsCancellationRequested)
             {
                 return false;
             }
 
-            var unequipCmd = new UnequipNativeAvatarAssetCommand(currentRef.Item.AssetId, CurrentCustomizableAvatar);
+            var unequipCmd = new UnequipNativeAvatarAssetCommand(itemId, CurrentCustomizableAvatar);
             await unequipCmd.ExecuteAsync(cancellationToken);
 
             if (cancellationToken.IsCancellationRequested)
@@ -265,6 +271,42 @@ namespace Genies.Customization.MegaEditor
             }
 
             return false;
+        }
+
+        private async Task<string> GetCurrentHairAssetId()
+        {
+            if (_ids == null || _ids.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var equippedIds = CurrentCustomizableAvatar.GetEquippedAssetIds();
+
+            var converter = ServiceManager.GetService<IAssetIdConverter>(null);
+
+            while (true)
+            {
+                var convertedIds = await converter.ConvertToUniversalIdsAsync(_ids);
+                if (convertedIds == null || convertedIds.Count == 0)
+                {
+                    return string.Empty;
+                }
+
+                // Faster lookup than convertedIds.Values.Contains(...) in a loop
+                var convertedSet = convertedIds.Values.ToHashSet();
+
+                var match = equippedIds.FirstOrDefault(id => convertedSet.Contains(id));
+                if (!string.IsNullOrEmpty(match))
+                {
+                    return match;
+                }
+
+                // No match; try loading more. If nothing new loads, we're done.
+                if (!await LoadMoreItemsAsync(CancellationToken.None))
+                {
+                    return string.Empty;
+                }
+            }
         }
     }
 }

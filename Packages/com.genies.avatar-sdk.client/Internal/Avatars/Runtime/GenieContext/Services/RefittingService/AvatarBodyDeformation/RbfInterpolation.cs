@@ -7,7 +7,11 @@ using UnityEngine.Profiling;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RbfInterpolation
+#else
     public sealed class RbfInterpolation
+#endif
     {
         private readonly DistanceComputeDispatcher _computeDispatcher;
 

@@ -10,7 +10,12 @@ using UMA.AssetBundles;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class DynamicAssetLoader : MonoBehaviour
+#else
     public class DynamicAssetLoader : MonoBehaviour
+#endif
     {
         private static DynamicAssetLoader _instance;
 

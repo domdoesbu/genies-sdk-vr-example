@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// Represents a single mesh asset (no sub-meshes) with a single material instance. It is assumed that the data is
     /// static and never changes, except for the <see cref="NoMerge"/> and <see cref="NoTextureCombine"/> fields.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshAsset
+#else
     public sealed class MeshAsset
+#endif
     {
         /// <summary>
         /// If enabled, <see cref="MeshBuilder"/> will create a separated submesh for this mesh asset. If disabled, the

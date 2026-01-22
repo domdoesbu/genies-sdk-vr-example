@@ -5,7 +5,11 @@ namespace Genies.UI.Scroller
     /// <summary>
     /// Extension methods for RectTransform to provide additional utility functions for UI layout and positioning calculations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class RectTransformExtensions
+#else
     public static class RectTransformExtensions
+#endif
     {
         private static readonly Vector3[] _corners = new Vector3[4];
 

@@ -10,13 +10,21 @@ using UnityEngine.UI;
 namespace Genies.UI.Components.Widgets
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MenuItemData
+#else
     public class MenuItemData
+#endif
     {
         public string Title;
         public Sprite Icon;
         public Color TextColor = Color.white;
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupMenu : PopupWidget
+#else
     public class PopupMenu : PopupWidget
+#endif
     {
         [SerializeField]
         protected List<MenuItemData> _menuItems;

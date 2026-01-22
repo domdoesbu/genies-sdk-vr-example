@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Context class that groups the dependencies required by the Avatars tech.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarsContext
+#else
     public sealed class AvatarsContext
+#endif
     {
         public IAssetLoader<SpeciesAsset> SpeciesLoader;
         public ISubSpeciesLoader SubSpeciesLoader;

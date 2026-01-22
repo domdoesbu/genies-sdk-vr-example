@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// and rotation as well as its current weight. Free targets can also have a <see cref="Transform"/> associated so
     /// it can be manipulated.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IIkrTarget : IDisposable
+#else
     public interface IIkrTarget : IDisposable
+#endif
     {
         /// <summary>
         /// Unique key of the target.

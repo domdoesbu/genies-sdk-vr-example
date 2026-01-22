@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Provides static information about all the Genie species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieSpecies
+#else
     public static class GenieSpecies
+#endif
     {
         public const string Unified = "unified";
         public const string UnifiedGAP = "unifiedGAP";

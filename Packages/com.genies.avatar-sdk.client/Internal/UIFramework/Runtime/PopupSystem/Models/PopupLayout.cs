@@ -1,5 +1,9 @@
 namespace Genies.UIFramework {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PopupLayout
+#else
     public enum PopupLayout
+#endif
     {
         /// <summary>
         /// A popup with only 1 button

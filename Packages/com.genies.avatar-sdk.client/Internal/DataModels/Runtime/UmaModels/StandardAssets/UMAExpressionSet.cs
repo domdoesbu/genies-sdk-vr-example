@@ -13,7 +13,11 @@ namespace UMA.PoseTools
     /// UMA expression set. Groups poses for expression player channels.
     /// </summary>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAExpressionSet : ScriptableObject
+#else
     public class UMAExpressionSet : ScriptableObject
+#endif
     {
         /// <summary>
         /// Pair of mutually exclusive expressions which can share a curve.

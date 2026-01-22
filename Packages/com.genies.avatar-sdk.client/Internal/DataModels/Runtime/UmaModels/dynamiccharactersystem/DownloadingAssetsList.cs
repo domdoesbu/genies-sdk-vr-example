@@ -7,7 +7,11 @@ using UnityEngine;
 namespace UMA.CharacterSystem
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DownloadingAssetsList
+#else
 	public class DownloadingAssetsList
+#endif
 	{
 		public List<DownloadingAssetItem> downloadingItems = new List<DownloadingAssetItem>();
 		public bool areDownloadedItemsReady = true;

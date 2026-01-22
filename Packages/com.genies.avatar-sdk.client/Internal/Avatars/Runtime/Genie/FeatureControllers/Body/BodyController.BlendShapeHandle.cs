@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class BodyController
+#else
     public sealed partial class BodyController
+#endif
     {
         private sealed class BlendShapeHandle
         {

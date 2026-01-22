@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for equipping a blendshape asset with <see cref="_targetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipAvatarBlendShapeCommand : UnifiedGenieModificationCommand
+#else
     public class EquipAvatarBlendShapeCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly string _previousId;

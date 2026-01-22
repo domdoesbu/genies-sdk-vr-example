@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class EditableGenieFactory
+#else
     public static class EditableGenieFactory
+#endif
     {
         private const string EditableGeniePrefabResourcesPath = "EditableGenie";
 

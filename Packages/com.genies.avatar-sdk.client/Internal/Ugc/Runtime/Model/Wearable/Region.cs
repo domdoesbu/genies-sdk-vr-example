@@ -13,7 +13,11 @@ namespace Genies.Ugc
     /// Each region can be styled independently with its own colors, patterns, and material properties.
     /// Regions are numbered to identify different areas of a mesh that can receive different styling.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Region : IModel<Region>
+#else
     public class Region : IModel<Region>
+#endif
     {
         /// <summary>
         /// The numerical identifier for this region within its parent split.
@@ -21,7 +25,7 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("RegionNumber")]
         public int RegionNumber;
-        
+
         /// <summary>
         /// The style configuration applied to this region, including colors, patterns, and material settings.
         /// If null, the region will use default styling or inherit from parent configurations.
@@ -51,7 +55,7 @@ namespace Genies.Ugc
                 RegionNumber == other.RegionNumber &&
                 (Style?.IsEquivalentTo(other.Style) ?? other.Style is null);
         }
-        
+
         /// <summary>
         /// Computes a hash code for this region based on its RegionNumber and Style.
         /// The hash ensures that equivalent regions produce the same hash code.
@@ -61,7 +65,7 @@ namespace Genies.Ugc
         {
             return HashingUtils.GetCombinedHashCode(RegionNumber, Style?.ComputeHash());
         }
-        
+
         /// <summary>
         /// Creates a deep copy of this region, including its style and all nested properties.
         /// The returned region is completely independent of the original and can be modified
@@ -76,7 +80,7 @@ namespace Genies.Ugc
                 Style = Style?.DeepCopy()
             };
         }
-        
+
         /// <summary>
         /// Performs a deep copy of this region's properties into the specified destination region.
         /// This method updates the destination region's properties to match this region,

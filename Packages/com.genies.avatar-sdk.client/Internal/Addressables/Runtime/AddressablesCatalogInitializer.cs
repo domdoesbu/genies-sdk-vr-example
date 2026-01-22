@@ -10,7 +10,11 @@ namespace Genies.Addressables
     /// Initializer that loads our Addressables content catalogs. If the catalog service singleton is already initialized and
     /// loaded then it will skip loading again (ignoring the configured base URL and content types).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AddressablesCatalogInitializer : Initializer
+#else
     public sealed class AddressablesCatalogInitializer : Initializer
+#endif
     {
         [SerializeField] private bool overrideContent; // override the content URL flag
         [SerializeField] private string contentOverrideUrl = AddressablesCatalogProvider.CloudFrontUrl(AddressablesCatalogProvider.Environment.Current); // override content URL

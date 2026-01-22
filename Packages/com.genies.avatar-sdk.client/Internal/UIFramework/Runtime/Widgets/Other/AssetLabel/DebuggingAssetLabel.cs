@@ -9,7 +9,12 @@ namespace Genies.UI
     /// A UI widget that we use to display asset IDs on QA builds. It acts as a button and will copy
     /// the asset label text to the clipboard when clicked.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class DebuggingAssetLabel : MonoBehaviour
+#else
     public sealed class DebuggingAssetLabel : MonoBehaviour
+#endif
     {
         [FormerlySerializedAs("button")] [SerializeField] private Button _button;
         [FormerlySerializedAs("label")] [SerializeField] private TMP_Text _label;

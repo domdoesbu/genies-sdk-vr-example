@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UmaMeshBuilder
+#else
     public class UmaMeshBuilder
+#endif
     {
         /// <summary>
         /// Builds a Mesh asset from the given slot data asset. The given SlotDataAsset instance can be safely destroyed afterwards
@@ -45,12 +49,12 @@ namespace Genies.Ugc
         {
             return MakeRenderer(slotDataAsset, null);
         }
-        
+
         public Ref<MeshRenderer> ToMeshRenderer(SlotDataAsset slotDataAsset, Material rendererMaterial)
         {
             return MakeRenderer(slotDataAsset, rendererMaterial);
         }
-        
+
         private Ref<MeshRenderer> MakeRenderer(SlotDataAsset slotDataAsset, Material rendererMaterial)
         {
             var go = CreateRef.FromUnityObject(new GameObject("GeneratedMeshRenderer"));
@@ -61,7 +65,7 @@ namespace Genies.Ugc
             var meshRenderer = go.Item.AddComponent<MeshRenderer>();
             meshRenderer.material = (rendererMaterial != null) ? rendererMaterial : slotDataAsset.material.material;
             var meshRendererRef = CreateRef.FromUnityObject(meshRenderer);
-            
+
             return CreateRef.FromDependentResource(meshRendererRef, go, meshRef);
         }
 
@@ -78,7 +82,7 @@ namespace Genies.Ugc
             mesh.uv4 = meshData.uv4;
             mesh.colors32 = meshData.colors32;
             mesh.bindposes = meshData.bindPoses;
-            
+
             mesh.subMeshCount = meshData.subMeshCount;
             for (int i = 0; i < meshData.subMeshCount; i++)
             {
@@ -87,7 +91,7 @@ namespace Genies.Ugc
                 mesh.SetIndices(tris, MeshTopology.Triangles, i);
                 triangles.Dispose();
             }
-            
+
             mesh.name = $"generated-from-{slotDataAsset.name}";
 
             return mesh;

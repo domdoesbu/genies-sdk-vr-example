@@ -10,7 +10,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class StaticWearableLoader : IAssetLoader<StaticWearableAsset>
+#else
     public sealed class StaticWearableLoader : IAssetLoader<StaticWearableAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

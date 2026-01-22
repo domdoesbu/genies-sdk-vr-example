@@ -23,7 +23,11 @@ using static Genies.Customization.MegaEditor.CustomizationContext;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairColorItemPickerDataSource : CustomizationItemPickerDataSource
+#else
     public class FlairColorItemPickerDataSource : CustomizationItemPickerDataSource
+#endif
     {
         [SerializeField] private NoneOrNewCTAController _Cta;
         private IFlairCustomColorPresetService _flairCustomColorPresetService => this.GetService<IFlairCustomColorPresetService>();

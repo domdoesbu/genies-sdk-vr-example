@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// Specific <see cref="IRefittingService"/> implementation that uses <see cref="IReferenceShape"/> implementations.
     /// RS stands for reference shape.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RsRefittingService : IRefittingService, IDisposable
+#else
     public sealed class RsRefittingService : IRefittingService, IDisposable
+#endif
     {
         public string BlendShapePrefix = "refitting.";
         

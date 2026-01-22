@@ -12,7 +12,11 @@ namespace Genies.Ugc
     /// including asset providers for element containers and other core UGC functionality.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UgcServicesInstaller : IGeniesInstaller
+#else
     public class UgcServicesInstaller : IGeniesInstaller
+#endif
     {
         /// <summary>
         /// Installs UGC services into the dependency injection container.

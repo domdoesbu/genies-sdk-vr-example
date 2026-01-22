@@ -6,7 +6,11 @@ namespace Genies.Avatars.Behaviors
     /// Static state machine that manages camera focus states and determines which animation transitions are allowed based on the current camera focus.
     /// This class controls which idle animations can be triggered depending on whether the camera is focused on the complete avatar or specific categories.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CameraFocusStateMachine
+#else
     public static class CameraFocusStateMachine
+#endif
     {
         static CameraFocusStateMachine()
         {

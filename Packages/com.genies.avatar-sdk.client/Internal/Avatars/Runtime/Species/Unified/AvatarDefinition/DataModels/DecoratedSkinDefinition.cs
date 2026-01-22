@@ -8,7 +8,11 @@ using Newtonsoft.Json;
 namespace Genies.UGCW.Data
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DecoratedSkinDefinition : AvatarFeatureDefinition, IEquatable<DecoratedSkinDefinition>
+#else
     public class DecoratedSkinDefinition : AvatarFeatureDefinition, IEquatable<DecoratedSkinDefinition>
+#endif
     {
         [JsonProperty("BaseSkin")]
         public BaseSkinDefinition BaseSkin = new BaseSkinDefinition();

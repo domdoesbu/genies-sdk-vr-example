@@ -3,7 +3,11 @@ namespace Genies.Shaders
     /// <summary>
     /// All the properties available on the mega shader that are not specific to regions.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum MegaShaderProperty : byte
+#else
     public enum MegaShaderProperty : byte
+#endif
     {
         UserColor,
         AlbedoTransparency,

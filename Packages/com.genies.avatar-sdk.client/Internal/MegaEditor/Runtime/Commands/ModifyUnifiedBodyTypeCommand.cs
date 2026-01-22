@@ -4,7 +4,11 @@ using Genies.Avatars;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ModifyUnifiedBodyTypeCommand : UnifiedGenieModificationCommand
+#else
     public class ModifyUnifiedBodyTypeCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly GSkelModifierPreset _bodyPreset;
         private readonly GSkelModifierPreset _previousBodyPreset;

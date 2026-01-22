@@ -1,6 +1,10 @@
-﻿namespace Genies.Analytics
+namespace Genies.Analytics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NoOpAnalyticsService : IAnalyticsService
+#else
     public sealed class NoOpAnalyticsService : IAnalyticsService
+#endif
     {
         public void LogEvent(string eventName) { }
         public void LogEvent(string eventName, AnalyticProperties properties) { }

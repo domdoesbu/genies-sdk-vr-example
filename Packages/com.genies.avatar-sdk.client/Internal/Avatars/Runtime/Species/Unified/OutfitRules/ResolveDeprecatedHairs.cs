@@ -2,7 +2,11 @@ using System.Collections.Generic;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ResolveDeprecatedHairs : IAssetsValidationRule<OutfitAsset>
+#else
     public class ResolveDeprecatedHairs : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         private HashSet<string> deprecatedHairs = new HashSet<string>()
         {

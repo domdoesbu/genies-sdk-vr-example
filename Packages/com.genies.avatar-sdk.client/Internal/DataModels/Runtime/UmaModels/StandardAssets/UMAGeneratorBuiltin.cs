@@ -7,7 +7,11 @@ namespace UMA
 	/// <summary>
 	/// Default UMA character generator.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class UMAGeneratorBuiltin : UMAGeneratorBase
+#else
 	public abstract class UMAGeneratorBuiltin : UMAGeneratorBase
+#endif
 	{
 		[NonSerialized]
 		protected UMAData umaData;

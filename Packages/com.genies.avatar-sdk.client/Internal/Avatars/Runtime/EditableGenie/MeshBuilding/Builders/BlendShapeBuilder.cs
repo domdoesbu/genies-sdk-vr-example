@@ -17,7 +17,11 @@ namespace Genies.Avatars
     /// In order for this to work it is assumed that the mesh/group assets used to rebuild the blendshapes are given
     /// in the same order that was used to build the mesh data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BlendShapeBuilder
+#else
     public sealed class BlendShapeBuilder
+#endif
     {
         public int BlendShapeCount => _blendShapes.Count;
         public int VertexCount     => _vertexCount;

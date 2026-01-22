@@ -6,7 +6,11 @@ namespace UMA
 	/// <summary>
 	/// Utility class for aligning meshes with the same rig but different binds.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class SkinnedMeshAligner
+#else
 	public static class SkinnedMeshAligner
+#endif
 	{
 	    public static void AlignBindPose(SkinnedMeshRenderer template, SkinnedMeshRenderer data)
 	    {

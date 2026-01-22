@@ -6,7 +6,11 @@ using System.Collections.Generic;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DynamicCharacterSystem : DynamicCharacterSystemBase
+#else
 	public class DynamicCharacterSystem : DynamicCharacterSystemBase
+#endif
 	{
 		public Dictionary<string, UMATextRecipe> RecipeIndex = new Dictionary<string, UMATextRecipe>();
 		public Dictionary<string, Dictionary<string, List<UMATextRecipe>>> Recipes = new Dictionary<string, Dictionary<string, List<UMATextRecipe>>>();

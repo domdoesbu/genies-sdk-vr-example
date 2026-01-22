@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about attempts to resend verification codes to users.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthOtpRefreshResponse : GeniesAuthMessage
+#else
     public class GeniesAuthOtpRefreshResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the OTP refresh operation.</summary>
         [NonSerialized]

@@ -24,7 +24,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ColorPresetItemPickerDataSource", menuName = "Genies/Customizer/DataSource/ColorPresetItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ColorPresetItemPickerDataSource : CustomizationItemPickerDataSource
+#else
     public class ColorPresetItemPickerDataSource : CustomizationItemPickerDataSource
+#endif
     {
         [SerializeField]
         private ColorMainTypes _mainType;
@@ -89,7 +93,7 @@ namespace Genies.Customization.MegaEditor
             if (CurrentVirtualCameraController != null)
             {
                 //Aim the camera at the body area
-                CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera);
+                CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera).Forget();
             }
 
             _customizer.View.SecondaryItemPicker.Show(this).Forget();
@@ -102,7 +106,7 @@ namespace Genies.Customization.MegaEditor
             if (CurrentVirtualCameraController != null)
             {
                 //Aim the camera at the body area
-                CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+                CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera).Forget();
             }
 
             _customizer.View.SecondaryItemPicker.Hide();

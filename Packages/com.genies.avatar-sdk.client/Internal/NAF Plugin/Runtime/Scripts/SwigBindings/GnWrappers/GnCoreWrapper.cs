@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class GnCoreWrapper {
+#else
 public class GnCoreWrapper {
+#endif
   public static uint MegaSkinTattooSlotCount {
     get {
       uint ret = GnCoreWrapperPINVOKE.MegaSkinTattooSlotCount_get();

@@ -21,7 +21,11 @@ namespace UMA.PoseTools
 	/// the mesh shape as an alternative to a vertex based blendshape.
 	/// </remarks>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMABonePose : ScriptableObject
+#else
 	public class UMABonePose : ScriptableObject
+#endif
 	{
 		/// <summary>
 		/// Pose data for a single transform.

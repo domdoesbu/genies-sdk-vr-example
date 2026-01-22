@@ -1,4 +1,4 @@
-﻿//	============================================================
+//	============================================================
 //	Name:		ExpressionPlayer
 //	Author: 	Eli Curtz
 //	Copyright:	(c) 2013 Eli Curtz
@@ -22,7 +22,12 @@ namespace UMA.PoseTools
 	/// ISBN-13: 978-0470609903
 	/// They could be implemented with either bone animation or blendshapes.
 	/// </remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class ExpressionPlayer : MonoBehaviour
+#else
 	public class ExpressionPlayer : MonoBehaviour
+#endif
 	{
 		/// <summary>
 		/// Enable procedural blinking.

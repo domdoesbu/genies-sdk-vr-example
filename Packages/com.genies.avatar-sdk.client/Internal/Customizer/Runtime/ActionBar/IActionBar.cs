@@ -5,7 +5,11 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.Customization.Framework.Actions
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IActionBar
+#else
     public interface IActionBar
+#endif
     {
         public event Action UndoRequested;
         public event Action RedoRequested;

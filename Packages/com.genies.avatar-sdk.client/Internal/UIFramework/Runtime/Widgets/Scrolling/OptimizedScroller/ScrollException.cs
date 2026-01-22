@@ -2,7 +2,11 @@ using System;
 
 namespace Genies.UI.Scroller
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ScrollException : Exception
+#else
     public class ScrollException : Exception
+#endif
     {
         public ScrollException()
         {

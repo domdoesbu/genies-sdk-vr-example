@@ -9,16 +9,20 @@ namespace Genies.Assets.Services
     /// <summary>
     /// A no-op assets provider.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PlaceholderAssetsProvider<T> : IAssetsProvider<T>
+#else
     public class PlaceholderAssetsProvider<T> : IAssetsProvider<T>
+#endif
     {
         public static PlaceholderAssetsProvider<T> Instance => _instance ??= new PlaceholderAssetsProvider<T>();
-        
+
         private static PlaceholderAssetsProvider<T> _instance;
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
         private static readonly IList<Ref<T>> EmptyRefs = new List<Ref<T>>(0).AsReadOnly();
-        
+
         public bool IsCached => false;
-        
+
         public UniTask<Ref<T>> LoadAssetAsync(object key)
             => UniTask.FromResult<Ref<T>>(default);
 

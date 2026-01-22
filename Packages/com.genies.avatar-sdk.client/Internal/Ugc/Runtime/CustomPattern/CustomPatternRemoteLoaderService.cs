@@ -17,7 +17,11 @@ namespace Genies.Ugc.CustomPattern
     /// Uses <see cref="IGeniesS3Service"/> and <see cref="ICloudFeatureSaveService{T}"/> to upload patterns to our backend and sync them
     /// across devices.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomPatternRemoteLoaderService : ICustomPatternService
+#else
     public class CustomPatternRemoteLoaderService : ICustomPatternService
+#endif
     {
         // dependencies
         private readonly IGeniesS3Service _s3Service;

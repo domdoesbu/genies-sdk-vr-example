@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Genies.Avatars;
 using Genies.Refs;
 using UnityEngine;
@@ -10,7 +10,11 @@ namespace Genies.Avatars.Context
     /// definition or be able to set the LOD or <see cref="AvatarsContext"/> since that is all handled by each specific
     /// implementation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAvatarLoader
+#else
     public interface IAvatarLoader
+#endif
     {
         UniTask<IGenie> LoadAsync(Transform parent = null);
         UniTask<Ref<IGeniePrefab>> LoadAsPrefabAsync();

@@ -6,7 +6,11 @@ namespace UMA
 	/// <summary>
 	/// Example DNA converter behaviour. Only adjusts distance between eyes.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class TutorialDNAConverterBehaviour : DnaConverterBehaviour
+#else
 	public class TutorialDNAConverterBehaviour : DnaConverterBehaviour
+#endif
 	{
 		public TutorialDNAConverterBehaviour()
 	    {

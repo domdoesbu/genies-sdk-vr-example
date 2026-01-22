@@ -6,7 +6,11 @@ using UnityEngine.Serialization;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ImageLibraryContainer : OrderedScriptableObject, IDynamicAsset
+#else
     public class ImageLibraryContainer : OrderedScriptableObject, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

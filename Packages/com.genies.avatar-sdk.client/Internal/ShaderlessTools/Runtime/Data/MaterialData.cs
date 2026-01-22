@@ -12,7 +12,11 @@ namespace Genies.Components.ShaderlessTools
     /// NewtonsoftJson uses JsonProperty attribute to match the right properties
     /// </summary>
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialData
+#else
     public class MaterialData
+#endif
     {
         [JsonProperty("serializedVersion")] public string serializedVersion;
         [JsonProperty("m_Name")] public string m_Name;
@@ -33,7 +37,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderData
+#else
     public class ShaderData
+#endif
     {
         [JsonProperty("fileID")] public long fileID;
         [JsonProperty("guid")] public string guid;
@@ -41,7 +49,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SavedProperties
+#else
     public class SavedProperties
+#endif
     {
         [JsonProperty("serializedVersion")] public string serializedVersion;
         [JsonProperty("m_TexEnvs")] public List<TexEnv> m_TexEnvs;
@@ -51,7 +63,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TexEnv
+#else
     public class TexEnv
+#endif
     {
         /// <summary>
         /// Texture Property Name
@@ -65,7 +81,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TextureProperty
+#else
     public class TextureProperty
+#endif
     {
         public Texture texture;
         [JsonProperty("m_Texture")] public SerializedTex m_Texture;
@@ -77,7 +97,11 @@ namespace Genies.Components.ShaderlessTools
     /// Used to read UnityEngine.Object.Texture data
     /// </summary>
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SerializedTex
+#else
     public class SerializedTex
+#endif
     {
         public long instanceID;
         public long fileID;
@@ -86,21 +110,33 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class IntegerProperty
+#else
     public class IntegerProperty
+#endif
     {
         [JsonProperty("first")] public string first;
         [JsonProperty("second")] public int second;
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FloatProperty
+#else
     public class FloatProperty
+#endif
     {
         [JsonProperty("first")] public string first;
         [JsonProperty("second")] public double second;
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ColorProperty
+#else
     public class ColorProperty
+#endif
     {
         [JsonProperty("first")] public string first;
         [JsonProperty("second")] public Color second;
@@ -110,7 +146,11 @@ namespace Genies.Components.ShaderlessTools
     /// Wraps Material data to match the json output from ShaderUtil.
     /// </summary>
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataJson
+#else
     public class MaterialDataJson
+#endif
     {
         [JsonProperty("Material")] public MaterialData Material;
     }

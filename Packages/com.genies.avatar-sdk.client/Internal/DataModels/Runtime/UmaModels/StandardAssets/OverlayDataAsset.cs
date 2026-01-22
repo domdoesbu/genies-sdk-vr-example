@@ -9,7 +9,11 @@ namespace UMA
 	/// </summary>
 	[PreferBinarySerialization]
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class OverlayDataAsset : ScriptableObject, ISerializationCallbackReceiver
+#else
 	public partial class OverlayDataAsset : ScriptableObject, ISerializationCallbackReceiver
+#endif
 	{
 		[Tooltip("The name of this overlay.")]
 		public string overlayName;

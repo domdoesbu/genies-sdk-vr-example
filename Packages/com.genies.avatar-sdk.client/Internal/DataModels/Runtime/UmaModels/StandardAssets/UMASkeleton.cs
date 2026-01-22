@@ -8,7 +8,11 @@ namespace UMA
 	/// Class links UMA's bone data with Unity's transform hierarchy.
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMASkeleton
+#else
 	public class UMASkeleton
+#endif
 	{
 		/// <summary>
 		/// Internal class for storing bone and transform information.

@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// <see cref="IOutfitAssetLoader"/> implementation capable of loading static assets only.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class StaticOutfitAssetLoader : OutfitAssetLoaderBase
+#else
     public sealed class StaticOutfitAssetLoader : OutfitAssetLoaderBase
+#endif
     {
         private static readonly IReadOnlyList<string> _supportedTypes
             = new List<string> { StaticWearableAsset.OutfitAssetType }.AsReadOnly();

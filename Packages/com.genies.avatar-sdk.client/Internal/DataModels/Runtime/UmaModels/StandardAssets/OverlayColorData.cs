@@ -9,7 +9,11 @@ namespace UMA
 	/// Overlay color data.
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class OverlayColorData :  System.IEquatable<OverlayColorData>
+#else
 	public class OverlayColorData :  System.IEquatable<OverlayColorData>
+#endif
 	{
 		public static int currentinstance = 0;
 		[NonSerialized]

@@ -5,7 +5,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains all the tattoo slots available for the unified species and their transform presets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedTattooSlot
+#else
     public static class UnifiedTattooSlot
+#endif
     {
         public const string LeftTopForearm = "LeftTopForearmTattoos";
         public const string LeftTopOuterArm = "LeftTopOuterArmTattoos";

@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using Genies.Login.Native;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 namespace Genies.Avatars.Sdk.LoadMyAvatar
 {
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class LoadMyAvatar : MonoBehaviour
 #else
     public class LoadMyAvatar : MonoBehaviour
@@ -14,7 +15,7 @@ namespace Genies.Avatars.Sdk.LoadMyAvatar
         public bool ShouldLoadController = false;
         public GameObject AvatarSpawnLocation;
         public RuntimeAnimatorController OptionalController;
-        public CinemachineFreeLook CinemachineFreeLookSettings;
+        public CinemachineCamera CinemachineFreeLookSettings;
         private GeniesAvatarController loadedController;
 
         private async void Start()

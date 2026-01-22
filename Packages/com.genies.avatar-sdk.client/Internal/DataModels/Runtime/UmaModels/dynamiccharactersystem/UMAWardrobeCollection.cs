@@ -8,7 +8,11 @@ using System.Collections.Generic;
 namespace UMA.CharacterSystem
 {
 	//Because this is a class for user generated content it is marked as partial so it can be extended without modifying the underlying code
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMAWardrobeCollection : UMATextRecipe
+#else
 	public partial class UMAWardrobeCollection : UMATextRecipe
+#endif
 	{
 		[Tooltip("Cover images for the collection as a whole. Use these for a promotional images for this collection, presenting the goodies inside.")]
 		public List<Sprite> coverImages = new List<Sprite>();

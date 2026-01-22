@@ -12,7 +12,11 @@ namespace Genies.Assets.Services
     /// </br>
     /// The assets provider has direct methods to load all the assets that it represents and also some caching utilities.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAssetsProvider<T>
+#else
     public interface IAssetsProvider<T>
+#endif
     {
         bool IsCached { get; }
 
@@ -20,7 +24,7 @@ namespace Genies.Assets.Services
         UniTask<IResourceLocation> LoadResourceLocationAsync(object key);
 
         UniTask<IList<IResourceLocation>> LoadAllResourceLocationsAsync();
-        
+
         UniTask<Ref<IList<T>>> LoadAllAssetsAsync();
         UniTask<Ref<IList<T>>> LoadAllAssetsAsync(Action<T> callback);
 

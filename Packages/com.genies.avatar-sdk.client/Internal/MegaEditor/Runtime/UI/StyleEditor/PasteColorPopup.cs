@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 namespace Genies.Looks.Customization.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PasteColorPopup : OkCancelPopupWidget
+#else
     public class PasteColorPopup : OkCancelPopupWidget
+#endif
     {
         [SerializeField]
         private TMP_InputField _inputField;

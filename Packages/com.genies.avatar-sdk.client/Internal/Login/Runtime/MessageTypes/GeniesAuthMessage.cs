@@ -8,7 +8,11 @@ namespace Genies.Login.AuthMessages
     /// Provides common properties for status checking and error handling across all authentication operations.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthMessage : ISerializationCallbackReceiver
+#else
     public class GeniesAuthMessage : ISerializationCallbackReceiver
+#endif
     {
         /// <summary>
         /// Gets a value indicating whether the authentication operation was successful.

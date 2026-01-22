@@ -13,7 +13,11 @@ namespace Genies.Avatars
     /// There are probably other more elegant solutions to this, but they would require more refactoring, and we are
     /// already planning to rewrite the avatar tech in standalone, so I don't think it is worth it.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarEmbeddedData
+#else
     public static class AvatarEmbeddedData
+#endif
     {
         public static int Count => Data.Count;
         

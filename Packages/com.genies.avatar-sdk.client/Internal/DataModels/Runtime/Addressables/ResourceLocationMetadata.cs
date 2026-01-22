@@ -2,7 +2,11 @@
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ResourceLocationMetadata
+#else
     public class ResourceLocationMetadata
+#endif
     {
         public Type Type;
         public string Address;

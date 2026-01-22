@@ -22,7 +22,11 @@ namespace Genies.Avatars
     /// In order to customize the rules for these operations this class exposes 4 protected lists of validation rules
     /// that should fulfill any use case.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class AssetsController<TAsset> : IAssetsController<TAsset>, IDisposable
+#else
     public abstract class AssetsController<TAsset> : IAssetsController<TAsset>, IDisposable
+#endif
         where TAsset : IAsset
     {
         // child class must only define how to load an asset from its ID and what to do when an asset is equipped/unequipped

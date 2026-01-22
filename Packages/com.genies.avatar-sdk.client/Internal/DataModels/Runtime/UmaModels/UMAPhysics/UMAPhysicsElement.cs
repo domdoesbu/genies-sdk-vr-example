@@ -3,7 +3,11 @@ using UnityEngine;
 namespace UMA.Dynamics
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAPhysicsElement : ScriptableObject
+#else
 	public class UMAPhysicsElement : ScriptableObject
+#endif
 	{
 		[Tooltip("Set to true for root hip definition only")]
 		public bool isRoot = false;

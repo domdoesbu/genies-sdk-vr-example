@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Handles getting/adding/removing <see cref="GenieComponent"/>s from a <see cref="IGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GenieComponentManager
+#else
     public sealed class GenieComponentManager
+#endif
     {
         public IReadOnlyList<GenieComponent> All => _components;
         public int Count => _components.Count;

@@ -7,7 +7,11 @@ using Genies.Assets.Services;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class WearableRenderer : IWearableRenderer
+#else
     public class WearableRenderer : IWearableRenderer
+#endif
     {
         private readonly IAssetLoader<UgcElementAsset> _elementLoader;
         private readonly IMegaMaterialBuilder _megaMaterialBuilder;

@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// deform transfer as target point deltas.
     /// </summary>
     [BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct TransferDeformAsDeltasJob : IJobParallelFor
+#else
     public struct TransferDeformAsDeltasJob : IJobParallelFor
+#endif
     {
         public NativeArray<Vector3> Deltas;
 

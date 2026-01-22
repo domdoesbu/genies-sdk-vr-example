@@ -9,20 +9,25 @@ namespace Genies.Naf
     /**
      * Base class for native mesh renderers, which can render native meshes with native materials.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class NativeMeshRenderer : MonoBehaviour
+#else
     public abstract class NativeMeshRenderer : MonoBehaviour
+#endif
     {
         /**
          * The current materials set to the renderer (as NativeMaterial).
          */
         public IReadOnlyList<NativeMaterial> Materials => _readOnlyMaterials ??= _materials.AsReadOnly();
-        
+
         public event Action UpdatedMesh;
         public event Action UpdatedMaterials;
-        
+
         private Renderer _renderer;
         private readonly List<NativeMaterial> _materials = new();
         private IReadOnlyList<NativeMaterial> _readOnlyMaterials;
-        
+
         protected void SetRenderer(Renderer renderer)
         {
             if (renderer == _renderer)
@@ -44,12 +49,12 @@ namespace Genies.Naf
         {
             UpdatedMesh?.Invoke();
         }
-        
+
         protected virtual void OnDestroy()
         {
             UpdatedMesh = null;
             UpdatedMaterials = null;
-            
+
             if (_renderer)
             {
                 _renderer.sharedMaterials = Array.Empty<Material>();
@@ -58,10 +63,10 @@ namespace Genies.Naf
             _renderer = null;
             ClearMaterials();
         }
-        
+
         public abstract void SetMesh(RuntimeMesh runtimeMesh);
         public abstract void ClearMesh();
-        
+
         /**
          * Sets the RuntimeMesh attribute from the given entity, if any.
          */
@@ -94,7 +99,7 @@ namespace Genies.Naf
                 ClearMaterials();
                 return;
             }
-            
+
             runtimeMesh.UpdatePrimitiveMaterials(_materials);
             UpdateRenderer();
         }
@@ -118,14 +123,14 @@ namespace Genies.Naf
 
                 ++i;
             }
-            
+
             int count = i;
             for (i = _materials.Count - 1; i >= count; --i)
             {
                 _materials[i].Dispose();
                 _materials.RemoveAt(i);
             }
-            
+
             UpdateRenderer();
         }
 
@@ -147,7 +152,7 @@ namespace Genies.Naf
 
             _materials.Clear();
         }
-        
+
         private void UpdateRenderer()
         {
             if (_materials.Count == 0)
@@ -156,7 +161,7 @@ namespace Genies.Naf
                 UpdatedMaterials?.Invoke();
                 return;
             }
-            
+
             var materials = new Material[_materials.Count];
             for (int i = 0; i < materials.Length; ++i)
             {

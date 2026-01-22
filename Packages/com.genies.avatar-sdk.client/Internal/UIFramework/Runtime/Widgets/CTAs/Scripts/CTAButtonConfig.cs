@@ -7,7 +7,11 @@ namespace Genies.UI.Widgets
     /// Config class for a given CTA button.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CTAButtonConfig
+#else
     public class CTAButtonConfig
+#endif
     {
         [SerializeField]
         private GameObject _gameObject;

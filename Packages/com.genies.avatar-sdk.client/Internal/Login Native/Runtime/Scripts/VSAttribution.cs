@@ -5,7 +5,11 @@ using UnityEngine.Analytics;
 // Prefix this namespace with a keyword that matches your product's other namespaces
 namespace Genies.VS
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class VSAttribution
+#else
 	public static class VSAttribution
+#endif
 	{
 #if UNITY_EDITOR
         private const int k_VersionId = 4;

@@ -5,7 +5,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Ugc.CustomSkin
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomSkinCloudSaveJsonSerializer : ICloudSaveJsonSerializer<SkinColorData>
+#else
     public class CustomSkinCloudSaveJsonSerializer : ICloudSaveJsonSerializer<SkinColorData>
+#endif
     {
         public string ToJson(SkinColorData data)
         {

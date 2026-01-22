@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// the fields can be left uninitialized so their deformations are ignored (i.e.: if bindposes length is 0 then no
     /// skinning deformations will be applied).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct MeshDeformationDescriptor : IDisposable
+#else
     public struct MeshDeformationDescriptor : IDisposable
+#endif
     {
         public NativeArray<float>     MortphTargetWeights;
         public NativeArray<Matrix4x4> TargetBindposes;

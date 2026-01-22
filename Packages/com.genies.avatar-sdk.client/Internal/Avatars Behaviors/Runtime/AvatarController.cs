@@ -12,7 +12,12 @@ namespace Genies.Avatars.Behaviors
     /// The avatar controller manages avatars as individual instances, providing functionality for avatar creation, animation control, and lifecycle management.
     /// This class serves as the main implementation of the IAvatarController interface and handles avatar behavior orchestration.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class AvatarController : MonoBehaviour, IAvatarController
+#else
     public class AvatarController : MonoBehaviour, IAvatarController
+#endif
     {
         /// <summary>
         /// Gets the GameObject containing the genie (avatar) representation.

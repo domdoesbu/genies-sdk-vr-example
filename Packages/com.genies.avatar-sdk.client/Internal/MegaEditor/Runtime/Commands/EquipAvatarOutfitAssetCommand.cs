@@ -8,7 +8,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Equips the avatar outfit asset using its id <see cref="_assetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipAvatarOutfitAssetCommand : UnifiedGenieModificationCommand
+#else
     public class EquipAvatarOutfitAssetCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _assetId;
 

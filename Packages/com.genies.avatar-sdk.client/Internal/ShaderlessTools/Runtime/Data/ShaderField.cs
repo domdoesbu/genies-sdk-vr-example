@@ -6,7 +6,11 @@ using UnityEngine;
 namespace Genies.Components.ShaderlessTools
 {
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ShaderFieldType
+#else
     public enum ShaderFieldType
+#endif
     {
         Int,
         StringList,
@@ -16,7 +20,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderField
+#else
     public class ShaderField
+#endif
     {
         public string name;
         public ShaderFieldType type;
@@ -35,7 +43,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class StringField
+#else
     public class StringField
+#endif
     {
         public string value;
 
@@ -50,7 +62,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class StringListField
+#else
     public class StringListField
+#endif
     {
         public List<string> value;
 
@@ -65,7 +81,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class IntField
+#else
     public class IntField
+#endif
     {
         public int value;
 
@@ -80,7 +100,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BoolField
+#else
     public class BoolField
+#endif
     {
         public bool value;
 
@@ -95,7 +119,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ShaderFieldExtensions
+#else
     public static class ShaderFieldExtensions
+#endif
     {
         public static string GetAsString(this ShaderField field)
         {

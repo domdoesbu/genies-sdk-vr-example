@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RemoveDnaForGAP : IAssetsValidationRule<OutfitAsset>
+#else
     public class RemoveDnaForGAP : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         private static readonly HashSet<string> dnaSlots = new HashSet<string>
         {

@@ -6,7 +6,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ApplyMorphTargetsJob : IJobParallelFor
+#else
     public struct ApplyMorphTargetsJob : IJobParallelFor
+#endif
     {
         private NativeArray<Vector3> _vertices;
         

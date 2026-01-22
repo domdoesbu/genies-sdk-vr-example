@@ -11,7 +11,11 @@ namespace Genies.Inventory.Providers
     /// <summary>
     /// Generates Resource Locations out of Metadata from Inventory.. Replaces Merged Catalogs for Animations..
     /// </summary>
-    public class DynamicContentLocationsFromDefaultInventory :  IResourceLocationMetadataProvider<DefaultAnimationLibraryAsset>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicContentLocationsFromDefaultInventory : IResourceLocationMetadataProvider<DefaultAnimationLibraryAsset>
+#else
+    public class DynamicContentLocationsFromDefaultInventory : IResourceLocationMetadataProvider<DefaultAnimationLibraryAsset>
+#endif
     {
         public UniTask<List<ResourceLocationMetadata>> Provide(DefaultAnimationLibraryAsset metadata, string platform, string baseUrl, IEnumerable<string> lods, IEnumerable<string> iconSizes)
         {
@@ -84,7 +88,7 @@ namespace Genies.Inventory.Providers
 
             return UniTask.FromResult(locationData);
         }
-        
+
         private Type GetContainerForAnimation(string category)
         {
             return category.ToLower() switch

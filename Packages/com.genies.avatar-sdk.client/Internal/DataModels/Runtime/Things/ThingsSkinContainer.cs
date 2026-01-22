@@ -11,7 +11,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ThingsSkinContainer", menuName = "Genies/Things/ThingsSkinContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ThingsSkinContainer : ASkinContainer, IDynamicAsset
+#else
     public class ThingsSkinContainer : ASkinContainer, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

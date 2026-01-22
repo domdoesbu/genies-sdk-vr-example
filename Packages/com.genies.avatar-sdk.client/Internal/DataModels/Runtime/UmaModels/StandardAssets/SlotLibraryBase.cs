@@ -7,7 +7,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for UMA slot libraries.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal abstract class SlotLibraryBase : MonoBehaviour 
+#else
 	public abstract class SlotLibraryBase : MonoBehaviour 
+#endif
 	{
 		public virtual void AddSlotAsset(SlotDataAsset slot) { throw new NotFiniteNumberException(); }
 		public virtual SlotDataAsset[] GetAllSlotAssets() { throw new NotFiniteNumberException(); }

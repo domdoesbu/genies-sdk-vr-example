@@ -3,7 +3,11 @@ using Genies.Services.Configs;
 
 namespace Genies.CloudSave
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CloudFeatureResolver : IApiClientPathResolver
+#else
     public class CloudFeatureResolver : IApiClientPathResolver
+#endif
     {
         public string GetApiBaseUrl(BackendEnvironment environment)
         {

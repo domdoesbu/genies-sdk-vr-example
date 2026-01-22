@@ -6,13 +6,17 @@ namespace Genies.UIFramework
     /// Defines the visual styling for popup buttons including background and text colors.
     /// Provides predefined styles for common button types like default, secondary, and negative actions.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupButtonStyle
+#else
     public class PopupButtonStyle
+#endif
     {
         /// <summary>
         /// The text color for the button.
         /// </summary>
         public Color TextColor;
-        
+
         /// <summary>
         /// The background color for the button.
         /// </summary>
@@ -22,7 +26,7 @@ namespace Genies.UIFramework
         /// The default white text color for buttons.
         /// </summary>
         public static readonly Color DefaultButtonTextColor = Color.white;
-        
+
         /// <summary>
         /// The default blue background color for primary buttons.
         /// </summary>
@@ -37,7 +41,7 @@ namespace Genies.UIFramework
         /// Red background color used for negative/destructive action buttons.
         /// </summary>
         public static readonly Color NegativeButtonColor = new Color32(255, 48, 48, 255);
-        
+
         /// <summary>
         /// Light gray background color used for secondary buttons.
         /// </summary>

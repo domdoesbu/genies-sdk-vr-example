@@ -6,7 +6,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Some static utility methods to work with <see cref="Material"/> instances using the mega shader.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MegaMaterialUtility
+#else
     public static class MegaMaterialUtility
+#endif
     {
         public static Region[] GetRegions(Material material, int count)
         {

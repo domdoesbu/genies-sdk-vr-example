@@ -11,7 +11,11 @@ namespace Genies.Customizer.Editor.Navigation
     /// Provides a dropdown in the Unity Inspector for selecting child nodes
     /// </summary>
     [CustomPropertyDrawer(typeof(ChildNodeDropdownAttribute))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ChildNodeDropdownDrawer : PropertyDrawer
+#else
     public class ChildNodeDropdownDrawer : PropertyDrawer
+#endif
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -59,7 +63,7 @@ namespace Genies.Customizer.Editor.Navigation
             // Create the dropdown
             EditorGUI.BeginChangeCheck();
             int newIndex = EditorGUI.Popup(position, label.text, currentIndex, optionNames.ToArray());
-            
+
             if (EditorGUI.EndChangeCheck() && newIndex >= 0 && newIndex < options.Count)
             {
                 property.objectReferenceValue = options[newIndex];
@@ -68,4 +72,4 @@ namespace Genies.Customizer.Editor.Navigation
             EditorGUI.EndProperty();
         }
     }
-} 
+}

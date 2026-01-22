@@ -1,6 +1,10 @@
 namespace Genies.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IExpandablePanel<TState>
+#else
     public interface IExpandablePanel<TState>
+#endif
     {
         delegate void TransitionStartedHandler(TState fromState, TState toState);
         delegate void TransitionUpdatedHandler(TState fromState, TState toState, float lerp);

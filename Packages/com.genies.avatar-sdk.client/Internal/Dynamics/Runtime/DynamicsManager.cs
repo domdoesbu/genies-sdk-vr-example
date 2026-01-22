@@ -7,7 +7,12 @@ namespace Genies.Components.Dynamics
     /// Manager for all instances <see cref="DynamicsStructure"/>. This class contains all global settings for dynamics.
     /// It is optional to instantiate this manager in your scene. If not instantiated then default settings will be used.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class DynamicsManager : MonoBehaviour
+#else
     public class DynamicsManager : MonoBehaviour
+#endif
     {
         public static DynamicsManager Instance { get; private set; }
 
@@ -41,7 +46,7 @@ namespace Genies.Components.Dynamics
                 Instance?.SetExistingStructuresUpdateMethod(value);
             }
         }
-        
+
         private static DynamicsStructure.ComputeMethod _computeMethod = DynamicsStructure.ComputeMethod.CPU_JOBS;
         [Tooltip(DynamicsTooltips.ComputeMethod)]
         public static DynamicsStructure.ComputeMethod DefaultComputeMethod
@@ -199,7 +204,7 @@ namespace Genies.Components.Dynamics
                 dstruct.DynamicsUpdateMethod = method;
             }
         }
-        
+
         //sets the compute method of all the known dynamics structures
         private void SetExistingStructuresComputeMethod(DynamicsStructure.ComputeMethod method)
         {

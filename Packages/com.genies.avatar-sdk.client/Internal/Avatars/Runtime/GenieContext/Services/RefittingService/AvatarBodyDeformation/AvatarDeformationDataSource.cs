@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Handles persisting body deform results between sessions.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarDeformationDataSource
+#else
     public sealed class AvatarDeformationDataSource
+#endif
     {
         private static readonly string DataFilePath = Path.Combine(Application.persistentDataPath, "avatar-deformation-data.json");
         

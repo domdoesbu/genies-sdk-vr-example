@@ -7,7 +7,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "Unified-TriangulatedShape-Loader", menuName = "Genies/Reference Shape Loaders/Unified Triangulated Shape")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UnifiedTriangulatedShapeLoader : UnifiedReferenceShapesLoader
+#else
     public sealed class UnifiedTriangulatedShapeLoader : UnifiedReferenceShapesLoader
+#endif
     {
         public enum TswSolver
         {

@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Components.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PopupMenuItemBGType : ushort
+#else
     public enum PopupMenuItemBGType : ushort
+#endif
     {
         Top = 0,
         Middle = 1,
@@ -14,7 +18,12 @@ namespace Genies.UI.Components.Widgets
     [RequireComponent(typeof(Image))]
     [RequireComponent(typeof(Button))]
     [RequireComponent(typeof(RectTransform))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PopupMenuItem : MonoBehaviour
+#else
     public class PopupMenuItem : MonoBehaviour
+#endif
     {
         [SerializeField]
         private Texture2D _topBG;

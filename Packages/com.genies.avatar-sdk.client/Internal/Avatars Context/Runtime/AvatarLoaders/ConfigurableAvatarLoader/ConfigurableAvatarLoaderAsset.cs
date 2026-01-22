@@ -11,7 +11,11 @@ namespace Genies.Avatars.Context
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ConfigurableAvatarLoader", menuName = "Genies/Avatar Loaders/Configurable Avatar Loader")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ConfigurableAvatarLoaderAsset : AvatarLoaderAsset, IAvatarDefinitionSource
+#else
     public sealed class ConfigurableAvatarLoaderAsset : AvatarLoaderAsset, IAvatarDefinitionSource
+#endif
     {
         [SerializeField]
         private SerializableAvatarLoader configuration;

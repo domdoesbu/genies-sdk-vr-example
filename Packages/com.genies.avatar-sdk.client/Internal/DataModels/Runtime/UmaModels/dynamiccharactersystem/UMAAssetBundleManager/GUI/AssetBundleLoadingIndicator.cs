@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class AssetBundleLoadingIndicator : MonoBehaviour
+#else
 	public class AssetBundleLoadingIndicator : MonoBehaviour
+#endif
 	{
 		public bool dontDestroyOnLoad = false;
 

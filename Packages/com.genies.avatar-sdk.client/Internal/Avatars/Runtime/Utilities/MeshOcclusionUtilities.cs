@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// Utilities for working with occlusion of mesh geometry by overlapping geometry.
     /// Typically this refers to faces on the avatar base body being occluded by clothing meshes.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MeshOcclusionUtilities
+#else
     public static class MeshOcclusionUtilities
+#endif
     { 
         /// <summary>
         /// Returns the triangles of a mesh that are unoccluded by the occlusion map.

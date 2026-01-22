@@ -17,7 +17,11 @@ namespace Genies.Avatars
     /// assumes that whenever you index two instances resolving to the same key they are both exact copies, since only
     /// one of them can be registered to the UMA index at the same time.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GeniesAssetIndexer
+#else
     public sealed class GeniesAssetIndexer
+#endif
     {
         public static readonly GeniesAssetIndexer Instance = new(UMAAssetIndexer.Instance);
         

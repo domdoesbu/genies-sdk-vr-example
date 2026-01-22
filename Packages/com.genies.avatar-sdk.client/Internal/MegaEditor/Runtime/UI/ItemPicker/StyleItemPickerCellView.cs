@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class StyleItemPickerCellView : GenericItemPickerCellView
+#else
     public class StyleItemPickerCellView : GenericItemPickerCellView
+#endif
     {
         [SerializeField] private TMP_Text _label;
 

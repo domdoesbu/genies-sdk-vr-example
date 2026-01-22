@@ -10,7 +10,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FilteredGallery : MonoBehaviour
+#else
     public class FilteredGallery : MonoBehaviour
+#endif
     {
         [SerializeField]
         private FilterBar _filterBar;

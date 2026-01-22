@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieUtilities
+#else
     public static class GenieUtilities
+#endif
     {
         public static Bounds GetRendererBounds(IGenie genie)
         {

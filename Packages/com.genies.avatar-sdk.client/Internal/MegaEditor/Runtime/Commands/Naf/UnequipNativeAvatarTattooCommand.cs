@@ -6,7 +6,11 @@ using GnWrappers;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnequipNativeAvatarTattooCommand : ICommand
+#else
     public class UnequipNativeAvatarTattooCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly MegaSkinTattooSlot           _slot;

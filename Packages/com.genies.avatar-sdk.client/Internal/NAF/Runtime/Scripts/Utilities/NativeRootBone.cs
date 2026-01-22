@@ -9,7 +9,11 @@ namespace Genies.Naf
      * and all of them being part of the native skeleton. The bones can have a length of zero, in which case the root
      * bone will be null. The bindposes array cannot be null and must have the same length as the bones array.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct NativeRootBone
+#else
     public struct NativeRootBone
+#endif
     {
         public Transform Bone;
         public Matrix4x4 Bindpose;

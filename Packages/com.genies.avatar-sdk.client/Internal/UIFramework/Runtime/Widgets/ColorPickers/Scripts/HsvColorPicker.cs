@@ -8,7 +8,12 @@ namespace Genies.UI.Widgets
     /// <summary>
     /// HSV color picker implementation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class HsvColorPicker : MonoBehaviour, IColorPicker
+#else
     public sealed class HsvColorPicker : MonoBehaviour, IColorPicker
+#endif
     {
         [SerializeField]
         private Slider hueSlider;

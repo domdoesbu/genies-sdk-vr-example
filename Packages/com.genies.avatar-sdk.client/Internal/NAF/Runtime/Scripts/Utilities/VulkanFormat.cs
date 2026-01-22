@@ -11,18 +11,22 @@ namespace Genies.Naf
      *
      * Current source: https://github.com/KhronosGroup/Vulkan-Headers.git | Tag: v1.4.303
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class VulkanFormat
+#else
     public static class VulkanFormat
+#endif
     {
         public static string GetName(uint vulkanFormat)
         {
             return VulkanToName.GetValueOrDefault(vulkanFormat, nameof(VK_FORMAT_UNDEFINED));
         }
-        
+
         public static GraphicsFormat GetGraphicsFormat(uint vulkanFormat)
         {
             return VulkanToUnityMap.GetValueOrDefault(vulkanFormat, GraphicsFormat.None);
         }
-        
+
         public static uint GetVulkanFormat(GraphicsFormat format)
         {
             return UnityToVulkanMap.GetValueOrDefault(format, VK_FORMAT_UNDEFINED);
@@ -31,13 +35,13 @@ namespace Genies.Naf
         public static bool TryGetTextureFormat(uint vulkanFormat, out TextureFormat textureFormat, out bool linear)
         {
             GraphicsFormat format = GetGraphicsFormat(vulkanFormat);
-            
+
             textureFormat = GraphicsFormatUtility.GetTextureFormat(format);
             linear        = !GraphicsFormatUtility.IsSRGBFormat(format);
-            
+
             return format != GraphicsFormat.None;
         }
-        
+
         public const uint VK_FORMAT_UNDEFINED                                  = 0;
         public const uint VK_FORMAT_R4G4_UNORM_PACK8                           = 1;
         public const uint VK_FORMAT_R4G4B4A4_UNORM_PACK16                      = 2;
@@ -288,7 +292,7 @@ namespace Genies.Naf
         public const uint VK_FORMAT_PVRTC2_2BPP_SRGB_BLOCK_IMG                 = 1000054006;
         public const uint VK_FORMAT_PVRTC2_4BPP_SRGB_BLOCK_IMG                 = 1000054007;
         public const uint VK_FORMAT_R16G16_SFIXED5_NV                          = 1000464000;
-        
+
         public static readonly Dictionary<uint, string> VulkanToName = typeof(VulkanFormat)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
             .Where(field => field.IsLiteral && !field.IsInitOnly && field.FieldType == typeof(uint))
@@ -425,7 +429,7 @@ namespace Genies.Naf
             { VK_FORMAT_ASTC_12x12_SFLOAT_BLOCK,     GraphicsFormat.RGBA_ASTC12X12_UFloat },
             { VK_FORMAT_D16_UNORM_S8_UINT,           GraphicsFormat.D16_UNorm_S8_UInt },
         };
-        
+
         public static readonly Dictionary<GraphicsFormat, uint> UnityToVulkanMap = new()
         {
             { GraphicsFormat.None,                       VK_FORMAT_UNDEFINED },

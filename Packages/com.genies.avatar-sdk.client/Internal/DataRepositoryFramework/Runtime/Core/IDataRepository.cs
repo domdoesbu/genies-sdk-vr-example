@@ -7,7 +7,11 @@ namespace Genies.DataRepositoryFramework
     /// Describes logic for implementing CRUD operations on a data store.
     /// </summary>
     /// <typeparam name="T"> The type of data being handled </typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IDataRepository<T>
+#else
     public interface IDataRepository<T>
+#endif
     {
         /// <summary>
         /// Gets the count of the existing records

@@ -6,7 +6,11 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class OkCancelPopupWidget : PopupWidget
+#else
     public class OkCancelPopupWidget : PopupWidget
+#endif
     {
         public enum ExitResult
         {

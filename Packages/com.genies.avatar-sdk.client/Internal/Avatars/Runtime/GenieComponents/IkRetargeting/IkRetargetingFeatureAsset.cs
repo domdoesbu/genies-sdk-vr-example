@@ -12,7 +12,11 @@ namespace Genies.Avatars
     [CreateAssetMenu(fileName = "IkRetargetingFeature", menuName = "Genies/Genie Components/Animation Features/IK Retargeting")]
 #endif
     [SerializableAs(typeof(IAnimationFeature), "ik-retargeting-feature")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class IkRetargetingFeatureAsset : AnimationFeatureAsset, IGenieComponentCreator
+#else
     public sealed class IkRetargetingFeatureAsset : AnimationFeatureAsset, IGenieComponentCreator
+#endif
     {
         public IkrConfig config;
         [Tooltip("If true, IK hints will be set to the transforms coming from the animation clip")]

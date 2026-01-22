@@ -12,7 +12,11 @@ namespace UMA
 #if GENIES_INTERNAL
     [CreateAssetMenu(menuName = "UMA/Rendering/TextureMerge")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TextureMerge : ScriptableObject
+#else
     public class TextureMerge : ScriptableObject
+#endif
 	{
 		public Material material;
 		public Shader normalShader;

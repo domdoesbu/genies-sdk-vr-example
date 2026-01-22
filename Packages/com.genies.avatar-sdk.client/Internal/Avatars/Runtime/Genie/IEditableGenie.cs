@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// Represents a <see cref="IGenie"/> instance that can be edited. Any editing will set the genie dirty,
     /// which means that <see cref="RebuildAsync"/> must be called to update the GameObject with the latest changes.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IEditableGenie : IGenie
+#else
     public interface IEditableGenie : IGenie
+#endif
     {
         // state
         bool IsDirty { get; }

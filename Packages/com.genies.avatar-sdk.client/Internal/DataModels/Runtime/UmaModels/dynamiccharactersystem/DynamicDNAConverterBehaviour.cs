@@ -15,7 +15,11 @@ namespace UMA.CharacterSystem
 	//Uses DynamicUmaDna which can have Dynamic DNA Names based on a DynamicUmaDnaAsset
 	//DynamicDNAPlugins UPDATE moved all the overall modifier variables and thier apply method into a  BaseCharacterModifier. ISerializationCallbackReciever handles the upgrade
 	//The former fields still exist in the #BACKWARDS COMPATIBILITY Section but been marked private and obsolete and will be removed in a future update
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DynamicDNAConverterBehaviour : DynamicDNAConverterBehaviourBase, ISerializationCallbackReceiver
+#else
 	public class DynamicDNAConverterBehaviour : DynamicDNAConverterBehaviourBase, ISerializationCallbackReceiver
+#endif
 	{
 
 		[SerializeField]

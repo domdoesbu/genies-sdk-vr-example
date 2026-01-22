@@ -10,13 +10,17 @@ namespace Genies.Looks.Core
     /// Extended interface for look views that support real-time interaction and animation control.
     /// This interface provides additional functionality for runtime manipulation of avatar looks including animation control and interaction management.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IRealtimeLookView : ILookView
+#else
     public interface IRealtimeLookView : ILookView
+#endif
     {
         /// <summary>
         /// Gets or sets the avatar controller responsible for managing avatar behavior and interactions.
         /// </summary>
         public IAvatarController AvatarController { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the GameObject that represents the look view in the scene.
         /// </summary>
@@ -37,7 +41,7 @@ namespace Genies.Looks.Core
         /// </summary>
         /// <param name="value">True to lock animation playback; false to unlock.</param>
         public void ToggleAnimationPlayBackLock(bool value);
-        
+
         /// <summary>
         /// Toggles avatar interaction capabilities on or off.
         /// This controls whether users can interact with the avatar in real-time.

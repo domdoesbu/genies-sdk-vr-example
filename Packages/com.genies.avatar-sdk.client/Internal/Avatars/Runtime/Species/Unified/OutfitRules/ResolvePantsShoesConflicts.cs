@@ -5,7 +5,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Resolves some conflicts with certain pants-shoes asset combinations. Only for the Unified species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ResolvePantsShoesConflicts : IAssetsValidationRule<OutfitAsset>
+#else
     public sealed class ResolvePantsShoesConflicts : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         private const string PantsBlendShapeName = "pants_geo_blendShape.pants_geo_over";
 

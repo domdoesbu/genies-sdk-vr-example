@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading;
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
 using Genies.CameraSystem.Focusable;
 using Genies.UI.Animations;
@@ -14,8 +14,13 @@ namespace Genies.CameraSystem
     /// Cinemachine Camera Type that rotates around a target Focusable object
     /// Allows for auto-rotation when no input is detected
     /// </summary>
-    [RequireComponent(typeof(CinemachineFreeLook), typeof(CinemachineInputProvider))]
+    [RequireComponent(typeof(CinemachineCamera), typeof(CinemachineInputAxisController))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class OrbitalThirdPersonCameraController : MonoBehaviour, ICameraType
+#else
     public class OrbitalThirdPersonCameraController : MonoBehaviour, ICameraType
+#endif
     {
         [Header("Anchors Container")]
         [SerializeField] private Transform anchorsContainer;
@@ -42,8 +47,11 @@ namespace Genies.CameraSystem
         [SerializeField] private float bottomRigHeight;
         [SerializeField] private float bottomRigRadius;
 
-        private CinemachineFreeLook _freeLook;
-        private CinemachineInputProvider _inputProvider;
+        private CinemachineCamera _cinemachineCamera;
+        private CinemachineInputAxisController _inputProvider;
+        private CinemachineRotationComposer _rotationComposer;
+        private CinemachineFreeLookModifier _freeLookModifier;
+        private CinemachineOrbitalFollow _orbitalFollow;
 
         private float _currentValue;
         private float _timer;
@@ -63,23 +71,68 @@ namespace Genies.CameraSystem
             transform.position = initialPosition;
             transform.rotation = Quaternion.Euler(initialRotation);
 
-            // Get the Input Provider component.
-            _inputProvider ??= GetComponent<CinemachineInputProvider>();
+            if (_inputProvider == null)
+            {
+                _inputProvider = GetComponent<CinemachineInputAxisController>();
+            }
+
+            if (_inputProvider == null)
+            {
+                _inputProvider = gameObject.AddComponent<CinemachineInputAxisController>();
+            }
+
             _inputProvider.enabled = false;
 
-            // Get the Free Look component.
-            _freeLook ??= GetComponent<CinemachineFreeLook>();
+            if (_cinemachineCamera == null)
+            {
+                _cinemachineCamera = GetComponent<CinemachineCamera>();
+            }
 
-            _freeLook.m_Lens.FieldOfView = fieldOfView;
+            if (_cinemachineCamera == null)
+            {
+                _cinemachineCamera = gameObject.AddComponent<CinemachineCamera>();
+            }
 
-            _freeLook.m_Orbits[0].m_Height = topRigHeight;
-            _freeLook.m_Orbits[0].m_Radius = topRigRadius;
+            if (_rotationComposer == null)
+            {
+                _rotationComposer = GetComponent<CinemachineRotationComposer>();
+            }
 
-            _freeLook.m_Orbits[1].m_Height = mediumRigHeight;
-            _freeLook.m_Orbits[1].m_Radius = mediumRigRadius;
+            if (_rotationComposer == null)
+            {
+                _rotationComposer = gameObject.AddComponent<CinemachineRotationComposer>();
+            }
 
-            _freeLook.m_Orbits[2].m_Height = bottomRigHeight;
-            _freeLook.m_Orbits[2].m_Radius = bottomRigRadius;
+            if (_freeLookModifier == null)
+            {
+                _freeLookModifier = GetComponent<CinemachineFreeLookModifier>();
+            }
+
+            if (_freeLookModifier == null)
+            {
+                _freeLookModifier = gameObject.AddComponent<CinemachineFreeLookModifier>();
+            }
+
+            if (_orbitalFollow == null)
+            {
+                _orbitalFollow = GetComponent<CinemachineOrbitalFollow>();
+            }
+
+            if (_orbitalFollow == null)
+            {
+                _orbitalFollow = gameObject.AddComponent<CinemachineOrbitalFollow>();
+            }
+
+            _cinemachineCamera.Lens.FieldOfView = fieldOfView;
+
+            _orbitalFollow.Orbits.Top.Height = topRigHeight;
+            _orbitalFollow.Orbits.Top.Radius = topRigRadius;
+
+            _orbitalFollow.Orbits.Center.Height = mediumRigHeight;
+            _orbitalFollow.Orbits.Center.Radius = mediumRigRadius;
+
+            _orbitalFollow.Orbits.Bottom.Height = bottomRigHeight;
+            _orbitalFollow.Orbits.Bottom.Radius = bottomRigRadius;
         }
 
         /// <summary>
@@ -92,13 +145,14 @@ namespace Genies.CameraSystem
 
             if (value && isAutoRotationEnabled)
             {
-                _inputProvider.XYAxis.action.performed += StopAutoRotationAnimation;
-                _currentValue = _freeLook.m_XAxis.Value;
+                // X-axis input
+                _inputProvider.Controllers[0].Input.InputAction.action.performed += StopAutoRotationAnimation;
+                _currentValue = _inputProvider.Controllers[0].InputValue;
                 AutoRotationCheck().Forget();
             }
             else
             {
-                _inputProvider.XYAxis.action.performed -= StopAutoRotationAnimation;
+                _inputProvider.Controllers[0].Input.InputAction.action.performed -= StopAutoRotationAnimation;
                 StopAutoRotationCheck();
             }
         }
@@ -112,13 +166,13 @@ namespace Genies.CameraSystem
             _cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancellationTokenSource.Token;
 
-            await UniTask.WaitUntil(() => _freeLook.m_Follow != null && _freeLook.m_LookAt != null, cancellationToken: token);
+            await UniTask.WaitUntil(() => _cinemachineCamera.Follow != null && _cinemachineCamera.LookAt != null, cancellationToken: token);
 
             while (!token.IsCancellationRequested)
             {
-                if (Math.Abs(_currentValue - _freeLook.m_XAxis.Value) > 0.01f)
+                if (Math.Abs(_currentValue - _inputProvider.Controllers[0].InputValue) > 0.01f)
                 {
-                    _currentValue = _freeLook.m_XAxis.Value;
+                    _currentValue = _inputProvider.Controllers[0].InputValue;
                     _timer = 0f;
                 }
                 else
@@ -159,7 +213,7 @@ namespace Genies.CameraSystem
             var follow = new GameObject("Follow Anchor " + name);
             follow.transform.parent = anchorsContainer;
             follow.transform.position = cameraFocusPoint.GetBounds().center;
-            _freeLook.m_Follow = follow.transform;
+            _cinemachineCamera.Follow = follow.transform;
         }
 
         /// <summary>
@@ -172,7 +226,7 @@ namespace Genies.CameraSystem
             Bounds bounds = cameraFocusPoint.GetBounds();
             lookAt.transform.position = bounds.center;
             lookAt.transform.localScale = new Vector3(bounds.size.x, bounds.size.y, bounds.size.z);
-            _freeLook.m_LookAt = lookAt.transform;
+            _cinemachineCamera.LookAt = lookAt.transform;
         }
 
         /// <summary>
@@ -193,11 +247,11 @@ namespace Genies.CameraSystem
         {
             while (_isRotationLoopActive)
             {
-                float startValue = _freeLook.m_XAxis.Value;
+                float startValue = _inputProvider.Controllers[0].InputValue;
                 float endValue = startValue + 360f;
 
                 _rotationAnimation = AnimateVirtual.Float(startValue, endValue, autoRotationDuration,
-                    x => _freeLook.m_XAxis.Value = x);
+                    x => _inputProvider.Controllers[0].InputValue = x);
 
                 yield return _rotationAnimation.WaitForCompletion();
 
@@ -238,7 +292,7 @@ namespace Genies.CameraSystem
         {
             if (isAutoRotationEnabled)
             {
-                _inputProvider.XYAxis.action.performed -= StopAutoRotationAnimation;
+                _inputProvider.Controllers[0].Input.InputAction.action.performed -= StopAutoRotationAnimation;
                 StopAutoRotationCheck();
             }
         }

@@ -8,7 +8,11 @@ namespace Genies.UIFramework
     /// Automatically registers itself with the service management system when enabled.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GenieInteractionController : InteractionController
+#else
     public class GenieInteractionController : InteractionController
+#endif
     {
         /// <summary>
         /// Called when the component becomes enabled. Automatically registers this controller

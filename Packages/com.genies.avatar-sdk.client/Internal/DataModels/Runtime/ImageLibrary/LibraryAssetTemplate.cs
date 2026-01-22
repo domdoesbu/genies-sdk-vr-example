@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LibraryAssetTemplate : OrderedScriptableObject, IDynamicAsset
+#else
     public class LibraryAssetTemplate : OrderedScriptableObject, IDynamicAsset
+#endif
     {
         /// <summary>
         /// BaseType for ImageLibrary assets, types include Patterns, Tattoos, Decals, Patches

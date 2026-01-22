@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Components.Dynamics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ColliderConfiguration
+#else
     public static class ColliderConfiguration
+#endif
     {
         /// <summary>
         /// The location of the collider on the humanoid model.

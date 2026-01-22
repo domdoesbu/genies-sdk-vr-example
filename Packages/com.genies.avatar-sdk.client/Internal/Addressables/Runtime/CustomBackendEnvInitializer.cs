@@ -5,7 +5,11 @@ using Genies.Services.Configs;
 
 namespace Genies.Addressables
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomBackendEnvInitializer : Initializer
+#else
     public class CustomBackendEnvInitializer : Initializer
+#endif
     {
         [SerializeField] private BackendEnvironment backendEnvironment = BackendEnvironment.Prod;
 

@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// A different implementation for controlling the tattoos on a <see cref="MegaSkinGenieMaterial"/> instance
     /// that uses transform presets instead of allowing the user to control the tattoo transformation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TattooPresetController : AssetSlotsController<Texture2DAsset>
+#else
     public sealed class TattooPresetController : AssetSlotsController<Texture2DAsset>
+#endif
     {
         // dependencies
         private readonly MegaSkinGenieMaterial _skinMaterial;

@@ -5,7 +5,11 @@ using System;
 namespace Genies.Avatars
 {
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct GSkelModValue : IComparable<GSkelModValue>
+#else
     public struct GSkelModValue : IComparable<GSkelModValue>
+#endif
     {
         public string Name;
         public float Value;
@@ -34,7 +38,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(menuName = "Genies/Chaos Mode/GSkelModifierPreset", fileName = "gSkelModifierPreset.asset")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GSkelModifierPreset : ScriptableObject
+#else
     public class GSkelModifierPreset : ScriptableObject
+#endif
     {
         public string Name;
         public string StartingBodyVariation;

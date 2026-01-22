@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Inventory
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class InventoryConversionUtils
+#else
     public static class InventoryConversionUtils
+#endif
     {
         public static Color ToUnityColor(this HexColor colorHex)
         {

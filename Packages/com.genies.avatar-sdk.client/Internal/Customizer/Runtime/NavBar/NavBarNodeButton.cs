@@ -7,7 +7,11 @@ using UnityEngine.UI;
 namespace Genies.Customization.Framework.Navigation
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavBarNodeButtonData
+#else
     public class NavBarNodeButtonData
+#endif
     {
         public string displayName;
         public Sprite icon;
@@ -20,7 +24,11 @@ namespace Genies.Customization.Framework.Navigation
     /// <summary>
     /// A button that sits specifically in the customizer navigation bar
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavBarNodeButton : GeniesButton
+#else
     public class NavBarNodeButton : GeniesButton
+#endif
     {
         [SerializeField]
         private TextMeshProUGUI _text;

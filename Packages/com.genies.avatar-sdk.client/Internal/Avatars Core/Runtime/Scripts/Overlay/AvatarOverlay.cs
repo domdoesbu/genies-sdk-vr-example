@@ -7,6 +7,7 @@ namespace Genies.Avatars.Sdk
     /// This component is used to add additional geometry or effects to avatars at runtime.
     /// </summary>
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal sealed class AvatarOverlay : MonoBehaviour
 #else
     public sealed class AvatarOverlay : MonoBehaviour

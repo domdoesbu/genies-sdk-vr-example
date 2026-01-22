@@ -13,7 +13,11 @@ namespace Genies.Assets.Services
     /// Since the assets are supposed to be always loaded (builtin), all the load operations are synchronous and returned references will not destroy
     /// the assets on disposal.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BuiltinAssetsService : BaseAssetsService
+#else
     public sealed class BuiltinAssetsService : BaseAssetsService
+#endif
     {
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
 

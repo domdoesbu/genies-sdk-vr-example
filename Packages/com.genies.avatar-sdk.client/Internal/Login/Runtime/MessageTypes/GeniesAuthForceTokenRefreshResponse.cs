@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about attempts to refresh authentication tokens to extend the user session.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthForceTokenRefreshResponse : GeniesAuthMessage
+#else
     public class GeniesAuthForceTokenRefreshResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the token refresh operation.</summary>
         [NonSerialized]

@@ -7,12 +7,16 @@ using Texture = UnityEngine.Texture;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class TextureExtensions
+#else
     public static class TextureExtensions
+#endif
     {
         public static bool DebugLogCreatedTextures = false;
-        
+
         private static readonly HandleCache<IntPtr, Texture> Cache = new();
-        
+
         /**
          * Whether the texture is a native texture or not. A native texture is any Texture created from a Texture wrapper.
          */
@@ -28,7 +32,7 @@ namespace Genies.Naf
         {
             return Cache.TryGetNewReference(texture.GetNativeTexturePtr(), out textureRef);
         }
-        
+
         public static Ref<Texture> AsUnityTexture(this GnWrappers.Texture nativeTexture)
         {
             if (nativeTexture.IsNull())
@@ -52,7 +56,7 @@ namespace Genies.Naf
                 Debug.LogError($"Couldn't identify Vulkan format {nativeTexture.Format()} for texture: {nativeTexture.Name()}");
                 return default;
             }
-            
+
             if (DebugLogCreatedTextures)
             {
                 Debug.Log($"Creating new external Texture \"{nativeTexture.Name()}\":\n{GetInfo(nativeTexture, textureFormat, linear)}");
@@ -67,9 +71,9 @@ namespace Genies.Naf
                     linear,
                     pointer
                 );
-                
+
                 texture.name = nativeTexture.Name();
-                
+
                 /**
                  * Use our Refs package to create a texture reference that encapsulates the texture wrapper with our
                  * custom IResource implementation.
@@ -77,10 +81,10 @@ namespace Genies.Naf
                 nativeTexture = new GnWrappers.Texture(nativeTexture); // ensures we get our own native shared pointer to the texture (the caller must still own the original one)
                 var resource = new NativeTextureResource(texture, nativeTexture);
                 textureRef = CreateRef.From(resource);
-                
+
                 // cache the texture handle and return
                 Cache.CacheHandle(pointer, textureRef);
-                
+
                 return textureRef;
             }
             catch (Exception exception)
@@ -94,14 +98,14 @@ namespace Genies.Naf
         {
             return $"VkFormat: {VulkanFormat.GetName(texture.Format())}" +
                    $"\nTextureFormat: {format.ToString()}" +
-                   $"\nsRGB: {!linear}" + 
+                   $"\nsRGB: {!linear}" +
                    $"\nPointer: {texture.Pointer()}";
         }
-        
+
         private sealed class NativeTextureResource : IResource<Texture>
         {
             public Texture Resource { get; }
-            
+
             private readonly GnWrappers.Texture _nativeTexture;
 
             public NativeTextureResource(Texture texture, GnWrappers.Texture nativeTexture)
@@ -109,7 +113,7 @@ namespace Genies.Naf
                 Resource = texture;
                 _nativeTexture = nativeTexture;
             }
-            
+
             public void Dispose()
             {
                 /**

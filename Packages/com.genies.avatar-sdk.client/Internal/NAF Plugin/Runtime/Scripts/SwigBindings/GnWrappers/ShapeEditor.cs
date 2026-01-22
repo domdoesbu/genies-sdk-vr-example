@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class ShapeEditor : AssetBuilderEditor {
+#else
 public class ShapeEditor : AssetBuilderEditor {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal ShapeEditor(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.ShapeEditor_SWIGUpcast(cPtr), cMemoryOwn) {

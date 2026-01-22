@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class UniquePointsShape
+#else
     public sealed partial class UniquePointsShape
+#endif
     {
         [Serializable]
         public struct Serializable

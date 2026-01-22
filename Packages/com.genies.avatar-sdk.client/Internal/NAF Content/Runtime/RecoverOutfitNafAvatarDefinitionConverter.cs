@@ -9,7 +9,11 @@ namespace Genies.Naf.Content
     /// (pre-2.0.0) when deserializing to Genies.Naf.AvatarDefinition.
     /// Not a full schema converter; only patches "equippedAssetIds" from "Outfits" when possible.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RecoverOutfitNafAvatarDefinitionConverter : JsonConverter<Genies.Naf.AvatarDefinition>
+#else
     public sealed class RecoverOutfitNafAvatarDefinitionConverter : JsonConverter<Genies.Naf.AvatarDefinition>
+#endif
     {
         public override Genies.Naf.AvatarDefinition ReadJson(
             JsonReader reader,

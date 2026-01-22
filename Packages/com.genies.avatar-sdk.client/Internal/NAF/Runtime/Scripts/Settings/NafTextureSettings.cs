@@ -9,7 +9,11 @@ namespace Genies.Naf
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "TextureSettings", menuName = "Genies/NAF/Texture Settings")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NafTextureSettings : ScriptableObject
+#else
     public sealed class NafTextureSettings : ScriptableObject
+#endif
     {
         [Tooltip("Depending on your shaders, you may want to use two-component normal maps (XY/RG) instead of three-component ones (XYZ/RGB). Enable this so any loaded normal map textures are loaded in the 2-component variant. Normal map textures that doesn't have the proper flavor variant will not load.")]
         public NormalMapType normalMapType = NormalMapType.Auto;

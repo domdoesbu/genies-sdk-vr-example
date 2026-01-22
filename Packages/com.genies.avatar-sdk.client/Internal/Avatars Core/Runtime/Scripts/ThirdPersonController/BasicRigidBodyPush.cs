@@ -6,6 +6,7 @@ namespace Genies.Experience.Gameplay
 	/// Note: This class is temporary. Will likely be replaced by Ability System
 	/// </summary>
 #if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
 	internal class BasicRigidBodyPush : MonoBehaviour
 #else
 	public class BasicRigidBodyPush : MonoBehaviour

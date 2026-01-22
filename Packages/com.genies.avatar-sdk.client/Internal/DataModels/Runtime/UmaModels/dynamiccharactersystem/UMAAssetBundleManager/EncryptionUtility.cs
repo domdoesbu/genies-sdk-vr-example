@@ -11,7 +11,11 @@ using System.Security.Cryptography;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class EncryptionUtil
+#else
 	public static class EncryptionUtil
+#endif
 	{
 		public static byte[] Encrypt(byte[] pwd, byte[] data) 
 		{

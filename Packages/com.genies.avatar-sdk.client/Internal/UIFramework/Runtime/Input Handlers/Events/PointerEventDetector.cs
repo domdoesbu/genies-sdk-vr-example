@@ -4,7 +4,12 @@ using UnityEngine.EventSystems;
 
 namespace Genies.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PointerEventDetector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+#else
     public class PointerEventDetector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+#endif
     {
         public Action OnDragEnded;
         public Action OnDragStarted;

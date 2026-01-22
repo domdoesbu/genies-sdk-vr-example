@@ -7,7 +7,11 @@ using UnityEngine.Rendering;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class RuntimeMeshExtensions
+#else
     public static class RuntimeMeshExtensions
+#endif
     {
         public static Mesh CreateMesh(
             this RuntimeMesh runtimeMesh,
@@ -196,6 +200,9 @@ namespace Genies.Naf
                 {
                     materials.Add(new NativeMaterial(material));
                 }
+
+                // ensure URP lit keywords are fixed
+                materials[i].FixUrpLitKeywords();
             }
 
             for (int i = materials.Count - 1; i >= primitiveCount; --i)

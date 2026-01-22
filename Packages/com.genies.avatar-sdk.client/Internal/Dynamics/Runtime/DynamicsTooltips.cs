@@ -1,6 +1,10 @@
 namespace Genies.Components.Dynamics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DynamicsTooltips
+#else
     public static class DynamicsTooltips
+#endif
     {
         public const string UpdateMethod =
             "The method by which the dynamics system runs update steps.\n\n" +
@@ -13,7 +17,7 @@ namespace Genies.Components.Dynamics
             "CPU_Single_Thread updates via the CPU and single threaded\n\n" +
             "CPU_JOBS updates via CPU, but threads the particle update\n\n" +
             "GPU_Compute_Shader uses the GPU, but is currently not stable";
-        
+
         public const string Iterations =
             "Each iteration further divides the dynamics calculation interval. " +
             "This can provide a more stable and accurate simulation, however, the computation cost will be multiplied by the number of iterations." +

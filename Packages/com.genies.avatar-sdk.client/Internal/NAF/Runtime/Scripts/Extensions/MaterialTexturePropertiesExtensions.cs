@@ -6,12 +6,16 @@ using Texture = UnityEngine.Texture;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MaterialTexturePropertiesExtensions
+#else
     public static class MaterialTexturePropertiesExtensions
+#endif
     {
         public delegate void PropertyProcessor(string name, GnWrappers.Texture texture);
         public delegate void TexturePropertyProcessor(string name, Texture texture);
         public delegate void TextureRefPropertyProcessor(string name, Ref<Texture> textureRef);
-        
+
         public static void Process(this MaterialTextureProperties properties, PropertyProcessor processor)
         {
             uint size = properties.Size();
@@ -21,7 +25,7 @@ namespace Genies.Naf
                 processor(properties.Key(i), texture);
             }
         }
-        
+
         /**
          * Process all the properties as Unity textures and returns a reference to all of them. You must keep the
          * reference and dispose it to release the textures.
@@ -34,19 +38,19 @@ namespace Genies.Naf
             {
                 using GnWrappers.Texture texture = properties.Value(i);
                 Ref<Texture> textureRef = texture.AsUnityTexture();
-                
+
                 processor(properties.Key(i), textureRef.Item);
-                
+
                 if (textureRef.IsAlive)
                 {
                     textureRefs.Add(textureRef);
                 }
             }
-            
+
             // return a reference that encapsulates all texture references
             return CreateRef.FromDependentResource((byte)0, textureRefs);
         }
-        
+
         /**
          * Process all the properties as Unity texture references.
          */

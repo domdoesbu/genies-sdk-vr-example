@@ -9,7 +9,11 @@ namespace UMA
 	/// <summary>
 	/// Utility class for creating scriptable object assets.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class CustomAssetUtility
+#else
 	public static class CustomAssetUtility
+#endif
 	{
         public static void CreatePrefab<T>()
         {

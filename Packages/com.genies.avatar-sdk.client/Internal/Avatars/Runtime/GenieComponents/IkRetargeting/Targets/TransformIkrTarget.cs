@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// <see cref="IIkrTarget"/> implementation for transform targets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TransformIkrTarget : IIkrTarget
+#else
     public sealed class TransformIkrTarget : IIkrTarget
+#endif
     {
         public string     Key         { get; }
         public float      Weight      => _animator.GetFloat(_weightPropertyId);

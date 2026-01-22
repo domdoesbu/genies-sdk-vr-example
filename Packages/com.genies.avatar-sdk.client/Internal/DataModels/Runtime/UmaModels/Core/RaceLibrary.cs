@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class RaceLibrary : RaceLibraryBase
+#else
 	public class RaceLibrary : RaceLibraryBase
+#endif
 	{
 		[SerializeField]
 		protected RaceData[] raceElementList = new RaceData[0];

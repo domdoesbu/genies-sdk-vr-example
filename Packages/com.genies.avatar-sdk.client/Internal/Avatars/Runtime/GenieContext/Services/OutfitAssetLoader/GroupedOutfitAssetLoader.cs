@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Implementation of <see cref="IOutfitAssetLoader"/> that must be initialized with a collection of other
     /// <see cref="IOutfitAssetLoader"/> implementations capable of loading different outfit asset types.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GroupedOutfitAssetLoader : IOutfitAssetLoader
+#else
     public sealed class GroupedOutfitAssetLoader : IOutfitAssetLoader
+#endif
     {
         public IReadOnlyList<string> SupportedTypes { get; }
 

@@ -11,7 +11,11 @@ namespace Genies.Avatars.Behaviors
     /// Adds a layer of abstraction to the NativeUnifiedGenieController, providing a simplified interface for avatar control and interaction.
     /// This interface defines the contract for managing avatar instances including animation, camera handling, and lifecycle management.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAvatarController
+#else
     public interface IAvatarController
+#endif
     {
         /// <summary>
         /// Gets the GameObject containing the genie (avatar) representation.

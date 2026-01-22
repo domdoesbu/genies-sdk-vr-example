@@ -16,7 +16,11 @@ namespace Genies.Ugc
     /// <item>Set materials to all the regions from 3 randomly selected materials (2 basic and 1 accent materials).</item>
     /// </list>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class WearableRandomizer
+#else
     public static class WearableRandomizer
+#endif
     {
         private const string _defaultDataResourcesPath = "WearableRandomizerData";
         private static WearableRandomizationSettings? _defaultSettings;

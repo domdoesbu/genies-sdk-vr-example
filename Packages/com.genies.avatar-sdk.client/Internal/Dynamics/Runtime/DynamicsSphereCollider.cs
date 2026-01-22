@@ -5,11 +5,15 @@ namespace Genies.Components.Dynamics
     /// <summary>
     /// A sphere collider that can affect particles.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsSphereCollider : DynamicsCollider
+#else
     public class DynamicsSphereCollider : DynamicsCollider
+#endif
     {
         [Range(0,1)]
         public float CollisionRadius = 0.25f;
-        
+
         public float ScaledCollisionRadius => CollisionRadius * transform.lossyScale.x;
 
         public Vector3 Offset;

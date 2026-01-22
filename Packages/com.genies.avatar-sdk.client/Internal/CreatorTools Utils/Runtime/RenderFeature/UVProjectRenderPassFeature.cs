@@ -6,7 +6,11 @@ using UnityEngine.Rendering.Universal;
 
 namespace Genies.CreatorTools.utils.RenderFeature
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UVProjectRenderPassFeature : ScriptableRendererFeature
+#else
     public class UVProjectRenderPassFeature : ScriptableRendererFeature
+#endif
     {
         // Tattooenator will set these
         private Material _drawMaterial;

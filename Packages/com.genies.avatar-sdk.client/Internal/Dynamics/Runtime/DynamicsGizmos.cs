@@ -7,7 +7,11 @@ namespace Genies.Components.Dynamics
     /// <summary>
     /// Utilities for drawing debug graphics for dynamics in the Unity scene view
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DynamicsGizmos
+#else
     public static class DynamicsGizmos
+#endif
     {
         private const float _defaultAxisScale = 0.1f;
 

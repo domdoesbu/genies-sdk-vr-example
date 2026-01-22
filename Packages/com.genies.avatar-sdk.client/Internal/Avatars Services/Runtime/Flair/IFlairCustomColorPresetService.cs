@@ -9,7 +9,11 @@ namespace Genies.Avatars.Services.Flair
     /// Defines the contract for managing custom color presets for avatar flair elements such as eyebrows and eyelashes.
     /// This service handles creation, retrieval, and deletion of user-customized color combinations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IFlairCustomColorPresetService
+#else
     public interface IFlairCustomColorPresetService
+#endif
     {
         public const string CustomEyebrowPrefix = "custom-eyebrow-preset";
         public const string CustomEyelashPrefix = "custom-eyelash-preset";

@@ -12,7 +12,11 @@ using UtilMeshRegion = Genies.Models.UtilMeshRegion;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UtilityVectorService : IUtilityVectorService
+#else
     public sealed class UtilityVectorService : IUtilityVectorService
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

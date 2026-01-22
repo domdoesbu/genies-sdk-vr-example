@@ -22,7 +22,11 @@ namespace Genies.Wearables
     /// Main implementation of the wearable service that handles wearable creation, retrieval, and management operations.
     /// This service integrates with the Genies API services to manage user-generated wearable content and caching.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class WearableService : IWearableService
+#else
     public sealed class WearableService : IWearableService
+#endif
     {
         private string _userId;
         private readonly IClosetService _closetService;

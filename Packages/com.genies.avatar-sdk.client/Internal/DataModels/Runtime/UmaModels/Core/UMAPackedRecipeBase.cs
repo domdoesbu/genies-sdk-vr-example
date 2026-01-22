@@ -7,7 +7,11 @@ namespace UMA
 	/// <summary>
 	/// Base class for serializing recipes as "packed" int/byte based data.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class UMAPackedRecipeBase : UMARecipeBase
+#else
 	public abstract class UMAPackedRecipeBase : UMARecipeBase
+#endif
 	{
 		/// <summary>
 		/// Load data into the specified UMA recipe.

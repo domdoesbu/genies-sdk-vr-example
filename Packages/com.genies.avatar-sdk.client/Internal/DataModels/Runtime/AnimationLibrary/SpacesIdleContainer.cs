@@ -6,7 +6,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "SpacesIdleContainer", menuName = "Genies/AnimationLibrary/SpacesIdleContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SpacesIdleContainer : AnimationContainer
+#else
     public class SpacesIdleContainer : AnimationContainer
+#endif
     {
         [SerializeField] private string[] protocols;
         [SerializeField] private List<ChildAsset> childAssets;

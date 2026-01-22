@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// Represents a group of <see cref="MeshAsset"/> instances that can be merged together in a single Unity submesh.
     /// It is assumed that the data is static and never changes.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IMeshGroupAsset
+#else
     public interface IMeshGroupAsset
+#endif
     {
         Material Material   { get; }
         int      AssetCount { get; }

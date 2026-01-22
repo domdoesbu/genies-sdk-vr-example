@@ -17,7 +17,11 @@ namespace Genies.Components.Shaders
     /// set it to Genies.Components.Shaders.ShaderSemanticsEditorExtension
     /// the material inspector using that shader should then have a properties section at the top
     /// </remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderSemanticsEditorExtension : ShaderGUI
+#else
     public class ShaderSemanticsEditorExtension : ShaderGUI
+#endif
     {
         //regex
         private const string _renderFacePattern = @"""m_RenderFace"":\s*(\d+)";

@@ -22,7 +22,11 @@ namespace Genies.Inventory
     /// <summary>
     /// Responsible to manage the metadata of Marketplace
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryService : IInventoryService
+#else
     public class InventoryService : IInventoryService
+#endif
     {
         private IInventoryApi _inventoryApi;
         private UniTaskCompletionSource _apiInitializationSource;

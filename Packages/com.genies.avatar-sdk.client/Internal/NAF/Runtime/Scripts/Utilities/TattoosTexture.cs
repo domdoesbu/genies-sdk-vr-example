@@ -6,7 +6,11 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TattoosTexture : IDisposable
+#else
     public sealed class TattoosTexture : IDisposable
+#endif
     {
         private static readonly int TattoosTexturePropertyId = Shader.PropertyToID("_Tattoos");
         private const string MegaSkinTattooSettingsPath = "DefaultMegaSkinTattooSettings";
@@ -110,7 +114,7 @@ namespace Genies.Naf
             Graphics.SetRenderTarget(_tattoosTexture, 0, CubemapFace.Unknown, slotIndex);
             _blitMaterial.mainTexture = source;
             _blitMaterial.SetPass(0);
-            
+
             GL.PushMatrix();
             GL.LoadOrtho();
 
@@ -120,7 +124,7 @@ namespace Genies.Naf
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(1.0f, 1.0f, 0.0f);
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(1.0f, 0.0f, 0.0f);
             GL.End();
-            
+
             GL.PopMatrix();
         }
     }

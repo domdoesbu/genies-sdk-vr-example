@@ -13,7 +13,11 @@ namespace Genies.Avatars
     /// Custom matrix implementation using NativeArray for better performance in Unity Jobs. It is specifically designed
     /// for <see cref="UniquePointsShape"/> so it lacks a lot of features and is not a general-purpose matrix.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct NativeMatrix : IDisposable
+#else
     public struct NativeMatrix : IDisposable
+#endif
     {
         public int                Rows;
         public int                Cols;

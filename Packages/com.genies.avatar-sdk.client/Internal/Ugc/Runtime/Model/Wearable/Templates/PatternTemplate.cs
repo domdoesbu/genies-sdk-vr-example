@@ -1,7 +1,11 @@
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PatternTemplate
+#else
     public class PatternTemplate
+#endif
     {
         public ICategorizedItems<string> PatternIds;
         public ValueRange Scale;

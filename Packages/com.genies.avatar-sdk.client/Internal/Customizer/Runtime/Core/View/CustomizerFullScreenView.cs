@@ -13,7 +13,11 @@ namespace Genies.Customization.Framework
     /// The main customizer view, handles animations and setting up different view components
     /// based on the node being navigated to.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomizerFullScreenView : CustomizerViewBase
+#else
     public class CustomizerFullScreenView : CustomizerViewBase
+#endif
     {
         [SerializeField]
         private Button _backButton;

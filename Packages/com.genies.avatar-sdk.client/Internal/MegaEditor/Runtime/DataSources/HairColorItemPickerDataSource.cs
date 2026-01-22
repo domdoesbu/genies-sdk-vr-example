@@ -27,12 +27,22 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "HairColorItemPickerDataSource", menuName = "Genies/Customizer/DataSource/HairColorItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class HairColorItemPickerDataSource : CustomizationItemPickerDataSource
+#else
     public class HairColorItemPickerDataSource : CustomizationItemPickerDataSource
+#endif
     {
         [SerializeField] private NoneOrNewCTAController _Cta;
 
+        /// <summary>
+        /// The type of color preset this data source handles (Hair or FacialHair).
+        /// </summary>
+        [SerializeField]
+        private ColorPresetType _colorPresetType = ColorPresetType.Hair;
+
         // Analytics
-        private readonly string _colorAnalyticsEventName = CustomizationAnalyticsEvents.HairColorPresetClickEvent;
+        private string _colorAnalyticsEventName;
 
         /// <summary> Hair service only used to know which ids are presets vs custom (for edit/delete gating) </summary>
         private HairColorService _HairColorService => this.GetService<HairColorService>();
@@ -67,18 +77,29 @@ namespace Genies.Customization.MegaEditor
         {
             if (_uiProvider == null)
             {
+                // Use HairColorPresetsConfig for both hair and facial hair
+                // The category filter will be applied via GetAssetTypeString()
                 var config = UIDataProviderConfigs.HairColorPresetsConfig;
+                if (GetAssetTypeString() == "facialhair")
+                {
+                    config = UIDataProviderConfigs.FacialHairColorPresetsConfig;
+                }
                 SetUIProvider(config, ServiceManager.Get<IAssetsService>());
             }
         }
 
         protected override string GetAssetTypeString()
         {
-            return ColorPresetType.Hair.ToString().ToLower();
+            return _colorPresetType.ToString().ToLower();
         }
 
         protected override async UniTask<List<string>> GetCustomIdsAsync(CancellationToken token)
         {
+            if (GetAssetTypeString() == "facialhair")
+            {
+                CustomIds = new List<string>();
+                return CustomIds;
+            }
             CustomIds = await _HairColorService.GetAllCustomHairIdsAsync();
             return CustomIds;
         }
@@ -116,6 +137,11 @@ namespace Genies.Customization.MegaEditor
                 CurrentHairColorId = PreviousHairColorId;
             }
 
+            // Set analytics event name based on color preset type
+            _colorAnalyticsEventName = _colorPresetType == ColorPresetType.FacialHair
+                ? CustomizationAnalyticsEvents.FacialHairColorPresetClickEvent
+                : CustomizationAnalyticsEvents.HairColorPresetClickEvent;
+
             AnalyticsReporter.LogEvent(CustomizationAnalyticsEvents.ColorPresetCustomizationStarted);
         }
 
@@ -144,8 +170,13 @@ namespace Genies.Customization.MegaEditor
 
         public override ItemPickerCtaConfig GetCtaConfig()
         {
+            CTAButtonType buttonType = CTAButtonType.SingleCreateNewCTA;
+            if (GetAssetTypeString() == "facialhair")
+            {
+                buttonType = CTAButtonType.NoneAndNewCTA;
+            }
             return new ItemPickerCtaConfig(
-                ctaType: CTAButtonType.SingleCreateNewCTA,
+                ctaType: buttonType,
                 horizontalLayoutCtaOverride: _Cta,
                 createNewAction: OnCreateNew);
         }
@@ -248,13 +279,16 @@ namespace Genies.Customization.MegaEditor
 
                     if (customColorData != null)
                     {
+                        // For facial hair, always set isEditable to false
+                        bool isEditable = _colorPresetType != ColorPresetType.FacialHair;
+
                         uiData = new GradientColorUiData(
                             assetId: id,
                             displayName: null,
                             category: null,
                             subCategory: null,
                             order: 0,
-                            isEditable: true,
+                            isEditable: isEditable,
                             colorBase: customColorData.ColorBase,
                             colorR: customColorData.ColorR,
                             colorG: customColorData.ColorG,
@@ -288,7 +322,6 @@ namespace Genies.Customization.MegaEditor
             {
                 uiData = await GetUIProvider<ColoredInventoryAsset, GradientColorUiData>().GetDataForAssetId(id);
             }
-
 
             var newDataRef = CreateRef.FromDependentResource(uiData);
             _loadedData ??= new();
@@ -338,11 +371,20 @@ namespace Genies.Customization.MegaEditor
             // Store current customizable hair color id (asset id from CMS)
             CurrentHairColorId = dataRef.Item.AssetId;
 
-            // Map preset colors -> hair channels (Base, R, G, B)
+            // Map preset colors -> hair or facial hair channels (Base, R, G, B)
             var colors = SafeGetColorsArray(dataRef.Item);
-            var entries = MapToHairColors(colors);
+            GenieColorEntry[] entries;
 
-            // Update avatar hair colors
+            if (_colorPresetType == ColorPresetType.FacialHair)
+            {
+                entries = MapToFacialHairColors(colors);
+            }
+            else
+            {
+                entries = MapToHairColors(colors);
+            }
+
+            // Update avatar hair or facial hair colors
             ICommand command = new SetNativeAvatarColorsCommand(entries, CurrentCustomizableAvatar);
             await command.ExecuteAsync(cancellationToken);
 
@@ -475,6 +517,18 @@ namespace Genies.Customization.MegaEditor
                 new GenieColorEntry(GenieColor.HairR,    colors[1]),
                 new GenieColorEntry(GenieColor.HairG,    colors[2]),
                 new GenieColorEntry(GenieColor.HairB,    colors[3]),
+            };
+        }
+
+        public static GenieColorEntry[] MapToFacialHairColors(Color[] colors)
+        {
+            // Expected order: [0]=Base, [1]=R, [2]=G, [3]=B
+            return new GenieColorEntry[]
+            {
+                new (GenieColor.FacialhairBase, colors[0]),
+                new (GenieColor.FacialhairR,    colors[1]),
+                new (GenieColor.FacialhairG,    colors[2]),
+                new (GenieColor.FacialhairB,    colors[3]),
             };
         }
 

@@ -9,7 +9,11 @@ namespace Genies.Looks.Core.Data
     /// This class encapsulates animation components and camera services needed for real-time look rendering and interaction.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksDependencies
+#else
     public class LooksDependencies
+#endif
     {
         [SerializeField] private AnimatorSwitcherComponents _switcherComponents;
         [SerializeField] private VirtualCameraService _virtualCameraService;

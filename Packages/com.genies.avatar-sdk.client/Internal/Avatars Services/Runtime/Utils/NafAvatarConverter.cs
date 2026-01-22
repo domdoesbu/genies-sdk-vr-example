@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafAvatarDefinitionConverter : SimpleDefinitionConverter
+#else
     public class NafAvatarDefinitionConverter : SimpleDefinitionConverter
+#endif
     {
         private const string _versionKey = "JsonVersion";
 

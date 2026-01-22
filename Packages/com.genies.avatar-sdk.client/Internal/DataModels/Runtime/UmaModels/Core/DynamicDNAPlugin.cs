@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,11 @@ namespace UMA
 {
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class DynamicDNAPlugin : ScriptableObject
+#else
 	public abstract class DynamicDNAPlugin : ScriptableObject
+#endif
 	{
 		//=====================================================================//
 		//A DynamicDNAPlugin is always a LIST of a type of 'DNA Converter' (an abstract concept- it can be any type)

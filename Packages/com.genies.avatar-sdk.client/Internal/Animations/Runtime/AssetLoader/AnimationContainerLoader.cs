@@ -13,7 +13,11 @@ namespace Genies.Animations
     /// Asset loader specialized for loading animation containers and their associated thumbnails.
     /// This loader extends BaseAssetLoader to provide animation container-specific functionality including thumbnail caching.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimationContainerLoader : BaseAssetLoader<AnimationContainer, AnimationContainer>
+#else
     public class AnimationContainerLoader : BaseAssetLoader<AnimationContainer, AnimationContainer>
+#endif
     {
         private Dictionary<string, IResourceLocation> _thumbnailLocationCache;
 
@@ -54,7 +58,7 @@ namespace Genies.Animations
                 result = await _assetsService.LoadAssetAsync<Texture2D>(_thumbnailLocationCache[assetId]);
                 return result;
             }
-            
+
             // Sprites can be loaded by added the suffix _x1024
             var locations = await _assetsService.LoadResourceLocationsAsync<Texture2D>($"{assetId}_x1024");
 

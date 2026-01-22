@@ -22,7 +22,11 @@ using System.Threading.Tasks;
 namespace UMA.CharacterSystem
 {
     [ExecuteInEditMode]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicCharacterAvatar : UMAAvatarBase
+#else
     public class DynamicCharacterAvatar : UMAAvatarBase
+#endif
     {
         public float DelayUnload = 2.0f;
         public bool BundleCheck = true;

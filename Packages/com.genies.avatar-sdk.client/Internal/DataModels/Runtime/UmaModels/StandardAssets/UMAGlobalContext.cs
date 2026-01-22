@@ -7,7 +7,11 @@ namespace UMA
 	/// <summary>
 	/// Gloal container for various UMA objects in the scene.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAGlobalContext : UMAContextBase
+#else
 	public class UMAGlobalContext : UMAContextBase
+#endif
 	{
 #pragma warning disable 618
 		public override void Start()

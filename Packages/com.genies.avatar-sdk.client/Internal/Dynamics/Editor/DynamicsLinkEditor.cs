@@ -5,12 +5,16 @@ using UnityEngine;
 namespace Genies.Components.Dynamics
 {
     [CustomEditor(typeof(DynamicsLink))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsLinkEditor : Editor
+#else
     public class DynamicsLinkEditor : Editor
+#endif
     {
         private void OnSceneGUI()
         {
             var link = target as DynamicsLink;
-    
+
             if (!link || !link.StartParticle || !link.EndParticle)
             {
                 return;

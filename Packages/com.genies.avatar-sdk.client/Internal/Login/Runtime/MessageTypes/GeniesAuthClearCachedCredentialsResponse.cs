@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the process of removing stored authentication data from local storage.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthClearCachedCredentialsResponse : GeniesAuthMessage
+#else
     public class GeniesAuthClearCachedCredentialsResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the credential clearing operation.</summary>
         [NonSerialized]

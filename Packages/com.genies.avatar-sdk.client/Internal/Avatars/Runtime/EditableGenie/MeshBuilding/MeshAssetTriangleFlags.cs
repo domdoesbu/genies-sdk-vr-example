@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// Represents a unique flags array of triangles from a target mesh asset. This is our equivalent to UMA's mesh hide
     /// assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct MeshAssetTriangleFlags
+#else
     public struct MeshAssetTriangleFlags
+#endif
     {
         public string   Id; // id of this triangle flags, should be unique among other instances
         public string   TargetMeshAssetId;

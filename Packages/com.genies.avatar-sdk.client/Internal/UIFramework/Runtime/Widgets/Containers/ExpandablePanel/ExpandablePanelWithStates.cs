@@ -8,7 +8,12 @@ namespace Genies.UI
     /// Extend this class to create components with the same functionality as <see cref="ExpandablePanel"/> that use an
     /// enum type to specify a fixed set of possible states.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class ExpandablePanelWithStates<TState> : MonoBehaviour, IExpandablePanel<TState>
+#else
     public abstract class ExpandablePanelWithStates<TState> : MonoBehaviour, IExpandablePanel<TState>
+#endif
         where TState : struct, Enum
     {
         private static readonly TState[] PossibleStates;

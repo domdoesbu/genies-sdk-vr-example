@@ -17,7 +17,11 @@ namespace Genies.Customization.MegaEditor
     /// Forward declaration for ICustomizableUgcWearable
     /// The actual implementation will be provided by the UGC package
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class ICustomizableUgcWearable
+#else
     public abstract class ICustomizableUgcWearable
+#endif
     {
         // Core Properties
         public abstract string CurrentCategory { get; set; }
@@ -65,7 +69,11 @@ namespace Genies.Customization.MegaEditor
     /// Forward declaration for UgcPatternItemPickerDataSource
     /// The actual implementation will be provided by the UGC package
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class IUgcPatternItemPickerDataSource
+#else
     public abstract class IUgcPatternItemPickerDataSource
+#endif
     {
         // Public Methods
         public abstract void SetSelectedPatternId(string patternId);
@@ -78,12 +86,21 @@ namespace Genies.Customization.MegaEditor
     /// Forward declaration for StyleCustomizationView
     /// The actual implementation will be provided by the UGC package
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class IStyleCustomizationView : MonoBehaviour
+#else
     public abstract class IStyleCustomizationView : MonoBehaviour
+#endif
     {
         /// <summary>
         /// Customization options for style editing
         /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal enum CustomizationOption
+#else
         public enum CustomizationOption
+#endif
         {
             Pattern,
             Color,
@@ -110,7 +127,11 @@ namespace Genies.Customization.MegaEditor
     /// Forward declaration for StyleOptionsMenu
     /// The actual implementation will be provided by the UGC package
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class IStyleOptionsMenu
+#else
     public abstract class IStyleOptionsMenu
+#endif
     {
         // Events
         public abstract event Action StyleApplied;

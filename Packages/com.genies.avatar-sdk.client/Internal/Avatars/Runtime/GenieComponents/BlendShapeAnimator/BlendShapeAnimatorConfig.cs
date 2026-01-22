@@ -10,7 +10,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BlendShapeAnimatorConfig", menuName = "Genies/Genie Components/Configs/Blend Shape Animator Config")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BlendShapeAnimatorConfig : ScriptableObject
+#else
     public class BlendShapeAnimatorConfig : ScriptableObject
+#endif
     {
         public List<Channel> channels = new();
 

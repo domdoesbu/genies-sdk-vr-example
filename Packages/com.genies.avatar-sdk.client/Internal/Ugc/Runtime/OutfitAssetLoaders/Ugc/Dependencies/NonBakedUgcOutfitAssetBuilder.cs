@@ -18,7 +18,11 @@ namespace Genies.Ugc
     /// <br/><br/>
     /// This <see cref="IUgcOutfitAssetBuilder"/> implementation does not support LODs.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NonBakedUgcOutfitAssetBuilder : IUgcOutfitAssetBuilder
+#else
     public sealed class NonBakedUgcOutfitAssetBuilder : IUgcOutfitAssetBuilder
+#endif
     {
         // dependencies
         private readonly IAssetLoader<UgcTemplateAsset> _templateLoader;

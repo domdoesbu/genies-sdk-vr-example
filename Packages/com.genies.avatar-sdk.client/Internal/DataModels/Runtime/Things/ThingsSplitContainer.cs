@@ -11,7 +11,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ThingsSplitContainer", menuName = "Genies/Things/ThingsSplitContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ThingsSplitContainer : ASplitElementContainer
+#else
     public class ThingsSplitContainer : ASplitElementContainer
+#endif
     {
 
     }

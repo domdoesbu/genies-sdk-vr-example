@@ -1,10 +1,14 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Genies.Avatars;
 using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarLoaderExtensions
+#else
     public static class AvatarLoaderExtensions
+#endif
     {
         public static async UniTask<T> LoadControllerAsync<T>(this IAvatarLoader loader, Transform parent = null)
             where T : ISpeciesGenieController

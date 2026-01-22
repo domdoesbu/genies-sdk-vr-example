@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Genie component that provides animation IK Retargeting support.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class IkRetargeting : GenieComponent
+#else
     public sealed class IkRetargeting : GenieComponent
+#endif
     {
         public override string Name => _config.name;
         public IkRetargetingBehaviour Behaviour { get; private set; }

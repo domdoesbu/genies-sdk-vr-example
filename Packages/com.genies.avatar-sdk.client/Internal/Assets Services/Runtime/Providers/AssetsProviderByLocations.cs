@@ -11,10 +11,14 @@ namespace Genies.Assets.Services
     /// <summary>
     /// Assets provider for that can be initalised with a collection of resource locations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AssetsProviderByLocations<T> : IAssetsProvider<T>
+#else
     public class AssetsProviderByLocations<T> : IAssetsProvider<T>
+#endif
     {
         public bool IsCached => Cache.IsAlive;
-        
+
         public readonly IAssetsService AssetsService;
 
         protected readonly Dictionary<object, IResourceLocation> LocationsMap;
@@ -32,7 +36,7 @@ namespace Genies.Assets.Services
                 LocationsMap[location.PrimaryKey] = location;
             }
         }
-        
+
         public virtual async UniTask<Ref<T>> LoadAssetAsync(object key)
         {
             IResourceLocation location = await LoadResourceLocationAsync(key);
@@ -61,29 +65,29 @@ namespace Genies.Assets.Services
 
         public virtual UniTask<Ref<IList<T>>> LoadAllAssetsAsync()
             => AssetsService.LoadAssetsAsync<T>(Locations);
-        
+
         public virtual UniTask<Ref<IList<T>>> LoadAllAssetsAsync(Action<T> callback)
             => AssetsService.LoadAssetsAsync<T>(Locations, callback);
-        
+
         public virtual UniTask<Ref<IList<T>>> LoadAllAssetsAsync(bool releaseDependenciesOnFailure)
             => AssetsService.LoadAssetsAsync<T>(Locations, releaseDependenciesOnFailure);
-        
+
         public virtual UniTask<Ref<IList<T>>> LoadAllAssetsAsync(Action<T> callback, bool releaseDependenciesOnFailure)
             => AssetsService.LoadAssetsAsync<T>(Locations, callback, releaseDependenciesOnFailure);
-        
+
         public UniTask<IList<Ref<T>>> LoadAllUnpackedAssetsAsync()
             => AssetsService.LoadUnpackedAssetsAsync<T>(Locations);
-        
+
         public UniTask<IList<Ref<T>>> LoadAllUnpackedAssetsAsync(Action<T> callback)
             => AssetsService.LoadUnpackedAssetsAsync<T>(Locations, callback);
-        
+
         public virtual async UniTask CacheAllAssetsAsync()
         {
             Ref<IList<T>> newCache = await LoadAllAssetsAsync();
             Cache.Dispose();
             Cache = newCache;
         }
-        
+
         public virtual UniTask ReleaseCacheAsync()
         {
             Cache.Dispose();

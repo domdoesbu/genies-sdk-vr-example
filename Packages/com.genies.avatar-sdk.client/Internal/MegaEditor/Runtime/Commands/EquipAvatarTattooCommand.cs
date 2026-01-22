@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for equipping a tattoo asset with <see cref="_targetId"/> to <see cref="_areaId"/> (slot)
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipAvatarTattooCommand : UnifiedGenieModificationCommand
+#else
     public class EquipAvatarTattooCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly string _areaId;

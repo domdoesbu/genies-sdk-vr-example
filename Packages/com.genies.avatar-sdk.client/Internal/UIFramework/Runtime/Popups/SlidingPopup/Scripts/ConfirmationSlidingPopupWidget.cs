@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ConfirmationSlidingPopupWidget : SlidingPopupWidget
+#else
     public class ConfirmationSlidingPopupWidget : SlidingPopupWidget
+#endif
     {
         [SerializeField]
         private Button _confirmationButton;

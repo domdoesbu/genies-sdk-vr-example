@@ -9,7 +9,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RemoteStyleDataRepository : IDataRepository<Style>
+#else
     public class RemoteStyleDataRepository : IDataRepository<Style>
+#endif
     {
         private readonly ICloudFeatureSaveService<Style> _styleCloudSaveService;
         private readonly string _storageId;

@@ -1,6 +1,10 @@
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcTemplateElementData
+#else
     public sealed class UgcTemplateElementData
+#endif
     {
         /// <summary>
         /// The unique ID of this UGC element.

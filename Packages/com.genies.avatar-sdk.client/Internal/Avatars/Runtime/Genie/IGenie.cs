@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Represents a genie avatar instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGenie : IDisposable
+#else
     public interface IGenie : IDisposable
+#endif
     {
         /// <summary>
         /// The genie species of the avatar instance.

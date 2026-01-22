@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ElementRender : IElementRender
+#else
     public sealed class ElementRender : IElementRender
+#endif
     {
         public int RegionCount { get; }
         public bool IsAlive { get; private set; }

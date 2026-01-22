@@ -9,14 +9,22 @@ using Genies.UIFramework;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ItemType
+#else
     public enum ItemType
+#endif
     {
         Middle = 0,
         First = 1,
         Last = 2,
         Single = 3,
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BreadcrumbItem : GeniesButton
+#else
     public class BreadcrumbItem : GeniesButton
+#endif
     {
         [Header("Breadcrumb Elements")]
         [SerializeField]

@@ -11,7 +11,11 @@ namespace Genies.Components.Dynamics
     /// Contains a utilities for setting up dynamics on hierarchies that contain properly named dynamics joints.
     /// See <see cref="DynamicsNaming"/> for more information on joint naming conventions.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DynamicsSetup
+#else
     public static class DynamicsSetup
+#endif
     {
         // The name of the joint in the rig where the dynamics structure container will be placed.
         public const string DefaultHierarchyRootName = "Root";
@@ -45,7 +49,7 @@ namespace Genies.Components.Dynamics
                 {
                     return parent.gameObject;
                 }
-                
+
                 var siblingRoot = parent.transform.Find(DynamicsSetup.DefaultHierarchyRootName);
 
                 if(siblingRoot != null)
@@ -115,7 +119,7 @@ namespace Genies.Components.Dynamics
                 GameObject structureGameObject = new GameObject($"{structureParticles.Key}DynamicsStructure");
                 structureGameObject.transform.parent = container.transform;
                 DynamicsStructure structure = structureGameObject.AddComponent<DynamicsStructure>();
-                
+
                 structure.Particles = structureParticles.Value;
 
                 structure.Links = links.Where(link => structureParticles.Value.Contains(link.StartParticle) && structureParticles.Value.Contains(link.EndParticle)).ToList();
@@ -221,7 +225,7 @@ namespace Genies.Components.Dynamics
                 }
             }
         }
-    
+
         /// <summary>
         /// Populates a <see cref="DynamicsRecipe"/> with data from a <see cref="DynamicsStructure"/>.
         /// This allows the structure to be recreated from the serialized recipe data.
@@ -371,7 +375,7 @@ namespace Genies.Components.Dynamics
 
         public static void AddHumanoidCollider(ColliderConfiguration.HumanoidColliderLocation location, DynamicsStructure structure)
         {
-            if (structure == null) 
+            if (structure == null)
             {
                 Debug.LogError("Dynamics structure is null. Cannot add humanoid collider.");
                 return;

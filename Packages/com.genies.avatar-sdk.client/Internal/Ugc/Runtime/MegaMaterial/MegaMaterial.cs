@@ -15,7 +15,11 @@ namespace Genies.Ugc
     /// Encapsulates a Unity Material instance from the mega shader. You can apply region, style or pattern definitions to the wrapped material
     /// and this class will take care of all the generated dependencies. Must be disposed for the material to be destroyed and all dependencies disposed.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MegaMaterial : IDisposable
+#else
     public sealed class MegaMaterial : IDisposable
+#endif
     {
         private const int RegionCount = MegaShaderMaterialExtensions.MaxRegions;
         private const string BaseMaterialResourcePath = "material_base_BASIC_inside";
@@ -107,7 +111,7 @@ namespace Genies.Ugc
             _projTexCancellation.Cancel();
             _projTexCancellation.Dispose();
             _projTexCancellation = new CancellationTokenSource();
-            
+
             // TODO: composite/bake if there are multiple projected textures
             ProjectedTexture projectedTexture = projectedTextures?.FirstOrDefault();
             if (projectedTexture is null)
@@ -131,7 +135,7 @@ namespace Genies.Ugc
                     textureRef.Dispose();
                     return;
                 }
-                
+
                 // clear previous texture if any
                 Material.SetTexture(MegaShaderProperty.DecalAlbedoTransparency, null);
                 _projectedTextureRef.Dispose();
@@ -141,7 +145,7 @@ namespace Genies.Ugc
                     Debug.LogError("<color=red>something wrong with downloaded projected texture</color>");
                     return;
                 }
-                
+
                 Material.SetTexture(MegaShaderProperty.DecalAlbedoTransparency, textureRef.Item);
                 _projectedTextureRef = textureRef;
             }

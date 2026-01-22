@@ -12,6 +12,7 @@ namespace Genies.Avatars.Sdk
     /// Will load a default avatar if you are not logged in.
     /// </summary>
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal sealed class CreateUserAvatar : MonoBehaviour
 #else
     public sealed class CreateUserAvatar : MonoBehaviour

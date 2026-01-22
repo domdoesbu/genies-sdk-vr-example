@@ -9,7 +9,11 @@ namespace UMA
 	/// It returns entries as IDNAConverters
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DNAConverterList
+#else
 	public class DNAConverterList
+#endif
 	{
 		//Hmmm not sure this Object list is going to work because in 'Debug Mode' you can anything you like in there
 		//Also the prefab gets added as a prefab rather than the component on it

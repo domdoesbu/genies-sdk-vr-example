@@ -5,7 +5,11 @@ namespace Genies.Avatars.Behaviors
     /// Utility class for resolving avatar generation/race labels used throughout the avatar behavior system.
     /// This class provides access to current and previous generation identifiers for avatar compatibility.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class RaceLabelResolver
+#else
     public static class RaceLabelResolver
+#endif
     {
         private const string PreviousGen = "gen6";
         private const string CurrentGen = "gen12";

@@ -9,7 +9,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "SubSpecies Container", menuName = "_GAPAvatarTesting/Avatars/Containers")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesContainer : ScriptableObject, IShaderlessAsset, IDynamicAsset
+#else
     public class SubSpeciesContainer : ScriptableObject, IShaderlessAsset, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Genies.Inventory;
+using Genies.Naf.Content.AvatarBaseConfig;
 using Genies.Inventory.Providers;
 using Genies.ServiceManagement;
 using Genies.Services.Model;
@@ -12,7 +13,11 @@ namespace Genies.Naf.Content
     /// <summary>
     /// Uses Cms Source to translate Content between guids and uris
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentService : NafContentServiceBase
+#else
     public class NafContentService : NafContentServiceBase
+#endif
     {
         private IInventoryService _InventoryService => ServiceManager.GetService<IInventoryService>(null);
         private IDefaultInventoryService _DefaultInventoryService => ServiceManager.GetService<IDefaultInventoryService>(null);
@@ -67,7 +72,7 @@ namespace Genies.Naf.Content
                     PipelineId = userInventoryItem.AssetType,
                 };
 
-                inventoryAssetsByGuid.Add(guid, newEntry);
+                inventoryAssetsByGuid[guid] = newEntry;
             }
 
             return inventoryAssetsByGuid;
@@ -180,7 +185,11 @@ namespace Genies.Naf.Content
     /// Boundary layer to convert from any metadata source to naf format
     /// Internal format do not move out of this class
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentMetadata
+#else
     public class NafContentMetadata
+#endif
     {
         public NafContentMetadata()
         {

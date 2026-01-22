@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Genies.Avatars.Sdk
 {
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class GeniesAnimatorEventBridge : MonoBehaviour
 #else
     public class GeniesAnimatorEventBridge : MonoBehaviour

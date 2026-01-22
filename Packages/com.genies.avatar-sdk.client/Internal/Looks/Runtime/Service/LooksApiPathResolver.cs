@@ -7,7 +7,11 @@ namespace Genies.Looks.Service
     /// API path resolver for looks services that provides the appropriate base URLs for different backend environments.
     /// This class implements <see cref="IApiClientPathResolver"/> to resolve Genies API endpoints for looks-related operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksApiPathResolver : IApiClientPathResolver
+#else
     public class LooksApiPathResolver : IApiClientPathResolver
+#endif
     {
         /// <summary>
         /// Gets the appropriate API base URL for the specified backend environment.

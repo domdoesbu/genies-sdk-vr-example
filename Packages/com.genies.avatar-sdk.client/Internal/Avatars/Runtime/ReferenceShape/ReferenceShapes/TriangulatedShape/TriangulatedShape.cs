@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// <see cref="IReferenceShape"/> implementation for triangle-based shapes. This is currently our fastest and most
     /// efficient approach for transferring point deformations and can handle high resolution meshes with ease.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class TriangulatedShape : IReferenceShape
+#else
     public sealed partial class TriangulatedShape : IReferenceShape
+#endif
     {
         public string                      Id               { get; }
         public int                         PointCount       => _referenceVertices.Length;

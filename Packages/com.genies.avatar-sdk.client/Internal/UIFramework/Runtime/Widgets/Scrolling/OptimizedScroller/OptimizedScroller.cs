@@ -16,7 +16,12 @@ namespace Genies.UI.Scroller
     /// out of view we return it to the <see cref="IOptimizedScrollerCellSource"/>
     /// </summary>
     [RequireComponent(typeof(ScrollRect))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class OptimizedScroller : MonoBehaviour
+#else
     public class OptimizedScroller : MonoBehaviour
+#endif
     {
         [SerializeField]
         private ScrollRect _scrollRect;

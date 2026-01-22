@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NativeAvatarsFactory
+#else
     public static class NativeAvatarsFactory
+#endif
     {
         public static async UniTask<NativeUnifiedGenieController> CreateUnifiedGenieAsync(string definition = null,
             Transform parent = null, IAssetParamsService assetParamsService = null)

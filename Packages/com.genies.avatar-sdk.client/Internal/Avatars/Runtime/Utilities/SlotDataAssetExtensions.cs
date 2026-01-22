@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class SlotDataAssetExtensions
+#else
     public static class SlotDataAssetExtensions
+#endif
     {
         /// <summary>
         /// Computes the area of the slot mesh in world units (meters) divided by the area of the mesh in texture units (UVs).

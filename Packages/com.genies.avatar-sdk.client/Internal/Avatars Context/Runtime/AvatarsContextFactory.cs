@@ -12,7 +12,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarsContextFactory
+#else
     public static class AvatarsContextFactory
+#endif
     {
         private const string _ugcOutfitAssetBuilderPath = "UgcOutfitAssetBuilder";
 

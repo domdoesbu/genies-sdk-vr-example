@@ -11,7 +11,11 @@ using Genies.Refs;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class CustomizationItemPickerDataSource : ScriptableItemPickerDataSource
+#else
     public abstract class CustomizationItemPickerDataSource : ScriptableItemPickerDataSource
+#endif
     {
         protected Customizer _customizer { get; private set; }
 
@@ -86,7 +90,7 @@ namespace Genies.Customization.Framework.ItemPicker
             for (var i = 0; i < _ids.Count; i++)
             {
                 TryGetLoadedData(i, out Ref<TUI> dataRef);
-                
+
                 var presetColors = getColorsFunc(dataRef.Item);
                 if (presetColors != null && presetColors.Length >= currentColors.Length)
                 {

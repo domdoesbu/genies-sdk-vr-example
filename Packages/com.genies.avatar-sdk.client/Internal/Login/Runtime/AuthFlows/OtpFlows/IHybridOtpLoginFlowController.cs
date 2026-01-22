@@ -4,7 +4,11 @@ using Genies.Login.AuthMessages;
 
 namespace Genies.Login.Otp
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IHybridOtpLoginFlowController : IDisposable
+#else
     public interface IHybridOtpLoginFlowController : IDisposable
+#endif
     {
         Task<GeniesAuthStartHybridOtpResponse> SubmitCredentialAsync(string email);
         Task<GeniesAuthVerifyMagicLinkResponse> SubmitCodeAsync(string email, string code);

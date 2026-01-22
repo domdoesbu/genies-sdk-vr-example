@@ -1,11 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UMA.Dynamics;
 using UnityEngine;
 
 namespace UMA
 {	
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class UMAPhysicsSlotDefinition : MonoBehaviour 
+#else
 	public class UMAPhysicsSlotDefinition : MonoBehaviour 
+#endif
 	{
 		//See UMAPhysicsSlotDefinitionEditor for how these are displayed
 		[HideInInspector]
