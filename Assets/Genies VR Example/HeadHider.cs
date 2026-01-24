@@ -9,15 +9,12 @@ namespace Genies.VRExample
     public sealed class HeadHider
     {
         private static readonly string[] ScaleHideJointNames = { "FaceBind" };
-        private static readonly int HeadId = Shader.PropertyToID("_Head");
-        private static readonly int AlphaClipId = Shader.PropertyToID("_AlphaClip");
-
-        private const string AlphaTestKeyword = "_ALPHATEST_ON";
         private const string InvisibleShaderName = "Hidden/Genies/NoDraw_NoWrite_URP";
+        private const string HeadRendererName = "unified-face";
+        private const string BodyRendererName = "Default";
 
-        private readonly Renderer _renderer;
-        private readonly SkinnedMeshRenderer _skinnedMeshRenderer;
-        private readonly Shader _skinShaderWithInvisibleHeadSupport;
+        private readonly SkinnedMeshRenderer _headRenderer;
+        private readonly SkinnedMeshRenderer _bodyRenderer;
         private readonly Transform _skeletonRoot;
 
         private bool _materialsInitialized;
@@ -25,26 +22,47 @@ namespace Genies.VRExample
         private bool _isHidden;
 
         private Material _invisibleMaterial;
-        private Material[] _showMaterials;
-        private Material[] _hideMaterials;
-        private Material[] _skinMaterials;
+        private Material[] _headOriginalMaterials;
+        private Material[] _bodyOriginalMaterials;
+        private int[] _bodyHairMaterialIndices;
 
         private Transform[] _scaleHideJoints;
         private Vector3[] _scaleHideJointOriginalScales;
 
-        public HeadHider(ManagedAvatar avatar, Shader skinShaderWithInvisibleHeadSupport)
+        public HeadHider(ManagedAvatar avatar)
         {
             if (avatar != null && avatar.ModelRoot != null)
             {
-                _skinnedMeshRenderer = avatar.ModelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
-                _renderer = _skinnedMeshRenderer;
+                var allRenderers = avatar.ModelRoot.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-                if (_skinnedMeshRenderer != null)
+                foreach (var renderer in allRenderers)
                 {
-                    // In SRP/XR, skinned meshes may not reflect transform changes made during rendering
-                    // unless matrices are recalculated per render. (If we don't do this, the joints hidden by
-                    // scaling to zero may not update properly).
-                    _skinnedMeshRenderer.forceMatrixRecalculationPerRender = true;
+                    if (renderer.name == HeadRendererName)
+                    {
+                        _headRenderer = renderer;
+                    }
+                    else if (renderer.name == BodyRendererName)
+                    {
+                        _bodyRenderer = renderer;
+                    }
+
+                    if (renderer != null)
+                    {
+                        // In SRP/XR, skinned meshes may not reflect transform changes made during rendering
+                        // unless matrices are recalculated per render. (If we don't do this, the joints hidden by
+                        // scaling to zero may not update properly).
+                        renderer.forceMatrixRecalculationPerRender = true;
+                    }
+                }
+
+                if (_headRenderer == null)
+                {
+                    Debug.LogWarning($"[HeadHider] Could not find head renderer '{HeadRendererName}'.");
+                }
+
+                if (_bodyRenderer == null)
+                {
+                    Debug.LogWarning($"[HeadHider] Could not find body renderer '{BodyRendererName}'.");
                 }
             }
             else 
@@ -56,8 +74,6 @@ namespace Genies.VRExample
             {
                 _skeletonRoot = avatar.SkeletonRoot;
             }
-
-            _skinShaderWithInvisibleHeadSupport = skinShaderWithInvisibleHeadSupport;
         }
 
         public void ShowHead(bool show)
@@ -65,35 +81,56 @@ namespace Genies.VRExample
             EnsureScaleHideJointsInitialized();
             ApplyScaleHideJointState(show);
 
-            if (_renderer == null)
-            {
-                return;
-            }
-
             EnsureMaterialsInitialized();
 
             if (show)
             {
-                if (!_isHidden) return;
-
-                ApplySkinState(show: true);
-
-                if (_showMaterials != null)
+                if (!_isHidden)
                 {
-                    _renderer.sharedMaterials = _showMaterials;
+                    return;
+                }
+
+                if (_headRenderer != null && _headOriginalMaterials != null)
+                {
+                    _headRenderer.sharedMaterials = _headOriginalMaterials;
+                }
+
+                if (_bodyRenderer != null && _bodyOriginalMaterials != null)
+                {
+                    _bodyRenderer.sharedMaterials = _bodyOriginalMaterials;
                 }
 
                 _isHidden = false;
                 return;
             }
 
-            if (_isHidden) return;
-
-            ApplySkinState(show: false);
-
-            if (_hideMaterials != null)
+            if (_isHidden)
             {
-                _renderer.sharedMaterials = _hideMaterials;
+                return;
+            }
+
+            if (_headRenderer != null && _headOriginalMaterials != null && _invisibleMaterial != null)
+            {
+                var hideMaterials = new Material[_headOriginalMaterials.Length];
+                for (int i = 0; i < hideMaterials.Length; i++)
+                {
+                    hideMaterials[i] = _invisibleMaterial;
+                }
+                _headRenderer.sharedMaterials = hideMaterials;
+            }
+
+            if (_bodyRenderer != null && _bodyOriginalMaterials != null && _invisibleMaterial != null && _bodyHairMaterialIndices != null)
+            {
+                var hideMaterials = (Material[])_bodyOriginalMaterials.Clone();
+                for (int i = 0; i < _bodyHairMaterialIndices.Length; i++)
+                {
+                    int index = _bodyHairMaterialIndices[i];
+                    if (index >= 0 && index < hideMaterials.Length)
+                    {
+                        hideMaterials[index] = _invisibleMaterial;
+                    }
+                }
+                _bodyRenderer.sharedMaterials = hideMaterials;
             }
 
             _isHidden = true;
@@ -106,47 +143,34 @@ namespace Genies.VRExample
                 return;
             }
 
-            if (_renderer == null)
-            {
-                return;
-            }
-
-            // Force instanced materials once (avoids allocations later).
-            var instanced = _renderer.materials;
-
-            ApplyUpdatedSkinShader(instanced);
-
-            // Same rule here: mutate renderer.materials and assign back to renderer.materials.
-            _renderer.materials = instanced;
-            _showMaterials = instanced;
-
             if (_invisibleMaterial == null)
             {
                 _invisibleMaterial = CreateInvisibleMaterial();
             }
 
-            _hideMaterials = (Material[])instanced.Clone();
-
-            var skinList = new List<Material>(capacity: instanced.Length);
-
-            for (int i = 0; i < instanced.Length; i++)
+            if (_headRenderer != null)
             {
-                var mat = instanced[i];
-                var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
-
-                if (mat != null && materialName.Contains("skin"))
-                {
-                    skinList.Add(mat);
-                }
-
-                if (_invisibleMaterial != null &&
-                    (materialName.Contains("eye") || materialName.Contains("hair") || materialName.Contains("race")))
-                {
-                    _hideMaterials[i] = _invisibleMaterial;
-                }
+                _headOriginalMaterials = _headRenderer.sharedMaterials;
             }
 
-            _skinMaterials = skinList.ToArray();
+            if (_bodyRenderer != null)
+            {
+                _bodyOriginalMaterials = _bodyRenderer.sharedMaterials;
+
+                var hairIndices = new List<int>();
+                for (int i = 0; i < _bodyOriginalMaterials.Length; i++)
+                {
+                    var mat = _bodyOriginalMaterials[i];
+                    var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
+
+                    if (materialName.Contains("hair"))
+                    {
+                        hairIndices.Add(i);
+                    }
+                }
+
+                _bodyHairMaterialIndices = hairIndices.ToArray();
+            }
 
             _materialsInitialized = true;
         }
@@ -226,70 +250,7 @@ namespace Genies.VRExample
             }
         }
 
-        private void ApplyUpdatedSkinShader(Material[] materials)
-        {
-            // Use a newer version of the skin shader, which includes visual and perf improvements,
-            // and, crucially, support for an invisible head.
 
-            if (materials == null)
-            {
-                return;
-            }
-
-            if (_skinShaderWithInvisibleHeadSupport == null)
-            {
-                return;
-            }
-
-            for (int i = 0; i < materials.Length; i++)
-            {
-                var mat = materials[i];
-                var materialName = mat != null ? mat.name.ToLowerInvariant() : string.Empty;
-
-                if (materialName.Contains("skin") && mat != null && mat.shader != _skinShaderWithInvisibleHeadSupport)
-                {
-                    mat.shader = _skinShaderWithInvisibleHeadSupport;
-                }
-            }
-        }
-
-        private void ApplySkinState(bool show)
-        {
-            if (_skinMaterials == null) return;
-
-            for (int i = 0; i < _skinMaterials.Length; i++)
-            {
-                var mat = _skinMaterials[i];
-                if (mat == null) continue;
-
-                mat.SetFloat(HeadId, show ? 1f : 0f);
-
-                if (mat.HasProperty(AlphaClipId))
-                {
-                    mat.SetFloat(AlphaClipId, show ? 0f : 1f);
-                }
-
-                SetMaterialKeyword(mat, AlphaTestKeyword, enabled: !show);
-            }
-        }
-
-        private static void SetMaterialKeyword(Material material, string keyword, bool enabled)
-        {
-            if (material == null || material.shader == null || string.IsNullOrWhiteSpace(keyword)) return;
-
-            // ShaderGraph/URP commonly uses local keywords (shader_feature_local). Using LocalKeyword avoids
-            // silently toggling the wrong keyword set on some platforms.
-            try
-            {
-                var localKeyword = new LocalKeyword(material.shader, keyword);
-                material.SetKeyword(localKeyword, enabled);
-            }
-            catch
-            {
-                if (enabled) material.EnableKeyword(keyword);
-                else material.DisableKeyword(keyword);
-            }
-        }
 
         private static Material CreateInvisibleMaterial()
         {

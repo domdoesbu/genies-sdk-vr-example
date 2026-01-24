@@ -15,7 +15,6 @@ namespace Genies.VRExample
     {
         public bool IsAvatarLoaded => _avatar != null;
         [SerializeField] private MetaSourceDataProvider _metaSourceDataProvider;
-        [SerializeField] private Shader _skinShaderWithInvisibleHeadSupport;
         [SerializeField] private Camera _vrCamera;
         [SerializeField] private OVRCameraRig _ovrCameraRig;
         [SerializeField] private FirstPersonLocomotor _firstPersonLocomotor;
@@ -57,7 +56,7 @@ namespace Genies.VRExample
             
             _metaSourceDataProvider.enabled = true;
 
-            _headHider = new HeadHider(_avatar, _skinShaderWithInvisibleHeadSupport);
+            _headHider = new HeadHider(_avatar);
             
             // Visible by default for all non-VR cameras.
             _headHider.ShowHead(show: true);
