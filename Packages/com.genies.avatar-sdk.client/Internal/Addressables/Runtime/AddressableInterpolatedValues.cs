@@ -3,7 +3,11 @@
     /// <summary>
     /// These are strings values used for addressable interpolated versioning through the catalog merge utility
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AddressableInterpolatedValues
+#else
     public static class AddressableInterpolatedValues
+#endif
     {
         //This is the string that the version Int will be replaced by in the 'InternalId'
         public const string InterpolatedVersionString = "VersionInt";

@@ -14,7 +14,11 @@ namespace Genies.Dynamics
     /// <see cref="DynamicsStructure"/> for implementation of physics simulation.
     /// </summary>
     [SerializableAs(typeof(GenieComponent), "dynamics-animator")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsAnimator : GenieComponent
+#else
     public class DynamicsAnimator : GenieComponent
+#endif
     {
         public override string Name => _recipeRef.Object.StructureName;
 

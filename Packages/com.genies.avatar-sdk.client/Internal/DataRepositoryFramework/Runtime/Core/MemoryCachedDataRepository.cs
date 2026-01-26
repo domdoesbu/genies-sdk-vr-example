@@ -9,7 +9,11 @@ namespace Genies.DataRepositoryFramework
     /// <summary>
     /// Decorated data repository that caches the data in memory to avoid redundant calls to data stores.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MemoryCachedDataRepository<T> : IDataRepository<T>
+#else
     public class MemoryCachedDataRepository<T> : IDataRepository<T>
+#endif
     {
         protected IDataRepository<T> _dataSource;
         private readonly DataRepositoryMemoryCache<T> _memoryCache;

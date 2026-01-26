@@ -7,7 +7,12 @@ namespace Genies.UI.Widgets
     /// Slider for picking hue.
     /// </summary>
     [RequireComponent(typeof(Slider))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class HuePicker : MonoBehaviour
+#else
     public class HuePicker : MonoBehaviour
+#endif
     {
         public bool Interactable
         {

@@ -4,7 +4,11 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace Genies.Addressables.Utils
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAddressablesUtils
+#else
     public class GeniesAddressablesUtils
+#endif
     {
         // can call it multiple times it will only  register the provider once
         public static void RegisterNewResourceProviderOnAddressables(ResourceProviderBase newProvider)

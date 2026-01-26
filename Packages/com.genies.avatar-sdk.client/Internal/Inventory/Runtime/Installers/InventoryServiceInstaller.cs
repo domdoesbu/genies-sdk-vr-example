@@ -6,13 +6,19 @@ using VContainer;
 namespace Genies.Inventory.Installers
 {
     [AutoResolve]
-    public class InventoryServiceInstaller: IGeniesInstaller
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryServiceInstaller : IGeniesInstaller
+#else
+    public class InventoryServiceInstaller : IGeniesInstaller
+#endif
     {
         [Header("Optional Override")]
         [SerializeField] private InventoryItemToCategory _inventoryItemToCategory;
         [SerializeField] private string _partyId;
 
         public bool IncludeV1Inventory;
+        public string DefaultInventoryOrgId;
+        public string DefaultInventoryAppId;
 
         public InventoryItemToCategory InventoryItemToCategoryDep
         {
@@ -44,7 +50,11 @@ namespace Genies.Inventory.Installers
                     .WithParameter(PartyId).AsSelf();
             }
 
-            builder.Register<IDefaultInventoryService, DefaultInventoryService>(Lifetime.Singleton);
+            var defaultInventory = new DefaultInventoryService(
+                DefaultInventoryOrgId ?? "ALL",
+                DefaultInventoryAppId ?? "SDK_ALL");
+
+            defaultInventory.RegisterAs<DefaultInventoryService, IDefaultInventoryService>();
         }
     }
 }

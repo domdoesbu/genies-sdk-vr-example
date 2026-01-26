@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarCreatorUtil
+#else
     public static class AvatarCreatorUtil
+#endif
     {
         private const string DefaultAvatarDefPath = "DefaultAvatarDefinition";
         private static IAvatarService AvatarService => ServiceManager.Get<IAvatarService>();

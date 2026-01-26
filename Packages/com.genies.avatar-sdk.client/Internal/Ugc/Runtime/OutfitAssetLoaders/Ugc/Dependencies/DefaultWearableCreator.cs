@@ -12,7 +12,11 @@ namespace Genies.Ugc
     /// don't have a wearable definition coming from a user's account and you just want to
     /// instantiate a wearable from a template with all defaults.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class DefaultWearableCreator
+#else
     public sealed class DefaultWearableCreator
+#endif
     {
         // dependencies
         private readonly IAssetLoader<UgcTemplateAsset> _ugcTemplateLoader;

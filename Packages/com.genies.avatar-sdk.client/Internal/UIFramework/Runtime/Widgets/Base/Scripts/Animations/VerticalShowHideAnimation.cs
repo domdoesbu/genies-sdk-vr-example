@@ -1,10 +1,15 @@
-﻿using Genies.UI.Animations;
+using Genies.UI.Animations;
 using UnityEngine;
 
 namespace Genies.UI.Widgets
 {
     [RequireComponent(typeof(RectTransform))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class VerticalShowHideAnimation : MonoBehaviour, IShowHideAnimation
+#else
     public class VerticalShowHideAnimation : MonoBehaviour, IShowHideAnimation
+#endif
     {
         public RectTransform RectTransform { get; set; }
         public float AnimationDuration = 0.17f;

@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairController : AssetSlotsController<FlairAsset>, IFlairController
+#else
     public class FlairController : AssetSlotsController<FlairAsset>, IFlairController
+#endif
     {
         private readonly IEditableGenie _genie;
         private readonly ISlottedAssetLoader<FlairAsset> _loader;

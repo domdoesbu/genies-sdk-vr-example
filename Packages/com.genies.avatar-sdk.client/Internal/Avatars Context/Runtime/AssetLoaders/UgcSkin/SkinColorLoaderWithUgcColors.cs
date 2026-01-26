@@ -13,7 +13,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Special implementation for loading skin colors that can also load the ugc colors.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SkinColorLoaderWithUgcColors : IAssetLoader<ColorAsset>
+#else
     public class SkinColorLoaderWithUgcColors : IAssetLoader<ColorAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

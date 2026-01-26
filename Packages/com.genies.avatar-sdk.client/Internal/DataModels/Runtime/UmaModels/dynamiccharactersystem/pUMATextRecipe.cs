@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMATextRecipe : UMAPackedRecipeBase
+#else
 	public partial class UMATextRecipe : UMAPackedRecipeBase
+#endif
 	{
 		//TODO use the recipeTypeOpts enum for this everywhere
 		public string recipeType = "Standard";

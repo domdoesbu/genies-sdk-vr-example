@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// A controller for an specific type of asset that can load, equip and unequip assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAssetsController<TAsset>
+#else
     public interface IAssetsController<TAsset>
+#endif
         where TAsset : IAsset
     {
         /// <summary>

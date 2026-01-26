@@ -13,7 +13,11 @@ namespace Genies.Dynamics
     /// The naming conventions are also documented in the following Notion page:
     /// + https://www.notion.so/geniesinc/Dynamics-Joint-Naming-Conventions-d6f58d3814d447c8b05044912f13b634
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DynamicsNaming
+#else
     public static class DynamicsNaming
+#endif
     {
         public static readonly string[] SideNames = new string[] { "Left", "Right", "Center" };
 

@@ -13,7 +13,11 @@ namespace Genies.Avatars
     /// <see cref="SkeletonModifierBehaviour"/> updated with the correct joint references.
     /// </summary>
     [SerializableAs(typeof(GenieComponent), "skeleton-modifier")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SkeletonModifier : GenieComponent
+#else
     public sealed class SkeletonModifier : GenieComponent
+#endif
     {
         public override string Name => "Skeleton Modifier";
         

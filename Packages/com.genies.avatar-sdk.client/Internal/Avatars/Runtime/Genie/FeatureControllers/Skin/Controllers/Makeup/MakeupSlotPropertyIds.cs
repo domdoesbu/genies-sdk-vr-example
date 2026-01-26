@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Material property IDs for an specific makeup slot
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct MakeupSlotPropertyIds
+#else
     public struct MakeupSlotPropertyIds
+#endif
     {
         public int TextureId;
         public int[] ColorIds;

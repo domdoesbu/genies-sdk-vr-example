@@ -9,7 +9,11 @@ namespace UMA.AssetBundles
 	/// An AssetBunldeIndex containing a list of assetbundles each with a list of assets inside that asset bundle. The user can customize the fields of data that are stored for each asset.
 	/// The entire class is marked as partial so that extra methods for searching the index can be added as necessary.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class AssetBundleIndex : ScriptableObject
+#else
 	public partial class AssetBundleIndex : ScriptableObject
+#endif
 	{
 		/// <summary>
 		/// The actual data that gets added to the index for any given asset. Made partial so the user can add extra fields to this as required;

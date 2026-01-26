@@ -16,7 +16,11 @@ using static Genies.Customization.MegaEditor.CustomizationContext;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimationCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class AnimationCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         private CustomInstrumentationManager _InstrumentationManager => CustomInstrumentationManager.Instance;
         private static string _RootTransactionName => CustomInstrumentationOperations.CreateNewLookTransaction;

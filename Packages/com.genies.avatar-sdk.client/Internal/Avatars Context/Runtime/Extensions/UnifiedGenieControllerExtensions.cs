@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Genies.Avatars;
 using Genies.ServiceManagement;
@@ -10,7 +10,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedGenieControllerExtensions
+#else
     public static class UnifiedGenieControllerExtensions
+#endif
     {
         [Obsolete]
         public static UniTask BakeSkinAsync(this UnifiedGenieController controller)

@@ -1,6 +1,10 @@
 ﻿namespace Genies.Addressables
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum AddressableTags
+#else
     public enum AddressableTags
+#endif
     {
         animation,
         basictemplate,

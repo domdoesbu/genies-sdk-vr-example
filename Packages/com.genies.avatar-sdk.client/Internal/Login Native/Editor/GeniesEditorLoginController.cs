@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Login.Native.Editor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesEditorLoginController
+#else
     public class GeniesEditorLoginController
+#endif
     {
         private readonly LoginStateInfo _StateInfo;
         private readonly string _ApiPath;
@@ -212,14 +216,22 @@ namespace Genies.Login.Native.Editor
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum LoginState
+#else
     public enum LoginState
+#endif
     {
         EnterEmail,
         EnterCode,
         LoggedIn
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LoginStateInfo
+#else
     public class LoginStateInfo
+#endif
     {
         public delegate void StateUpdatedHandler(LoginState previous, LoginState newState);
         public delegate void StateChangedHandler();

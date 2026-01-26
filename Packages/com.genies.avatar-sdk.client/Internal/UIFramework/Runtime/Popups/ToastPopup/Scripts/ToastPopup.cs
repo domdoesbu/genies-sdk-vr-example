@@ -13,7 +13,11 @@ namespace Genies.UIFramework
     /// Configuration to create/show a toast popup.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ToastConfig
+#else
     public class ToastConfig
+#endif
     {
         /// <summary>
         /// The background color(optional)
@@ -60,7 +64,12 @@ namespace Genies.UIFramework
         [FormerlySerializedAs("offScreenPosition")] public Vector2 OffScreenPosition = new Vector2(0f, 1094);
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ToastPopup : MonoBehaviour
+#else
     public class ToastPopup : MonoBehaviour
+#endif
     {
         [Header("UI References")]
         [SerializeField] private Image _backgroundImage;

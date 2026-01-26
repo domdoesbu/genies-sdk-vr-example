@@ -7,7 +7,11 @@ namespace Genies.UIFramework
     /// Interface for building and configuring popup UI components.
     /// Handles the creation and setup of popup instances from configuration data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IPopupBuilder
+#else
     public interface IPopupBuilder
+#endif
     {
         /// <summary>
         /// Creates a popup instance based on the provided configuration.
@@ -15,7 +19,7 @@ namespace Genies.UIFramework
         /// <param name="config">The popup configuration containing layout and content specifications.</param>
         /// <returns>The popup configuration mapper for the created popup instance.</returns>
         PopupConfigMapper CreatePopup(PopupConfig config);
-        
+
         /// <summary>
         /// Configures the values and actions for a popup mapper instance.
         /// </summary>

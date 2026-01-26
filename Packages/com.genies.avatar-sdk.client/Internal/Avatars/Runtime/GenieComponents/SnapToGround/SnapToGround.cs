@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// locally to the Y origin of the current genie root parent.
     /// </summary>
     [Obsolete("All genies are now automatically snapped to ground in the UmaGenie implementation, this component is no longer needed and it does nothing")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SnapToGround : GenieComponent
+#else
     public sealed class SnapToGround : GenieComponent
+#endif
     {
         public override string Name => "Snap To Ground";
         

@@ -1,7 +1,12 @@
 using UnityEngine;
 
 namespace Genies.UIFramework.Widgets {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class TweenSpinner : MonoBehaviour {
+#else
     public class TweenSpinner : MonoBehaviour {
+#endif
 
         [Header("Options")]
         public float degreesPerSecond = -500f;

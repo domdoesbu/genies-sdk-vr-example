@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Utility for using a <see cref="GeniesAssetIndexer"/> without caring about having to save all the index refs.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class IndexedAssets
+#else
     public sealed class IndexedAssets
+#endif
     {
         private readonly GeniesAssetIndexer _indexer;
         private readonly List<Ref<Object>> _indexRefs;

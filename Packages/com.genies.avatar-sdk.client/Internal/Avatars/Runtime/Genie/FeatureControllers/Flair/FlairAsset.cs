@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class FlairAsset : IAsset
+#else
     public sealed class FlairAsset : IAsset
+#endif
     {
         public string Id { get; }
         public string Lod { get; }

@@ -16,7 +16,11 @@ namespace Genies.UI.Extensions
 	/// Layout Group controller that arranges children in bars, fitting as many on a line until total size exceeds parent bounds
 	/// </summary>
 	[AddComponentMenu("Layout/Extensions/Flow Layout Group")]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class FlowLayoutGroup : LayoutGroup
+#else
 	public class FlowLayoutGroup : LayoutGroup
+#endif
 	{
 		public enum Axis { Horizontal = 0, Vertical = 1 }
 

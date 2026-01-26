@@ -13,7 +13,12 @@ using UnityEngine.UI;
 ///
 namespace Genies.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class MultiOptionPopupWidget : MonoBehaviour
+#else
     public class MultiOptionPopupWidget : MonoBehaviour
+#endif
     {
         [SerializeField] protected RectTransform popupRectTransform;
         [SerializeField] protected TextMeshProUGUI headerText, descriptionText;

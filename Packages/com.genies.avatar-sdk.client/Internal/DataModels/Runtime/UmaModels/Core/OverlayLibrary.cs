@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class OverlayLibrary : OverlayLibraryBase
+#else
 	public class OverlayLibrary : OverlayLibraryBase
+#endif
 	{
 		[SerializeField]
 		protected OverlayDataAsset[] overlayElementList = new OverlayDataAsset[0];

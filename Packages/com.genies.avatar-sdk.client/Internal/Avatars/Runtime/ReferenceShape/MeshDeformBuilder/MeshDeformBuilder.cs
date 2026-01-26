@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Performant and fast implementation for building mesh deformations using blend shapes and skinning.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshDeformBuilder : IDisposable
+#else
     public sealed class MeshDeformBuilder : IDisposable
+#endif
     {
         public readonly int VertexCount;
         public readonly int MorphTargetCount;

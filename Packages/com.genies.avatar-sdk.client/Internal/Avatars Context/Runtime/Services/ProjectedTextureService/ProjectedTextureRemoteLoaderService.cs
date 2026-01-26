@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ProjectedTextureRemoteLoaderService : IProjectedTextureService
+#else
     public class ProjectedTextureRemoteLoaderService : IProjectedTextureService
+#endif
     {
         private const string _projectedTextureKey = "projected-texture";
 

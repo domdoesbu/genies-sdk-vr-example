@@ -14,7 +14,11 @@ using Newtonsoft.Json.Linq;
 namespace Genies.Avatars
 {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarDefinition : IEquatable<AvatarDefinition>
+#else
     public class AvatarDefinition : IEquatable<AvatarDefinition>
+#endif
     {
         [JsonProperty("JsonVersion", Required = Required.Always)]
         public readonly string JsonVersion = "1-1-1";

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UMA.CharacterSystem;
 using UMA.PoseTools;
 using UnityEngine;
@@ -6,7 +6,12 @@ using UnityEngine.Events;
 
 namespace UMA.Dynamics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class UMAPhysicsAvatar : MonoBehaviour
+#else
 	public class UMAPhysicsAvatar : MonoBehaviour
+#endif
 	{
 		// property to activate/deactivate ragdoll mode (exposed in editor by script "UMAPhysicsAvatarEditor.cs")
 		public bool ragdolled

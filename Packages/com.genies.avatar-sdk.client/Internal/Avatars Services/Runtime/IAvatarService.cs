@@ -8,13 +8,17 @@ namespace Genies.Avatars.Services
     /// Defines the contract for avatar service functionality including creation, retrieval, and updates of avatar data.
     /// This interface provides methods for managing user avatars through various backend systems.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAvatarService
+#else
     public interface IAvatarService
+#endif
     {
         /// <summary>
         /// Gets or sets the currently loaded avatar, automatically handling definition deserialization and error recovery.
         /// </summary>
         Avatar LoadedAvatar { get; }
-        
+
         /// <summary>
         /// Creates a new avatar with the specified gender/body type.
         /// </summary>

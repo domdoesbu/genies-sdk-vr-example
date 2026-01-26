@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// It's important that any implementation is prepared to Add/Remove the component across multiple avatar instances. This requirement
     /// is necessary for the correct function of the avatar cloning features.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class GenieComponent
+#else
     public abstract class GenieComponent
+#endif
     {
         /// <summary>
         /// The name of this component instance.

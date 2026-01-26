@@ -14,7 +14,11 @@ namespace Genies.Ugc
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "UgcOutfitAssetBuilder", menuName = "Genies/UGC OutfitAsset Builder")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcOutfitAssetBuilder : ScriptableObject, IUgcOutfitAssetBuilder
+#else
     public sealed class UgcOutfitAssetBuilder : ScriptableObject, IUgcOutfitAssetBuilder
+#endif
     {
         [FormerlySerializedAs("defaultBuilder")] public LodUgcOutfitAssetBuilder DefaultBuilder;
         [FormerlySerializedAs("lodBuilders")] public List<LodUgcOutfitAssetBuilder> LodBuilders = new();

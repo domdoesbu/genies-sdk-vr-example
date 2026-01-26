@@ -2,7 +2,11 @@ using System.Net.Mail;
 
 namespace Genies.Login
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GeniesLoginUtils
+#else
     public static class GeniesLoginUtils
+#endif
     {
         public static bool IsValidEmail(string email)
         {

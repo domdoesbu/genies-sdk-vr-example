@@ -7,7 +7,11 @@ namespace UMA
 	/// <summary>
 	/// Base class for serialized UMA recipes.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class UMARecipeBase : ScriptableObject
+#else
 	public abstract class UMARecipeBase : ScriptableObject
+#endif
 	{
 		/// <summary>
 		/// Load data into the specified umaRecipe.

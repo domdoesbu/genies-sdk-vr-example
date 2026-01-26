@@ -10,7 +10,12 @@ namespace Genies.Avatars.Behaviors
     /// Provides playback control for a single animation clip using Unity's Playable API.
     /// This class enables frame-by-frame control, normal playback, and event notifications for animation clips.
     /// </summary>
-    public class SingleClipPlayable {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SingleClipPlayable
+#else
+    public class SingleClipPlayable
+#endif
+    {
         private readonly byte _defaultAnimationFrameRate = 30;
 
         private MonoBehaviour _owner;

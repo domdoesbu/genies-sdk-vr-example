@@ -7,7 +7,11 @@ namespace UMA
     /// <summary>
     /// This asset stores values to set on a skinned mesh renderer during uma generation.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMARendererAsset : ScriptableObject
+#else
     public class UMARendererAsset : ScriptableObject
+#endif
     {
         #region Public Getter Properties
         public string RendererName { get { return _RendererName; } }

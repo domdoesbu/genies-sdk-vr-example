@@ -9,7 +9,11 @@ namespace Genies.Assets.Services
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BuiltinAssets", menuName = "Genies/Assets Service/Builtin Assets")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BuiltinAssetsAsset : ScriptableObject
+#else
     public sealed class BuiltinAssetsAsset : ScriptableObject
+#endif
     {
         [SerializeField]
         private List<BuiltinAssets.Asset> assets;

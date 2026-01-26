@@ -10,11 +10,25 @@ using Genies.Login.Native;
 using Newtonsoft.Json;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Genies.Telemetry
 {
     /// <summary>
     /// Unity-side telemetry bridge.
-    /// Buffers events on disk until native telemetry is ready, then flushes them.
+    ///
+    /// Mirrors native's two explicit flows:
+    ///  - PREAUTH: memory-buffered until native is initialized, then flushed to native preauth queue/endpoint.
+    ///  - AUTH: disk-buffered until token is available (CanTelemetryBeSent), then flushed to native auth queue/endpoint.
+    ///
+    /// Install ID:
+    ///  - Editor: stored in EditorPrefs (global across projects on this machine/user)
+    ///  - Non-editor: falls back to PlayerPrefs (per-project) (for future runtime enablement)
+    ///
+    /// Enablement:
+    ///  - Stored in PlayerPrefs (per-project)
     /// </summary>
     internal static class GeniesTelemetry
     {
@@ -22,14 +36,27 @@ namespace Genies.Telemetry
         // Config / limits
         // ------------------------------------------------------------
 
-        // PlayerPrefs is used only for the user opt-in flag
+        // Per-project opt-in flag
         public const string TelemetryEnabledKey = "Genies.Telemetry.Enabled";
 
-        // Max number of pre-auth events persisted on disk
-        private const int MaxPending = 10;
+        // Global install id key (EditorPrefs) - shared across projects
+        private const string InstallIdKey  = "com.genies.telemetry.install_id";
+        private const string InstallIdProp = "install_id";
+        
+        // Other properties we always inject
+        private const string OsVersionProp        = "os_version";
+        private const string RuntimePlatformProp  = "runtime_platform";
+        private const string TargetPlatformProp   = "target_platform";
+        
+        // Non-editor fallback key (PlayerPrefs, per-project)
+        private const string InstallIdKeyFallback = "Genies.Telemetry.InstallId";
 
-        // Stored under Application.persistentDataPath
-        private const string PendingEventsFileName = "genies-sdk.data";
+        // Max number of pending events per buffer
+        private const int MaxPendingPreauthInMemory = 50;
+        private const int MaxPendingAuthedOnDisk    = 200;
+
+        // Stored under Application.persistentDataPath (AUTH flow only)
+        private const string PendingAuthedEventsFileName = "genies-sdk-auth.data";
 
 #if UNITY_IOS && !UNITY_EDITOR
         private const string DllName = "__Internal";
@@ -37,15 +64,27 @@ namespace Genies.Telemetry
         private const string DllName = "GeniesTelemetryBridge";
 #endif
 
+        // Cached editor details
+        private static string _cachedInstallId;
+        private static string _cachedOsVersion;
+        private static string _cachedOs;
+        private static string _cachedPlatform;
+        
         // ------------------------------------------------------------
         // Background worker
         // ------------------------------------------------------------
 
-        // Events waiting to be sent to native
-        private static readonly ConcurrentQueue<TelemetryEvent> _sendQueue = new();
+        // AUTH events waiting to be sent to native (auth endpoint)
+        private static readonly ConcurrentQueue<TelemetryEvent> _authSendQueue = new();
+
+        // PREAUTH events waiting until native is initialized (preauth endpoint)
+        private static readonly ConcurrentQueue<TelemetryEvent> _preauthQueue = new();
 
         private static CancellationTokenSource _workerCts = new();
         private static Task _workerTask;
+
+        // Avoid repeatedly loading disk file when auth isn't ready / native not ready
+        private static volatile bool _authDiskLoadedThisSession;
 
         // ------------------------------------------------------------
         // Shutdown coordination
@@ -54,15 +93,14 @@ namespace Genies.Telemetry
         private static readonly object _shutdownLock = new();
         private static Task _shutdownTask;
 
-        // When true, avoid calling into native and buffer instead
+        // When true, avoid calling into native
         private static volatile bool _isShuttingDown;
 
         // ------------------------------------------------------------
-        // Persistence coordination
+        // Persistence coordination (AUTH only)
         // ------------------------------------------------------------
 
-        // Guards all pending-events file IO
-        private static readonly object _pendingEventsFileLock = new();
+        private static readonly object _authFileLock = new();
 
         // ------------------------------------------------------------
         // Static init
@@ -77,9 +115,17 @@ namespace Genies.Telemetry
             _workerCts = new CancellationTokenSource();
             _workerTask = Task.Run(WorkerLoop, _workerCts.Token);
 
-            // Flush buffered events once native has access to auth tokens
+            // Optional "kick" on login so we flush immediately rather than waiting for the worker tick.
             GeniesLoginSdk.UserLoggedIn -= FlushOnLogin;
             GeniesLoginSdk.UserLoggedIn += FlushOnLogin;
+
+            // Extra gaurd in case we ever want to start doing telemetry on device, we wont shoot ourselves in the foot right away
+#if UNITY_EDITOR
+            _cachedInstallId = GetOrCreateInstallId();
+            _cachedOsVersion = EditorUserBuildSettings.activeBuildTarget.ToString();
+            _cachedOs        = SystemInfo.operatingSystem;
+            _cachedPlatform  = Application.platform.ToString();
+#endif
         }
 
         private static async void FlushOnLogin()
@@ -87,13 +133,15 @@ namespace Genies.Telemetry
             try
             {
                 await Task.Yield();
-                FlushToNative();
+                TryFlushAuthDiskToQueueIfReady();
+                TryFlushAuthQueueToNative();
             }
             catch (Exception ex)
             {
                 Debug.LogWarning($"GeniesTelemetry: login flush error: {ex.Message}");
             }
         }
+
         private static async Task WorkerLoop()
         {
             var ct = _workerCts.Token;
@@ -102,14 +150,14 @@ namespace Genies.Telemetry
             {
                 try
                 {
-                    if (_sendQueue.TryDequeue(out var telemetryEvent))
-                    {
-                        EnqueueEventJson(BuildEventJson(telemetryEvent));
-                    }
-                    else
-                    {
-                        await Task.Delay(1000, ct);
-                    }
+                    // PREAUTH: if native is initialized, flush memory preauth buffer -> native preauth queue.
+                    TryFlushPreauthToNative();
+
+                    // AUTH: if auth is possible, load disk envelope once (per session) -> auth queue, then flush to native.
+                    TryFlushAuthDiskToQueueIfReady();
+                    TryFlushAuthQueueToNative();
+
+                    await Task.Delay(1000, ct);
                 }
                 catch (OperationCanceledException)
                 {
@@ -156,6 +204,10 @@ namespace Genies.Telemetry
             CallingConvention = CallingConvention.Cdecl)]
         internal static extern void EnqueueEventJson(string eventJson);
 
+        [DllImport(DllName, EntryPoint = "Telemetry_EnqueuePreauthEventJson",
+            CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void EnqueuePreauthEventJson(string eventJson);
+
         [DllImport(DllName, EntryPoint = "Telemetry_UpdateConfig",
             CallingConvention = CallingConvention.Cdecl)]
         internal static extern void UpdateConfig(
@@ -169,12 +221,28 @@ namespace Genies.Telemetry
             int flushIntervalMs);
 
         // ------------------------------------------------------------
+        // Opt-in (per project)
+        // ------------------------------------------------------------
+
+        private static bool IsTelemetryEnabled()
+        {
+            // Default ON:
+            // - if key is missing => enabled
+            // - if key exists and is 0 => disabled
+            if (!PlayerPrefs.HasKey(TelemetryEnabledKey))
+            {
+                return true;
+            }
+
+            return PlayerPrefs.GetInt(TelemetryEnabledKey, 1) != 0;
+        }
+
+        // ------------------------------------------------------------
         // Shutdown
         // ------------------------------------------------------------
         /// <summary>
-        /// Shuts down telemetry. Please only call this if you really are done with it...
+        /// Shuts down telemetry. Please only call this if you really are done with it.
         /// </summary>
-        /// <returns></returns>
         internal static Task ShutdownAsync()
         {
             lock (_shutdownLock)
@@ -213,9 +281,57 @@ namespace Genies.Telemetry
         }
 
         // ------------------------------------------------------------
-        // Public API
+        // Public-ish API (two explicit flows)
         // ------------------------------------------------------------
 
+        /// <summary>
+        /// PREAUTH flow: send immediately if native is initialized; otherwise buffer in memory
+        /// and the worker will flush once initialization happens.
+        /// Never persisted to disk.
+        /// </summary>
+        internal static void RecordPreauthEvent(string eventName)
+        {
+            RecordPreauthEvent(TelemetryEvent.Create(eventName));
+        }
+        
+        internal static void RecordPreauthEvent(TelemetryEvent evt, bool force = false)
+        {
+#if !UNITY_EDITOR
+            return;
+#endif
+            if (evt == null)
+            {
+                Debug.LogError($"GeniesTelemetry was passed a null preauth event!");
+
+                return;
+            }
+            
+            if (!IsTelemetryEnabled() && !force)
+            {
+                return;
+            }
+
+            if (_isShuttingDown)
+            {
+                // Avoid native calls; buffer in memory.
+                EnqueueBounded(_preauthQueue, evt, MaxPendingPreauthInMemory);
+                return;
+            }
+
+            // If native initialized, try immediate best-effort enqueue.
+            if (TryEnqueuePreauthToNative(evt))
+            {
+                return;
+            }
+            
+            // Otherwise buffer in memory until IsInitialized becomes true.
+            EnqueueBounded(_preauthQueue, evt, MaxPendingPreauthInMemory);
+        }
+
+        /// <summary>
+        /// AUTH flow: if we can send (native initialized + valid token), enqueue to auth send queue.
+        /// Otherwise persist to disk (envelope) and flush later once auth becomes available.
+        /// </summary>
         internal static void RecordEvent(string eventName)
         {
             RecordEvent(TelemetryEvent.Create(eventName));
@@ -228,17 +344,19 @@ namespace Genies.Telemetry
 #endif
             if (evt == null)
             {
+                Debug.LogError($"GeniesTelemetry was passed a null event!");
                 return;
             }
 
-            if (PlayerPrefs.GetInt(TelemetryEnabledKey, 0) == 0)
+            if (!IsTelemetryEnabled())
             {
                 return;
             }
 
             if (_isShuttingDown)
             {
-                RecordPreAuthEvent(evt);
+                // During shutdown: avoid native. Persist to disk so it survives.
+                PersistAuthedEventToDisk(evt);
                 return;
             }
 
@@ -246,93 +364,223 @@ namespace Genies.Telemetry
             {
                 if (IsInitialized() && CanTelemetryBeSent())
                 {
-                    _sendQueue.Enqueue(evt);
+                    _authSendQueue.Enqueue(evt);
                     return;
                 }
             }
             catch
             {
-                // Fall through to buffering
+                // fallthrough to disk persistence
             }
 
-            RecordPreAuthEvent(evt);
+            PersistAuthedEventToDisk(evt);
         }
 
-        internal static void RecordPreAuthEvent(TelemetryEvent evt)
+        // ------------------------------------------------------------
+        // PREAUTH flush helpers (memory -> native preauth)
+        // ------------------------------------------------------------
+
+        private static bool TryEnqueuePreauthToNative(TelemetryEvent evt)
+        {
+            try
+            {
+                if (_isShuttingDown)
+                {
+                    return false;
+                }
+
+                if (!IsInitialized())
+                {
+                    return false;
+                }
+
+                EnqueuePreauthEventJson(BuildEventJson(evt));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static void TryFlushPreauthToNative()
+        {
+            if (_isShuttingDown)
+            {
+                return;
+            }
+
+            bool initialized;
+            try
+            {
+                initialized = IsInitialized();
+            }
+            catch
+            {
+                return;
+            }
+
+            if (!initialized)
+            {
+                return;
+            }
+
+            // Drain memory queue into native preauth endpoint.
+            while (_preauthQueue.TryDequeue(out var evt))
+            {
+                try
+                {
+                    EnqueuePreauthEventJson(BuildEventJson(evt));
+                }
+                catch
+                {
+                    // If native flakes, re-buffer and stop to avoid tight looping.
+                    EnqueueBounded(_preauthQueue, evt, MaxPendingPreauthInMemory);
+                    break;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------
+        // AUTH flush helpers (disk -> auth queue -> native auth)
+        // ------------------------------------------------------------
+
+        private static void TryFlushAuthDiskToQueueIfReady()
+        {
+            if (_isShuttingDown)
+            {
+                return;
+            }
+
+            // Only attempt to load the disk buffer once per session once auth is ready.
+            if (_authDiskLoadedThisSession)
+            {
+                return;
+            }
+
+            bool ready;
+            try
+            {
+                ready = IsInitialized() && CanTelemetryBeSent();
+            }
+            catch
+            {
+                return;
+            }
+
+            if (!ready)
+            {
+                return;
+            }
+
+            List<TelemetryEvent> fromDisk;
+
+            lock (_authFileLock)
+            {
+                var env = LoadAuthedEnvelopeInternal();
+                if (env.events.Count == 0)
+                {
+                    _authDiskLoadedThisSession = true;
+                    return;
+                }
+
+                fromDisk = new List<TelemetryEvent>(env.events);
+                DeleteAuthedEnvelopeFileInternal();
+            }
+
+            foreach (var evt in fromDisk)
+            {
+                _authSendQueue.Enqueue(evt);
+            }
+
+            _authDiskLoadedThisSession = true;
+        }
+
+        private static void TryFlushAuthQueueToNative()
+        {
+            if (_isShuttingDown)
+            {
+                return;
+            }
+
+            bool ready;
+            try
+            {
+                ready = IsInitialized() && CanTelemetryBeSent();
+            }
+            catch
+            {
+                return;
+            }
+
+            if (!ready)
+            {
+                return;
+            }
+
+            // Drain auth queue into native auth endpoint.
+            while (_authSendQueue.TryDequeue(out var evt))
+            {
+                try
+                {
+                    EnqueueEventJson(BuildEventJson(evt));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"GeniesTelemetry failed to send... error: {e.Message}");
+                    
+                    // If native flakes, persist back to disk and stop.
+                    PersistAuthedEventToDisk(evt);
+                    break;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------
+        // AUTH persistence (disk envelope)
+        // ------------------------------------------------------------
+
+        private static string PendingAuthedEventsFilePath =>
+            Path.Combine(Application.persistentDataPath, PendingAuthedEventsFileName);
+
+        private sealed class PendingTelemetryEnvelope
+        {
+            public List<TelemetryEvent> events = new();
+        }
+
+        private static void PersistAuthedEventToDisk(TelemetryEvent evt)
         {
             if (evt == null)
             {
                 return;
             }
 
-            lock (_pendingEventsFileLock)
+            lock (_authFileLock)
             {
-                var envelope = LoadEnvelopeInternal();
+                var env = LoadAuthedEnvelopeInternal();
 
-                envelope.events.Add(evt);
-                if (envelope.events.Count > MaxPending)
+                env.events.Add(evt);
+                if (env.events.Count > MaxPendingAuthedOnDisk)
                 {
-                    envelope.events.RemoveRange(
+                    env.events.RemoveRange(
                         0,
-                        envelope.events.Count - MaxPending);
+                        env.events.Count - MaxPendingAuthedOnDisk);
                 }
 
-                SaveEnvelopeInternal(envelope);
+                SaveAuthedEnvelopeInternal(env);
             }
         }
 
-        internal static void FlushToNative()
-        {
-            if (_isShuttingDown || !IsInitialized() || !CanTelemetryBeSent())
-            {
-                return;
-            }
-
-            List<TelemetryEvent> eventsToSend;
-
-            lock (_pendingEventsFileLock)
-            {
-                var envelope = LoadEnvelopeInternal();
-                if (envelope.events.Count == 0)
-                {
-                    return;
-                }
-
-                eventsToSend = new List<TelemetryEvent>(envelope.events);
-                DeleteEnvelopeFileInternal();
-            }
-
-            foreach (var evt in eventsToSend)
-            {
-                _sendQueue.Enqueue(evt);
-            }
-        }
-
-        internal static void ClearStoredEvents()
-        {
-            lock (_pendingEventsFileLock)
-            {
-                DeleteEnvelopeFileInternal();
-            }
-        }
-
-        // ------------------------------------------------------------
-        // File persistence
-        // ------------------------------------------------------------
-
-        private static string PendingEventsFilePath =>
-            Path.Combine(Application.persistentDataPath, PendingEventsFileName);
-
-        private static PendingTelemetryEnvelope LoadEnvelopeInternal()
+        private static PendingTelemetryEnvelope LoadAuthedEnvelopeInternal()
         {
             try
             {
-                if (!File.Exists(PendingEventsFilePath))
+                if (!File.Exists(PendingAuthedEventsFilePath))
                 {
                     return new PendingTelemetryEnvelope();
                 }
 
-                string json = File.ReadAllText(PendingEventsFilePath, Encoding.UTF8);
+                var json = File.ReadAllText(PendingAuthedEventsFilePath, Encoding.UTF8);
                 if (string.IsNullOrWhiteSpace(json))
                 {
                     return new PendingTelemetryEnvelope();
@@ -347,12 +595,12 @@ namespace Genies.Telemetry
             }
         }
 
-        private static void SaveEnvelopeInternal(PendingTelemetryEnvelope env)
+        private static void SaveAuthedEnvelopeInternal(PendingTelemetryEnvelope env)
         {
             try
             {
-                string finalPath = PendingEventsFilePath;
-                string tempPath  = finalPath + ".tmp";
+                var finalPath = PendingAuthedEventsFilePath;
+                var tempPath  = finalPath + ".tmp";
 
                 File.WriteAllText(tempPath, JsonConvert.SerializeObject(env), Encoding.UTF8);
 
@@ -369,13 +617,13 @@ namespace Genies.Telemetry
             }
         }
 
-        private static void DeleteEnvelopeFileInternal()
+        private static void DeleteAuthedEnvelopeFileInternal()
         {
             try
             {
-                if (File.Exists(PendingEventsFilePath))
+                if (File.Exists(PendingAuthedEventsFilePath))
                 {
-                    File.Delete(PendingEventsFilePath);
+                    File.Delete(PendingAuthedEventsFilePath);
                 }
             }
             catch
@@ -384,17 +632,87 @@ namespace Genies.Telemetry
         }
 
         // ------------------------------------------------------------
-        // JSON builder (worker-safe)
+        // Install ID (global in editor; fallback outside editor)
         // ------------------------------------------------------------
 
+        internal static string GetOrCreateInstallId()
+        {
+#if UNITY_EDITOR
+            var id = EditorPrefs.GetString(InstallIdKey, "");
+            if (!string.IsNullOrEmpty(id))
+            {
+                return id;
+            }
+
+            id = Guid.NewGuid().ToString("N");
+            EditorPrefs.SetString(InstallIdKey, id);
+            return id;
+#else
+            // Future-proof fallback if this file is ever used at runtime.
+            var id = PlayerPrefs.GetString(InstallIdKeyFallback, "");
+            if (!string.IsNullOrEmpty(id))
+            {
+                return id;
+            }
+
+            id = Guid.NewGuid().ToString("N");
+            PlayerPrefs.SetString(InstallIdKeyFallback, id);
+            PlayerPrefs.Save();
+            return id;
+#endif
+        }
+
+
+        // ------------------------------------------------------------
+        // Utilities
+        // ------------------------------------------------------------
+
+        private static void EnqueueBounded(ConcurrentQueue<TelemetryEvent> q, TelemetryEvent evt, int max)
+        {
+            q.Enqueue(evt);
+
+            // Best-effort trimming: concurrent-safe enough for telemetry.
+            while (q.Count > max && q.TryDequeue(out _)) { }
+        }
+
+        internal static void ClearStoredEvents()
+        {
+            // Clear memory preauth buffer
+            while (_preauthQueue.TryDequeue(out _)) { }
+
+            // Clear auth memory queue
+            while (_authSendQueue.TryDequeue(out _)) { }
+
+            // Clear auth disk envelope
+            lock (_authFileLock)
+            {
+                DeleteAuthedEnvelopeFileInternal();
+            }
+
+            _authDiskLoadedThisSession = false;
+        }
+
+        // ------------------------------------------------------------
+        // JSON builder (worker-safe)
+        // ------------------------------------------------------------
         private static string BuildEventJson(TelemetryEvent evt)
         {
+            var props = evt.Properties != null
+                ? new Dictionary<string, object>(evt.Properties)
+                : new Dictionary<string, object>();
+
+            // Always inject / overwrite environment metadata
+            props[InstallIdProp] =       _cachedInstallId;
+            props[OsVersionProp] =       _cachedOs;
+            props[RuntimePlatformProp] = _cachedPlatform;
+            props[TargetPlatformProp] = _cachedOsVersion;
+
             return JsonConvert.SerializeObject(new
             {
                 name = evt.Name,
                 timestamp = evt.Timestamp,
                 id = string.IsNullOrEmpty(evt.Id) ? null : evt.Id,
-                properties = evt.Properties ?? new Dictionary<string, object>()
+                properties = props
             });
         }
     }

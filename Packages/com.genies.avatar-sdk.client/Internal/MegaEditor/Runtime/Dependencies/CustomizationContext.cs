@@ -20,7 +20,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// States to manage behavior and system logic of UIs such as save and discard.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum CustomColorViewState
+#else
     public enum CustomColorViewState
+#endif
     {
         /// <summary>
         /// Not creating new or editing.
@@ -38,7 +42,11 @@ namespace Genies.Customization.MegaEditor
         Edit,
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum UgcRegionEditState
+#else
     public enum UgcRegionEditState
+#endif
     {
         Regions,
         PlaceImage,
@@ -48,7 +56,11 @@ namespace Genies.Customization.MegaEditor
     /// Service for tracking which genies customizable entities are active and all the dependencies needed
     /// for getting the UX needed during customization.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CustomizationContext
+#else
     public static class CustomizationContext
+#endif
     {
         public static IRealtimeLookView CurrentRealtimeLookView { get; private set; }
         public static NativeUnifiedGenieController CurrentCustomizableAvatar { get; private set; }

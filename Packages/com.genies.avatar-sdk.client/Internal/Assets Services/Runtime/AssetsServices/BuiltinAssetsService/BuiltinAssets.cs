@@ -7,10 +7,14 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Assets.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BuiltinAssets : IBuiltinAssets
+#else
     public sealed class BuiltinAssets : IBuiltinAssets
+#endif
     {
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
-        
+
         // state
         private readonly Dictionary<string, List<Asset>> _assetsByKey;
         private readonly Dictionary<(string, Type), IList<IResourceLocation>> _locationsCache;
@@ -30,7 +34,7 @@ namespace Genies.Assets.Services
             _assetsByKey.Clear();
             _locationsCache.Clear();
             _locationsByAsset.Clear();
-            
+
             if (assets is null)
             {
                 return;
@@ -49,7 +53,7 @@ namespace Genies.Assets.Services
                 asset = tAsset;
                 return true;
             }
-            
+
             asset = default;
             return false;
         }
@@ -61,7 +65,7 @@ namespace Genies.Assets.Services
                 asset = tAsset;
                 return true;
             }
-            
+
             asset = default;
             return false;
         }
@@ -87,7 +91,7 @@ namespace Genies.Assets.Services
                     locationsList.Add(location);
                 }
             }
-            
+
             _locationsCache[cacheKey] = locations = locationsList.AsReadOnly();
             return locations;
         }
@@ -116,7 +120,7 @@ namespace Genies.Assets.Services
             else if (mergingMode is MergingMode.Intersection)
             {
                 using IEnumerator<string> keysEnumerator = keys.GetEnumerator();
-                
+
                 // we have to union with the first key always, then we can intersect with the rest
                 if (keysEnumerator.MoveNext())
                 {
@@ -128,13 +132,13 @@ namespace Genies.Assets.Services
                     locations.IntersectWith(GetResourceLocations(keysEnumerator.Current, type));
                 }
             }
-            
+
             var locationsList = new List<IResourceLocation>(locations.Count);
             locationsList.AddRange(locations);
-            
+
             return locationsList.AsReadOnly();
         }
-        
+
         private void RegisterAsset(Asset asset)
         {
             if (!asset.asset)
@@ -147,7 +151,7 @@ namespace Genies.Assets.Services
                 Debug.LogError($"[{nameof(BuiltinAssets)}] found duplicated asset: {asset.asset} (key: {asset.key}. This key and labels will be ignored");
                 return;
             }
-            
+
             if (string.IsNullOrEmpty(asset.key))
             {
                 Debug.LogError($"[{nameof(BuiltinAssets)}] found asset with null or empty key: {asset.asset}. The asset will not be added");
@@ -167,7 +171,7 @@ namespace Genies.Assets.Services
                 GetOrCreateAssetListForKey(label).Add(asset);
             }
         }
-        
+
         private List<Asset> GetOrCreateAssetListForKey(string key)
         {
             if (!_assetsByKey.TryGetValue(key, out List<Asset> assets))
@@ -203,7 +207,7 @@ namespace Genies.Assets.Services
                 ResourceType = asset.asset.GetType();
                 Data = asset.asset;
             }
-        
+
             public int Hash(Type resultType)
             {
                 return Data.GetHashCode();

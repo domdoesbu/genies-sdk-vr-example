@@ -1,9 +1,14 @@
-﻿using Genies.CameraSystem.Focusable;
+using Genies.CameraSystem.Focusable;
 using UnityEngine;
 
 namespace Genies.CameraSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FocusableComponent : MonoBehaviour, IFocusable
+#else
     public class FocusableComponent : MonoBehaviour, IFocusable
+#endif
     {
         public bool IsBoundsCalculated { get; private set; }
         public float ViewAngle;

@@ -1,11 +1,16 @@
-﻿using Genies.UI.Animations;
+using Genies.UI.Animations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace Genies.UIFramework {
     [RequireComponent(typeof(RectTransform))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class InteractionController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+#else
     public class InteractionController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+#endif
     {
         [Header("References")]
         public RectTransform RectTransform;

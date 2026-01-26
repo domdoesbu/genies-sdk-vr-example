@@ -14,7 +14,11 @@ namespace Genies.Naf.Content
     /// Base class for NafContentService implementations that provides shared functionality
     /// for asset ID conversion and parameter fetching
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class NafContentServiceBase : IAssetParamsService, IAssetIdConverter
+#else
     public abstract class NafContentServiceBase : IAssetParamsService, IAssetIdConverter
+#endif
     {
         protected bool _initialized = false;
         protected readonly Dictionary<string, NafContentMetadata> _assetsByAddress = new();

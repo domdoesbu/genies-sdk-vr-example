@@ -6,7 +6,11 @@ namespace Genies.UIFramework
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ButtonTheme", menuName = "UIFramework/MobileButtonColorTheme")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MobileButtonTheme : ScriptableObject
+#else
     public class MobileButtonTheme : ScriptableObject
+#endif
     {
         public Color defaultOuterFrame;
         public Color defaultInnerFrame;

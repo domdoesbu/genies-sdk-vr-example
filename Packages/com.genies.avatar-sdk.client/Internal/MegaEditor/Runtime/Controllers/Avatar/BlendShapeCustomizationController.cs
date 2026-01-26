@@ -25,7 +25,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BlendShapeCustomizationController", menuName = "Genies/Customizer/Controllers/Blend Shape Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BlendShapeCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class BlendShapeCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField] private AvatarBaseCategory _blendShapeSubcategory;
 

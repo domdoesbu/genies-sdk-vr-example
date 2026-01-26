@@ -7,7 +7,11 @@ using UnityAddressables = UnityEngine.AddressableAssets.Addressables;
 
 namespace Genies.Addressables.Universal
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UniversalContentResourceLocationUtils
+#else
     public static class UniversalContentResourceLocationUtils
+#endif
     {
         /// <summary>
         /// Add custom locations to UnityAddressables.

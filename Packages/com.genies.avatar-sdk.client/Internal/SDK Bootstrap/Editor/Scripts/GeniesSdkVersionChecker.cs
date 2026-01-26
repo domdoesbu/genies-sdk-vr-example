@@ -154,7 +154,7 @@ namespace Genies.Sdk.Bootstrap.Editor
         /// Reads and returns the installed SDK version from the package.json file.
         /// </summary>
         /// <returns>The SDK version string, or null if unable to read.</returns>
-        private static string GetInstalledSdkVersion()
+        internal static string GetInstalledSdkVersion()
         {
             try
             {

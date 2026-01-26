@@ -19,7 +19,11 @@ namespace Genies.Inventory.UIData
     /// </summary>
     /// <typeparam name="TAsset">The type of asset to make into UI data</typeparam>
     /// <typeparam name="TUI">The UI data type</typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryUIDataProviderConfig<TAsset, TUI> : IInventoryUIProviderConfig
+#else
     public class InventoryUIDataProviderConfig<TAsset, TUI> : IInventoryUIProviderConfig
+#endif
         where TUI : IAssetUiData
     {
         public Func<List<string>, string, int?, UniTask<PagedResult<TAsset>>>  DataGetter { get; set; }  // Accepts categories list, subcategory, and page size for server-side filtering
@@ -30,13 +34,21 @@ namespace Genies.Inventory.UIData
         public Func<TAsset, TUI> DataConverter { get; set; }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal record PagedResult<TAsset>
+#else
     public record PagedResult<TAsset>
+#endif
     {
         public List<TAsset> Data { get; set; }
         public string NextCursor { get; set; }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IInventoryUIProviderConfig
+#else
     public interface IInventoryUIProviderConfig
+#endif
     {
         // Concrete interface to get UI Provider configs from without having to use generic types
     }
@@ -46,7 +58,11 @@ namespace Genies.Inventory.UIData
     /// </summary>
     /// <typeparam name="TAsset">The asset type being used</typeparam>
     /// <typeparam name="TUI">The UI type being used</typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class InventoryUIDataProvider<TAsset, TUI> : IUIProvider
+#else
     public class InventoryUIDataProvider<TAsset, TUI> : IUIProvider
+#endif
         where TUI : IAssetUiData
     {
         private readonly InventoryUIDataProviderConfig<TAsset, TUI> _dataConfig;

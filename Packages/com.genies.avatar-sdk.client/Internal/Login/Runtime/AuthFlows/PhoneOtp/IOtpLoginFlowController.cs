@@ -8,7 +8,11 @@ namespace Genies.Login.Otp
     /// Defines the contract for managing OTP (One-Time Password) login flow operations.
     /// This interface provides methods for phone number verification and OTP code submission.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IOtpLoginFlowController : IDisposable
+#else
     public interface IOtpLoginFlowController : IDisposable
+#endif
     {
         /// <summary>
         /// Submits a phone number to initiate the OTP login process.

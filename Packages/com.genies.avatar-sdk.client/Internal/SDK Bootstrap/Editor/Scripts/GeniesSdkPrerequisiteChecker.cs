@@ -10,13 +10,16 @@ namespace Genies.Sdk.Bootstrap.Editor
     {
         private static BuildTargetGroup[] SupportedPlatforms { get; } = new[]
         {
-#if UNITY_EDITOR_WIN
-            BuildTargetGroup.Standalone, // Experimental support for standalone Windows builds
-#else
-            // Standalone builds are only supported on Windows
-#endif
+            BuildTargetGroup.Standalone, // Standalone builds are only supported on Windows
             BuildTargetGroup.Android,
             BuildTargetGroup.iOS,
+        };
+
+        private static BuildTarget[] SupportedBuildTargets { get; } = new[]
+        {
+            BuildTarget.StandaloneWindows64,
+            BuildTarget.Android,
+            BuildTarget.iOS,
         };
 
         public static string GetPackageName()
@@ -61,8 +64,12 @@ namespace Genies.Sdk.Bootstrap.Editor
 
         public static bool IsActivePlatformSupported()
         {
-            var activeBuildTargetGroup = GetActiveBuildTargetGroup();
-            return IsPlatformSupported(activeBuildTargetGroup);
+            return IsPlatformSupported(GetActiveBuildTargetGroup());
+        }
+
+        public static bool IsActiveBuildTargetSupported()
+        {
+            return IsBuildTargetSupported(EditorUserBuildSettings.activeBuildTarget);
         }
 
         public static bool IsIL2CPPConfigured(BuildTargetGroup group)
@@ -194,6 +201,112 @@ namespace Genies.Sdk.Bootstrap.Editor
 #endif
         }
 
+        /// <summary>
+        /// Android Application Entry Point status for Unity 6+.
+        /// </summary>
+        public enum AndroidEntryPointStatus
+        {
+            /// <summary>Activity is enabled (valid configuration)</summary>
+            Valid,
+            /// <summary>Only GameActivity is enabled (error - builds will not work)</summary>
+            Error_GameActivityOnly,
+            /// <summary>Both Activity and GameActivity are enabled (warning - development builds only)</summary>
+            Warning_BothEnabled,
+            /// <summary>Not applicable (not on Android platform or not Unity 6+)</summary>
+            NotApplicable
+        }
+
+        /// <summary>
+        /// Checks the Android Application Entry Point configuration for Unity 6+.
+        /// For the SDK, Activity must be enabled. GameActivity alone will cause build failures.
+        /// </summary>
+        public static AndroidEntryPointStatus GetAndroidEntryPointStatus()
+        {
+#if UNITY_ANDROID && UNITY_6000_0_OR_NEWER
+            try
+            {
+                var entry = PlayerSettings.Android.applicationEntry;
+
+                bool activityEnabled = (entry & AndroidApplicationEntry.Activity) != 0;
+                bool gameActivityEnabled = (entry & AndroidApplicationEntry.GameActivity) != 0;
+
+                if (activityEnabled && gameActivityEnabled)
+                {
+                    // Both enabled - warning (development builds only)
+                    return AndroidEntryPointStatus.Warning_BothEnabled;
+                }
+                else if (activityEnabled)
+                {
+                    // Only Activity enabled - valid
+                    return AndroidEntryPointStatus.Valid;
+                }
+                else if (gameActivityEnabled)
+                {
+                    // Only GameActivity enabled - error
+                    return AndroidEntryPointStatus.Error_GameActivityOnly;
+                }
+                else
+                {
+                    // Neither enabled - treat as error (shouldn't happen normally)
+                    return AndroidEntryPointStatus.Error_GameActivityOnly;
+                }
+            }
+            catch
+            {
+                return AndroidEntryPointStatus.NotApplicable;
+            }
+#else
+            return AndroidEntryPointStatus.NotApplicable;
+#endif
+        }
+
+        /// <summary>
+        /// Returns true if Android Application Entry Point is configured correctly (Activity is enabled).
+        /// Returns true for non-Android platforms or pre-Unity 6.
+        /// </summary>
+        public static bool IsAndroidEntryPointConfigured()
+        {
+            var status = GetAndroidEntryPointStatus();
+            return status is AndroidEntryPointStatus.Valid || status is AndroidEntryPointStatus.Warning_BothEnabled || status is AndroidEntryPointStatus.NotApplicable;
+        }
+
+        /// <summary>
+        /// Fixes the Android Application Entry Point to use Activity (and disable GameActivity if it was the only one enabled).
+        /// If both are enabled, this will ensure Activity remains enabled.
+        /// </summary>
+        public static void FixAndroidEntryPoint()
+        {
+#if UNITY_ANDROID && UNITY_6000_0_OR_NEWER
+            try
+            {
+                var entry = PlayerSettings.Android.applicationEntry;
+
+                bool activityEnabled = (entry & AndroidApplicationEntry.Activity) != 0;
+                bool gameActivityEnabled = (entry & AndroidApplicationEntry.GameActivity) != 0;
+
+                if (!activityEnabled)
+                {
+                    // Activity not enabled - enable it
+                    // If GameActivity was the only one, we'll now have just Activity (or both if user wants to keep GameActivity)
+                    // For the SDK, we set Activity only to ensure builds work
+                    PlayerSettings.Android.applicationEntry = AndroidApplicationEntry.Activity;
+                    UnityEngine.Debug.Log("[Genies SDK Bootstrap] Android Application Entry Point set to 'Activity'.");
+                }
+                else if (gameActivityEnabled)
+                {
+                    // Both are enabled - Activity is already there, so it's valid (warning state)
+                    // We don't automatically remove GameActivity since user may want it for development
+                    UnityEngine.Debug.Log("[Genies SDK Bootstrap] Android Application Entry Point already has 'Activity' enabled. " +
+                        "Note: Both 'Activity' and 'GameActivity' are enabled. This configuration is only valid for development builds.");
+                }
+            }
+            catch (System.Exception e)
+            {
+                UnityEngine.Debug.LogError($"[Genies SDK Bootstrap] Failed to fix Android Application Entry Point: {e.Message}");
+            }
+#endif
+        }
+
         public static bool IsActiveInputHandlingConfigured()
         {
             // Check using scripting defines
@@ -270,6 +383,11 @@ namespace Genies.Sdk.Bootstrap.Editor
                 return false;
             }
 
+            if (!IsAndroidEntryPointConfigured())
+            {
+                return false;
+            }
+
             if (!IsActiveInputHandlingConfigured())
             {
                 return false;
@@ -315,16 +433,43 @@ namespace Genies.Sdk.Bootstrap.Editor
             }
         }
 
-        public static string GetSupportedPlatformsListString()
+        public static string GetBuildTargetDisplayName(BuildTarget target)
         {
-            var platformsList = new System.Text.StringBuilder();
-            foreach (var platform in SupportedPlatforms)
+            switch (target)
             {
-                platformsList.Append("• ");
-                platformsList.Append(GetPlatformDisplayName(platform));
-                platformsList.Append("\n");
+                case BuildTarget.StandaloneWindows64:
+                    return "Windows Standalone (64-bit)";
+                case BuildTarget.Android:
+                    return "Android";
+                case BuildTarget.iOS:
+                    return "iOS";
+                default:
+                    return target.ToString();
             }
-            return platformsList.ToString().TrimEnd('\n');
+        }
+
+        public static string GetSupportedBuildTargetsListString()
+        {
+            var targetsList = new System.Text.StringBuilder();
+            foreach (var target in SupportedBuildTargets)
+            {
+                targetsList.Append("• ");
+                targetsList.Append(GetBuildTargetDisplayName(target));
+                targetsList.Append("\n");
+            }
+            return targetsList.ToString().TrimEnd('\n');
+        }
+
+        public static bool IsBuildTargetSupported(BuildTarget target)
+        {
+            foreach (var supportedTarget in SupportedBuildTargets)
+            {
+                if (target == supportedTarget)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

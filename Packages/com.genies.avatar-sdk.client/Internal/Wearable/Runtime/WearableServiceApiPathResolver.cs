@@ -7,7 +7,11 @@ namespace Genies.Wearables
     /// API path resolver for the wearable service that provides environment-specific base URLs.
     /// Implements IApiClientPathResolver to support different backend environments (QA, Production, Development).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class WearableServiceApiPathResolver : IApiClientPathResolver
+#else
     public class WearableServiceApiPathResolver : IApiClientPathResolver
+#endif
     {
         /// <summary>
         /// Gets the API base URL for the specified backend environment.

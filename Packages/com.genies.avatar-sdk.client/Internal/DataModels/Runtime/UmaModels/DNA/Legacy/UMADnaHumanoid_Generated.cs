@@ -11,7 +11,7 @@
 //#TEMPLATE GetNames UmaDnaChild_GetNames_Fragment.cs.txt
 //
 // Byte Serialization Handling
-// 
+//
 //#TEMPLATE Byte_Fields UmaDnaChild_Byte_Fields_Fragment.cs.txt
 //#TEMPLATE Byte_ToDna UmaDnaChild_Byte_ToDna_Fragment.cs.txt
 //#TEMPLATE Byte_FromDna UmaDnaChild_Byte_FromDna_Fragment.cs.txt
@@ -19,14 +19,18 @@
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMADnaHumanoid
+#else
 	public partial class UMADnaHumanoid
+#endif
 	{
 		public override int Count { get { return 46; } }
 		public override float[] Values
-		{ 
-			get 
+		{
+			get
 			{
-				return new float[] 
+				return new float[]
 				{
 					height,
 				headSize,
@@ -308,7 +312,11 @@ namespace UMA
 	}
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMADnaHumanoid_Byte
+#else
 	public class UMADnaHumanoid_Byte
+#endif
 	{
 			public System.Byte height;
 		public System.Byte headSize;

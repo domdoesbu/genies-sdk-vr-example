@@ -6,7 +6,11 @@ namespace Genies.Login
     /// Contains parameters for updating user profile information in the Genies platform.
     /// This struct encapsulates all the profile fields that can be modified through the login system.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ProfileUpdateParameters
+#else
     public struct ProfileUpdateParameters
+#endif
     {
         /// <summary>
         /// Gets or sets the user's email address.

@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Static class containing our target blending algorithm.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class IkrTargetBlending
+#else
     public static class IkrTargetBlending
+#endif
     {
         public struct Result
         {

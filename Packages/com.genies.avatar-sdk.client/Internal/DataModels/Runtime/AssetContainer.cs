@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AssetContainer : ScriptableObject, IShaderlessAsset
+#else
     public class AssetContainer : ScriptableObject, IShaderlessAsset
+#endif
     {
         public string assetId = "";
         public string Slot => Recipe.wardrobeSlot;

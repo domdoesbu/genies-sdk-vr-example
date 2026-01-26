@@ -9,7 +9,12 @@ namespace Genies.Naf
      * Builds and manages multiple <see cref="SkinnedNativeMeshRenderer"/> instances that share the same skeleton. Also
      * known as native multimeshes, coming from a single native <see cref="Entity"/>.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class NativeMultiMeshBuilder : MonoBehaviour
+#else
     public sealed class NativeMultiMeshBuilder : MonoBehaviour
+#endif
     {
         public const string RebuildDebugTag = "<color=magenta>[RebuildDebug]</color>";
 

@@ -3,7 +3,11 @@ using Genies.CrashReporting;
 
 namespace Genies.Ugc.CustomPattern
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CustomPatternNameFactory
+#else
     public static class CustomPatternNameFactory
+#endif
     {
         private const string _customPatternKey = "custom-pattern";
         private const int _validLenghtForUserId = 36;

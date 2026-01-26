@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// Contains static methods to combine multiple materials together in a single one, procedurally generating texture
     /// atlases if required. No checks will be performed as it is assumed that all given materials are combinable.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MaterialCombiner
+#else
     public static class MaterialCombiner
+#endif
     {
         private static readonly AtlasLayoutBuilder AtlasLayoutBuilder = new();
 

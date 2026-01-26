@@ -6,7 +6,11 @@ namespace Genies.Models.Makeup
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "LipstickTemplate", menuName = "Genies/Makeup/LipstickTemplate")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LipstickTemplate : MakeupTemplate
+#else
     public class LipstickTemplate : MakeupTemplate
+#endif
     {
         //Fallback based on Lip_1_MaterialDataMakeupColor
         [SerializeField] private Color _fallbackColor1 = new Color(0.7264151F, 0.4831346F, 0.7196573F, 1F);

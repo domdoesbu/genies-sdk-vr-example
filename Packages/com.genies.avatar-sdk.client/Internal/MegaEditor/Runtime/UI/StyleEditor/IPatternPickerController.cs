@@ -2,7 +2,11 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.Looks.Customization.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IPatternPickerController
+#else
     public interface IPatternPickerController
+#endif
     {
         /// <summary>
         /// Invoked when the user wants to edit a pattern.

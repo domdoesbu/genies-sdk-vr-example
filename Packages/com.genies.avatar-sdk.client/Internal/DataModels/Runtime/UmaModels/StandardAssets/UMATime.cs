@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace UMA
 {
 	/// <summary>
 	/// UMA time utilities.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class UMATime
+#else
 	public static class UMATime
+#endif
 	{
 		private static int frame = -10;
 		private static float frameTime;

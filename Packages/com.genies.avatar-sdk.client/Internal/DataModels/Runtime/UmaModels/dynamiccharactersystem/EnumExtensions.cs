@@ -2,7 +2,11 @@ using System;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class EnumExtensions
+#else
 	public static class EnumExtensions
+#endif
 	{
 		public static bool HasFlagSet(this Enum self, Enum flag)
 		{

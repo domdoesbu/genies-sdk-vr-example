@@ -6,7 +6,11 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class WearableRender : IWearableRender
+#else
     public sealed class WearableRender : IWearableRender
+#endif
     {
         public bool IsAlive { get; private set; }
         public GameObject Root => IsAlive ? _root : null;
@@ -14,7 +18,7 @@ namespace Genies.Ugc
         public bool RegionDebugging { get => _regionDebugging; set => SetRegionDebugging(value); }
 
         private readonly IWearableRenderer _renderer;
-        
+
         private readonly GameObject _root;
         private readonly Dictionary<string, IElementRender> _elementRenders;
         private readonly HashSet<string> _renderedElementIds;
@@ -34,7 +38,7 @@ namespace Genies.Ugc
             _renderedElementIds = new HashSet<string>();
             _soloElementIds = new HashSet<string>();
             _boundedElementIds = new HashSet<string>();
-            
+
             IsAlive = true;
         }
 
@@ -46,10 +50,10 @@ namespace Genies.Ugc
             }
 
             StartRender();
-            
+
             _root.name = $"WearableRender: {wearable.TemplateId}";
             ClearRender();
-            
+
             // render all the wearable splits (will try to reuse cached element renders)
             if (!(wearable.Splits is null))
             {
@@ -70,10 +74,10 @@ namespace Genies.Ugc
                 bounds.Encapsulate(elementRender.GetAlignedBounds(rotation));
                 neverEncapsulated = false;
             }
-            
+
             return neverEncapsulated ? new Bounds() : bounds;
         }
-        
+
         public void SetElementIdSoloRendered(string elementId, bool soloRendered)
         {
             if (soloRendered)
@@ -87,7 +91,7 @@ namespace Genies.Ugc
 
             RefreshSoloRenders().Forget();
         }
-        
+
         public void SetElementIdsSoloRendered(IEnumerable<string> elementIds, bool soloRendered)
         {
             if (soloRendered)
@@ -166,7 +170,7 @@ namespace Genies.Ugc
         private async UniTaskVoid DisposeAsync()
         {
             await UniTask.SwitchToMainThread();
-            
+
             if (!IsAlive)
             {
                 return;
@@ -209,12 +213,12 @@ namespace Genies.Ugc
                     elementRender.Dispose();
                     return;
                 }
-                
+
                 elementRender.Root.transform.SetParent(_root.transform, false);
                 elementRender.RegionDebugging = _regionDebugging;
                 _elementRenders[split.ElementId] = elementRender;
             }
-            
+
             if (cancellationToken.IsCancellationRequested)
             {
                 return;
@@ -239,7 +243,7 @@ namespace Genies.Ugc
 
             _renderedElementIds.Clear();
         }
-        
+
         private void RecalculateBounds()
         {
             if (_boundedElementIds.SetEquals(GetAllDisplayedElementIds()))
@@ -249,7 +253,7 @@ namespace Genies.Ugc
 
             _boundedElementIds.Clear();
             _bounds = new Bounds(Vector3.zero, Vector3.negativeInfinity);
-            
+
             foreach (string elementId in GetAllDisplayedElementIds())
             {
                 if (!_elementRenders.TryGetValue(elementId, out IElementRender elementRender))
@@ -260,7 +264,7 @@ namespace Genies.Ugc
                 _bounds.Encapsulate(elementRender.Bounds);
                 _boundedElementIds.Add(elementId);
             }
-            
+
             if (_boundedElementIds.Count == 0)
             {
                 _bounds = new Bounds();
@@ -294,7 +298,7 @@ namespace Genies.Ugc
         private async UniTaskVoid RefreshSoloRenders()
         {
             await WaitForRenderToFinishAsync();
-            
+
             // hide all renders that are not on the solo collection. Or if the solo collection is empty then show all renders
             foreach (string elementId in _renderedElementIds)
             {
@@ -307,7 +311,7 @@ namespace Genies.Ugc
                 elementRender.Root.SetActive(isActive);
             }
         }
-        
+
         // returns a collection of all currently displayed renders (that is all the solo elements that are rendered or all the renders if there are no solo elements)
         private IEnumerable<IElementRender> GetAllDisplayedRenders()
         {
@@ -339,7 +343,7 @@ namespace Genies.Ugc
             }
 
             _regionDebugging = value;
-            
+
             foreach (IElementRender elementRender in _elementRenders.Values)
             {
                 elementRender.RegionDebugging = _regionDebugging;

@@ -22,8 +22,11 @@ namespace Genies.Inventory.UIData
     ///   • Supports: Both color preset application AND thumbnail display
     /// </summary>
 
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class InventoryAssetUiDataBase : IAssetUiData
+#else
     public abstract class InventoryAssetUiDataBase : IAssetUiData
+#endif
     {
         public string AssetId { get; }
         public string DisplayName { get; }
@@ -44,7 +47,11 @@ namespace Genies.Inventory.UIData
     }
 
     // Basic UI data (name + thumbnail) - for most assets
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BasicInventoryUiData : InventoryAssetUiDataBase, IDisposable
+#else
     public class BasicInventoryUiData : InventoryAssetUiDataBase, IDisposable
+#endif
     {
         public Ref<Sprite> Thumbnail { get; set; }
         public string Description { get; set; }
@@ -75,7 +82,11 @@ namespace Genies.Inventory.UIData
 
 
     // Color UI data - for color selection
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SimpleColorUiData : BasicInventoryUiData
+#else
     public class SimpleColorUiData : BasicInventoryUiData
+#endif
     {
         public Material Material { get; }
         public Color InnerColor { get; }
@@ -119,7 +130,11 @@ namespace Genies.Inventory.UIData
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GradientColorUiData : InventoryAssetUiDataBase
+#else
     public class GradientColorUiData : InventoryAssetUiDataBase
+#endif
     {
         public Color ColorBase { get; }
         public Color ColorR { get; }
@@ -194,7 +209,11 @@ namespace Genies.Inventory.UIData
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ColorMainTypes
+#else
     public enum ColorMainTypes
+#endif
     {
         Makeup = 0, //blush, eyeshadow, etc..
         Base = 1, //hair, eyes, etc...

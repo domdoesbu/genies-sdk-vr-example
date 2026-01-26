@@ -16,7 +16,11 @@ using static Genies.Customization.MegaEditor.CustomizationContext;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SkinColorCustomizationController : BaseCustomizationController
+#else
     public class SkinColorCustomizationController : BaseCustomizationController
+#endif
     {
         public SkinColorItemPickerDataSource dataSource;
 
@@ -36,7 +40,7 @@ namespace Genies.Customization.MegaEditor
         public override void StartCustomization()
         {
             //Activate the selected virtual camera
-            CurrentVirtualCameraController.ActivateVirtualCamera(virtualCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(virtualCamera).Forget();
 
             CurrentCustomColorViewState = CustomColorViewState.Normal;
 
@@ -51,7 +55,7 @@ namespace Genies.Customization.MegaEditor
         public override void StopCustomization()
         {
             //Aim the camera at the full body
-            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera).Forget();
 
             RemoveListeners();
 

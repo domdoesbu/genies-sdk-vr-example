@@ -7,18 +7,22 @@ namespace Genies.Ugc
     /// This struct provides utility methods for clamping values within the range
     /// and checking if values are within bounds.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ValueRange
+#else
     public struct ValueRange
+#endif
     {
         /// <summary>
         /// The default value within this range.
         /// </summary>
         public readonly float Default;
-        
+
         /// <summary>
         /// The minimum value allowed in this range.
         /// </summary>
         public readonly float Min;
-        
+
         /// <summary>
         /// The maximum value allowed in this range.
         /// </summary>
@@ -63,18 +67,22 @@ namespace Genies.Ugc
     /// This struct provides utility methods for clamping Vector2 values within the range
     /// and checking if values are within bounds for both X and Y components.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct Vector2ValueRange
+#else
     public struct Vector2ValueRange
+#endif
     {
         /// <summary>
         /// The default Vector2 value within this range.
         /// </summary>
         public readonly Vector2 Default;
-        
+
         /// <summary>
         /// The minimum Vector2 values allowed in this range for each component.
         /// </summary>
         public readonly Vector2 Min;
-        
+
         /// <summary>
         /// The maximum Vector2 values allowed in this range for each component.
         /// </summary>

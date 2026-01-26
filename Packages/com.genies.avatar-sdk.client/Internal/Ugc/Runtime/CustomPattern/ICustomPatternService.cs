@@ -10,47 +10,51 @@ namespace Genies.Ugc.CustomPattern
     /// This interface provides methods for creating, retrieving, updating, and deleting custom patterns
     /// that can be applied to avatar wearables and elements.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ICustomPatternService
+#else
     public interface ICustomPatternService
+#endif
     {
         /// <summary>
         /// Initializes the custom pattern service and prepares it for use.
         /// </summary>
         /// <returns>A task that completes when the service has been initialized.</returns>
         UniTask InitializeAsync();
-        
+
         /// <summary>
         /// Checks if a custom pattern with the specified ID exists in the system.
         /// </summary>
         /// <param name="patternId">The unique identifier of the pattern to check.</param>
         /// <returns>A task that completes with true if the pattern exists; otherwise, false.</returns>
         UniTask<bool> DoesCustomPatternExistAsync(string patternId);
-        
+
         /// <summary>
         /// Checks if a custom pattern belongs to another user.
         /// </summary>
         /// <param name="patternId">The unique identifier of the pattern to check.</param>
         /// <returns>A task that completes with the user ID if the pattern belongs to another user; otherwise, null.</returns>
         UniTask<string> DoesCustomPatternFromOtherUser(string patternId);
-        
+
         /// <summary>
         /// Gets the total count of custom patterns available in the system.
         /// </summary>
         /// <returns>A task that completes with the total number of custom patterns.</returns>
         UniTask<int> GetCustomPatternsCountAsync();
-        
+
         /// <summary>
         /// Retrieves all custom pattern IDs available in the system.
         /// </summary>
         /// <returns>A task that completes with a list of all custom pattern identifiers.</returns>
         UniTask<List<string>> GetAllCustomPatternIdsAsync();
-        
+
         /// <summary>
         /// Loads the texture for a custom pattern by its ID.
         /// </summary>
         /// <param name="customPatternId">The unique identifier of the custom pattern.</param>
         /// <returns>A task that completes with a reference to the pattern's texture.</returns>
         UniTask<Ref<Texture2D>> LoadCustomPatternTextureAsync(string customPatternId);
-        
+
         /// <summary>
         /// Loads the texture for a custom pattern by user ID and pattern ID.
         /// </summary>
@@ -58,7 +62,7 @@ namespace Genies.Ugc.CustomPattern
         /// <param name="customPatternId">The unique identifier of the custom pattern.</param>
         /// <returns>A task that completes with a reference to the pattern's texture.</returns>
         UniTask<Ref<Texture2D>> LoadCustomPatternTextureAsync(string userId, string customPatternId);
-        
+
         /// <summary>
         /// Loads the pattern data and configuration for a custom pattern.
         /// </summary>
@@ -82,7 +86,7 @@ namespace Genies.Ugc.CustomPattern
         /// <param name="customPatternId">The unique identifier of the pattern to delete.</param>
         /// <returns>A task that completes with true if the pattern was successfully deleted; otherwise, false.</returns>
         UniTask<bool> DeletePatternAsync(string customPatternId);
-        
+
         /// <summary>
         /// Deletes all custom patterns from the system.
         /// </summary>

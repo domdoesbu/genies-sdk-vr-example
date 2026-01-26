@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IItemPickerDataSource
+#else
     public interface IItemPickerDataSource
+#endif
     {
         ItemPickerCtaConfig GetCtaConfig();
         ItemPickerLayoutConfig GetLayoutConfig();

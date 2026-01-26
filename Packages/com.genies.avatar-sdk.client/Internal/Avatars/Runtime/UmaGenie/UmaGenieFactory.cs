@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UmaGenieFactory
+#else
     public static class UmaGenieFactory
+#endif
     {
         private const string UmaGeniePrefabResourcesPath = "UmaGenie";
 

@@ -9,7 +9,11 @@ namespace Genies.Login.AuthMessages
     /// This class provides functionality to convert comma-separated key and value strings into a dictionary format.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthDictionaryMessage : GeniesAuthMessage
+#else
     public class GeniesAuthDictionaryMessage : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the dictionary operation.</summary>
         [NonSerialized]

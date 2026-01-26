@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using Genies.Avatars.Behaviors;
 using Genies.Avatars.Sdk;
-using Genies.Avatars.Services;
 using Genies.CameraSystem;
 using Genies.CrashReporting;
 using Genies.Customization.Framework;
@@ -39,11 +38,10 @@ namespace Genies.AvatarEditor.Core
         private CameraState _originalCameraState;
         private Quaternion _originalAvatarRotation;
         public AvatarEditorMode CurrentEditMode;
-        private IAvatarService _AvatarService => this.GetService<IAvatarService>();
         private IAvatarEditorSdkService _AvatarEditorSdkService => this.GetService<IAvatarEditorSdkService>();
 
         // Camera transition settings
-        private const float CameraTransitionDuration = 2;
+        private const float CameraTransitionDuration = 1;
         private const Ease CameraTransitionEase = Ease.OutCubic;
 
         // Struct to store complete camera state
@@ -88,7 +86,6 @@ namespace Genies.AvatarEditor.Core
         {
             _targetCategory = categoryName;
         }
-
 
         /// <summary>
         /// Sets the save behavior for the avatar editor.
@@ -185,7 +182,7 @@ namespace Genies.AvatarEditor.Core
 
             _customizer.ExitRequested += Exit;
 
-            FocusOnAvatar();
+            FocusOnAvatar(camera);
 
             await _customizer.StartCustomization(navGraph);
         }
@@ -211,23 +208,22 @@ namespace Genies.AvatarEditor.Core
                 stopCustomizationTask = _customizer.StopCustomization();
             }
 
-            // Reset context
-            ResetCustomizationContext();
-
             await UniTask.WhenAll(
+                ResetCustomizationContext(),
                 stopCustomizationTask,
                 ResetCamera()
             );
         }
 
-        private void FocusOnAvatar()
+        private void FocusOnAvatar(Camera camera)
         {
             if (_currentCustomizedAvatar == null)
             {
                 return;
             }
 
-            AvatarEditingVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+            VirtualCameraManager.Activate(camera);
+            AvatarEditingVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera, true).Forget();
         }
 
         private void SaveAndExit()
@@ -247,7 +243,7 @@ namespace Genies.AvatarEditor.Core
         {
             await SaveAvatarDefinition();
             Screen.PreviewSpinner.Hide();
-            await _AvatarEditorSdkService.CloseEditorAsync();
+            await _AvatarEditorSdkService.CloseEditorAsync(false);
         }
 
         private async UniTask ProcessAvatarAndContinue()
@@ -261,9 +257,6 @@ namespace Genies.AvatarEditor.Core
             try
             {
                 // Update avatar definition
-
-                var definition = _currentCustomizedAvatar.Controller.GetDefinitionType();
-
                 if (_saveSettings.SaveOption == AvatarSaveOption.SaveLocallyAndContinue || _saveSettings.SaveOption == AvatarSaveOption.SaveLocallyAndExit)
                 {
                     var profileId = string.IsNullOrEmpty(_saveSettings.ProfileId) ? LocalAvatarProcessor.NewTemplateName : _saveSettings.ProfileId;
@@ -285,17 +278,21 @@ namespace Genies.AvatarEditor.Core
 
         private void Exit()
         {
-            _AvatarEditorSdkService.CloseEditorAsync().Forget();
+            _AvatarEditorSdkService.CloseEditorAsync(true).Forget();
         }
 
-        public async UniTask DiscardAndExit()
+        public async UniTask EndEditing(bool revertAvatar)
         {
-            if (IsDiscarding) { return; }
+            if (IsDiscarding)
+            {
+                return;
+            }
+
             IsDiscarding = true;
 
             await StopEditing();
 
-            if (_currentCustomizedAvatar is not null)
+            if (_currentCustomizedAvatar is not null && revertAvatar)
             {
                 // Revert to the last saved definition instead of the original definition
                 await _currentCustomizedAvatar.SetDefinitionAsync(_lastSavedDefinition);
@@ -346,7 +343,7 @@ namespace Genies.AvatarEditor.Core
             }
         }
 
-        private async void ResetCustomizationContext()
+        private async UniTask ResetCustomizationContext()
         {
             await ResetAvatarInteraction();
 
@@ -388,8 +385,24 @@ namespace Genies.AvatarEditor.Core
 
         private async UniTask ResetCamera()
         {
+            if (_currentCamera == null)
+            {
+                return;
+            }
+
+            Camera camera = _currentCamera.GetComponent<Camera>();
+            if (camera == null)
+            {
+                return;
+            }
+
+            await AvatarEditingVirtualCameraController.TransitionToLocationWithOverride(
+                _originalCameraState.Position,
+                _originalCameraState.Rotation,
+                _originalCameraState.FieldOfView);
+
             DeactivateVirtualCamera();
-            await SmoothResetToOriginalCamera();
+            RestoreAllCameraSettings(camera, _originalCameraState);
         }
 
 
@@ -402,12 +415,13 @@ namespace Genies.AvatarEditor.Core
             }
 
             var virtualCameraManager = Screen.transform.parent.GetComponentInChildren<VirtualCameraManager>();
-            if (virtualCameraManager == null)
+
+            if (virtualCameraManager == null ||
+                virtualCameraManager.CameraActiveCurrent == null ||
+                _currentCamera == null)
             {
                 return;
             }
-
-            if (_currentCamera == null) { return; }
 
             if (ReferenceEquals(_currentCamera, virtualCameraManager.CameraActiveCurrent.gameObject) is false)
             {
@@ -418,54 +432,10 @@ namespace Genies.AvatarEditor.Core
 
         }
 
-        private async UniTask SmoothResetToOriginalCamera()
-        {
-            if (_currentCamera == null)
-            {
-                return;
-            }
-
-            Camera camera = _currentCamera.GetComponent<Camera>();
-            if (camera == null)
-            {
-                return;
-            }
-
-            // Capture current camera state as the starting point for transition
-            Vector3 startPos = camera.transform.position;
-            Quaternion startRot = camera.transform.rotation;
-            float startFov = camera.fieldOfView;
-
-            // Target is the original camera state
-            Vector3 targetPos = _originalCameraState.Position;
-            Quaternion targetRot = _originalCameraState.Rotation;
-            float targetFov = _originalCameraState.FieldOfView;
-            float duration = CameraTransitionDuration;
-
-            float elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-
-                // Apply easing curve for smoother transition
-                float easedT = UIVirtual.EasedValue(0f, 1f, t, CameraTransitionEase);
-
-                // Smoothly transition position, rotation, and field of view
-                camera.transform.position = Vector3.Lerp(startPos, targetPos, easedT);
-                camera.transform.rotation = Quaternion.Slerp(startRot, targetRot, easedT);
-                camera.fieldOfView = Mathf.Lerp(startFov, targetFov, easedT);
-
-                await UniTask.Yield();
-            }
-
-            RestoreAllCameraSettings(camera, _originalCameraState);
-        }
-
         private CameraState CaptureCameraState(Camera camera)
         {
             var audioListener = camera.GetComponent<AudioListener>();
+
             return new CameraState
             {
                 Position = camera.transform.position,

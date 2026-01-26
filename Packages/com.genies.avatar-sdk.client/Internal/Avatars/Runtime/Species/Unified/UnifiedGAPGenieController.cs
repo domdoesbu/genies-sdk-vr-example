@@ -19,7 +19,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Genie controller for the unified GAP species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UnifiedGAPGenieController : ISpeciesGenieController
+#else
     public sealed class UnifiedGAPGenieController : ISpeciesGenieController
+#endif
     {
         private const string BodyAttributeConfigPath = "Body/BodyAttributesConfigs/ChildJointRegionalized-BodyConfig";
         private static BodyAttributesConfig _bodyAttributesConfig;

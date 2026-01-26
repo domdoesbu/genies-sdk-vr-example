@@ -6,7 +6,11 @@ using static Genies.Components.Dynamics.DynamicsStructure;
 namespace Genies.Components.Dynamics
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ParticleRecipe
+#else
     public struct ParticleRecipe
+#endif
     {
         [Tooltip(DynamicsTooltips.TargetObjectName)]
         public string TargetObjectName;
@@ -33,7 +37,11 @@ namespace Genies.Components.Dynamics
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct LinkRecipe
+#else
     public struct LinkRecipe
+#endif
     {
         [Tooltip(DynamicsTooltips.LinkStartParticleObjectName)]
         public string StartParticleObjectName;
@@ -61,7 +69,11 @@ namespace Genies.Components.Dynamics
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SphereColliderRecipe
+#else
     public struct SphereColliderRecipe
+#endif
     {
         [Tooltip(DynamicsTooltips.TargetObjectName)]
         public string TargetObjectName;
@@ -72,7 +84,11 @@ namespace Genies.Components.Dynamics
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct CapsuleColliderRecipe
+#else
     public struct CapsuleColliderRecipe
+#endif
     {
         [Tooltip(DynamicsTooltips.TargetObjectName)]
         public string TargetObjectName;
@@ -93,7 +109,11 @@ namespace Genies.Components.Dynamics
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "DynamicsRecipe", menuName = "Genies/Dynamics/Dynamics Recipe")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsRecipe : ScriptableObject
+#else
     public class DynamicsRecipe : ScriptableObject
+#endif
     {
         // TODO: Determine if these fields are needed in dynamics recipes generated going forward.
         // These fields are holdovers from the Legacy Bonus Component system.

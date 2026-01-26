@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using Genies.UI.Animations;
 using TMPro;
@@ -11,7 +11,11 @@ using UnityEngine.UI;
 namespace Genies.UIFramework
 {
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class OutlineButtonState
+#else
     public class OutlineButtonState
+#endif
     {
         [Header("Colors")]
         public Color ButtonColor;
@@ -24,7 +28,12 @@ namespace Genies.UIFramework
         public float scaleFactor;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class OutlineButton : MonoBehaviour, IPointerDownHandler
+#else
     public class OutlineButton : MonoBehaviour, IPointerDownHandler
+#endif
     {
         [Header("References")]
         public RectTransform RectTransform;

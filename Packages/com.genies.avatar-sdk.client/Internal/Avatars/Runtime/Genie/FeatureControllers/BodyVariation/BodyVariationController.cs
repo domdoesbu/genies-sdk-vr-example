@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Controls the body variation of a <see cref="IEditableGenie"/> instance and takes care of the outfit asset refitting.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BodyVariationController : IBodyVariationController, IOutfitAssetProcessor, IDisposable
+#else
     public sealed class BodyVariationController : IBodyVariationController, IOutfitAssetProcessor, IDisposable
+#endif
     {
         public IReadOnlyList<string> Attributes => BodyController.Attributes;
         public string CurrentVariation { get; private set; }

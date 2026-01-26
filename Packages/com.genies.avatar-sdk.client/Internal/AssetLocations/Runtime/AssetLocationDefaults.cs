@@ -1,6 +1,10 @@
 namespace Genies.AssetLocations
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AssetLocationDefaults
+#else
     public static class AssetLocationDefaults
+#endif
     {
         // need to keep in sync with AssetService..
         // was not included to avoid cyclical deps.. since its just a string.

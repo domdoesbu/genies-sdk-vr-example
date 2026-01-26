@@ -12,6 +12,7 @@ namespace Genies.Experience.Gameplay
     /// Will load a default avatar if you are not logged in.
     /// </summary>
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal sealed class SpawnGeniesAvatar : MonoBehaviour
 #else
     public sealed class SpawnGeniesAvatar : MonoBehaviour

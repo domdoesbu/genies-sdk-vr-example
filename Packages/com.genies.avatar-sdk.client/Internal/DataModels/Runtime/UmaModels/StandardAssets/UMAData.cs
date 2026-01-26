@@ -5,13 +5,21 @@ using UnityEngine.Events;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BlendShapeData
+#else
 	public class BlendShapeData
+#endif
 	{
 		public float value;
 		public bool isBaked;
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BlendShapeSettings
+#else
 	public class BlendShapeSettings
+#endif
 	{
 		public bool ignoreBlendShapes = false; //switch for the skinnedmeshcombiner to skip all blendshapes or not.
 		public bool loadAllBlendShapes = true; //switch for whether to load all blendshapes found on umaMeshData or only ones found in the blendshape dictionary
@@ -21,7 +29,12 @@ namespace UMA
 	/// <summary>
 	/// UMA data holds the recipe for creating a character and skeleton and Unity references for a built character.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class UMAData : MonoBehaviour
+#else
 	public class UMAData : MonoBehaviour
+#endif
 	{
 		//TODO improve/cleanup the relationship between renderers and rendererAssets
 		[SerializeField]

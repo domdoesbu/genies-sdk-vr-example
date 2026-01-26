@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedDefaults
+#else
     public static class UnifiedDefaults
+#endif
     {
         // TODO we should probably set defaults through a default definition
         public const string DefaultHairColor = "HairMaterialData_RegBrownMedium";

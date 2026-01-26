@@ -14,7 +14,11 @@ namespace Genies.Avatars
     /// since we found out that 4 yields good results in practice.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BiquadraticTswSolver : ITswSolver
+#else
     public sealed class BiquadraticTswSolver : ITswSolver
+#endif
     {
         [Range(0.0f, 1.0f), Tooltip("The normalized weight threshold to filter out the joints with low influence")]
         public float normalizedWeightThreshold = 0.05f;

@@ -6,7 +6,11 @@ namespace Genies.Addressables.Editor.DataModels
     /// <summary>
     /// Model for capturing and combining addressable ContentCatalogDataEntries
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ContentCatalogDataEntryData
+#else
     public class ContentCatalogDataEntryData
+#endif
     {
         public int index;
         public List<DataType> types;

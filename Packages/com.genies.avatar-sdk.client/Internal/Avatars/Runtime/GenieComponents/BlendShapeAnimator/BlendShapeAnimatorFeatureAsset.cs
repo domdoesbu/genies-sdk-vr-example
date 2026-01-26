@@ -8,7 +8,11 @@ namespace Genies.Avatars
     [CreateAssetMenu(fileName = "BlendShapeAnimatorFeature", menuName = "Genies/Genie Components/Animation Features/Blend Shape Animator")]
 #endif
     [SerializableAs(typeof(IAnimationFeature), "blend-shape-animator-feature")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BlendShapeAnimatorFeatureAsset : AnimationFeatureAsset, IGenieComponentCreator
+#else
     public sealed class BlendShapeAnimatorFeatureAsset : AnimationFeatureAsset, IGenieComponentCreator
+#endif
     {
         [Tooltip("If enabled, all input channel parameters must be present on the Animator to support the feature")]
         public bool requiresAllChannels;

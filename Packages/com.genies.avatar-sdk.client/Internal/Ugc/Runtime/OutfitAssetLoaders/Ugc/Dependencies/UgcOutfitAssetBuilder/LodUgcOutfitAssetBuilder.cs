@@ -18,7 +18,11 @@ namespace Genies.Ugc
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "LOD-UgcOutfitAssetBuilder", menuName = "Genies/LOD UGC OutfitAsset Builder")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class LodUgcOutfitAssetBuilder : ScriptableObject
+#else
     public sealed class LodUgcOutfitAssetBuilder : ScriptableObject
+#endif
     {
         public enum Mode
         {

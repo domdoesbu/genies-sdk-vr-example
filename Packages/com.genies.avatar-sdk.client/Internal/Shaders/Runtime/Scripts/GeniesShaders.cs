@@ -6,7 +6,11 @@ namespace Genies.Shaders
     /// <summary>
     /// Static access to the <see cref="GeniesShaderInfo"/> instances for our main shaders and material bakers.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GeniesShaders
+#else
     public static class GeniesShaders
+#endif
     {
         private const string _lqMegaSimpleBakerPath = "MegaBakers/LQ-MegaSimpleBaker";
         private const string _mqMegaSimpleBakerPath = "MegaBakers/MQ-MegaSimpleBaker";

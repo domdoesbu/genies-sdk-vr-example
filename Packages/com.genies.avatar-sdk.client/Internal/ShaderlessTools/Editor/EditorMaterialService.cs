@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EditorMaterialService
+#else
     public class EditorMaterialService
+#endif
     {
         public static string HashMaterialData(ShaderPropertiesData data)
         {

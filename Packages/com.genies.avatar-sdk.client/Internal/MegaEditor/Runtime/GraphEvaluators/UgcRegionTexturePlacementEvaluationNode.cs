@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.GraphEvaluators
     /// Evaluates which node to go to next depending on whether users click the items under the PlaceImage tab or the Area tab.
     /// </summary>
     [CreateNodeMenu("Customizer UI/Evaluators/Ugc Region Texture Placement Evaluation Node")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UgcRegionTexturePlacementEvaluationNode : NavigationEvaluationNode
+#else
     public class UgcRegionTexturePlacementEvaluationNode : NavigationEvaluationNode
+#endif
     {
         [Output(connectionType = ConnectionType.Override)]
         public BaseNavigationNode IsGoingToStyles;

@@ -11,7 +11,7 @@
 //#TEMPLATE GetNames UmaDnaChild_GetNames_Fragment.cs.txt
 //
 // Byte Serialization Handling
-// 
+//
 //#TEMPLATE Byte_Fields UmaDnaChild_Byte_Fields_Fragment.cs.txt
 //#TEMPLATE Byte_ToDna UmaDnaChild_Byte_ToDna_Fragment.cs.txt
 //#TEMPLATE Byte_FromDna UmaDnaChild_Byte_FromDna_Fragment.cs.txt
@@ -19,14 +19,18 @@
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMADnaTutorial
+#else
 	public partial class UMADnaTutorial
+#endif
 	{
 		public override int Count { get { return 1; } }
 		public override float[] Values
-		{ 
-			get 
+		{
+			get
 			{
-				return new float[] 
+				return new float[]
 				{
 					eyeSpacing,
 
@@ -83,7 +87,11 @@ namespace UMA
 	}
 
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMADnaTutorial_Byte
+#else
 	public class UMADnaTutorial_Byte
+#endif
 	{
 			public System.Byte eyeSpacing;
 

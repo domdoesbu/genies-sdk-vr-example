@@ -6,13 +6,17 @@ namespace Genies.Ugc
     /// <summary>
     /// Helper implementation of ICategorizedItems for when you need to provide one but you only have a single collection of items with no categories.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SingleCategoryItems<T> : ICategorizedItems<T>
+#else
     public class SingleCategoryItems<T> : ICategorizedItems<T>
+#endif
     {
         public List<string> Categories { get; } = new List<string>(0);
         public string DefaultCategory => null;
-        
+
         private readonly List<T> _items;
-        
+
         public SingleCategoryItems(IEnumerable<T> items = null)
         {
             _items = new List<T>();
@@ -22,7 +26,7 @@ namespace Genies.Ugc
         public void SetItems(IEnumerable<T> items)
         {
             _items.Clear();
-            
+
             if (items != null)
             {
                 _items.AddRange(items);

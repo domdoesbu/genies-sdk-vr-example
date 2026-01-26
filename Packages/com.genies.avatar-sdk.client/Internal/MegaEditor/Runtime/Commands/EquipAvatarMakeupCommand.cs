@@ -7,7 +7,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for equipping a makeup asset with <see cref="_targetId"/> to <see cref="_slotId"/> (slot)
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipAvatarMakeupCommand : UnifiedGenieModificationCommand
+#else
     public class EquipAvatarMakeupCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly string _slotId;

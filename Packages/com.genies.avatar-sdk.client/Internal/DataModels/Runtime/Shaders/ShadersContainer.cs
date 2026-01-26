@@ -12,7 +12,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "ShadersContainer", menuName = "Genies/Shaders/ShadersContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShadersContainer : OrderedScriptableObject, IDynamicAsset
+#else
     public class ShadersContainer : OrderedScriptableObject, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

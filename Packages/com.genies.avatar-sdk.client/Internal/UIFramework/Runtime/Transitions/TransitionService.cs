@@ -9,7 +9,11 @@ namespace Genies.UI.Transitions {
     /// <summary>
     /// Defines the available transition animation types for UI elements.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum TransitionType {
+#else
     public enum TransitionType {
+#endif
         /// <summary>
         /// No transition animation.
         /// </summary>
@@ -52,7 +56,11 @@ namespace Genies.UI.Transitions {
     /// Service for performing smooth transition animations on UI elements.
     /// Supports various transition types including slide, scale, and fade animations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TransitionService {
+#else
     public class TransitionService {
+#endif
         /// <summary>
         /// The default duration for transition-in animations in seconds.
         /// </summary>

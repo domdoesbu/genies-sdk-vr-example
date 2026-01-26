@@ -5,7 +5,12 @@ namespace UMA
 	/// <summary>
 	/// Base class for race libraries.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class RaceLibraryBase : MonoBehaviour
+#else
     public abstract class RaceLibraryBase : MonoBehaviour
+#endif
     {
 		/// <summary>
 		/// Gets a race by name without trying to find it in the globalIndex or assetBundles

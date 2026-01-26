@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Genie material implementation for the MegaSkin shader that can be updated externally.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MegaSkinGenieMaterial : IGenieMaterial, IDisposable
+#else
     public sealed class MegaSkinGenieMaterial : IGenieMaterial, IDisposable
+#endif
     {
         private static readonly int _tattoosTexturePropertyId = Shader.PropertyToID("_Tattoos");
         private const string _megaSkinTattooSettingsPath = "DefaultMegaSkinTattooSettings";

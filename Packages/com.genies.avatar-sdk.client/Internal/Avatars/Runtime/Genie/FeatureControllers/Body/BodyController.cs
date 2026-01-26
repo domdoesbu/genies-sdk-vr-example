@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class BodyController : IBodyController, IDisposable
+#else
     public sealed partial class BodyController : IBodyController, IDisposable
+#endif
     {
         public IReadOnlyList<string> Attributes { get; }
         public BodyAttributesConfig Config

@@ -8,7 +8,12 @@ namespace Genies.UI.Widgets
     /// <summary>
     /// Integrated HSV color picker UI widget with a 2D spectrum area for saturation and brightness and a hue slider.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class HsvColorSpectrumPicker : MonoBehaviour, IColorPicker
+#else
     public class HsvColorSpectrumPicker : MonoBehaviour, IColorPicker
+#endif
     {
         public bool Interactable
         {

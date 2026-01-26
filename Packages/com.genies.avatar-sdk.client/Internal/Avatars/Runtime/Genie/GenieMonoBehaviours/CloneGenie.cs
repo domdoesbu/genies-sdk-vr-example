@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Utilities;
@@ -10,7 +10,12 @@ namespace Genies.Avatars
     /// Generic and extensible component implementation of <see cref="IGenie"/> for creating clones that
     /// are linked to the original genie instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CloneGenie : MonoBehaviour, IGenie
+#else
     public class CloneGenie : MonoBehaviour, IGenie
+#endif
     {
         public string                             Species      => _original.Species;
         public string                             SubSpecies   => _original.SubSpecies;

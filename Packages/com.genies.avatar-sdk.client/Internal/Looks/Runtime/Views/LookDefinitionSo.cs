@@ -11,7 +11,11 @@ namespace Genies.Looks.Core.Data
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "Looks/LooksDefinitionSo", menuName = "LooksDefinitionSo", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LookDefinitionSo : ScriptableObject
+#else
     public class LookDefinitionSo : ScriptableObject
+#endif
     {
         /// <summary>
         /// The avatar definition JSON string that defines the avatar's appearance.

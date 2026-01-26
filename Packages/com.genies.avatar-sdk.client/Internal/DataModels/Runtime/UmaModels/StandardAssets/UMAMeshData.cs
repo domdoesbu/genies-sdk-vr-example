@@ -15,7 +15,11 @@ namespace UMA
 	/// <summary>
 	/// UMA version of Unity mesh triangle data.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal struct SubMeshTriangles
+#else
 	public struct SubMeshTriangles
+#endif
 	{
 		public int[] triangles;
 	}
@@ -24,7 +28,11 @@ namespace UMA
 	/// UMA version of Unity transform data.
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMATransform
+#else
 	public class UMATransform
+#endif
 	{
 		public Vector3 position;
 		public Quaternion rotation;
@@ -87,7 +95,11 @@ namespace UMA
 	/// This is only used for compatibility in UMA 2.11
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal struct UMABoneWeight
+#else
 	public struct UMABoneWeight
+#endif
 	{
 		public int boneIndex0;
 		public int boneIndex1;
@@ -100,7 +112,11 @@ namespace UMA
 	}
 
 	[BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal struct IsAllZeroJob : IJobParallelFor
+#else
 	public struct IsAllZeroJob : IJobParallelFor
+#endif
 	{
 		[NativeDisableParallelForRestriction]
 		[NativeDisableUnsafePtrRestriction]
@@ -124,7 +140,11 @@ namespace UMA
 	}
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMABlendFrame
+#else
 	public class UMABlendFrame
+#endif
 	{
 		public float frameWeight = 100.0f; //should be 100% for one frame
 		public Vector3[] deltaVertices = null;
@@ -239,7 +259,11 @@ namespace UMA
 	}
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMABlendShape
+#else
 	public class UMABlendShape
+#endif
 	{
 		public string shapeName;
 		public UMABlendFrame[] frames;
@@ -261,7 +285,11 @@ namespace UMA
 	/// UMA version of Unity mesh data.
 	/// </summary>
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAMeshData
+#else
 	public class UMAMeshData
+#endif
 	{
 		public Matrix4x4[] bindPoses;
 		public UMABoneWeight[] boneWeights;

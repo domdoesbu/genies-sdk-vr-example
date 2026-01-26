@@ -1,4 +1,4 @@
-﻿using Genies.UI.Animations;
+using Genies.UI.Animations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,12 @@ using UnityEngine.UI;
 namespace Genies.CustomWearables.View
 {
     [RequireComponent(typeof(CanvasGroup))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ToastMessage : MonoBehaviour
+#else
     public class ToastMessage : MonoBehaviour
+#endif
     {
         [Header("Setup")][Space(5)]
         [SerializeField] private Color colorSuccess;

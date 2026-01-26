@@ -5,7 +5,11 @@ using Genies.Refs;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IOutfitAssetLoader
+#else
     public interface IOutfitAssetLoader
+#endif
     {
         IReadOnlyList<string> SupportedTypes { get; }
 

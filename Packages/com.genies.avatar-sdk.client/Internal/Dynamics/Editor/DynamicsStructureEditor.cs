@@ -4,7 +4,11 @@ using UnityEngine;
 namespace Genies.Components.Dynamics
 {
     [CustomEditor(typeof(DynamicsStructure))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsStructureEditor : Editor
+#else
     public class DynamicsStructureEditor : Editor
+#endif
     {
         private bool _guiDisplayExpanded;
 
@@ -66,7 +70,11 @@ namespace Genies.Components.Dynamics
     }
 
     [CustomPropertyDrawer(typeof(DynamicsLink))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsLinkElementDrawer : PropertyDrawer
+#else
     public class DynamicsLinkElementDrawer : PropertyDrawer
+#endif
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

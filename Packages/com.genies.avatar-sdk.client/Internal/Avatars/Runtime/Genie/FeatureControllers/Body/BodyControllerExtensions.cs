@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class BodyControllerExtensions
+#else
     public static class BodyControllerExtensions
+#endif
     {
         public static bool IsPresetApplied(this IBodyController controller, IReadOnlyDictionary<string, float> preset)
         {

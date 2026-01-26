@@ -4,7 +4,12 @@ using UnityEngine.UI;
 namespace Genies.UI.Widgets
 {
     [ExecuteAlways]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ColorHandle : MonoBehaviour
+#else
     public class ColorHandle : MonoBehaviour
+#endif
     {
         internal const float DefaultHandleSize = 30f;
         internal const float DefaultFillRatio = 0.75f;

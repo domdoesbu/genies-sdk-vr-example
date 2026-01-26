@@ -8,7 +8,11 @@ namespace Genies.UI.Scroller
     /// <summary>
     /// A factory for creating <see cref="OptimizedScrollerCellHolder"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class OptimizedScrollerFactory
+#else
     public static class OptimizedScrollerFactory
+#endif
     {
         private static readonly Stack<OptimizedScrollerCellHolder> _cellHolderPool = new Stack<OptimizedScrollerCellHolder>();
         private static GameObject _poolParent;

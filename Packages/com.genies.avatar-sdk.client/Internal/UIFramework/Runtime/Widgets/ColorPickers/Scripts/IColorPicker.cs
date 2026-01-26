@@ -7,7 +7,11 @@ namespace Genies.UI.Widgets
     /// Represents a color picker widget. It's an abstraction that allows us to create different types of color pickers
     /// like RGB or HSV, so the code that uses them only cares about when a color is picked and manually setting it.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IColorPicker
+#else
     public interface IColorPicker
+#endif
     {
         /// <summary>
         /// Current color. If set, it will fire the <see cref="ColorUpdated"/> event.

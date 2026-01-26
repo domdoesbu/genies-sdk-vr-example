@@ -11,7 +11,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Equips a color preset on a flair using its id <see cref="_assetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipFlairColorAssetCommand : UnifiedGenieModificationCommand
+#else
     public class EquipFlairColorAssetCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _assetId;
         private readonly string _flairAssetType;

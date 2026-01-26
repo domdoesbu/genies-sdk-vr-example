@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnityDeserializer
+#else
     public class UnityDeserializer
+#endif
     {
         public static MaterialData Deserialize(string jsonString)
         {

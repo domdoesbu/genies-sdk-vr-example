@@ -18,38 +18,42 @@ namespace Genies.Ugc
     /// with colors, patterns, and textures. Implements the IModel pattern for value comparison,
     /// hashing, and deep copying operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Wearable : IModel<Wearable>
+#else
     public class Wearable : IModel<Wearable>
+#endif
     {
         // this line prevents the HashSet<string> constructor to be stripped by Unity when building the app. It fixes the deserialization errors for the Tags field
         // more info at https://github.com/jilleJr/Newtonsoft.Json-for-Unity/wiki/Fix-AOT-using-AotHelper
         [Preserve] private static void DeserializationFix() => AotHelper.EnsureList<string>();
-        
+
         /// <summary>
         /// The current schema version for wearable serialization compatibility.
         /// </summary>
         public const string CurrentVersion = "1-0-0";
-        
+
         /// <summary>
         /// The JSON schema version used for serialization and compatibility checking.
         /// This field is read-only and automatically set to the current version.
         /// </summary>
         [JsonProperty("JsonVersion", Required = Required.Always)]
         public readonly string JsonVersion = CurrentVersion;
-        
+
         /// <summary>
         /// The unique identifier for the template this wearable is based on.
         /// Templates define the structure and available customization options for the wearable.
         /// </summary>
         [JsonProperty("TemplateId", Required = Required.Always)]
         public string TemplateId = string.Empty;
-        
+
         /// <summary>
         /// Optional tags associated with this wearable for categorization and filtering purposes.
         /// Tags can be used for grouping, searching, or applying special behaviors to wearables.
         /// </summary>
         [JsonProperty("Tags")]
         public HashSet<string> Tags;
-        
+
         /// <summary>
         /// The collection of individual elements (splits) that make up this wearable.
         /// Each split represents a separate mesh element with its own styling and region configuration.
@@ -125,7 +129,7 @@ namespace Genies.Ugc
                 Splits = Splits.DeepCopyList()
             };
         }
-        
+
         /// <summary>
         /// Performs a deep copy of this wearable's properties into the specified destination wearable.
         /// This method updates the destination wearable's properties to match this wearable,

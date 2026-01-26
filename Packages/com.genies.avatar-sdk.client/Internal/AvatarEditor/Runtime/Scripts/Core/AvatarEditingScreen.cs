@@ -42,13 +42,14 @@ namespace Genies.AvatarEditor.Core
         }
     }
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class AvatarEditingScreen : MonoBehaviour
 #else
     public class AvatarEditingScreen : MonoBehaviour
 #endif
     {
         public Customizer customizer;
-        public NavigationGraph navGraph;
+        [SerializeField] private NavigationGraph navGraph;
         public NavigationNode avatarRootNode;
         public NavigationNode outfitRootNode;
         public RectTransform editingViewPort;
@@ -67,6 +68,7 @@ namespace Genies.AvatarEditor.Core
         [SerializeField]
         private Spinner previewSpinner;
         public Spinner PreviewSpinner => previewSpinner;
+        public NavigationGraph NavGraph => navGraph;
 
         private AvatarSaveSettings _saveSettings = new AvatarSaveSettings(AvatarSaveOption.SaveRemotelyAndContinue);
 

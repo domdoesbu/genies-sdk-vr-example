@@ -10,7 +10,11 @@ namespace Genies.Ugc
     /// Contains all the data and allocated resources from an element required to build an <see cref="OutfitAsset"/>.
     /// It must be disposed when no longer used so the resources are released.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class OutfitAssetElement : IDisposable
+#else
     public sealed class OutfitAssetElement : IDisposable
+#endif
     {
         public string Id { get; }
         public readonly SlotDataAsset[] Slots;

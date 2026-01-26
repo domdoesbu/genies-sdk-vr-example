@@ -7,7 +7,11 @@ using UnityEditor;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMAWardrobeRecipe : UMATextRecipe
+#else
 	public partial class UMAWardrobeRecipe : UMATextRecipe
+#endif
 	{
 		[SerializeField]
 		[Tooltip("For tracking incompatible items. Not automatic.")]

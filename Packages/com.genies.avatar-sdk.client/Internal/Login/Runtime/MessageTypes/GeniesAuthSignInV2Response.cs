@@ -4,7 +4,11 @@ using System.Text.RegularExpressions;
 namespace Genies.Login.AuthMessages
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthSignInV2Response : GeniesAuthMessage
+#else
     public class GeniesAuthSignInV2Response : GeniesAuthMessage
+#endif
     {
         public enum StatusCode
         {

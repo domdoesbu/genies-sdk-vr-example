@@ -8,7 +8,11 @@ using UnityEditor;
 #endif
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataContainer : OrderedScriptableObject
+#else
     public class MaterialDataContainer : OrderedScriptableObject
+#endif
     {
         [HideInInspector] public string materialName = "New";
         [HideInInspector] public string materialPrefix = "Material";

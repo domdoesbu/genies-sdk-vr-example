@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
 using Genies.CameraSystem.Focusable;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Genies.CameraSystem
 {
@@ -11,7 +12,12 @@ namespace Genies.CameraSystem
     /// Cinemachine Camera Type that focuses on a target Focusable object through a Rect Transform viewport
     /// </summary>
     [RequireComponent(typeof(CinemachineMixingCamera), typeof(FocusCameraModeHandler))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FocusCameraController : MonoBehaviour, ICameraType
+#else
     public class FocusCameraController : MonoBehaviour, ICameraType
+#endif
     {
         // Events
         public static Action<Vector3> OnFocusSetTo;
@@ -33,10 +39,10 @@ namespace Genies.CameraSystem
 
         // private fields
         private CinemachineMixingCamera _mixingCamera;
-        private CinemachineVirtualCamera _zoomInVirtualCamera;
-        private CinemachineVirtualCamera _zoomOutVirtualCamera;
-        private CinemachineFramingTransposer _zoomInFramingTransposer;
-        private CinemachineFramingTransposer _zoomOutFramingTransposer;
+        private CinemachineCamera _zoomInVirtualCamera;
+        private CinemachineCamera _zoomOutVirtualCamera;
+        private CinemachinePositionComposer _zoomInFramingTransposer;
+        private CinemachinePositionComposer _zoomOutFramingTransposer;
 
         private Bounds _targetBounds;
         private Vector3 _boundsCenter = Vector3.zero;
@@ -74,16 +80,34 @@ namespace Genies.CameraSystem
         public void ConfigureVirtualCamera()
         {
             // Get the Mixing Camera component.
-            _mixingCamera ??= GetComponent<CinemachineMixingCamera>();
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = GetComponent<CinemachineMixingCamera>();
+            }
+
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = gameObject.AddComponent<CinemachineMixingCamera>();
+            }
 
             // get the Handler component.
-            handler ??= GetComponent<FocusCameraModeHandler>();
+            if (handler == null)
+            {
+                handler = GetComponent<FocusCameraModeHandler>();
+            }
+
+            if (handler == null)
+            {
+                handler = gameObject.AddComponent<FocusCameraModeHandler>();
+            }
 
             // Get the virtual cameras from the Mixing Camera.
             // Mixing Camera SHOULD have 2 children: one for zooming in
             // and another one for zooming out.
-            _zoomInVirtualCamera ??= _mixingCamera.ChildCameras[0] as CinemachineVirtualCamera;
-            _zoomOutVirtualCamera ??= _mixingCamera.ChildCameras[1] as CinemachineVirtualCamera;
+            Assert.IsTrue(_mixingCamera.ChildCameras.Count == 2);
+
+            _zoomInVirtualCamera = _mixingCamera.ChildCameras[0] as CinemachineCamera;
+            _zoomOutVirtualCamera = _mixingCamera.ChildCameras[1] as CinemachineCamera;
 
             // Check if children are not null.
             if (_zoomInVirtualCamera == null || _zoomOutVirtualCamera == null)
@@ -93,40 +117,71 @@ namespace Genies.CameraSystem
             }
 
             // Set cameras to Physical. This avoids bugs.
-            _zoomInVirtualCamera.m_Lens.ModeOverride = LensSettings.OverrideModes.Physical;
-            _zoomOutVirtualCamera.m_Lens.ModeOverride = LensSettings.OverrideModes.Physical;
+            _zoomInVirtualCamera.Lens.ModeOverride = LensSettings.OverrideModes.Physical;
+            _zoomOutVirtualCamera.Lens.ModeOverride = LensSettings.OverrideModes.Physical;
 
-            _zoomInVirtualCamera.m_Lens.GateFit = Camera.GateFitMode.Vertical;
-            _zoomOutVirtualCamera.m_Lens.GateFit = Camera.GateFitMode.Vertical;
+            _zoomInVirtualCamera.Lens.PhysicalProperties.GateFit = Camera.GateFitMode.Vertical;
+            _zoomOutVirtualCamera.Lens.PhysicalProperties.GateFit = Camera.GateFitMode.Vertical;
 
             // Set the FOV for the virtual cameras.
-            _zoomInVirtualCamera.m_Lens.FieldOfView = fieldOfView;
-            _zoomOutVirtualCamera.m_Lens.FieldOfView = fieldOfView;
+            _zoomInVirtualCamera.Lens.FieldOfView = fieldOfView;
+            _zoomOutVirtualCamera.Lens.FieldOfView = fieldOfView;
 
-            _zoomInVirtualCamera.m_Lens.SensorSize = sensorSize;
-            _zoomOutVirtualCamera.m_Lens.SensorSize = sensorSize;
+            _zoomInVirtualCamera.Lens.PhysicalProperties.SensorSize = sensorSize;
+            _zoomOutVirtualCamera.Lens.PhysicalProperties.SensorSize = sensorSize;
 
             // Get the Framing Transposers from the virtual cameras.
-            _zoomInFramingTransposer ??= _zoomInVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-            _zoomOutFramingTransposer ??= _zoomOutVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            if (_zoomInFramingTransposer == null)
+            {
+                _zoomInFramingTransposer = _zoomInVirtualCamera.GetComponent<CinemachinePositionComposer>();
+            }
+
+            if (_zoomInFramingTransposer == null)
+            {
+                _zoomInFramingTransposer = _zoomInVirtualCamera.gameObject.AddComponent<CinemachinePositionComposer>();
+            }
+
+            if (_zoomOutFramingTransposer == null)
+            {
+                _zoomOutFramingTransposer = _zoomOutVirtualCamera.GetComponent<CinemachinePositionComposer>();
+            }
+
+            if (_zoomOutFramingTransposer == null)
+            {
+                _zoomOutFramingTransposer = _zoomOutVirtualCamera.gameObject.AddComponent<CinemachinePositionComposer>();
+            }
 
             if (!_hasBeenConfigured)
             {
                 // Set the initial configurations to the framing transposers.
                 // This is mandatory to avoid miscalculations when first starting the camera.
-                _zoomInFramingTransposer.m_TrackedObjectOffset = zoomInInitialOffset;
-                _zoomOutFramingTransposer.m_TrackedObjectOffset = zoomOutInitialOffset;
+                _zoomInFramingTransposer.TargetOffset = zoomInInitialOffset;
+                _zoomOutFramingTransposer.TargetOffset = zoomOutInitialOffset;
             }
 
             // Create and assign the Follow anchor to the virtual cameras.
-            _followAnchor ??= new GameObject("Follow Anchor " + name) { transform = { parent = anchorsContainer } };
-            _zoomInVirtualCamera.m_Follow = _followAnchor.transform;
-            _zoomOutVirtualCamera.m_Follow = _followAnchor.transform;
+            if (_followAnchor == null)
+            {
+                _followAnchor = new GameObject("Follow Anchor " + name) { transform = { parent = anchorsContainer } };
+            }
+
+            _zoomInVirtualCamera.Follow = _followAnchor.transform;
+            _zoomOutVirtualCamera.Follow = _followAnchor.transform;
 
             // Create and assign the Look At anchor to the virtual cameras.
-            _lookAtAnchor ??= new GameObject("Look At Anchor " + name) { transform = { parent = anchorsContainer } };
-            _zoomInVirtualCamera.m_LookAt = _lookAtAnchor.transform;
-            _zoomOutVirtualCamera.m_LookAt = _lookAtAnchor.transform;
+            if (_lookAtAnchor == null)
+            {
+                _lookAtAnchor = new GameObject("Look At Anchor " + name) { transform = { parent = anchorsContainer } };
+            }
+
+            _zoomInVirtualCamera.LookAt = _lookAtAnchor.transform;
+            _zoomOutVirtualCamera.LookAt = _lookAtAnchor.transform;
+
+           _zoomInVirtualCamera.Target.TrackingTarget = _followAnchor.transform;
+           _zoomOutVirtualCamera.Target.TrackingTarget = _followAnchor.transform;
+
+           _zoomInFramingTransposer.CameraDistance = 0.01f;
+           _zoomOutFramingTransposer.CameraDistance = 0.01f;
 
             SetTargetFocusable(cameraFocusPoint);
             SetTargetViewport(targetViewport);
@@ -162,6 +217,16 @@ namespace Genies.CameraSystem
 
         private async UniTaskVoid BeginFocus()
         {
+            if (_zoomInVirtualCamera != null)
+            {
+                _zoomInVirtualCamera.enabled = true;
+            }
+
+            if (_zoomOutVirtualCamera != null)
+            {
+                _zoomOutVirtualCamera.enabled = true;
+            }
+
             _cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancellationTokenSource.Token;
 
@@ -170,13 +235,22 @@ namespace Genies.CameraSystem
             while (!token.IsCancellationRequested)
             {
                 FrameFocusable();
-                targetViewport.hasChanged = false;
                 await UniTask.Yield(PlayerLoopTiming.PostLateUpdate, token);
             }
         }
 
         private void StopFocus()
         {
+            if (_zoomInVirtualCamera != null)
+            {
+                _zoomInVirtualCamera.enabled = false;
+            }
+
+            if (_zoomOutVirtualCamera != null)
+            {
+                _zoomOutVirtualCamera.enabled = false;
+            }
+
             if (_cancellationTokenSource != null)
             {
                 _cancellationTokenSource.Cancel();
@@ -195,14 +269,16 @@ namespace Genies.CameraSystem
                 return;
             }
 
+            targetViewport.hasChanged = false;
+
             // Focus the virtual camera on the target viewport.
             FocusOnTargetViewport(targetViewport);
 
             // Check if the virtual cameras have reached their final destination,
             // set on the previous FocusOnTarget() method.
             if (_isFullScreen ||
-                _zoomInVirtualCamera.transform.position != _zoomInCurrentCameraState.FinalPosition ||
-                _zoomOutVirtualCamera.transform.position != _zoomOutCurrentCameraState.FinalPosition)
+                _zoomInVirtualCamera.transform.position != _zoomInCurrentCameraState.GetFinalPosition() ||
+                _zoomOutVirtualCamera.transform.position != _zoomOutCurrentCameraState.GetFinalPosition())
             {
                 return;
             }
@@ -268,8 +344,8 @@ namespace Genies.CameraSystem
 
             // Set the offset on the Zoom In & Zoom Out Framing Transposers.
             _objectOffset = _cameraDistance * _movementDirection.normalized;
-            _zoomInFramingTransposer.m_TrackedObjectOffset = zoomInInitialOffset + _objectOffset;
-            _zoomOutFramingTransposer.m_TrackedObjectOffset = zoomOutInitialOffset + _objectOffset;
+            _zoomInFramingTransposer.TargetOffset = zoomInInitialOffset + _objectOffset;
+            _zoomOutFramingTransposer.TargetOffset = zoomOutInitialOffset + _objectOffset;
 
             // Update the current camera state.
             _zoomInCurrentCameraState = _zoomInVirtualCamera.State;
@@ -306,8 +382,8 @@ namespace Genies.CameraSystem
 
             // The Look At value should move along the cameras so that the camera doesn't lose the initial angle of focus
             _lookAtAnchor.transform.localPosition = _boundsCenter + verticalOffset;
-            _zoomInFramingTransposer.m_TrackedObjectOffset = zoomInInitialOffset + _objectOffset + verticalOffset;
-            _zoomOutFramingTransposer.m_TrackedObjectOffset = zoomOutInitialOffset + _objectOffset + verticalOffset;
+            _zoomInFramingTransposer.TargetOffset = zoomInInitialOffset + _objectOffset + verticalOffset;
+            _zoomOutFramingTransposer.TargetOffset = zoomOutInitialOffset + _objectOffset + verticalOffset;
         }
 
         /// <summary>

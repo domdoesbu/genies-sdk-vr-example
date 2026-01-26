@@ -4,7 +4,12 @@ using UnityEngine.InputSystem;
 
 namespace Genies.CameraSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class SwipeDetectionEnabler : MonoBehaviour
+#else
     public class SwipeDetectionEnabler : MonoBehaviour
+#endif
     {
         public Action<Vector2> SwipeDetected;
 

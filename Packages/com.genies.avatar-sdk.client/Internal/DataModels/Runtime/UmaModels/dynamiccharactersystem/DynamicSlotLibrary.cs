@@ -6,7 +6,11 @@ using System.Collections.Generic;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicSlotLibrary : SlotLibrary
+#else
     public class DynamicSlotLibrary : SlotLibrary
+#endif
     {
 
         public bool dynamicallyAddFromResources = true;

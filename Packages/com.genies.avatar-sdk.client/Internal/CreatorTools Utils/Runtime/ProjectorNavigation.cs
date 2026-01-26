@@ -6,7 +6,12 @@ using UnityEngine;
 
 namespace Genies.Components.CreatorTools.TexturePlacement.Navigation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ProjectorNavigation : MonoBehaviour
+#else
     public class ProjectorNavigation : MonoBehaviour
+#endif
     {
 
         [Header("Navigation Objects and Controls")]

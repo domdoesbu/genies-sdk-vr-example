@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NewtonSoftDeserializer
+#else
     public static class NewtonSoftDeserializer
+#endif
     {
         public static MaterialData DeserializePartial(string json)
         {

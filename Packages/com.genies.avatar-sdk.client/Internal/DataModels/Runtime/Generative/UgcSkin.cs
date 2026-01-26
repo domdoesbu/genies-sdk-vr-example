@@ -4,7 +4,11 @@ using UnityEngine;
 namespace Genies.Models
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct UgcSkin
+#else
     public struct UgcSkin
+#endif
     {
         [SerializeField] private string id;
         [SerializeField] private string guid;

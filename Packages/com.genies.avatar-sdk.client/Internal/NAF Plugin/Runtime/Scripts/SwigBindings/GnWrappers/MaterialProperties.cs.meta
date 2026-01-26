@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4aed12abfe58daa4c9c6ef3417fbcbb7
+guid: 8cbd854b63a7f344ba0b92cf11527ee9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/MaterialProperties.cs
+  uploadId: 850608

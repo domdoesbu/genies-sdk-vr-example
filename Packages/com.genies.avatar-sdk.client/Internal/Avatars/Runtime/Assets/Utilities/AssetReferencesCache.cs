@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// A cache of <see cref="IAsset"/> references by their ID.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AssetReferencesCache<TAsset>
+#else
     public sealed class AssetReferencesCache<TAsset>
+#endif
         where TAsset : IAsset
     {
         private readonly Dictionary<string, Ref<TAsset>> _cache;

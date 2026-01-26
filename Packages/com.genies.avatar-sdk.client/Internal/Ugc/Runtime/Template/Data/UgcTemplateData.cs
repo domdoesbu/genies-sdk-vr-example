@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// Contains template metadata about a UGC wearable. This is not intended to contain any assets
     /// like UMA related assets or textures.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcTemplateData
+#else
     public sealed class UgcTemplateData
+#endif
     {
         /// <summary>
         /// The template ID.

@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Contains all the resources for setting a genie species to an UMA avatar.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SpeciesAsset : IAsset, IDisposable
+#else
     public sealed class SpeciesAsset : IAsset, IDisposable
+#endif
     {
         public string Id { get; }
         public string GenieType { get; }

@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAExtendedAvatar : UMADynamicAvatar 
+#else
 	public class UMAExtendedAvatar : UMADynamicAvatar 
+#endif
 	{
 	#if UNITY_EDITOR	
 		

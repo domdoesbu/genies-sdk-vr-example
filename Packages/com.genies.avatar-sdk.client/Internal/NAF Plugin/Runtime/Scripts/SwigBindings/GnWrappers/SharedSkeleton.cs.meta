@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3bac80e8a4591124e8f184d0ca4e98c1
+guid: 4eef5c41ca8a253448291d34d9d057d5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/SharedSkeleton.cs
+  uploadId: 850608

@@ -13,7 +13,11 @@ namespace Genies.Avatars.Services
     /// Local implementation of <see cref="IAvatarService"/> that stores avatar data on the local disk.
     /// This service is useful for offline scenarios or testing environments where remote API access is not available.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LocalAvatarService : IAvatarService
+#else
     public class LocalAvatarService : IAvatarService
+#endif
     {
         private readonly LocalDiskDataRepository<LocalAvatar> _storage;
         private Avatar _loadedAvatar;
@@ -90,10 +94,10 @@ namespace Genies.Avatars.Services
             var newAvatar = new LocalAvatar() { Id = await GenerateValidGuid(), Definition = avatarDefinition };
 
             var createdDataRecord = await _storage.CreateAsync(newAvatar);
-            
+
             // Set the loaded avatar
             LoadedAvatar = new Avatar(createdDataRecord.Id, null, null, definition: JsonConvert.SerializeObject(createdDataRecord.Definition));
-            
+
             return true;
         }
 
@@ -106,10 +110,10 @@ namespace Genies.Avatars.Services
             }
 
             var avatarRecord = await _storage.GetByIdAsync(ids[0]);
-            
+
             // Set the loaded avatar
             LoadedAvatar = new Avatar(avatarRecord.Id, null, null, definition: JsonConvert.SerializeObject(avatarRecord.Definition));
-            
+
             return avatarRecord.Definition;
         }
 
@@ -134,7 +138,7 @@ namespace Genies.Avatars.Services
 
             var updatedAvatar = new LocalAvatar() { Id = ids[0], Definition = avatarDefinition };
             await _storage.UpdateAsync(updatedAvatar);
-            
+
             // Set the loaded avatar
             LoadedAvatar = new Avatar(updatedAvatar.Id, null, null, definition: JsonConvert.SerializeObject(updatedAvatar.Definition));
         }

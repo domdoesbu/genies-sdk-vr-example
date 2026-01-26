@@ -8,7 +8,11 @@ namespace Genies.Components.ShaderlessTools
     ///  Runtime version of ShaderUtil.ShaderPropertyType
     /// </summary>
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ShaderPropertyType
+#else
     public enum ShaderPropertyType
+#endif
     {
         Color,
         Vector,
@@ -20,7 +24,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderProperty
+#else
     public class ShaderProperty
+#endif
     {
         public string name;
         public ShaderPropertyType type;
@@ -39,7 +47,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TextureProp
+#else
     public class TextureProp
+#endif
     {
         public Texture texture;
         public Vector2 offset;
@@ -63,7 +75,11 @@ namespace Genies.Components.ShaderlessTools
     /// Needed because SerializedReference does not support primitive types
     /// </summary>
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class IntProp
+#else
     public class IntProp
+#endif
     {
         public int value;
 
@@ -81,7 +97,11 @@ namespace Genies.Components.ShaderlessTools
     /// Needed because SerializedReference does not support primitive types
     /// </summary>
     [Serializable][Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FloatProp
+#else
     public class FloatProp
+#endif
     {
         public float value;
 
@@ -96,7 +116,11 @@ namespace Genies.Components.ShaderlessTools
     }
 
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ShaderPropertyExtensions
+#else
     public static class ShaderPropertyExtensions
+#endif
     {
         public static int GetAsInt(this ShaderProperty prop)
         {

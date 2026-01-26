@@ -4,7 +4,11 @@ using Genies.Refs;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ISlottedAssetLoader <TAsset>
+#else
     public interface ISlottedAssetLoader <TAsset>
+#endif
         where TAsset : IAsset
     {
         /// <summary>

@@ -6,7 +6,11 @@ using System.Collections.Generic;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DynamicRaceLibrary : RaceLibrary
+#else
 	public class DynamicRaceLibrary : RaceLibrary
+#endif
 	{
 
 		//extra fields for Dynamic Version

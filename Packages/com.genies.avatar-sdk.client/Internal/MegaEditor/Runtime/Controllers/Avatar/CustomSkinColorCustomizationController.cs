@@ -19,7 +19,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Controller for the customize color view.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomSkinColorCustomizationController : BaseCustomizationController
+#else
     public class CustomSkinColorCustomizationController : BaseCustomizationController
+#endif
     {
         [SerializeField]
         private CustomizeColorView _customizeColorViewPrefab;

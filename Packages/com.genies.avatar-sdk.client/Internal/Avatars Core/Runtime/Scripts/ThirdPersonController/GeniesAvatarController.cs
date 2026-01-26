@@ -14,6 +14,7 @@ namespace Genies.Avatars.Sdk
     [RequireComponent(typeof(PlayerInput))]
 #endif
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class GeniesAvatarController : MonoBehaviour
 #else
     public class GeniesAvatarController : MonoBehaviour

@@ -9,7 +9,11 @@ namespace Genies.DataRepositoryFramework
     /// Data repository that will save data to local disk
     /// </summary>
     /// <typeparam name="T"> Data type </typeparam>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LocalDiskDataRepository<T> : IDataRepository<T>
+#else
     public class LocalDiskDataRepository<T> : IDataRepository<T>
+#endif
     {
         private readonly SetId _idSetter;
         private readonly Func<T, string> _idGetter;

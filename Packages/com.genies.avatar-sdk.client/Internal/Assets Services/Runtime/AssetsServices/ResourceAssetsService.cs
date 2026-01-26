@@ -11,7 +11,11 @@ namespace Genies.Assets.Services
     /// <summary>
     /// <see cref="IAssetsService"/> implementation that loads from the Unity's Resources API.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ResourceAssetsService : BaseAssetsService
+#else
     public sealed class ResourceAssetsService : BaseAssetsService
+#endif
     {
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
 

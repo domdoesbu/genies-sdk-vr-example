@@ -5,7 +5,12 @@ namespace Genies.UI.Widgets
     /// <summary>
     /// 2D spectrum picker for saturation and brightness.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class SvPicker : MonoBehaviour
+#else
     public class SvPicker : MonoBehaviour
+#endif
     {
         /// <summary>
         /// Gets or sets whether the sv picker is interactable.

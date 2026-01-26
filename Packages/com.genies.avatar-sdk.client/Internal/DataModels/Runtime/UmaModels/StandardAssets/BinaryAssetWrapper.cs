@@ -10,7 +10,11 @@ namespace UMA
     /// </summary>
     [System.Serializable]
     [PreferBinarySerialization]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BinaryAssetWrapper : ScriptableObject
+#else
     public class BinaryAssetWrapper : ScriptableObject
+#endif
     {
     }
 }

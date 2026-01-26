@@ -8,7 +8,12 @@ using UnityEngine.UI;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PopupConfigMapper : MonoBehaviour
+#else
     public class PopupConfigMapper : MonoBehaviour
+#endif
     {
         [SerializeField] private PopupLayout _popupLayout;
 

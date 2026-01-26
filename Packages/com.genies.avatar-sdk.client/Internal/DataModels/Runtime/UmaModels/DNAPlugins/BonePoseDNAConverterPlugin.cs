@@ -10,7 +10,11 @@ using UMA.CharacterSystem;
 namespace UMA
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BonePoseDNAConverterPlugin : DynamicDNAPlugin
+#else
 	public class BonePoseDNAConverterPlugin : DynamicDNAPlugin
+#endif
 	{
 
 		[SerializeField]

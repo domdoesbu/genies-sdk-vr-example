@@ -8,7 +8,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Command for equipping a face preset asset with <see cref="_targetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipAvatarFacePresetCommand : UnifiedGenieModificationCommand
+#else
     public class EquipAvatarFacePresetCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly List<string> _previousEquippedShapes;

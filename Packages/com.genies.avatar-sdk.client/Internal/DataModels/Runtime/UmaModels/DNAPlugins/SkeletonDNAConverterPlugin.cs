@@ -8,7 +8,11 @@ using UMA.CharacterSystem;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class SkeletonDNAConverterPlugin : DynamicDNAPlugin
+#else
 	public class SkeletonDNAConverterPlugin : DynamicDNAPlugin
+#endif
 	{
 		#region FIELDS
 

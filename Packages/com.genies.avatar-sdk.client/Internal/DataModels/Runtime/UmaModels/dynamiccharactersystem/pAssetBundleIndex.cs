@@ -6,7 +6,11 @@ namespace UMA.AssetBundles
 {
 	//This is an example of how the AssetBundleIndex class can be extended to contain extra data about items in the index. 
 	//Here we have extended it to include extra data about UMATextRecipes that are set to be 'Wardrobe' recipes rather than 'Standard' ones.
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class AssetBundleIndex : ScriptableObject
+#else
 	public partial class AssetBundleIndex : ScriptableObject
+#endif
 	{
 		public partial class AssetBundleIndexItem
 		{

@@ -6,8 +6,11 @@ using UMA.CharacterSystem;
 
 namespace Genies.Components.CreatorTools.TexturePlacement
 {
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ProjectionType : ushort
+#else
     public enum ProjectionType : ushort
+#endif
     {
         PerProjectorPixelRaycast = 0,
         SingleTileUVRemapRenderFeature = 1,
@@ -23,8 +26,12 @@ namespace Genies.Components.CreatorTools.TexturePlacement
     ///   rays are cast (curved quad, partial cylinder)
     /// * provides entry / exit points for projection mode
     /// </summary>
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class TexturePlacementBehavior : MonoBehaviour
+#else
     public class TexturePlacementBehavior : MonoBehaviour
+#endif
     {
         // The node in the UMA Avatar hierarchy that contains
         // DynamicCharacterAvatar and UMAData, and is above the
@@ -66,7 +73,7 @@ namespace Genies.Components.CreatorTools.TexturePlacement
 
         public void Start()
         {
-            
+
         }
 
         public void BakeCollisionMeshAfterDelay()

@@ -3,7 +3,11 @@ using System;
 namespace Genies.Login.AuthMessages
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthSignUpV2Response : GeniesAuthMessage
+#else
     public class GeniesAuthSignUpV2Response : GeniesAuthMessage
+#endif
     {
         public enum StatusCode
         {

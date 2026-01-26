@@ -6,7 +6,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Contains Gear asset data and assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearAsset : IAsset
+#else
     public sealed class GearAsset : IAsset
+#endif
     {
         public string Id => AssetData.Id;
         public string Lod { get; }

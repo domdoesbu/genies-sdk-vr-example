@@ -6,7 +6,11 @@ namespace Genies.Avatars.Behaviors
     /// Contains constant string values for animation transition names used across the avatar behavior system.
     /// These constants provide standardized names for different idle animation transitions based on gender and avatar type.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AnimationTransitionNameConstants
+#else
     public static class AnimationTransitionNameConstants
+#endif
     {
         [System.Obsolete("Use 'MaleTransitionToFloating' instead.")]
         public const string MALE_TRANSITION_TO_FLOATING = "male-idle-alt-1";

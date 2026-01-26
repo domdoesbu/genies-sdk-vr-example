@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static partial class GenieGltfImporter
+#else
     public static partial class GenieGltfImporter
+#endif
     {
         /// <summary>
         /// Imports the gltf/glb files from the given <see cref="LodGroupSource"/> as a LOD group genie instance.

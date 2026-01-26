@@ -9,7 +9,12 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class EditableGenie : MonoBehaviour, IEditableGenie
+#else
     public sealed class EditableGenie : MonoBehaviour, IEditableGenie
+#endif
     {
         // inspector
         [SerializeField] private Animator animator;

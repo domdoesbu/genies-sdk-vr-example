@@ -29,7 +29,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "FlairCustomizationController", menuName = "Genies/Customizer/Controllers/Flair Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class FlairCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         [SerializeField]
         private List<ExtraItemPickerSettings> _extraItemPickerSettings;
@@ -77,7 +81,11 @@ namespace Genies.Customization.MegaEditor
             }},
         };
 
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal enum AnalyticsActionType
+#else
         public enum AnalyticsActionType
+#endif
         {
             EnterCategory = 1,
             PresetSelected = 2,

@@ -5,7 +5,11 @@ namespace UMA
 #if GENIES_INTERNAL
     [CreateAssetMenu(menuName = "UMA/Rendering/PostProcess")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAPostProcess : ScriptableObject
+#else
     public class UMAPostProcess : ScriptableObject
+#endif
     {
         public Shader shader;
         private Material material;

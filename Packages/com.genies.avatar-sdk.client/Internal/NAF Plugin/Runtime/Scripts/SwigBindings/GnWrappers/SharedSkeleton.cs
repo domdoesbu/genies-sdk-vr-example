@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class SharedSkeleton : EntityAttribute {
+#else
 public class SharedSkeleton : EntityAttribute {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal SharedSkeleton(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.SharedSkeleton_SWIGUpcast(cPtr), cMemoryOwn) {

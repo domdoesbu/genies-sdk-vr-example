@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the validation of authentication tokens including expiration and format checks.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthTokenValidityResponse : GeniesAuthMessage
+#else
     public class GeniesAuthTokenValidityResponse : GeniesAuthMessage
+#endif
     {
         [NonSerialized]
         public StatusCode ResponseStatusCode = StatusCode.None;

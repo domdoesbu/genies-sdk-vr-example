@@ -5,7 +5,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Ensures that theres is only one blend shape equipped per slot.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class EnsureOnlyOneBlendShapePerSlot : IAssetsValidationRule<BlendShapeAsset>
+#else
     public sealed class EnsureOnlyOneBlendShapePerSlot : IAssetsValidationRule<BlendShapeAsset>
+#endif
     {
         // helpers
         private readonly List<BlendShapeAsset> _equippedAssets;

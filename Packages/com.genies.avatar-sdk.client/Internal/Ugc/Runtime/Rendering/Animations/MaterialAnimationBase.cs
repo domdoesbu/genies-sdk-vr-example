@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class MaterialAnimationBase : IMaterialAnimation
+#else
     public abstract class MaterialAnimationBase : IMaterialAnimation
+#endif
     {
         public Material Material
         {
@@ -15,18 +19,18 @@ namespace Genies.Ugc
                 _material = value;
             }
         }
-        
+
         public bool IsPlaying => _cancellationSource != null;
-        
+
         private Material _material;
         private CancellationTokenSource _cancellationSource;
-        
+
         public MaterialAnimationBase() { }
         public MaterialAnimationBase(Material material)
         {
             _material = material;
         }
-        
+
         // must never restore the material state and must not throw if cancelled
         protected abstract UniTask PlayAsync(ValueAnimation animation, Material material, CancellationToken cancellationToken);
         protected abstract void RestoreMaterialState(Material material);
@@ -39,12 +43,12 @@ namespace Genies.Ugc
             }
 
             Stop();
-            
+
             _cancellationSource = new CancellationTokenSource();
             CancellationToken cancellationToken = _cancellationSource.Token;
-            
+
             await PlayAsync(animation, _material, cancellationToken);
-            
+
             if (!cancellationToken.IsCancellationRequested)
             {
                 RestoreMaterialState(_material);
@@ -74,7 +78,7 @@ namespace Genies.Ugc
             _cancellationSource.Cancel();
             _cancellationSource.Dispose();
             _cancellationSource = null;
-            
+
             if (restoreMaterialState)
             {
                 RestoreMaterialState(_material);

@@ -3,10 +3,16 @@ using Genies.UI.Animations;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class SlidingPopupWidget : MonoBehaviour
+#else
     public class SlidingPopupWidget : MonoBehaviour
+#endif
     {
         public enum AnimationStyle
         {
@@ -142,10 +148,13 @@ namespace Genies.UIFramework
             // Reset position
             PopupRectTransform.localPosition = _hidePosition;
 
-            // Spring to display position - gentle bounce for natural feel
+            // Smooth animation to display position - OutCubic for smooth deceleration
+            var settings = AnimationSettings.Default
+                .SetEasing(Ease.OutCubic)
+                .SetUnscaledTime(true);
+
             _popupRectTransform
-               .SpringLocalPosition(_displayPosition, SpringPhysics.Presets.Gentle)
-               .SetUpdate(true);
+               .AnimateLocalMove(_displayPosition, _showAnimTime, settings);
         }
 
         private void OnCancelButtonClicked()
@@ -175,11 +184,14 @@ namespace Genies.UIFramework
                 _blocker.SetBlockerActive(false);
             }
 
-            // Spring to hide position - snappy for responsive hide
+            // Smooth animation to hide position - InCubic for quick acceleration
+            var settings = AnimationSettings.Default
+                .SetEasing(Ease.InCubic)
+                .SetUnscaledTime(true)
+                .SetOnComplete(() => SetVisibility(false));
+
             PopupRectTransform
-               .SpringLocalPosition(_hidePosition, SpringPhysics.Presets.Snappy)
-               .SetUpdate(true)
-               .OnCompletedOneShot(() => SetVisibility(false));
+               .AnimateLocalMove(_hidePosition, _hideAnimTime, settings);
         }
 
         protected void CheckIfWeShouldHidePopup(Vector2 direction)
@@ -190,7 +202,7 @@ namespace Genies.UIFramework
             }
         }
 
-        public virtual void HideWithDuration(Action onComplete = null)
+        public virtual async UniTask HideWithDurationAsync(Action onComplete = null)
         {
             PopupRectTransform.Terminate();
             if (_blocker != null)
@@ -198,17 +210,17 @@ namespace Genies.UIFramework
                 _blocker.SetBlockerActive(false);
             }
 
-            // Spring to hide position - snappy for responsive hide
-            PopupRectTransform
-               .SpringLocalPosition(_hidePosition, SpringPhysics.Presets.Snappy)
-               .SetUpdate(true)
-               .OnCompletedOneShot(
-                    () =>
-                    {
-                        SetVisibility(false);
-                        onComplete?.Invoke();
-                    }
-                );
+            // Smooth animation to hide position - InCubic for quick acceleration
+            var settings = AnimationSettings.Default
+                .SetEasing(Ease.InCubic)
+                .SetUnscaledTime(true)
+                .SetOnComplete(() =>
+                {
+                    SetVisibility(false);
+                    onComplete?.Invoke();
+                });
+
+            await PopupRectTransform.AnimateLocalMove(_hidePosition, _hideAnimTime, settings);
         }
 
 

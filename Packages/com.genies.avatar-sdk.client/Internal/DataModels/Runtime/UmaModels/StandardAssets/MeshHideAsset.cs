@@ -14,7 +14,11 @@ namespace UMA
     /// with the MeshHideAsset is found in the UMA recipe, then apply the triangle hiding to the slot.  MeshHideAsset's are also unioned, so multiple MeshHideAssets with
     /// the same slotData can combine to hide their unioned list.
     /// </remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MeshHideAsset : ScriptableObject, ISerializationCallbackReceiver
+#else
     public class MeshHideAsset : ScriptableObject, ISerializationCallbackReceiver
+#endif
     {
         /// <summary>
         /// The asset we want to apply mesh hiding to if found in the generated UMA.

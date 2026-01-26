@@ -12,7 +12,11 @@ namespace Genies.Ugc
     /// This system supports both local texture assets and remote texture loading.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ProjectedTexture : IModel<ProjectedTexture>
+#else
     public class ProjectedTexture : IModel<ProjectedTexture>
+#endif
     {
         /// <summary>
         /// The remote URL where the texture can be downloaded.
@@ -20,14 +24,14 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("TextureRemoteUrl")]
         public string TextureRemoteUrl = string.Empty;
-        
+
         /// <summary>
         /// The local identifier for the texture asset.
         /// Used to reference textures that are bundled with the application or cached locally.
         /// </summary>
         [JsonProperty("TextureId")]
         public string TextureId = string.Empty;
-        
+
         /// <summary>
         /// The name of the material property (texture channel) where this texture will be applied.
         /// Common values include "_MainTex" for albedo, "_BumpMap" for normal maps, etc.
@@ -42,7 +46,7 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("ProjectionRemoteUrl")]
         public string ProjectionRemoteUrl = string.Empty;
-        
+
         /// <summary>
         /// The local identifier for projection mapping data.
         /// Reserved for future use when projection data might be decoupled from image data,

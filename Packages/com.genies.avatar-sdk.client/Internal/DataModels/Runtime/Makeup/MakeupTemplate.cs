@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Models.Makeup
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MakeupTemplate : DecoratedSkinTemplate, IDynamicAsset
+#else
     public class MakeupTemplate : DecoratedSkinTemplate, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

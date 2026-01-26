@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class VectorString : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<string>
+#else
 public class VectorString : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<string>
+#endif
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;

@@ -3,7 +3,11 @@ using UMA.CharacterSystem;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class StaticWearableAsset : IAsset
+#else
     public sealed class StaticWearableAsset : IAsset
+#endif
     {
         public const string OutfitAssetType = "static";
 

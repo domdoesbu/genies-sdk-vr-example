@@ -16,7 +16,11 @@ using UnityEngine.AddressableAssets.ResourceLocators;
 
 namespace Genies.Addressables
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AddressablesCatalogService
+#else
     public sealed class AddressablesCatalogService
+#endif
     {
         private IFeatureFlagsManager _FeatureFlagsManager => ServiceManager.Get<IFeatureFlagsManager>();
         public bool AreCatalogsLoaded { get; private set; }

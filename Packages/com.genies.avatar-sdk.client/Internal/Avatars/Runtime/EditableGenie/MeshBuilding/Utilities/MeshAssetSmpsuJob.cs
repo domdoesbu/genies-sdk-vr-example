@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// This area values can be used to compute the required texture resolutions so every asset looks at the same quality
     /// independently of their size. Uses the job system to make the calculations outside of the main thread.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshAssetSmpsuJob
+#else
     public sealed class MeshAssetSmpsuJob
+#endif
     {
         // asset
         private readonly MeshAsset _asset;

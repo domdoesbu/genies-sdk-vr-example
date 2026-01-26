@@ -7,12 +7,16 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Genies.Inventory
+namespace Genies.Naf.Content.AvatarBaseConfig
 {
     /// <summary>
     /// Robust implementation of IContentConfigService to fetch remote config using .net HttpClient in separate thread with retries and caching.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ContentConfigService : IContentConfigService
+#else
     public class ContentConfigService : IContentConfigService
+#endif
     {
         private const int MaxRetries = 10;
         private readonly HttpClient _httpClient = new HttpClient();
@@ -24,7 +28,7 @@ namespace Genies.Inventory
         {
             return FetchRemoteConfigWithRetry(configId, MaxRetries);
         }
-        
+
         public async UniTask<RootConfig> FetchRemoteConfigWithRetry(string configUri, int retryAttempts = 1)
         {
             // Return cached value if available (thread-safe check)

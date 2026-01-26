@@ -5,7 +5,11 @@ using Cysharp.Threading.Tasks;
 namespace Genies.FeatureFlags
 {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IFeatureFlagsManager
+#else
     public interface IFeatureFlagsManager
+#endif
     {
         UniTask<Dictionary<string,bool>> GetAllFeatureFlagsStatus();
 

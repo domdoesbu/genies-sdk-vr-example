@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Looks.Customization.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IColorPickerController
+#else
     public interface IColorPickerController
+#endif
     {
         IReadOnlyList<Color> Colors { get; }
 

@@ -9,6 +9,10 @@ using Genies.Avatars;
 using Genies.Avatars.Sdk;
 using Genies.Avatars.Services;
 using Genies.CrashReporting;
+using Genies.Customization.Framework;
+using Genies.Customization.Framework.Actions;
+using Genies.Customization.Framework.Navigation;
+using Genies.Customization.MegaEditor;
 using Genies.Inventory;
 using Genies.Inventory.UIData;
 using Genies.Login.Native;
@@ -46,6 +50,9 @@ namespace Genies.AvatarEditor.Core
         // Static persistent save settings that survive across editor sessions
         private static AvatarSaveSettings _persistentSaveSettings = new(AvatarSaveOption.SaveRemotelyAndExit);
         private static bool _hasInitializedPersistentSettings = false;
+
+        // Pending Save and Exit flag setting
+        private bool? _pendingSaveButtonSetting = null, _pendingExitButtonSetting = null;
 
         private readonly HashSet<Ref<Sprite>> _spritesGivenToUser = new();
 
@@ -161,7 +168,7 @@ namespace Genies.AvatarEditor.Core
         /// <summary>
         /// Closes the avatar editor and cleans up resources.
         /// </summary>
-        public async UniTask CloseEditorAsync()
+        public async UniTask CloseEditorAsync(bool revertAvatar)
         {
             _currentActiveAvatar = null;
 
@@ -191,7 +198,7 @@ namespace Genies.AvatarEditor.Core
                 var avatarEditingScreen = _avatarEditorInstance.GetComponentInChildren<AvatarEditingScreen>();
                 if (avatarEditingScreen != null && avatarEditingScreen.EditingBehaviour is not null)
                 {
-                    await avatarEditingScreen.EditingBehaviour.DiscardAndExit();
+                    await avatarEditingScreen.EditingBehaviour.EndEditing(revertAvatar);
                 }
             }
             catch (Exception ex)
@@ -216,7 +223,7 @@ namespace Genies.AvatarEditor.Core
 
         public void Dispose()
         {
-            _ = CloseEditorAsync();
+            _ = CloseEditorAsync(true);
         }
 
         /// <summary>
@@ -348,18 +355,18 @@ namespace Genies.AvatarEditor.Core
                     return;
                 }
 
-                // Get the list of default wearables from the inventory service
+                // Get all wearables (default + user-owned) from the inventory service
                 IDefaultInventoryService defaultInventoryService = ServiceManager.GetService<IDefaultInventoryService>(null);
-                var defaultWearables = await defaultInventoryService.GetDefaultWearables();
+                var allWearables = await defaultInventoryService.GetAllWearables();
 
-                if (defaultWearables == null || !defaultWearables.Any())
+                if (allWearables == null || !allWearables.Any())
                 {
-                    CrashReporter.LogError("No default wearables found in inventory service");
+                    CrashReporter.LogError("No wearables found in inventory service");
                     return;
                 }
 
                 // Verify that the wearable passed in has a match in Inventory
-                var matchingWearable = defaultWearables.FirstOrDefault(w =>
+                var matchingWearable = allWearables.FirstOrDefault(w =>
                     w.AssetId.Equals(wearableId, StringComparison.OrdinalIgnoreCase));
 
                 if (matchingWearable == null)
@@ -924,12 +931,19 @@ namespace Genies.AvatarEditor.Core
             var virtualCameraManager = _avatarEditorInstance.GetComponentInChildren<VirtualCameraManager>();
             Assert.IsNotNull(virtualCameraManager);
 
+            // We set the rotation here to Quaternion.identity for the camera system to behave correctly.
+            // The genie is later also rotated to Quaternion.identity
             _avatarEditorInstance.transform.SetPositionAndRotation(avatar.Root.transform.position, Quaternion.identity);
-
-            virtualCameraManager.Activate(camera);
 
             var editingScreen = _avatarEditorInstance.GetComponentInChildren<AvatarEditingScreen>();
             Assert.IsNotNull(editingScreen);
+
+            // Apply Save and Exit flag setting if one was set before editor opened
+            if (_pendingSaveButtonSetting.HasValue && _pendingExitButtonSetting.HasValue)
+            {
+                ApplySaveAndExitFlagSetting(_pendingSaveButtonSetting.Value, _pendingExitButtonSetting.Value);
+            }
+
             await editingScreen.Initialize(avatar, camera, virtualCameraManager);
 
             // Apply save settings after initialization - use pending first, then persistent, then default
@@ -1002,6 +1016,142 @@ namespace Genies.AvatarEditor.Core
                 cameraUpOffset: new Vector3(0f, 0.05f, 0f));
 
             return headShotPath;
+        }
+
+        /// <summary>
+        /// Sets the Save and Exit ActionBarFlags on all BaseCustomizationControllers in the InventoryNavigationGraph.
+        /// Excludes CustomHairColor_Controller, CustomEyelashColor_Controller, and CustomEyebrowColor_Controller
+        /// (which always need it to exit their custom color editing screen)
+        /// </summary>
+        /// <param name="enableSaveButton">True to enable the save button, false to disable</param>
+        /// <param name="enableExitButton">True to enable the exit button, false to disable</param>
+        public void SetSaveAndExitButtonStatus(bool enableSaveButton, bool enableExitButton)
+        {
+            // Store the pending setting
+            _pendingSaveButtonSetting = enableSaveButton;
+            _pendingExitButtonSetting = enableExitButton;
+
+            // If editor is already open, apply the setting immediately
+            if (_avatarEditorInstance != null)
+            {
+                ApplySaveAndExitFlagSetting(enableSaveButton, enableExitButton);
+            }
+            // Note: If editor is not open, the setting will be applied during InitializeEditing
+            // (when the editor is opened)
+        }
+
+        /// <summary>
+        /// Applies the Save and Exit ActionBarFlags setting to all BaseCustomizationControllers in the InventoryNavigationGraph
+        /// </summary>
+        private void ApplySaveAndExitFlagSetting(bool enableSaveButton, bool enableExitButton)
+        {
+            try
+            {
+                if (_avatarEditorInstance == null)
+                {
+                    CrashReporter.LogWarning("Cannot apply Save and Exit flag setting - editor instance not found");
+                    return;
+                }
+
+                NavigationGraph navigationGraph = null;
+
+                var avatarEditingScreen = _avatarEditorInstance.GetComponentInChildren<AvatarEditingScreen>();
+                if (avatarEditingScreen != null)
+                {
+                    navigationGraph = avatarEditingScreen.NavGraph;
+                }
+
+                if (navigationGraph == null)
+                {
+                    CrashReporter.LogError("NavigationGraph not found in AvatarEditingScreen");
+                    return;
+                }
+
+                // Controllers to exclude
+                var excludedControllers = new HashSet<Type>
+                {
+                    typeof(CustomHairColorCustomizationController),
+                    typeof(CustomFlairColorCustomizationController)
+                };
+
+                // Get all nodes from the navigation graph
+                var allControllers = new List<BaseCustomizationController>();
+                CollectAllControllers(navigationGraph.GetRootNode(), allControllers, excludedControllers);
+
+                // Update the ActionBarFlags for each controller
+                foreach (var controller in allControllers)
+                {
+                    if (controller != null && controller.CustomizerViewConfig != null)
+                    {
+                        if (enableSaveButton)
+                        {
+                            controller.CustomizerViewConfig.actionBarFlags |= ActionBarFlags.Save;
+                        }
+                        else
+                        {
+                            controller.CustomizerViewConfig.actionBarFlags &= ~ActionBarFlags.Save;
+                        }
+
+                        if (enableExitButton)
+                        {
+                            controller.CustomizerViewConfig.actionBarFlags |= ActionBarFlags.Exit;
+                        }
+                        else
+                        {
+                            controller.CustomizerViewConfig.actionBarFlags &= ~ActionBarFlags.Exit;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CrashReporter.LogError($"Failed to apply Save and Exit ActionBarFlags: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Recursively collects all BaseCustomizationControllers from the navigation graph,
+        /// excluding specified controllers by type.
+        /// </summary>
+        private void CollectAllControllers(
+            INavigationNode node,
+            List<BaseCustomizationController> controllers,
+            HashSet<Type> excludedTypes)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            // Get the controller from this node
+            if (node.Controller is BaseCustomizationController controller)
+            {
+                // Check if this controller should be excluded
+                if (!excludedTypes.Any(t => t.IsAssignableFrom(controller.GetType())))
+                {
+                    controllers.Add(controller);
+                }
+            }
+
+            // Recursively process child nodes
+            if (node.Children != null)
+            {
+                foreach (var child in node.Children)
+                {
+                    CollectAllControllers(child, controllers, excludedTypes);
+                }
+            }
+
+            // Also check EditItemNode and CreateItemNode
+            if (node.EditItemNode != null)
+            {
+                CollectAllControllers(node.EditItemNode, controllers, excludedTypes);
+            }
+
+            if (node.CreateItemNode != null)
+            {
+                CollectAllControllers(node.CreateItemNode, controllers, excludedTypes);
+            }
         }
 
         #endregion

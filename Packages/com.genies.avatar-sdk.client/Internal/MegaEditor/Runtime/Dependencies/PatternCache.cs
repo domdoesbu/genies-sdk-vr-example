@@ -3,7 +3,11 @@ using Genies.Ugc;
 
 namespace Genies.Looks.Customization.Utils.PatternCustomization
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class PatternCache
+#else
     public sealed class PatternCache
+#endif
     {
         private readonly Dictionary<string, Pattern> _cache = new Dictionary<string, Pattern>();
 

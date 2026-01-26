@@ -1,4 +1,5 @@
 #if UNITY_EDITOR && !GENIES_EXPERIENCE_SDK
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -15,10 +16,9 @@ namespace Genies.Telemetry.Editor
     {
         /// <summary>
         /// Whether telemetry is enabled from the editor's point of view.
-        /// Default is false (off).
+        /// Default is true (on).
         /// </summary>
-        public bool EnableTelemetry = false;
-
+        public bool EnableTelemetry = true;
         private void OnEnable()
         {
             // If we ever want to sync from PlayerPrefs into the editor toggle:
@@ -28,7 +28,7 @@ namespace Genies.Telemetry.Editor
 
         public void SaveState()
         {
-            Save(true);
+            Save(false);
         }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace Genies.Telemetry.Editor
 
         private SerializedObject _stateSO;
         private SerializedProperty _enableTelemetryProp;
+        public static event Action<bool> OnTelemetrySet = delegate { };
 
         public GeniesTelemetrySettingsWindow(string path, SettingsScope scope)
             : base(path, scope)
@@ -107,6 +108,11 @@ namespace Genies.Telemetry.Editor
                 var state = (GeniesTelemetrySettingsEditorState)_stateSO.targetObject;
                 state.SaveState();
                 state.SyncToPlayerPrefs();
+                
+                if (OnTelemetrySet != null)
+                {
+                    OnTelemetrySet.Invoke(state);
+                }
             }
 
             EditorGUILayout.Space();

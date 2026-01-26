@@ -8,7 +8,12 @@ using UIAnimator = Genies.UI.Animations.UIAnimator;
 
 namespace Genies.Customization.Framework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class EditOrDeleteCustomColorController : MonoBehaviour
+#else
     public class EditOrDeleteCustomColorController : MonoBehaviour
+#endif
     {
         public event Action OnEditClicked;
         public event Action OnDeleteClicked;

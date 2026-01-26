@@ -4,7 +4,11 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.PerformanceMonitoring
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ICustomInstrumentationHandler
+#else
     public interface ICustomInstrumentationHandler
+#endif
     {
         /// <summary>
         /// Start a new transaction.

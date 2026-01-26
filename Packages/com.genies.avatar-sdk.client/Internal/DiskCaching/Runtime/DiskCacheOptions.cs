@@ -3,7 +3,11 @@ namespace Genies.DiskCaching
     /// <summary>
     /// Different options for configuring cache on disk.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct DiskCacheOptions
+#else
     public struct DiskCacheOptions
+#endif
     {
         /// <summary>
         /// The time in seconds before cached files are considered expired.

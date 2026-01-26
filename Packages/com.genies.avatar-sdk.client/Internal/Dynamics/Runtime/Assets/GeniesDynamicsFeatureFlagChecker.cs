@@ -8,7 +8,12 @@ namespace Genies.Dynamics.Assets
     /// <summary>
     /// Handles the enabling and disabling of the Dynamics system based on the feature flag setting.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class GeniesDynamicsFeatureFlagChecker : MonoBehaviour
+#else
     public class GeniesDynamicsFeatureFlagChecker : MonoBehaviour
+#endif
     {
         private IFeatureFlagsManager _FeatureFlagsManager => ServiceManager.Get<IFeatureFlagsManager>();
 

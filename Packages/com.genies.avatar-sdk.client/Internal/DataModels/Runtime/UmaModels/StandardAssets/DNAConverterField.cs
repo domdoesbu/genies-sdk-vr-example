@@ -8,7 +8,11 @@ namespace UMA {
 	/// A field that can hold DNAConverters that use the IDNAConverter interface
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DNAConverterField {
+#else
 	public class DNAConverterField {
+#endif
 
 		[SerializeField]
 		private UnityEngine.Object _converter;

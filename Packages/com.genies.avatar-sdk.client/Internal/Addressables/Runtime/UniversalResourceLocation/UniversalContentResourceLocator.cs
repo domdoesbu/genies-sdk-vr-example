@@ -6,7 +6,11 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Genies.Addressables.Universal
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UniversalContentResourceLocator : IResourceLocator
+#else
     public class UniversalContentResourceLocator : IResourceLocator
+#endif
     {
         public string LocatorId => "UniversalContentResourceLocator";  // Unique identifier for the locator
         private readonly Dictionary<object, IList<IResourceLocation>> _locations = new();
@@ -17,7 +21,7 @@ namespace Genies.Addressables.Universal
         public IEnumerable<IResourceLocation> AllLocations { get { return _locations.Values.SelectMany(x => x); } }
 
         public Dictionary<object, IList<IResourceLocation>> Locations => _locations;
-        
+
         public bool Locate(object key, Type type, out IList<IResourceLocation> locations)
         {
             if (_locations.TryGetValue(key, out var allLocations))

@@ -12,7 +12,11 @@ namespace Genies.Ugc.CustomPattern
     /// <summary>
     /// An <see cref="IAssetsProvider{T}"/> implementation that adds custom pattern loading on top of a given patterns provider.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcPatternsProvider : IAssetsProvider<Texture2D>
+#else
     public sealed class UgcPatternsProvider : IAssetsProvider<Texture2D>
+#endif
     {
         public bool IsCached => _allAssetsRef.IsAlive;
 

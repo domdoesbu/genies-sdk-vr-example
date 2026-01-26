@@ -1,13 +1,17 @@
-using Cinemachine;
+using Cysharp.Threading.Tasks;
+using Unity.Cinemachine;
 using Genies.Avatars.Behaviors;
 using Genies.CameraSystem;
+using Genies.Customization.MegaEditor;
 using Genies.ServiceManagement;
 using Genies.UIFramework.Widgets;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace Genies.VirtualCamera
 {
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal class VirtualCameraManager : MonoBehaviour
 #else
     public class VirtualCameraManager : MonoBehaviour
@@ -19,6 +23,7 @@ namespace Genies.VirtualCamera
         public Camera CameraActiveCurrent { get; private set; }
         private CinemachineBlenderSettings CustomBlendCurrentDefault { get; set; }
         private bool CinemachineBrainExistedBefore { get; set; }
+        private bool CinemachineBrainWasEnabled { get; set; }
 
         private void Awake()
         {
@@ -53,17 +58,19 @@ namespace Genies.VirtualCamera
             if (cam.TryGetComponent(out CinemachineBrain cinemachineBrain))
             {
                 CinemachineBrainExistedBefore = true;
-                CustomBlendCurrentDefault = cinemachineBrain.m_CustomBlends;
+                CustomBlendCurrentDefault = cinemachineBrain.CustomBlends;
+                CinemachineBrainWasEnabled = cinemachineBrain.enabled;
             }
             else
             {
                 CinemachineBrainExistedBefore = false;
                 CustomBlendCurrentDefault = null;
+                CinemachineBrainWasEnabled = false;
             }
 
             //Initialize & Register Virtual Camera Controller
             virtualCameraController.CinemachineCamera = cam;
-            virtualCameraController.Initialize();
+            virtualCameraController.Initialize().Forget();
 
             // TODO:
             // Re-work the dependency injection of this VirtualCameraController instance.
@@ -92,7 +99,8 @@ namespace Genies.VirtualCamera
                 if (CinemachineBrainExistedBefore)
                 {
                     // Restore the original custom blends (could be null)
-                    cinemachineBrain.m_CustomBlends = CustomBlendCurrentDefault;
+                    cinemachineBrain.CustomBlends = CustomBlendCurrentDefault;
+                    cinemachineBrain.enabled = CinemachineBrainWasEnabled;
                 }
                 else
                 {
@@ -104,6 +112,7 @@ namespace Genies.VirtualCamera
             CameraActiveCurrent = null;
             CustomBlendCurrentDefault = null;
             CinemachineBrainExistedBefore = false;
+            CinemachineBrainWasEnabled = false;
         }
     }
 }

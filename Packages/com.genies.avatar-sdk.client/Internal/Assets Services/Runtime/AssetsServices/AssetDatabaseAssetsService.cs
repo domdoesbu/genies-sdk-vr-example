@@ -14,7 +14,11 @@ namespace Genies.Assets.Services
     /// <summary>
     /// Editor-only <see cref="IAssetsService"/> implementation that access assets in the project by path or GUID.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AssetDatabaseAssetsService : BaseAssetsService
+#else
     public sealed class AssetDatabaseAssetsService : BaseAssetsService
+#endif
     {
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
 

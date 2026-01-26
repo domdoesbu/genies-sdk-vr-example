@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ddf338be208e04b0bb96bc16d2a45407
+guid: e51800931399e4e479ec4f1f576f8908
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/BundleUtils.cs
+  uploadId: 850608

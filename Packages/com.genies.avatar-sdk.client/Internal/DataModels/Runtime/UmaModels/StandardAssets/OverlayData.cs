@@ -9,7 +9,11 @@ namespace UMA
 	/// Overlay data contains the textures and material properties for building atlases.
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class OverlayData : System.IEquatable<OverlayData>
+#else
 	public class OverlayData : System.IEquatable<OverlayData>
+#endif
 	{
 		/// <summary>
 		/// The asset contains the immutable portions of the overlay.

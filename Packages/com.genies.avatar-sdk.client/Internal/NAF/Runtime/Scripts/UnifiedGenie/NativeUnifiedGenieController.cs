@@ -11,7 +11,11 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NativeUnifiedGenieController : ISpeciesGenieController
+#else
     public sealed class NativeUnifiedGenieController : ISpeciesGenieController
+#endif
     {
 #if GENIES_SDK
         private const string _femaleShapeAssetId = "Static/BlendShapeContainer_body_female";

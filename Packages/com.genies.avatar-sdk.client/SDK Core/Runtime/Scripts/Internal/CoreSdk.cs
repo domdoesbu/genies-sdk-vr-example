@@ -9,6 +9,7 @@ namespace Genies.Sdk
         private Login _login;
         private LoginOtp _loginOtp;
         private LoginPassword _loginPassword;
+        private LoginAnonymous _loginAnonymous;
 
         /// <summary>
         /// Gets the Avatar API for loading and managing avatars.
@@ -30,6 +31,11 @@ namespace Genies.Sdk
         /// </summary>
         public LoginPassword LoginPasswordApi => _loginPassword ??= new LoginPassword(this);
 
+        /// <summary>
+        /// Gets the LoginAnonymous API for anonymous authentication.
+        /// </summary>
+        public LoginAnonymous LoginAnonymously => _loginAnonymous ??= new LoginAnonymous(this);
+        
         /// <summary>
         /// Initializes the Genies Avatar SDK.
         /// Calling is optional as all operations will initialize the SDK if it is not already initialized.

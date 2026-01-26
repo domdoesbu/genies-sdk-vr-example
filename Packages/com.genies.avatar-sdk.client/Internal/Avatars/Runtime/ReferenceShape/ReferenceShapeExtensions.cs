@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Utility extensions to easily use <see cref="IReferenceShape"/> methods with managed arrays and minimum overhead.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ReferenceShapeExtensions
+#else
     public static class ReferenceShapeExtensions
+#endif
     {
         public static unsafe void GetPoints(this IReferenceShape shape, Vector3[] results)
         {

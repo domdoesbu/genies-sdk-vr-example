@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// This implementation is needed since the hair materials need to copy over some textures from the previous
     /// material every time it is applied.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class HairMaterialSlotController : MaterialSlotController
+#else
     public sealed class HairMaterialSlotController : MaterialSlotController
+#endif
     {
         private static readonly int _albedoTransparencyId = Shader.PropertyToID("_AlbedoTransparency");
         private static readonly int _metallicSmoothnessId = Shader.PropertyToID("_MetallicSmoothness");

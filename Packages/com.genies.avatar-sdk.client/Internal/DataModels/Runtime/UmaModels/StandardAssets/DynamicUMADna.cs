@@ -7,7 +7,11 @@ using UMA.CharacterSystem;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicUMADna : DynamicUMADnaBase
+#else
     public class DynamicUMADna : DynamicUMADnaBase
+#endif
     {
         #region Constructor
         public DynamicUMADna()
@@ -255,7 +259,11 @@ namespace UMA
    // Class to store dynamic settings as name value pairs. 
    // We need this because the DynamicUMADnaAssets values may change and so we need to match any existing values to names even if the array size has changed
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DNASettings
+#else
     public class DNASettings
+#endif
     {
         public string name;
         public System.Byte value;
@@ -270,7 +278,11 @@ namespace UMA
         }
     }
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicUMADna_Byte
+#else
     public class DynamicUMADna_Byte
+#endif
     {
         public DynamicUMADnaAsset bDnaAsset;
         public string bDnaAssetName;

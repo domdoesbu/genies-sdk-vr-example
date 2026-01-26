@@ -5,7 +5,11 @@ using UnityEngine.Events;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupBuilder : IPopupBuilder
+#else
     public class PopupBuilder : IPopupBuilder
+#endif
     {
         private const string PopupsPrefix = "Popup";
 

@@ -6,7 +6,11 @@ namespace Genies.Avatars.Services
     /// Utility class providing helper methods for avatar-related operations.
     /// Contains common conversion and utility functions used throughout the avatar services.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarUtils
+#else
     public static class AvatarUtils
+#endif
     {
         /// <summary>
         /// Converts a string representation of gender to the corresponding Avatar.GenderEnum value.

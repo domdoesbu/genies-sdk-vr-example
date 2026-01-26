@@ -7,7 +7,11 @@ namespace Genies.Customization.MegaEditor
     /// Business logic for the body 'shape' node
     /// </summary>
     /// <remarks>Just passes the control along to presets for now</remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BodyShapeCustomizationController : BaseCustomizationController
+#else
     public class BodyShapeCustomizationController : BaseCustomizationController
+#endif
     {
         public override UniTask<bool> TryToInitialize(Customizer customizer)
         {

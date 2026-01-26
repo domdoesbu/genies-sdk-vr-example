@@ -19,7 +19,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "HairCustomizationController", menuName = "Genies/Customizer/Controllers/Hair Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class HairCustomizationController : BaseCustomizationController
+#else
     public class HairCustomizationController : BaseCustomizationController
+#endif
     {
         private HairColorService _HairColorService => this.GetService<HairColorService>();
 
@@ -58,7 +62,7 @@ namespace Genies.Customization.MegaEditor
             _categorySpan = _InstrumentationManager.StartChildSpanUnderTransaction(_RootTransactionName, nameof(HairCustomizationController),
                 "open hair category");
             //Activate the selected virtual camera
-            CurrentVirtualCameraController.ActivateVirtualCamera(virtualCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(virtualCamera).Forget();
 
             CurrentCustomColorViewState = CustomColorViewState.Normal;
 
@@ -81,7 +85,7 @@ namespace Genies.Customization.MegaEditor
             _InstrumentationManager.FinishChildSpan(_categorySpan);
 
             //Aim the camera at the full body
-            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+            CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera).Forget();
 
             RemoveListeners();
 

@@ -13,7 +13,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Utility for building <see cref="MeshData"/> instances from <see cref="MeshAsset"/> or <see cref="IMeshGroupAsset"/>.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshDataBuilder
+#else
     public sealed class MeshDataBuilder
+#endif
     {
         private const int MaxHiddenTriangleFlagsPerAsset = 32;
 

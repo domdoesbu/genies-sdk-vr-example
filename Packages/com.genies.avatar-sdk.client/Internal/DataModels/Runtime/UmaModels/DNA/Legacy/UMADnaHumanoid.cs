@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 namespace UMA
@@ -12,7 +12,11 @@ namespace UMA
 	/// body shapes and sizes.
 	/// </remarks>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMADnaHumanoid : UMADna
+#else
 	public partial class UMADnaHumanoid : UMADna
+#endif
 	{
 		public float height = 0.5f;
 		public float headSize = 0.5f;

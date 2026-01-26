@@ -4,7 +4,11 @@ namespace Genies.FeatureFlags
 {
 
     [FeatureFlagsContainer(-1000)]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class SharedFeatureFlags
+#else
     public static class SharedFeatureFlags
+#endif
     {
         public const string NONE = "none";
         public const string BypassAuth = "bypass_auth";
@@ -55,6 +59,7 @@ namespace Genies.FeatureFlags
         public const string IsFeedHidden = "is_feed_hidden";
         public const string Chat_V3 = "chat_v3";
         public const string IsVoiceUIUXEnabled = "is_voice_uiux_enabled";
+        public const string MassPhotoUpload = "mass_photo_upload";
 
         private static List<string> _featureFlagIds = new List<string>()
         {
@@ -105,7 +110,8 @@ namespace Genies.FeatureFlags
             Onboarding_v1_5,
             IsFeedHidden,
             Chat_V3,
-            IsVoiceUIUXEnabled
+            IsVoiceUIUXEnabled,
+            MassPhotoUpload
         };
 
         public static List<string> GetList()

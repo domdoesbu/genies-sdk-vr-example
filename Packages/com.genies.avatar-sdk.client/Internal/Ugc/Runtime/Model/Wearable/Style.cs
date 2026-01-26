@@ -28,7 +28,11 @@ namespace Genies.Ugc
     /// that determines how a specific region of a mesh will be rendered.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Style : IModel<Style>
+#else
     public class Style : IModel<Style>
+#endif
     {
         /// <summary>
         /// A unique identifier for this style based on its computed hash.
@@ -36,35 +40,35 @@ namespace Genies.Ugc
         /// </summary>
         [JsonIgnore]
         public string Id => ComputeHash().ToString();
-        
+
         /// <summary>
         /// The version of the material/shader system this style is compatible with.
         /// This ensures proper rendering compatibility when materials are updated.
         /// </summary>
         [JsonProperty("MaterialVersion", Required = Required.Always)]
         public string MaterialVersion = string.Empty;
-        
+
         /// <summary>
         /// The base color applied to this region.
         /// This color is combined with textures and patterns during rendering.
         /// </summary>
         [JsonProperty("Color")]
         public Color Color = Color.black;
-        
+
         /// <summary>
         /// The identifier for the surface texture applied to this region.
         /// Surface textures provide detail like normal maps, roughness, or other material properties.
         /// </summary>
         [JsonProperty("SurfaceTextureName")]
         public string SurfaceTextureId = string.Empty;
-        
+
         /// <summary>
         /// The scaling factor applied to the surface texture.
         /// Values greater than 1.0 will tile the texture, while values less than 1.0 will scale it up.
         /// </summary>
         [JsonProperty("SurfaceScale")]
         public float SurfaceScale = 1.0f;
-        
+
         /// <summary>
         /// The pattern configuration applied to this region, including texture, scale, rotation, and color adjustments.
         /// If null, no pattern will be applied to the region.

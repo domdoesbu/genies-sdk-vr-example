@@ -8,7 +8,11 @@ namespace Genies.Looks.Service
     /// This installer registers looks services with the VContainer dependency injection system.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksServicesInstaller : IGeniesInstaller
+#else
     public class LooksServicesInstaller : IGeniesInstaller
+#endif
     {
         /// <summary>
         /// Installs looks services into the dependency injection container.

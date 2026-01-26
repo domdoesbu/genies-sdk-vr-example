@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Genies.Avatars
@@ -6,7 +6,12 @@ namespace Genies.Avatars
     /// <summary>
     /// Generic implementation of <see cref="IGenieSnapshot"/> that receives the resources as a disposable instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class GenieSnapshot : MonoBehaviour, IGenieSnapshot
+#else
     public sealed class GenieSnapshot : MonoBehaviour, IGenieSnapshot
+#endif
     {
         public string Species { get; private set; }
         public GameObject Root { get; private set; }

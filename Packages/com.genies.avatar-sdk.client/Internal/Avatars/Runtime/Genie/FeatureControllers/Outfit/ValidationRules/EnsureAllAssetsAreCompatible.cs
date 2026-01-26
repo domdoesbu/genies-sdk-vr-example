@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// when they occupy the same slot. Optionally, you can also provide an <see cref="OutfitSlotsData"/> instance
     /// to also check for extra incompatible slots and colliding assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class EnsureAllAssetsAreCompatible : IAssetsValidationRule<OutfitAsset>
+#else
     public sealed class EnsureAllAssetsAreCompatible : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         private readonly OutfitSlotsData _slotsData;
         private readonly Dictionary<string, OutfitAsset> _mappedOutfit;

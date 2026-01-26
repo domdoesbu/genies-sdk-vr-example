@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Inventory
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IDefaultInventoryService
+#else
     public interface IDefaultInventoryService
+#endif
     {
         // Initial fetch methods with pagination support
         public UniTask<List<ColorTaggedInventoryAsset>> GetDefaultWearables(int? limit = null, List<string> categories = null);

@@ -8,7 +8,11 @@ using Genies.AssetLocations;
 
 namespace Genies.Inventory.Providers
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicContentLocationsFromInventory : IResourceLocationMetadataProvider<UserInventoryItem>
+#else
     public class DynamicContentLocationsFromInventory : IResourceLocationMetadataProvider<UserInventoryItem>
+#endif
     {
         public async UniTask<List<ResourceLocationMetadata>> Provide(UserInventoryItem metadata, string platform, string baseUrl, IEnumerable<string> lods, IEnumerable<string> iconSizes)
         {

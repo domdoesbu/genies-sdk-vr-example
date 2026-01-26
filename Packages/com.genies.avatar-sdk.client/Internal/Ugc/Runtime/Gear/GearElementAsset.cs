@@ -5,7 +5,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Contains a Gear element asset.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearElementAsset : IAsset
+#else
     public sealed class GearElementAsset : IAsset
+#endif
     {
         public string Id  { get; }
         public string Lod { get; }

@@ -6,7 +6,11 @@ namespace Genies.Addressables.Editor.Utilities
     /// <summary>
     /// Helper class to wrap reflection
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ReflectionHelper
+#else
     public static class ReflectionHelper
+#endif
     {
         public static T GetPropertyValue<T>(this object obj, string propertyName, Type objType = null) where T : class
         {
@@ -16,7 +20,7 @@ namespace Genies.Addressables.Editor.Utilities
             }
 
             objType ??= obj.GetType();
-            
+
             var propInfo = GetPropertyInfo(objType, propertyName);
             if (propInfo == null)
             {
@@ -35,7 +39,7 @@ namespace Genies.Addressables.Editor.Utilities
             }
 
             objType ??= obj.GetType();
-            
+
             var propInfo = GetPropertyInfo(objType, propertyName);
             if (propInfo == null)
             {
@@ -45,17 +49,17 @@ namespace Genies.Addressables.Editor.Utilities
 
             propInfo.SetValue(obj, val, null);
         }
-        
+
         public static T GetFieldValue<T>(this object obj, string fieldName, Type objType = null) where T : class
         {
-               
+
             if (obj == null)
             {
                 throw new ArgumentNullException("obj");
             }
 
             objType ??= obj.GetType();
-            
+
             var fieldInfo = GetFieldInfo(objType, fieldName);
             if (fieldInfo == null)
             {
@@ -74,7 +78,7 @@ namespace Genies.Addressables.Editor.Utilities
             }
 
             objType ??= obj.GetType();
-            
+
             var fieldInfo = GetFieldInfo(objType, fieldName);
             if (fieldInfo == null)
             {
@@ -84,32 +88,32 @@ namespace Genies.Addressables.Editor.Utilities
 
             fieldInfo.SetValue(obj, val);
         }
-        
+
         private static PropertyInfo GetPropertyInfo(Type type, string propertyName)
         {
             PropertyInfo propInfo = null;
             do
             {
-                propInfo = type.GetProperty(propertyName, 
+                propInfo = type.GetProperty(propertyName,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                 type = type.BaseType;
             }
             while (propInfo == null && type != null);
-            
+
             return propInfo;
         }
-        
+
         private static FieldInfo GetFieldInfo(Type type, string propertyName)
         {
             FieldInfo fieldInfo = null;
             do
             {
-                fieldInfo = type.GetField(propertyName, 
+                fieldInfo = type.GetField(propertyName,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                 type = type.BaseType;
             }
             while (fieldInfo == null && type != null);
-            
+
             return fieldInfo;
         }
     }

@@ -9,7 +9,11 @@ namespace UMA
 	/// <remarks>
 	/// Holds hash values for all the bones used in the default UMA humanoid rig.
 	/// </remarks>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class HumanoidDNAConverterBehaviour : DnaConverterBehaviour 
+#else
 	public class HumanoidDNAConverterBehaviour : DnaConverterBehaviour 
+#endif
 	{
         private static bool builtHashes = false;
 		static protected int headAdjustHash;

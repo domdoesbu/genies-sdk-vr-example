@@ -24,7 +24,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Handles select the avatar face presets
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FacePresetCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class FacePresetCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         private string _lastSelectedFacePreset = "None";
 

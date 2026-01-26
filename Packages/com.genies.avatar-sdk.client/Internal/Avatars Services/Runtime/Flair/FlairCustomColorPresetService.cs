@@ -10,7 +10,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Services.Flair
 {
-    public class FlairCustomColorPresetService: IFlairCustomColorPresetService
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairCustomColorPresetService : IFlairCustomColorPresetService
+#else
+    public class FlairCustomColorPresetService : IFlairCustomColorPresetService
+#endif
     {
         private IAvatarService _AvatarService => this.GetService<IAvatarService>();
 
@@ -127,12 +131,12 @@ namespace Genies.Avatars.Services.Flair
         public async UniTask<FlairColorPreset> GetCustomColorById(string id)
         {
             await InitializeAsync();
-            
+
             if (string.IsNullOrEmpty(id))
             {
                 return null;
             }
-            
+
             try
             {
                 // Try to get the preset directly from the data repository
@@ -152,7 +156,7 @@ namespace Genies.Avatars.Services.Flair
             {
                 foreach (FlairColorPreset flairColorPreset in currentCache)
                 {
-                    
+
                     if (flairColorPreset.Id.Equals(guid))
                     {
                         await _customFlairColorsDataRepository.DeleteAsync(flairColorPreset.Id);

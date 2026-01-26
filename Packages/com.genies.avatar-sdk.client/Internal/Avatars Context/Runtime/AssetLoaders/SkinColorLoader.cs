@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Models;
@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SkinColorLoader : IAssetLoader<ColorAsset>
+#else
     public sealed class SkinColorLoader : IAssetLoader<ColorAsset>
+#endif
     {
         private readonly IAssetsService _assetsService;
 

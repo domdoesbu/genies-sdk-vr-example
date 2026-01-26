@@ -9,7 +9,11 @@ namespace Genies.Avatars.Behaviors
     /// A StateMachineBehaviour that automatically cycles between different idle animations based on configurable timing and rules.
     /// This behavior manages when to trigger different idle animation transitions and prevents or allows repetition of the same idle.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CycleIdleBehavior : StateMachineBehaviour
+#else
     public class CycleIdleBehavior : StateMachineBehaviour
+#endif
     {
         [System.Obsolete("Use 'BaseIdleMinMaxCycles' instead.")]
         public Vector2 baseIdleMinMaxCycles

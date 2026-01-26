@@ -11,7 +11,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "MegaSkinTattooSettings", menuName = "Genies/MegaSkin Tattoo Settings")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MegaSkinTattooSettings : ScriptableObject
+#else
     public sealed class MegaSkinTattooSettings : ScriptableObject
+#endif
     {
         [Tooltip("The number of tattoo slots available")]
         public int slots = 8;

@@ -1,6 +1,10 @@
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum FaceVectorType
+#else
     public enum FaceVectorType
+#endif
     {
         EyeSize,
         EyeVerticalPosition,
@@ -22,7 +26,11 @@ namespace Genies.Models
         JawLength,
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum BodyVectorType
+#else
     public enum BodyVectorType
+#endif
     {
         NeckThickness,
         ShoulderBroadness,

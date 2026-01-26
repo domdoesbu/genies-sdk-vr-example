@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// You can use the <see cref="SetAvailableSlots"/> method to update the currently
     /// available slots.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class EnsureAllAssetsAreFromAvailableSlots : IAssetsValidationRule<OutfitAsset>
+#else
     public sealed class EnsureAllAssetsAreFromAvailableSlots : IAssetsValidationRule<OutfitAsset>
+#endif
     {
         // state
         private readonly HashSet<string> _availableSlots;

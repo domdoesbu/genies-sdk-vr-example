@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,11 +9,13 @@ namespace Genies.CameraSystem
     /// Cinemachine Camera Type that allows user to blend between different fixed angles
     /// </summary>
     [RequireComponent(typeof(CinemachineMixingCamera))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FixedAnglesCameraController : MonoBehaviour, ICameraType
+#else
     public class FixedAnglesCameraController : MonoBehaviour, ICameraType
+#endif
     {
-        [Header("Virtual Camera Child")]
-        [SerializeField] private CinemachineVirtualCamera virtualCameraPrefab;
-
         [Header("Camera Settings")]
         [SerializeField] private float fieldOfView;
 
@@ -50,20 +52,30 @@ namespace Genies.CameraSystem
         /// </summary>
         public void ConfigureVirtualCamera()
         {
-            _mixingCamera ??= GetComponent<CinemachineMixingCamera>();
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = GetComponent<CinemachineMixingCamera>();
+            }
+
+            if (_mixingCamera == null)
+            {
+                _mixingCamera = gameObject.AddComponent<CinemachineMixingCamera>();
+            }
 
             if (_mixingCamera.transform.childCount == 0)
             {
                 // Creates a child virtual camera based on the amount of angles in the list
                 for (int i = 0; i < cameraAngles.Count; i++)
                 {
-                    CinemachineVirtualCamera virtualCamera = Instantiate(virtualCameraPrefab, _mixingCamera.transform, true);
+                    CinemachineCamera virtualCamera = new GameObject().AddComponent<CinemachineCamera>();
+                    virtualCamera.transform.SetParent(_mixingCamera.transform);
+
                     virtualCamera.transform.position = cameraAngles[i].position;
                     virtualCamera.transform.rotation = Quaternion.Euler(cameraAngles[i].direction);
 
-                    virtualCamera.m_Lens.FieldOfView = fieldOfView;
-                    virtualCamera.m_Lens.NearClipPlane = nearClipPlane;
-                    virtualCamera.m_Lens.FarClipPlane = farClipPlane;
+                    virtualCamera.Lens.FieldOfView = fieldOfView;
+                    virtualCamera.Lens.NearClipPlane = nearClipPlane;
+                    virtualCamera.Lens.FarClipPlane = farClipPlane;
 
                     _mixingCamera.SetWeight(i, 0f);
                 }
@@ -166,7 +178,6 @@ namespace Genies.CameraSystem
 
         private void CheckUI()
         {
-            Debug.Assert(virtualCameraPrefab != null, "virtualCameraPrefab is not set");
             Debug.Assert(cameraAngles != null, "cameraAngles is not set");
         }
 

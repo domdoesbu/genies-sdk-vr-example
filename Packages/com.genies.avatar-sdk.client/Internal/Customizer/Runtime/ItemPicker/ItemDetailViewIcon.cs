@@ -4,7 +4,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ItemDetailViewIcon : MonoBehaviour
+#else
     public class ItemDetailViewIcon : MonoBehaviour
+#endif
     {
         public enum ItemState
         {

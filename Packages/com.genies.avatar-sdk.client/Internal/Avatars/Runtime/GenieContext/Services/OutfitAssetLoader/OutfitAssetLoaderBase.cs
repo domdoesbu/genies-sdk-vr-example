@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// Base implementation of <see cref="IOutfitAssetLoader"/>. The implementer only needs to care about the logic for loading
     /// an <see cref="OutfitAsset"/> instance from <see cref="OutfitAssetMetadata"/> and <see cref="string"/>.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class OutfitAssetLoaderBase : CachedAssetRefLoader<(OutfitAssetMetadata, string), OutfitAsset>, IOutfitAssetLoader
+#else
     public abstract class OutfitAssetLoaderBase : CachedAssetRefLoader<(OutfitAssetMetadata, string), OutfitAsset>, IOutfitAssetLoader
+#endif
     {
         public abstract IReadOnlyList<string> SupportedTypes { get; }
         public abstract bool IsOutfitAssetTypeSupported(string type);

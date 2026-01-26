@@ -8,7 +8,11 @@ namespace Genies.Animations
     /// This installer registers animation-related services with the VContainer dependency injection system.
     /// </summary>
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimationServicesInstaller : IGeniesInstaller
+#else
     public class AnimationServicesInstaller : IGeniesInstaller
+#endif
     {
         /// <summary>
         /// Installs animation services into the dependency injection container.

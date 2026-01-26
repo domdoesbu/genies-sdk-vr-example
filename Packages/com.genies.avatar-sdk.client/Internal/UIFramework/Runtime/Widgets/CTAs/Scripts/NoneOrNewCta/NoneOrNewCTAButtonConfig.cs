@@ -8,7 +8,11 @@ namespace Genies.UI.Widgets
     /// Config class for a given pair of None and Create New CTA buttons.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NoneOrNewCTAButtonConfig
+#else
     public class NoneOrNewCTAButtonConfig
+#endif
     {
         [SerializeField] private CTAButtonConfig _noneButton;
         [SerializeField] private CTAButtonConfig _createNewButton;

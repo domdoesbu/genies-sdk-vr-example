@@ -17,7 +17,11 @@ namespace Genies.Assets.Services
     /// Wraps part of the <see cref="Addressables"/> API with some convenient extra functionality like disabled error
     /// logging and internal ID interpolated versioning.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GeniesAddressables
+#else
     public static class GeniesAddressables
+#endif
     {
         private const string _patternFileVersion = "_v\\d+.";
         private const string _fileVersionReplace = "_v{0}.";

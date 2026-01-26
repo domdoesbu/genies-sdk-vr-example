@@ -27,7 +27,11 @@ namespace Genies.Avatars.Context
     /// User login is optional, if the <see cref="AccountServiceProvider"/>.<see cref="AccountServiceProvider.Instance"/>
     /// is not initialized then any features tied to user accounts will not be available (UGC wearables, custom patterns...).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarsContextInitializer : Initializer
+#else
     public sealed class AvatarsContextInitializer : Initializer
+#endif
     {
         protected override string _InitializationSuccessMessage => "Created a default AvatarsContext";
 

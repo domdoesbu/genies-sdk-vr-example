@@ -25,7 +25,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Controller for the customize color view.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomFlairColorCustomizationController : BaseCustomizationController
+#else
     public class CustomFlairColorCustomizationController : BaseCustomizationController
+#endif
     {
         [SerializeField]
         private CustomizeColorView _prefab;
@@ -65,7 +69,7 @@ namespace Genies.Customization.MegaEditor
 
         public override void StartCustomization()
         {
-            _VirtualCameraController.ActivateVirtualCamera(virtualCamera);
+            _VirtualCameraController.ActivateVirtualCamera(virtualCamera).Forget();
             _PictureInPictureController.canBeDisabled = false;
             _PictureInPictureController.Enable();
             _VirtualCameraController.SetFullScreenModeInFocusCameras(true);

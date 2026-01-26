@@ -1,13 +1,17 @@
 using System.Threading;
-using Cinemachine;
+using Unity.Cinemachine;
 using Cysharp.Threading.Tasks;
-using Genies.CameraSystem;
 using UnityEngine;
 
 namespace Genies.CameraSystem
 {
-    [RequireComponent(typeof(CinemachineVirtualCamera))]
+    [RequireComponent(typeof(CinemachineCamera))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class FlyByWireCameraController : MonoBehaviour, ICameraType
+#else
     public class FlyByWireCameraController : MonoBehaviour, ICameraType
+#endif
     {
         [Header("Controls")]
         [SerializeField] private MoveLookInputEnabler moveLookInputEnabler;
@@ -39,15 +43,23 @@ namespace Genies.CameraSystem
 
         private RectTransform _controlsInstance;
 
-        private CinemachineVirtualCamera _virtualCamera;
+        private CinemachineCamera _virtualCamera;
 
         private CancellationTokenSource _cancellationTokenSource;
 
         public void ConfigureVirtualCamera()
         {
-            _virtualCamera ??= GetComponent<CinemachineVirtualCamera>();
+            if (_virtualCamera == null)
+            {
+                _virtualCamera = GetComponent<CinemachineCamera>();
+            }
 
-            _virtualCamera.m_Lens.FieldOfView = fieldOfView;
+            if (_virtualCamera == null)
+            {
+                _virtualCamera = gameObject.AddComponent<CinemachineCamera>();
+            }
+
+            _virtualCamera.Lens.FieldOfView = fieldOfView;
 
             _virtualCamera.transform.position = initialPosition;
             _virtualCamera.transform.rotation = Quaternion.Euler(initialRotation);

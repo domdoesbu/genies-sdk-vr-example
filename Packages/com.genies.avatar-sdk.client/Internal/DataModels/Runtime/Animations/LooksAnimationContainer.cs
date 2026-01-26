@@ -13,7 +13,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "LooksAnimationContainer", menuName = "Genies/Looks/LooksAnimationContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksAnimationContainer : OrderedScriptableObject
+#else
     public class LooksAnimationContainer : OrderedScriptableObject
+#endif
     {
         [SerializeField] private string assetId;
         [SerializeField] private AnimationClip clip;

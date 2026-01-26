@@ -11,7 +11,11 @@ using UnityEngine;
 
 namespace Genies.Assets.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderlessAssetService : IShaderlessAssetService
+#else
     public class ShaderlessAssetService : IShaderlessAssetService
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

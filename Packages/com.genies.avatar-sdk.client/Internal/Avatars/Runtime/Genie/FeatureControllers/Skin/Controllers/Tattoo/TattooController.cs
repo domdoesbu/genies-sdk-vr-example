@@ -14,7 +14,11 @@ namespace Genies.Avatars
     /// If you want to have a set of predefined slots with a fixed tattoo transformation for each slot,
     /// then use the <see cref="TattooPresetController"/> instead.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class TattooController : ITattooController, IDisposable
+#else
     public sealed class TattooController : ITattooController, IDisposable
+#endif
     {
         public IReadOnlyList<TattooSlotController> SlotControllers { get; }
 

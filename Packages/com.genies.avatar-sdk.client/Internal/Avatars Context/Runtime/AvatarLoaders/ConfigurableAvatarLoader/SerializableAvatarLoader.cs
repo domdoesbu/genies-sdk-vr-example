@@ -14,7 +14,11 @@ namespace Genies.Avatars.Context
     /// It is the serializable version of <see cref="ConfigurableAvatarLoader"/>.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SerializableAvatarLoader : IAvatarLoader, IAvatarDefinitionSource
+#else
     public sealed class SerializableAvatarLoader : IAvatarLoader, IAvatarDefinitionSource
+#endif
     {
         public string genieType = GenieTypeName.NonUma;
         public string lod = AssetLod.Default;

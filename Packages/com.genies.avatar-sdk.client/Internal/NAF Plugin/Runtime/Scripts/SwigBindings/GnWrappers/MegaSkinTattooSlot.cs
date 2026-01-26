@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal enum MegaSkinTattooSlot : byte {
+#else
 public enum MegaSkinTattooSlot : byte {
+#endif
   LeftTopForearm = 0,
   LeftTopOuterArm = 1,
   RightSideThigh = 2,

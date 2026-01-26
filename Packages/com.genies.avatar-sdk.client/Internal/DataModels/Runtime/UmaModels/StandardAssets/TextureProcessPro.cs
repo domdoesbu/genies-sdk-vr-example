@@ -8,7 +8,11 @@ namespace UMA
     /// Texture processing coroutine using rendertextures for atlas building.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class TextureProcessPRO
+#else
     public class TextureProcessPRO
+#endif
     {
         private UMAData umaData;
         private RenderTexture destinationTexture;

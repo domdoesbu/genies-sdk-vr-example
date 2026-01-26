@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// exponential RBF kernel.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ExponentialTswSolver : ITswSolver
+#else
     public sealed class ExponentialTswSolver : ITswSolver
+#endif
     {
         [Tooltip("The exponent to use in the exponential kernel. The higher the value, the more localized the weights will be")]
         public float exponent = 4.0f;

@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ExpandableGalleryItemPicker : GalleryItemPicker
+#else
     public class ExpandableGalleryItemPicker : GalleryItemPicker
+#endif
     {
         [FormerlySerializedAs("panel")]
         [SerializeField]

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class TransformDeepChildExtension
+#else
     public static class TransformDeepChildExtension
+#endif
     {
         //Breadth-first search
         public static Transform FindDeepChild(this Transform aParent, string aName)

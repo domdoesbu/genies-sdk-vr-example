@@ -7,7 +7,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "RepeatableParamFeature", menuName = "Genies/Genie Components/Animation Features/Repeatable Param Feature")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RepeatableParamAnimationFeatureAsset : RepeatableParamBaseFeatureAsset
+#else
     public class RepeatableParamAnimationFeatureAsset : RepeatableParamBaseFeatureAsset
+#endif
     {
         [SerializeField]
         private List<string> animatorParameterSuffixes = new List<string>();

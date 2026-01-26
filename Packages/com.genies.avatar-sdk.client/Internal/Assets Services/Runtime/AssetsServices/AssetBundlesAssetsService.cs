@@ -9,7 +9,11 @@ using Object = UnityEngine.Object;
 
 namespace Genies.Assets.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AssetBundlesAssetsService
+#else
     public static class AssetBundlesAssetsService
+#endif
     {
         /// <summary>
         /// The only <see cref="IAssetsService"/> instance you can use to access the assets in the bundles contained

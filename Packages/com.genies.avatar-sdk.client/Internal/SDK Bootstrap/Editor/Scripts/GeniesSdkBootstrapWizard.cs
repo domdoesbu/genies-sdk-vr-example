@@ -33,23 +33,39 @@ namespace Genies.Sdk.Bootstrap.Editor
         private static readonly Color _highlightColor = new Color(0.3f, 0.8f, 1.0f, 1.0f); // Cyan for special highlights
 
         private static readonly ExternalLinks _externalLinks = new ();
-        
+
         /// <summary>
         /// Event raised when credentials are set
         /// </summary>
         public static event Action CredentialsSet = delegate { };
-        
+
         /// <summary>
         /// Event raised when credentials are set
         /// </summary>
         public static event Action SdkConfiguredSuccessfully = delegate { };
-        
+
         public static event Action SdkConfigurationFailed = delegate { };
 
         // Static constructor called on domain reload
         static GeniesSdkBootstrapWizard()
         {
             EditorApplication.delayCall += OnEditorLoadSequence;
+        }
+
+        private static bool GetUserSettingBool(string key, bool defaultValue)
+        {
+            var value = EditorUserSettings.GetConfigValue(key);
+            if (string.IsNullOrEmpty(value))
+            {
+                return defaultValue;
+            }
+
+            return string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static void SetUserSettingBool(string key, bool value)
+        {
+            EditorUserSettings.SetConfigValue(key, value ? "true" : "false");
         }
 
         private static void OnEditorLoadSequence()
@@ -99,8 +115,8 @@ namespace Genies.Sdk.Bootstrap.Editor
             }
 
             // Get user preferences for both settings (both true by default)
-            bool showWizardOnStartup = EditorPrefs.GetBool(ShowWizardOnStartupPrefKey, true);
-            bool checkPrerequisitesOnLoad = EditorPrefs.GetBool(CheckPrerequisitesOnLoadPrefKey, true);
+            bool showWizardOnStartup = GetUserSettingBool(ShowWizardOnStartupPrefKey, true);
+            bool checkPrerequisitesOnLoad = GetUserSettingBool(CheckPrerequisitesOnLoadPrefKey, true);
 
             // Check if SDK is already installed
             bool sdkInstalled = GeniesSdkPrerequisiteChecker.IsSdkInstalled();
@@ -114,7 +130,7 @@ namespace Genies.Sdk.Bootstrap.Editor
             {
                 SdkConfigurationFailed?.Invoke();
             }
-            
+
             // Handle initial editor startup - show wizard for documentation/samples visibility
             if (isInitialEditorStartup && showWizardOnStartup)
             {
@@ -123,7 +139,8 @@ namespace Genies.Sdk.Bootstrap.Editor
             }
 
             // Handle prerequisite checks on each recompile/domain reload
-            if (checkPrerequisitesOnLoad && !allPrerequisitesMet)
+            if (checkPrerequisitesOnLoad &&
+                (allPrerequisitesMet is false || TryGetValidAuthCredentials(out _) is false))
             {
                 if (sdkInstalled)
                 {
@@ -163,6 +180,8 @@ namespace Genies.Sdk.Bootstrap.Editor
 
         // Prerequisite check results
         [field: System.NonSerialized]
+        private bool IsBuildTargetSupported { get; set; } = true;
+        [field: System.NonSerialized]
         private bool IsPlatformSupported { get; set; } = true;
         [field: System.NonSerialized]
         private bool Il2CppBackendConfigured { get; set; } = false;
@@ -187,11 +206,17 @@ namespace Genies.Sdk.Bootstrap.Editor
         [field: System.NonSerialized]
         private bool MinAndroidApiLevelConfigured { get; set; } = false;
         [field: System.NonSerialized]
+        private GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus AndroidEntryPointStatus { get; set; } = GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.NotApplicable;
+        [field: System.NonSerialized]
         private bool ActiveInputHandlingConfigured { get; set; } = false;
         [field: System.NonSerialized]
         private bool TMPEssentialsImported { get; set; } = false;
 
-        private bool AllPrerequisitesMet => Il2CppBackendConfigured && NetFrameworkConfigured && VulkanConfiguredForWindows && VulkanConfiguredForAndroid && Arm64ConfiguredForAndroid && MinAndroidApiLevelConfigured && ActiveInputHandlingConfigured && TMPEssentialsImported;
+        private bool AllPrerequisitesMet => Il2CppBackendConfigured && NetFrameworkConfigured && VulkanConfiguredForWindows && VulkanConfiguredForAndroid && Arm64ConfiguredForAndroid && MinAndroidApiLevelConfigured && IsAndroidEntryPointValid && ActiveInputHandlingConfigured && TMPEssentialsImported;
+
+        private bool IsAndroidEntryPointValid => AndroidEntryPointStatus is GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.Valid ||
+                                                 AndroidEntryPointStatus is GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.Warning_BothEnabled ||
+                                                  AndroidEntryPointStatus is GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.NotApplicable;
 
         // Prerequisites that can be auto-fixed with "Fix All" button (excludes Input Handling and TMP Essentials)
         private bool AllAutoFixablePrerequisitesMet
@@ -203,7 +228,7 @@ namespace Genies.Sdk.Bootstrap.Editor
                 met = met && VulkanConfiguredForWindows;
 #endif
 #if UNITY_ANDROID
-                met = met && VulkanConfiguredForAndroid && Arm64ConfiguredForAndroid && MinAndroidApiLevelConfigured;
+                met = met && VulkanConfiguredForAndroid && Arm64ConfiguredForAndroid && MinAndroidApiLevelConfigured && IsAndroidEntryPointValid;
 #endif
                 return met;
             }
@@ -342,29 +367,7 @@ namespace Genies.Sdk.Bootstrap.Editor
 
             if (EditorApplication.isPlayingOrWillChangePlaymode)
             {
-                EditorGUILayout.HelpBox(
-                    "The Genies SDK Bootstrap Wizard is disabled while in Play mode.\n\n" +
-                    "Please exit Play mode to use the wizard.",
-                    MessageType.Warning);
-
-                EditorGUILayout.Space(10);
-
-                if (GUILayout.Button("Exit Play Mode"))
-                {
-                    EditorApplication.isPlaying = false;
-                }
-
-                DrawDivider();
-
-                DrawQuickLinks();
-
-                EditorGUILayout.EndVertical();
-                GUILayout.Space(20);
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.EndScrollView();
-
-                // === FIXED FOOTER SECTION (always visible) ===
-                DrawFixedFooter();
+                DrawPlayModeInterface();
                 return;
             }
 
@@ -389,8 +392,8 @@ namespace Genies.Sdk.Bootstrap.Editor
                 return;
             }
 
-            // Current Build Platform section
-            EditorGUILayout.LabelField("Current Build Platform", EditorStyles.boldLabel);
+            // Current Build Target section
+            EditorGUILayout.LabelField("Current Build Target", EditorStyles.boldLabel);
             EditorGUILayout.Space(5);
 
             EditorGUILayout.BeginHorizontal();
@@ -404,40 +407,18 @@ namespace Genies.Sdk.Bootstrap.Editor
             }
             EditorGUILayout.EndHorizontal();
 
-#if UNITY_STANDALONE_WIN
-            // Warning about experimental Windows Standalone support
-            EditorGUILayout.Space(5);
-            EditorGUILayout.HelpBox(
-                "Windows Standalone support is experimental and not yet fully supported. " +
-                "You may encounter issues or limitations when building for this platform.",
-                MessageType.Warning);
-#endif
-
-            // Check if platform is unsupported
-            if (IsPlatformSupported is false)
+            // Check if build target is unsupported - show error but continue with wizard
+            if (IsBuildTargetSupported is false)
             {
-                var activeBuildTargetGroup = GeniesSdkPrerequisiteChecker.GetActiveBuildTargetGroup();
-                var supportedPlatformsList = GeniesSdkPrerequisiteChecker.GetSupportedPlatformsListString();
+                var editorPlatform = Application.platform;
+                var supportedBuildTargetsList = GeniesSdkPrerequisiteChecker.GetSupportedBuildTargetsListString();
                 EditorGUILayout.Space(5);
                 EditorGUILayout.HelpBox(
-                    $"Unsupported Platform: {activeBuildTargetGroup}\n\n" +
-                    "The Genies SDK only supports the following platforms:\n" +
-                    supportedPlatformsList + "\n" +
-                    "Please switch to a supported platform in Build Settings to use this wizard.",
+                    $"Unsupported Build Target: {activeBuildTarget}\n\n" +
+                    $"The Genies SDK does not support building for {activeBuildTarget} on {editorPlatform}. Only the following build targets are supported:\n" +
+                    supportedBuildTargetsList + "\n" +
+                    "Please switch to a supported build target in Build Settings.",
                     MessageType.Error);
-
-                DrawDivider();
-
-                DrawQuickLinks();
-
-                EditorGUILayout.EndVertical();
-                GUILayout.Space(20);
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.EndScrollView();
-
-                // === FIXED FOOTER SECTION (always visible) ===
-                DrawFixedFooter();
-                return;
             }
 
             DrawDivider();
@@ -505,6 +486,13 @@ namespace Genies.Sdk.Bootstrap.Editor
 
             DrawPrerequisiteCheck("Minimum Android 12.0 (API Level 31)", MinAndroidApiLevelConfigured, FixMinAndroidApiLevel,
                 "Android 12.0 (API level 31) is required as the minimum API level for Android builds when using the Genies SDK.");
+
+#if UNITY_6000_0_OR_NEWER
+            if (EditorUserBuildSettings.activeBuildTarget is BuildTarget.Android)
+            {
+                DrawAndroidEntryPointCheck();
+            }
+#endif
 #endif
 
             EditorGUILayout.Space(3);
@@ -519,12 +507,12 @@ namespace Genies.Sdk.Bootstrap.Editor
             EditorGUILayout.LabelField("Additional Configuration", subsectionStyle);
             EditorGUILayout.Space(5);
 
-            // Show Active Input Handling for all platforms to encourage using the new Input System
-            DrawActiveInputHandlingCheck();
-
             // TextMesh Pro Essentials check for all platforms
             DrawPrerequisiteCheck("TextMesh Pro Essential Resources", TMPEssentialsImported, FixTMPEssentials,
                 "TextMesh Pro Essential Resources are required for UI text rendering in the Genies SDK.");
+
+            // Show Active Input Handling for all platforms to encourage using the new Input System
+            DrawActiveInputHandlingCheck();
 
             EditorGUILayout.Space(3);
             EditorGUILayout.EndVertical();
@@ -671,7 +659,14 @@ namespace Genies.Sdk.Bootstrap.Editor
             EditorGUILayout.EndVertical();
             GUILayout.Space(20);
             EditorGUILayout.EndHorizontal();
+
+            // Capture the content rect before ending the scroll view
+            var contentRect = GUILayoutUtility.GetLastRect();
+
             EditorGUILayout.EndScrollView();
+
+            // Add scroll indicator overlay if there's more content to scroll
+            DrawScrollIndicator(contentRect);
 
             // === FIXED FOOTER SECTION (always visible) ===
             DrawFixedFooter();
@@ -732,6 +727,103 @@ namespace Genies.Sdk.Bootstrap.Editor
 
             EditorGUILayout.EndHorizontal();
         }
+
+#if UNITY_ANDROID && UNITY_6000_0_OR_NEWER
+        private void DrawAndroidEntryPointCheck()
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            // Determine status
+            var status = AndroidEntryPointStatus;
+            bool isValid = status == GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.Valid;
+            bool isWarning = status == GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.Warning_BothEnabled;
+            bool isError = status == GeniesSdkPrerequisiteChecker.AndroidEntryPointStatus.Error_GameActivityOnly;
+
+            // Status icon
+            var iconStyle = new GUIStyle(GUI.skin.label);
+            iconStyle.fontSize = 16;
+            if (isValid)
+            {
+                iconStyle.normal.textColor = Color.green;
+            }
+            else if (isWarning)
+            {
+                iconStyle.normal.textColor = new Color(1.0f, 0.65f, 0.0f); // Orange/yellow for warning
+            }
+            else
+            {
+                iconStyle.normal.textColor = Color.red;
+            }
+
+            string statusIcon = isValid ? "✓" : (isWarning ? "⚠" : "✗");
+            EditorGUILayout.LabelField(statusIcon, iconStyle, GUILayout.Width(20));
+
+            // Label with current status suffix
+            string currentSetting = isValid ? "Activity" : (isWarning ? "Both" : "GameActivity");
+            var labelContent = new GUIContent(
+                $"Application Entry Point (Current: {currentSetting})",
+                "For the Genies SDK, 'Activity' must be enabled. 'GameActivity' alone will cause build failures. " +
+                "Having both enabled is only valid for development builds.");
+            EditorGUILayout.LabelField(labelContent, GUILayout.ExpandWidth(true));
+
+            // Fix/Open Settings button
+            EditorGUI.BeginDisabledGroup(isValid);
+            var buttonText = isWarning ? "Settings" : "Fix";
+            var buttonTooltip = isValid
+                ? "Application Entry Point is correctly configured"
+                : isWarning
+                    ? "Open Player Settings to review Application Entry Point configuration"
+                    : "Click to enable Activity (required for SDK builds)";
+            var buttonContent = new GUIContent(buttonText, buttonTooltip);
+            if (GUILayout.Button(buttonContent, GUILayout.Width(isWarning ? 65 : 50)))
+            {
+                if (isWarning)
+                {
+                    // For warnings (both enabled), open Player Settings
+                    // The Application Entry Point setting is under "Other Settings" in the Android tab
+                    SettingsService.OpenProjectSettings("Project/Player");
+                }
+                else
+                {
+                    // For errors (GameActivity only), apply the fix
+                    FixAndroidEntryPoint();
+                    RefreshPrerequisiteStatus();
+                }
+            }
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.EndHorizontal();
+
+            // Warning/Error helpboxes based on current configuration
+            string helpBoxMessage = null;
+            MessageType helpBoxType = MessageType.None;
+
+            if (isError)
+            {
+                helpBoxMessage = "Application Entry Point is set to 'GameActivity' only. This will cause build failures with the Genies SDK. " +
+                    "Click 'Fix' to enable 'Activity'.";
+                helpBoxType = MessageType.Error;
+            }
+            else if (isWarning)
+            {
+                helpBoxMessage = "Both 'Activity' and 'GameActivity' are enabled. This works for development builds but may cause issues in production.\n\n" +
+                    "For production builds, disable 'GameActivity' and keep only 'Activity' enabled.\n\n" +
+                    "Use the 'Settings' button above to open Player Settings, then navigate to:\n" +
+                    "Player > Android > Other Settings > Application Entry Point";
+                helpBoxType = MessageType.Warning;
+            }
+
+            // Display helpbox if there's a message
+            if (!string.IsNullOrEmpty(helpBoxMessage))
+            {
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Space(20);
+                EditorGUILayout.HelpBox(helpBoxMessage, helpBoxType);
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.Space(5);
+            }
+        }
+#endif
 
         private void DrawActiveInputHandlingCheck()
         {
@@ -855,6 +947,122 @@ namespace Genies.Sdk.Bootstrap.Editor
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space(5);
             }
+        }
+
+        private void DrawScrollIndicator(Rect contentRect)
+        {
+            // Calculate scroll view area based on window layout
+            // Header is ~150px, footer is ~80px, margins are ~20px each side
+            var headerHeight = 150f;
+            var footerHeight = 80f;
+            var margin = 20f;
+            var scrollViewRect = new Rect(
+                margin,
+                headerHeight,
+                position.width - (margin * 2),
+                position.height - headerHeight - footerHeight - margin
+            );
+
+            // Calculate content height from the content rect
+            var contentHeight = contentRect.height; // The height of the content area
+
+            // Use the scroll view rect height as the visible height
+            var visibleHeight = scrollViewRect.height;
+
+            // Calculate if there's more content below the current visible area
+            var currentBottomPosition = ScrollPosition.y + visibleHeight;
+            bool hasMoreContent = currentBottomPosition < contentHeight - 10f; // 10f buffer
+
+            if (hasMoreContent)
+            {
+                // Position the indicator as an overlay well inside the scroll view area
+                var indicatorRect = new Rect(
+                    scrollViewRect.x + 10,                    // Inside scroll view with margin
+                    scrollViewRect.y + scrollViewRect.height - 50, // Near bottom of scroll view
+                    scrollViewRect.width - 20,                // Account for margins
+                    35                                        // Height
+                );
+
+                // Use immediate GUI for overlay drawing
+                if (Event.current.type is EventType.Repaint)
+                {
+                    // Draw a more prominent gradient background
+                    var backgroundColor = new Color(0.2f, 0.4f, 0.6f, 0.9f); // More blue tint, higher opacity
+                    GUI.DrawTexture(indicatorRect, Texture2D.whiteTexture, ScaleMode.StretchToFill, false, 0, backgroundColor, 0, 0);
+
+                    // Draw fade effect from top to bottom of the indicator
+                    for (int i = 0; i < indicatorRect.height; i++)
+                    {
+                        var lineRect = new Rect(indicatorRect.x, indicatorRect.y + i, indicatorRect.width, 1);
+                        var alpha = (indicatorRect.height - i) / indicatorRect.height * 0.9f;
+                        var fadeColor = new Color(0.2f, 0.4f, 0.6f, alpha);
+                        GUI.DrawTexture(lineRect, Texture2D.whiteTexture, ScaleMode.StretchToFill, false, 0, fadeColor, 0, 0);
+                    }
+
+                    // Draw the scroll indicator text with better contrast
+                    var style = new GUIStyle(EditorStyles.miniLabel);
+                    style.alignment = TextAnchor.MiddleCenter;
+                    style.normal.textColor = new Color(1f, 1f, 1f, 1f); // Pure white for better contrast
+                    style.fontSize = 11;
+                    style.fontStyle = FontStyle.Bold; // Make it bold instead of italic
+
+                    GUI.Label(indicatorRect, "▼ Scroll for more ▼", style);
+                }
+            }
+        }
+
+        private void DrawPlayModeInterface()
+        {
+            // Check if there are unmet requirements to show appropriate messaging
+            bool hasUnmetPrerequisites = !AllPrerequisitesMet;
+            bool hasUnmetCredentials = !AuthCredentialsConfigured;
+            bool hasAnyUnmetRequirements = hasUnmetPrerequisites || hasUnmetCredentials;
+
+            if (hasAnyUnmetRequirements)
+            {
+                var message = "SDK REQUIREMENTS NOT MET\n\n" +
+                    "The Genies SDK may not function properly because some requirements are not configured:\n";
+
+                if (hasUnmetPrerequisites)
+                {
+                    message += "\n• Build Settings: Some project prerequisites are not configured.";
+                }
+
+                if (hasUnmetCredentials)
+                {
+                    message += "\n• API Credentials: Client ID and Client Secret are missing or invalid.";
+                }
+
+                message += "\n\nPlease exit Play mode to review and configure the missing requirements.";
+
+                EditorGUILayout.HelpBox(message, MessageType.Error);
+            }
+            else
+            {
+                EditorGUILayout.HelpBox(
+                    "The Genies SDK Bootstrap Wizard is disabled while in Play mode.\n\n" +
+                    "All requirements are met. Please exit Play mode to modify settings.",
+                    MessageType.Info);
+            }
+
+            EditorGUILayout.Space(10);
+
+            if (GUILayout.Button("Exit Play Mode"))
+            {
+                EditorApplication.isPlaying = false;
+            }
+
+            DrawDivider();
+
+            DrawQuickLinks();
+
+            EditorGUILayout.EndVertical();
+            GUILayout.Space(20);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndScrollView();
+
+            // === FIXED FOOTER SECTION (always visible) ===
+            DrawFixedFooter();
         }
 
         private void DrawSectionHeader(string title, string subtitle)
@@ -1271,7 +1479,7 @@ namespace Genies.Sdk.Bootstrap.Editor
             EditorGUILayout.Space(3);
 
             // Show wizard on startup checkbox (true by default)
-            bool showWizardOnStartup = EditorPrefs.GetBool(ShowWizardOnStartupPrefKey, true);
+            bool showWizardOnStartup = GetUserSettingBool(ShowWizardOnStartupPrefKey, true);
             bool newShowWizardOnStartup = EditorGUILayout.ToggleLeft(
                 new GUIContent(
                     "Show wizard on startup",
@@ -1281,13 +1489,13 @@ namespace Genies.Sdk.Bootstrap.Editor
 
             if (newShowWizardOnStartup != showWizardOnStartup)
             {
-                EditorPrefs.SetBool(ShowWizardOnStartupPrefKey, newShowWizardOnStartup);
+                SetUserSettingBool(ShowWizardOnStartupPrefKey, newShowWizardOnStartup);
             }
 
             EditorGUILayout.Space(3);
 
             // Check prerequisites on load checkbox (true by default)
-            bool checkPrerequisitesOnLoad = EditorPrefs.GetBool(CheckPrerequisitesOnLoadPrefKey, true);
+            bool checkPrerequisitesOnLoad = GetUserSettingBool(CheckPrerequisitesOnLoadPrefKey, true);
             bool newCheckPrerequisitesOnLoad = EditorGUILayout.ToggleLeft(
                 new GUIContent(
                     "Check prerequisites on load",
@@ -1297,7 +1505,7 @@ namespace Genies.Sdk.Bootstrap.Editor
 
             if (newCheckPrerequisitesOnLoad != checkPrerequisitesOnLoad)
             {
-                EditorPrefs.SetBool(CheckPrerequisitesOnLoadPrefKey, newCheckPrerequisitesOnLoad);
+                SetUserSettingBool(CheckPrerequisitesOnLoadPrefKey, newCheckPrerequisitesOnLoad);
             }
 
             // Show note if either setting is disabled
@@ -1345,36 +1553,35 @@ namespace Genies.Sdk.Bootstrap.Editor
                 RefreshScheduled = false;
 
                 CheckPlatformSupport();
-                if (IsPlatformSupported)
-                {
-                    // Scripting backend
-                    CheckIL2CPPBackend();
-                    CheckIL2CPPBackendAllPlatforms();
 
-                    // .NET Framework
-                    CheckNetFramework();
-                    CheckNetFrameworkAllPlatforms();
+                // Scripting backend
+                CheckIL2CPPBackend();
+                CheckIL2CPPBackendAllPlatforms();
 
-                    // Vulkan
-                    CheckVulkanForWindows();
-                    CheckVulkanForAndroid();
+                // .NET Framework
+                CheckNetFramework();
+                CheckNetFrameworkAllPlatforms();
 
-                    // Android
-                    CheckArm64ForAndroid();
-                    CheckMinAndroidApiLevel();
+                // Vulkan
+                CheckVulkanForWindows();
+                CheckVulkanForAndroid();
 
-                    // Input handling
-                    CheckActiveInputHandling();
+                // Android
+                CheckArm64ForAndroid();
+                CheckMinAndroidApiLevel();
+                CheckAndroidEntryPoint();
 
-                    // TextMesh Pro Essentials
-                    CheckTMPEssentials();
+                // Input handling
+                CheckActiveInputHandling();
 
-                    // SDK installation
-                    CheckGeniesAvatarSdkInstalled();
+                // TextMesh Pro Essentials
+                CheckTMPEssentials();
 
-                    // Credentials
-                    CheckAuthCredentials();
-                }
+                // SDK installation
+                CheckGeniesAvatarSdkInstalled();
+
+                // Credentials
+                CheckAuthCredentials();
 
                 Repaint();
             };
@@ -1382,6 +1589,7 @@ namespace Genies.Sdk.Bootstrap.Editor
 
         private void CheckPlatformSupport()
         {
+            IsBuildTargetSupported = GeniesSdkPrerequisiteChecker.IsActiveBuildTargetSupported();
             IsPlatformSupported = GeniesSdkPrerequisiteChecker.IsActivePlatformSupported();
         }
 
@@ -1452,6 +1660,11 @@ namespace Genies.Sdk.Bootstrap.Editor
             MinAndroidApiLevelConfigured = GeniesSdkPrerequisiteChecker.IsMinAndroidApiLevelConfigured();
         }
 
+        private void CheckAndroidEntryPoint()
+        {
+            AndroidEntryPointStatus = GeniesSdkPrerequisiteChecker.GetAndroidEntryPointStatus();
+        }
+
         private void CheckActiveInputHandling()
         {
             ActiveInputHandlingConfigured = GeniesSdkPrerequisiteChecker.IsActiveInputHandlingConfigured();
@@ -1462,18 +1675,37 @@ namespace Genies.Sdk.Bootstrap.Editor
             TMPEssentialsImported = GeniesSdkPrerequisiteChecker.IsTMPEssentialsImported();
         }
 
-        private void CheckAuthCredentials()
+        private static bool TryGetValidAuthCredentials(out GeniesBootstrapAuthSettings authSettings)
         {
-            var settings = GeniesBootstrapAuthSettings.LoadFromResources();
+            authSettings = null;
+
+            try
+            {
+                authSettings = GeniesBootstrapAuthSettings.LoadFromResources();
+                if (authSettings == null)
+                {
+                    return false;
+                }
+
+                return GeniesBootstrapAuthLocalValidator.LooksLikeValidPair(
+                    authSettings.ClientId,
+                    authSettings.ClientSecret);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return false;
+            }
+        }
+
+        private bool CheckAuthCredentials()
+        {
+            AuthCredentialsConfigured = TryGetValidAuthCredentials(out GeniesBootstrapAuthSettings settings);
 
             if (settings != null)
             {
-                AuthCredentialsConfigured = GeniesBootstrapAuthLocalValidator.LooksLikeValidPair(
-                    settings.ClientId,
-                    settings.ClientSecret);
-
                 // Only populate fields if user hasn't started typing
-                if (string.IsNullOrEmpty(WizardClientId) && string.IsNullOrEmpty(WizardClientSecret))
+                if (string.IsNullOrWhiteSpace(WizardClientId) && string.IsNullOrWhiteSpace(WizardClientSecret))
                 {
                     WizardClientId = settings.ClientId ?? string.Empty;
                     WizardClientSecret = settings.ClientSecret ?? string.Empty;
@@ -1485,14 +1717,14 @@ namespace Genies.Sdk.Bootstrap.Editor
             }
             else
             {
-                AuthCredentialsConfigured = false;
-
                 if (string.IsNullOrEmpty(WizardClientId) && string.IsNullOrEmpty(WizardClientSecret))
                 {
                     WizardClientId = string.Empty;
                     WizardClientSecret = string.Empty;
                 }
             }
+
+            return AuthCredentialsConfigured;
         }
 
 #if !GENIES_AVATARSDK_CLIENT
@@ -1585,6 +1817,14 @@ namespace Genies.Sdk.Bootstrap.Editor
             {
                 FixMinAndroidApiLevel();
             }
+
+#if UNITY_6000_0_OR_NEWER
+            // Fix Android Application Entry Point (Unity 6+)
+            if (!IsAndroidEntryPointValid)
+            {
+                FixAndroidEntryPoint();
+            }
+#endif
 #endif
 
             RefreshPrerequisiteStatus();
@@ -1626,6 +1866,11 @@ namespace Genies.Sdk.Bootstrap.Editor
                 PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64, graphicsApis);
                 EnsureSettingsAreSaved();
                 Debug.Log("Vulkan graphics API configured for Windows Standalone builds.");
+
+                // Show warning prompt to restart editor
+                PromptEditorRestart(
+                    "Graphics API Changed",
+                    "Changing this setting requires restarting the Unity Editor for the update to take effect.\n\nNote: For convenience, you can apply other setting changes before restarting. Many settings changes may also require a restart.");
             }
             catch (System.Exception e)
             {
@@ -1691,6 +1936,23 @@ namespace Genies.Sdk.Bootstrap.Editor
 #endif
         }
 
+        private void FixAndroidEntryPoint()
+        {
+#if UNITY_ANDROID && UNITY_6000_0_OR_NEWER
+            try
+            {
+                GeniesSdkPrerequisiteChecker.FixAndroidEntryPoint();
+                EnsureSettingsAreSaved();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to fix Android Application Entry Point: {e.Message}");
+            }
+#else
+            Debug.LogWarning("Android Application Entry Point configuration is only available for Unity 6+ with Android support installed.");
+#endif
+        }
+
         private void FixActiveInputHandlingToNew()
         {
             try
@@ -1704,7 +1966,8 @@ namespace Genies.Sdk.Bootstrap.Editor
                         "Active Input Handling set to 'Input System Package (New)' - RECOMMENDED for modern projects. Unity Editor will restart for changes to take effect.",
                         "Input Handling Changed",
                         "Active Input Handling has been set to 'Input System Package (New)'.\n\n" +
-                        "Unity Editor needs to restart for the changes to take effect.");
+                        "Unity Editor needs to restart for the changes to take effect.\n\n" +
+                        "Note: For convenience, you can apply other setting changes before restarting. Many settings changes may also require a restart.");
                 }
                 else
                 {
@@ -1753,7 +2016,8 @@ namespace Genies.Sdk.Bootstrap.Editor
                         "Active Input Handling set to 'Input Manager (Old)' - Consider upgrading to the new Input System for better functionality. Unity Editor will restart for changes to take effect.",
                         "Input Handling Changed",
                         "Active Input Handling has been set to 'Input Manager (Old)'.\n\n" +
-                        "Unity Editor needs to restart for the changes to take effect.");
+                        "Unity Editor needs to restart for the changes to take effect.\n\n" +
+                        "Note: For convenience, you can apply other setting changes before restarting. Many settings changes may also require a restart.");
                 }
                 else
                 {
@@ -1793,7 +2057,8 @@ namespace Genies.Sdk.Bootstrap.Editor
                         "Active Input Handling set to 'Both' - This is not recommended and will cause Android build errors. Unity Editor will restart for changes to take effect.",
                         "Input Handling Changed",
                         "Active Input Handling has been set to 'Both'.\n\n" +
-                        "Unity Editor needs to restart for the changes to take effect.");
+                        "Unity Editor needs to restart for the changes to take effect.\n\n" +
+                        "Note: For convenience, you can apply other setting changes before restarting. Many settings changes may also require a restart.");
                 }
                 else
                 {

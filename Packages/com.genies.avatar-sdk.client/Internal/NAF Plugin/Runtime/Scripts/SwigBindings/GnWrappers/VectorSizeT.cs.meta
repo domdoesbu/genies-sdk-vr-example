@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fc5e4fde775e2174d81c8bd38cdfd73d
+guid: 1114156a77c1ce248b7405652cdcf51c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/VectorSizeT.cs
+  uploadId: 850608

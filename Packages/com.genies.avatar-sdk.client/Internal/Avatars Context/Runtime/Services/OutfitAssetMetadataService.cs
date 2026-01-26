@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
@@ -15,7 +15,11 @@ namespace Genies.Avatars.Context
     /// Ideally we should implement this to directly use CMS instead of actually needing to load assets to check for the asset type.
     /// For now this is the only way that we have to do it.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class OutfitAssetMetadataService : IOutfitAssetMetadataService
+#else
     public sealed class OutfitAssetMetadataService : IOutfitAssetMetadataService
+#endif
     {
         private static readonly string[] _allOutfitAssetTypes =
         {

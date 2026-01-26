@@ -5,7 +5,12 @@ namespace UMA
 	/// <summary>
 	/// Base class of UMA mesh combiners.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class UMAMeshCombiner : MonoBehaviour
+#else
     public abstract class UMAMeshCombiner : MonoBehaviour
+#endif
     {
         public abstract void UpdateUMAMesh(bool updatedAtlas, UMAData umaData, int atlasResolution);
 

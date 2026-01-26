@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class ScriptableItemPickerDataSource : ScriptableObject, IItemPickerDataSource
+#else
     public abstract class ScriptableItemPickerDataSource : ScriptableObject, IItemPickerDataSource
+#endif
     {
         [Title("Layout Config")]
         [SerializeField]

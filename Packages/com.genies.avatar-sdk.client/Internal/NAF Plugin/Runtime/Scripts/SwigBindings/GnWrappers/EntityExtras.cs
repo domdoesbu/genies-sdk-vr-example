@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class EntityExtras : EntityAttribute {
+#else
 public class EntityExtras : EntityAttribute {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal EntityExtras(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.EntityExtras_SWIGUpcast(cPtr), cMemoryOwn) {

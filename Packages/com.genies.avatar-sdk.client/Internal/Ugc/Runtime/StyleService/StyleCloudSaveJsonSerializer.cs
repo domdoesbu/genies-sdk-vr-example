@@ -5,7 +5,11 @@ using Newtonsoft.Json;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class StyleCloudSaveJsonSerializer : ICloudSaveJsonSerializer<Style>
+#else
     public class StyleCloudSaveJsonSerializer : ICloudSaveJsonSerializer<Style>
+#endif
     {
         public string ToJson(Style data)
         {

@@ -4,7 +4,12 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class Chip : MonoBehaviour, ISelectable
+#else
     public class Chip : MonoBehaviour, ISelectable
+#endif
     {
         public string ToggleName;
         [SerializeField] private TextMeshProUGUI _label;
@@ -13,13 +18,13 @@ namespace Genies.UI.Widgets
         [SerializeField] private Image _icon;
         public string Label => _label.text;
 
-        public bool IsIconEnabled 
-        { 
-            get => _icon.gameObject.activeSelf; 
-            set 
-            { 
-                _icon.gameObject.SetActive(value); 
-            } 
+        public bool IsIconEnabled
+        {
+            get => _icon.gameObject.activeSelf;
+            set
+            {
+                _icon.gameObject.SetActive(value);
+            }
         }
 
         public bool IsCountEnabled

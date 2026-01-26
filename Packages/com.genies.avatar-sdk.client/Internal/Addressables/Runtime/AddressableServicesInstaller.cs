@@ -13,7 +13,11 @@ namespace Genies.Addressables
     /// Uses feature flags to load content from pipeline v2 (static) or v3 (dynamic content)
     /// </summary>
     [AutoResolve] [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AddressableServicesInstaller : IGeniesInstaller, IGeniesInitializer
+#else
     public class AddressableServicesInstaller : IGeniesInstaller, IGeniesInitializer
+#endif
     {
         public int OperationOrder => DefaultInstallationGroups.DefaultServices;
 

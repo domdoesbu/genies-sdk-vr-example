@@ -9,12 +9,17 @@ namespace Genies.UI.Widgets {
     /// Base class for all UI widgets that support transition animations.
     /// Provides common functionality for UI components including RectTransform and CanvasGroup management.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal abstract class Widget : MonoBehaviour, ITransitionable {
+#else
     public abstract class Widget : MonoBehaviour, ITransitionable {
+#endif
         /// <summary>
         /// Gets the RectTransform component used for position and scale transitions.
         /// </summary>
         public RectTransform RectTransform { get; private set; }
-        
+
         /// <summary>
         /// Gets the CanvasGroup component used for alpha/fade transitions.
         /// </summary>
@@ -32,7 +37,7 @@ namespace Genies.UI.Widgets {
             if (CanvasGroup == null) {
                 CanvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
-            
+
             OnWidgetInitialized();
         }
 

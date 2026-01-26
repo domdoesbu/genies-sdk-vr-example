@@ -8,7 +8,11 @@ namespace UMA
 	/// <summary>
 	/// Utility class for generating texture atlases
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAGeneratorPro
+#else
 	public class UMAGeneratorPro
+#endif
 	{
 		private struct PackSize
 		{

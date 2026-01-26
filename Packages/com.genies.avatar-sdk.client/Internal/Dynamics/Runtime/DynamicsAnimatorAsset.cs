@@ -11,7 +11,11 @@ namespace Genies.Dynamics
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "DynamicsAnimatorAsset", menuName = "Genies/Dynamics/Dynamics Animation Asset")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicsAnimatorAsset : GenieComponentAsset
+#else
     public class DynamicsAnimatorAsset : GenieComponentAsset
+#endif
     {
         public DynamicsRecipe recipe;
 

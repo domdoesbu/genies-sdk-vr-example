@@ -7,7 +7,11 @@ using UnityEngine;
 namespace Genies.Customization.Framework
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomizerViewConfig
+#else
     public class CustomizerViewConfig
+#endif
     {
         [Title("Navigation Bar Config")]
         public string navBarButtonName;

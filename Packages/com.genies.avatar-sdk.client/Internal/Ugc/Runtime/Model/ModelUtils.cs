@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// This static class includes methods for computing hash codes, comparing collections,
     /// and performing common operations on model data structures.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ModelUtils
+#else
     public static class ModelUtils
+#endif
     {
         /// <summary>
         /// Computes a combined hash code for a collection of model objects.

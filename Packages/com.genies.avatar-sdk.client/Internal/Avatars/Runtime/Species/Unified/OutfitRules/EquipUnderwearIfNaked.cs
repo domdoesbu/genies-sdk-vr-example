@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Equips underwear assets when certain parts of the body are naked. Only for the Unified species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class EquipUnderwearIfNaked : IAssetsValidationRule<OutfitAsset>, IDisposable
+#else
     public sealed class EquipUnderwearIfNaked : IAssetsValidationRule<OutfitAsset>, IDisposable
+#endif
     {
         private const string BottomUnderwearId = "recEjFaecbT1GNNv2";
         private const string TopUnderwearId = "recHDAw1RgZaMG8lt";

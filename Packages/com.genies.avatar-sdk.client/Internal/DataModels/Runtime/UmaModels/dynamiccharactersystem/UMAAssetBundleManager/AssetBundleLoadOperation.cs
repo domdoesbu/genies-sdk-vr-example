@@ -16,7 +16,11 @@ using System.IO;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class AssetBundleLoadOperation : IEnumerator
+#else
 	public abstract class AssetBundleLoadOperation : IEnumerator
+#endif
 	{
 		public object Current
 		{
@@ -39,7 +43,11 @@ namespace UMA.AssetBundles
 		abstract public bool IsDone();
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class AssetBundleDownloadOperation : AssetBundleLoadOperation
+#else
 	public abstract class AssetBundleDownloadOperation : AssetBundleLoadOperation
+#endif
 	{
         private bool done;
 
@@ -111,7 +119,11 @@ namespace UMA.AssetBundles
 	/// Read asset bundle asynchronously from iOS / tvOS asset catalog that is downloaded
 	// using on demand resources functionality.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleDownloadFromODROperation : AssetBundleDownloadOperation
+#else
 	public class AssetBundleDownloadFromODROperation : AssetBundleDownloadOperation
+#endif
     {
         OnDemandResourcesRequest request;
 		public AssetBundleDownloadFromODROperation(string assetBundleName)
@@ -198,7 +210,11 @@ namespace UMA.AssetBundles
 	/// <summary>
 	/// Read asset bundle synchronously from an iOS / tvOS asset catalog
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleOpenFromAssetCatalogOperation : AssetBundleDownloadOperation
+#else
 	public class AssetBundleOpenFromAssetCatalogOperation : AssetBundleDownloadOperation
+#endif
     {
         public AssetBundleOpenFromAssetCatalogOperation(string assetBundleName)
         : base(assetBundleName)
@@ -254,7 +270,11 @@ namespace UMA.AssetBundles
     }
 #endif
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleDownloadFromWebOperation : AssetBundleDownloadOperation
+#else
 	public class AssetBundleDownloadFromWebOperation : AssetBundleDownloadOperation
+#endif
 	{
         private UnityWebRequest m_WWW;
         private string m_Url;
@@ -519,7 +539,11 @@ namespace UMA.AssetBundles
 	/// <summary>
 	/// Loads the bytes of a decrypted asset bundle from memory asynchroniously;
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadDecrypted : AssetBundleDownloadOperation
+#else
 	public class AssetBundleLoadDecrypted : AssetBundleDownloadOperation
+#endif
 	{
         private AssetBundleCreateRequest m_Operation = null;
 		public float progress;
@@ -575,7 +599,11 @@ namespace UMA.AssetBundles
 	}
 
 #if UNITY_EDITOR
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadLevelSimulationOperation : AssetBundleLoadOperation
+#else
 	public class AssetBundleLoadLevelSimulationOperation : AssetBundleLoadOperation
+#endif
 	{
 		AsyncOperation m_Operation = null;
 
@@ -621,7 +649,11 @@ namespace UMA.AssetBundles
 	}
 
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadLevelOperation : AssetBundleLoadOperation
+#else
 	public class AssetBundleLoadLevelOperation : AssetBundleLoadOperation
+#endif
 	{
 		protected string m_AssetBundleName;
 		protected string m_LevelName;
@@ -694,12 +726,20 @@ namespace UMA.AssetBundles
 		}
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class AssetBundleLoadAssetOperation : AssetBundleLoadOperation
+#else
 	public abstract class AssetBundleLoadAssetOperation : AssetBundleLoadOperation
+#endif
 	{
 		public abstract T GetAsset<T>() where T : UnityEngine.Object;
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadAssetOperationSimulation : AssetBundleLoadAssetOperation
+#else
 	public class AssetBundleLoadAssetOperationSimulation : AssetBundleLoadAssetOperation
+#endif
 	{
         private Object m_SimulatedObject;
 
@@ -724,7 +764,11 @@ namespace UMA.AssetBundles
 		}
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadAssetOperationFull : AssetBundleLoadAssetOperation
+#else
 	public class AssetBundleLoadAssetOperationFull : AssetBundleLoadAssetOperation
+#endif
 	{
 		protected string m_AssetBundleName;
 		protected string m_AssetName;
@@ -793,7 +837,11 @@ namespace UMA.AssetBundles
 	/// <summary>
 	/// Operation for loading the AssetBundleIndex
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadIndexOperation : AssetBundleLoadAssetOperationFull
+#else
 	public class AssetBundleLoadIndexOperation : AssetBundleLoadAssetOperationFull
+#endif
 	{
 		//made protected so descendent class can inherit
 		protected bool _isJsonIndex;
@@ -878,7 +926,11 @@ namespace UMA.AssetBundles
 		}
 	}
 
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class AssetBundleLoadCachedIndexOperation : AssetBundleLoadIndexOperation
+#else
 	public class AssetBundleLoadCachedIndexOperation : AssetBundleLoadIndexOperation
+#endif
 	{
 		public AssetBundleLoadCachedIndexOperation(string bundleName, string assetName, System.Type type, bool isJsonIndex = false)
 			: base(bundleName, assetName, type, isJsonIndex)

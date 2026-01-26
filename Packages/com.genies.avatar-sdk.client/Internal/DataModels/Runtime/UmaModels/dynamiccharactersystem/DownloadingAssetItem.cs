@@ -10,7 +10,11 @@ namespace UMA.CharacterSystem
 	/// </summary>
 	//TODO when finished developing make this non serialized
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DownloadingAssetItem
+#else
 	public class DownloadingAssetItem
+#endif
 	{
 		public string requiredAssetName;
 		public UnityEngine.Object tempAsset;

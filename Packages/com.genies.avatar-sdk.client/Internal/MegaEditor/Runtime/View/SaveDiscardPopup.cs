@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SaveDiscardPopup : PopupWidget
+#else
     public class SaveDiscardPopup : PopupWidget
+#endif
     {
         public Action OnSaveClicked;
         public Action OnDiscardClicked;

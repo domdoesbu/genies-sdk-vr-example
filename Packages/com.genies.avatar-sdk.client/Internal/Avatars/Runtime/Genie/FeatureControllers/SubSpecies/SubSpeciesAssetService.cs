@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Service for loading sub-species assets, which are collections of species and their associated data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesAssetService : ISubSpeciesAssetService
+#else
     public class SubSpeciesAssetService : ISubSpeciesAssetService
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

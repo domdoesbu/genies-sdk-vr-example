@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// output the delta matrices for each triangle.
     /// </summary>
     [BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SolveDeformTriangleDeltasJob : IJobParallelFor
+#else
     public struct SolveDeformTriangleDeltasJob : IJobParallelFor
+#endif
     {
         [WriteOnly] public NativeArray<Matrix4x4> TriangleDeltas;
         

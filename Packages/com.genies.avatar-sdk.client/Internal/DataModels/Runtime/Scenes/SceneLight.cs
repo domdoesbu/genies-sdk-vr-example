@@ -10,7 +10,11 @@ namespace Genies.Models
     /// Models a single scene light that will be tunable for a 'look'
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SceneLight
+#else
     public class SceneLight
+#endif
     {
         // Used for conversions from UnityEngine.Light to SceneLight and back
         public static Func<int, LightCullingMask> CullingMaskToSceneLightCullingMask = x =>
@@ -187,7 +191,11 @@ namespace Genies.Models
     /// <summary>
     /// Extensions for the Unity light component often used with SceneLight data model
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class LightExtensions
+#else
     public static class LightExtensions
+#endif
     {
         /// <summary>
         /// Set a Unity Light component with the data in a Genies SceneLight model

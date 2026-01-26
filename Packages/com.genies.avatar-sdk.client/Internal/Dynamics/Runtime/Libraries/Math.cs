@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace Genies.Components.Dynamics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class Math
+#else
     public static class Math
+#endif
     {
         /// <summary>
         /// The length of the smallest vector that can be reliably normalized.

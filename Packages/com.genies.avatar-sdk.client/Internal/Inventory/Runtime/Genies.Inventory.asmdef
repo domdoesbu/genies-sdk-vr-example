@@ -16,7 +16,6 @@
         "GUID:b8e3962c31543465693c9a09a2a94ec0",
         "GUID:696a0953692949b40bec8730e64e1fdd",
         "GUID:20fa1900eb4334761ab0eba3c1fd3299"
-
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -25,6 +24,17 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.genies.sdk.avatar",
+            "expression": "",
+            "define": "GENIES_SDK"
+        },
+        {
+            "name": "com.genies.avatar-sdk.client",
+            "expression": "",
+            "define": "GENIES_SDK"
+        }
+    ],
     "noEngineReferences": false
 }

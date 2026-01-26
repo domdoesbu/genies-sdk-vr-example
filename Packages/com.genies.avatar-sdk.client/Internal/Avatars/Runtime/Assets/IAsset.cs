@@ -8,7 +8,11 @@
     /// Two asset instances with the same ID will be considered the same asset even if the instance
     /// is different (that would probably mean that the instance was not created properly).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAsset
+#else
     public interface IAsset
+#endif
     {
         string Id { get; }
         string Lod { get; }

@@ -6,7 +6,11 @@ using UnityEngine;
 namespace Genies.Shaders.Editor
 {
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MegaStylizerShaderProperties
+#else
     public class MegaStylizerShaderProperties
+#endif
     {
         public List<string> INPUT;
         public List<string> ENVIRONMENT_REFLECTION;
@@ -20,7 +24,11 @@ namespace Genies.Shaders.Editor
         public List<string> EXTRA;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MegaStylizerPropertyTransfer : EditorWindow
+#else
     public class MegaStylizerPropertyTransfer : EditorWindow
+#endif
     {
         private Material masterMaterial;
         private Dictionary<string, bool> materialProperties = new Dictionary<string, bool>();

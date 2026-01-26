@@ -9,7 +9,11 @@ using UnityEngine;
 namespace Genies.Naf
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct AssetLoadRequest
+#else
     public struct AssetLoadRequest
+#endif
     {
         public string assetId;
         public Dictionary<string, string> parameters;
@@ -22,7 +26,12 @@ namespace Genies.Naf
     }
 
     [RequireComponent(typeof(NativeGenie))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class NativeGenieBuilder : MonoBehaviour, IDisposable
+#else
     public sealed class NativeGenieBuilder : MonoBehaviour, IDisposable
+#endif
     {
         public NativeGenie NativeGenie => _nativeGenie;
 
@@ -52,7 +61,6 @@ namespace Genies.Naf
         public bool refDebSingleGroup = true;
         public bool refDebIncludeNonDeformedMeshes = false;
         public bool refDebEnableVertexAttributes = false;
-
 
         private NativeGenie  _nativeGenie;
         private ContainerApi _containerApi;
@@ -533,6 +541,9 @@ namespace Genies.Naf
                     using EntityExtras extras = EntityExtras.GetFrom(result);
                     _nativeGenie.SetExtras(extras);
                 }
+
+                // rebuild the pose context for native animations
+                _nativeGenie.PoseContext = AnimationUtils.CreateMultiMeshPoseContext(result);
             }
             finally
             {

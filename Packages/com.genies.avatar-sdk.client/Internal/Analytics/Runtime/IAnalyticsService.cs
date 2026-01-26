@@ -1,8 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Genies.Analytics {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnalyticProperties {
+#else
     public class AnalyticProperties {
+#endif
         private Dictionary<string, object> Properties = new Dictionary<string, object>();
 
         public AnalyticProperties() { }
@@ -20,7 +24,11 @@ namespace Genies.Analytics {
 
         public Dictionary<string, object> GetDictionary() => Properties;
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IAnalyticsService {
+#else
     public interface IAnalyticsService {
+#endif
         void LogEvent(string eventName);
         void LogEvent(string eventName, AnalyticProperties properties);
         void SetUserProperty(string propertyName, string value);
@@ -29,7 +37,11 @@ namespace Genies.Analytics {
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class IdentityData
+#else
     public class IdentityData
+#endif
     {
         public string CognitoId { get; }
         public string Username { get; }

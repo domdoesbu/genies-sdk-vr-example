@@ -6,7 +6,11 @@ namespace Genies.Avatars
     /// Equality comparer for <see cref="IAsset"/> types that compares only their ID. Useful to create <see cref="HashSet{T}"/>
     /// or <see cref="Dictionary{TKey,TValue}"/> instances of assets that automatically compares them by their ID.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AssetEqualityComparer<TAsset> : IEqualityComparer<TAsset>
+#else
     public sealed class AssetEqualityComparer<TAsset> : IEqualityComparer<TAsset>
+#endif
         where TAsset : IAsset
     {
         public bool Equals(TAsset x, TAsset y)

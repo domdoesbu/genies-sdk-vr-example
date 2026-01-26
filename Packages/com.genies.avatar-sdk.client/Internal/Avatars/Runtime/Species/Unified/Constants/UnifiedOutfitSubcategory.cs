@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// are the actual technical slot in which an asset gets added to the UMA avatar, but subcategories contain more fine grained details.
     /// For example: assets from the pants, shorts and skirt all use the legs slot.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedOutfitSubcategory
+#else
     public static class UnifiedOutfitSubcategory
+#endif
     {
         public const string Hair = "hair";
         public const string Eyebrows = "eyebrows";

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Genies.Avatars;
 using Genies.Avatars.Sdk;
 using Genies.Naf;
-using GnWrappers;
 using UnityEngine;
 
 namespace Genies.Sdk
@@ -63,7 +63,7 @@ namespace Genies.Sdk
         public Transform SkeletonRoot => Avatar?.SkeletonRoot;
 
         /// <summary>Animator bound to the avatar rig.</summary>
-        public Animator Animator => Avatar?.Animator;
+        public UnityEngine.Animator Animator => Avatar?.Animator;
 
         /// <summary>For advanced scenarios where direct access is needed.</summary>
         internal NativeUnifiedGenieController Controller => Avatar?.Controller;
@@ -195,7 +195,18 @@ namespace Genies.Sdk
         /// <returns>A UniTask that completes when all colors have been applied to the avatar.</returns>
         public UniTask SetColorsAsync(IEnumerable<GenieColorEntry> colors)
         {
-            return Avatar?.SetColorsAsync(colors) ?? UniTask.CompletedTask;
+            if (colors is null || colors.Any() is false)
+            {
+                return UniTask.CompletedTask;
+            }
+
+            var nafColors = new List<Naf.GenieColorEntry>();
+            foreach (var color in colors)
+            {
+                nafColors.Add(GenieColorEntry.ToNaf(color));
+            }
+
+            return Avatar?.SetColorsAsync(nafColors) ?? UniTask.CompletedTask;
         }
 
         /// <summary>
@@ -332,9 +343,9 @@ namespace Genies.Sdk
         /// <param name="assetId">The unique identifier of the tattoo asset to equip.</param>
         /// <param name="parameters">Optional parameters for tattoo configuration (e.g., colors, opacity, positioning).</param>
         /// <returns>A UniTask that completes when the tattoo has been applied to the avatar.</returns>
-        public UniTask EquipTattooAsync(MegaSkinTattooSlot slot, string assetId, Dictionary<string, string> parameters = null)
+        public UniTask EquipTattooAsync(Genies.Sdk.MegaSkinTattooSlot slot, string assetId, Dictionary<string, string> parameters = null)
         {
-            return Avatar?.EquipTattooAsync(slot, assetId, parameters) ?? UniTask.CompletedTask;
+            return Avatar?.EquipTattooAsync(slot.ToInternal(), assetId, parameters) ?? UniTask.CompletedTask;
         }
 
         /// <summary>
@@ -342,9 +353,9 @@ namespace Genies.Sdk
         /// </summary>
         /// <param name="slot">The specific tattoo slot/location from which to remove the tattoo.</param>
         /// <returns>A UniTask that completes when the tattoo has been removed from the specified slot.</returns>
-        public UniTask UnequipTattooAsync(MegaSkinTattooSlot slot)
+        public UniTask UnequipTattooAsync(Genies.Sdk.MegaSkinTattooSlot slot)
         {
-            return Avatar?.UnequipTattooAsync(slot) ?? UniTask.CompletedTask;
+            return Avatar?.UnequipTattooAsync(slot.ToInternal()) ?? UniTask.CompletedTask;
         }
 
         /// <summary>
@@ -362,9 +373,9 @@ namespace Genies.Sdk
         /// <param name="slot">The tattoo slot to check.</param>
         /// <param name="assetId">The unique identifier of the tattoo asset to check for.</param>
         /// <returns>True if the specified tattoo is equipped in the specified slot, false otherwise.</returns>
-        public bool IsTattooEquipped(MegaSkinTattooSlot slot, string assetId)
+        public bool IsTattooEquipped(Genies.Sdk.MegaSkinTattooSlot slot, string assetId)
         {
-            return Avatar?.IsTattooEquipped(slot, assetId) ?? false;
+            return Avatar?.IsTattooEquipped(slot.ToInternal(), assetId) ?? false;
         }
 
         /// <summary>
@@ -372,9 +383,9 @@ namespace Genies.Sdk
         /// </summary>
         /// <param name="slot">The tattoo slot to query.</param>
         /// <returns>The asset ID of the equipped tattoo in the specified slot, or null if no tattoo is equipped.</returns>
-        public string GetEquippedTattoo(MegaSkinTattooSlot slot)
+        public string GetEquippedTattoo(Genies.Sdk.MegaSkinTattooSlot slot)
         {
-            return Avatar?.GetEquippedTattoo(slot);
+            return Avatar?.GetEquippedTattoo(slot.ToInternal());
         }
 
         #endregion

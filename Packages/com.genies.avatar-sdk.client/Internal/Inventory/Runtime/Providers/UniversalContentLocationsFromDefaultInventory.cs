@@ -7,20 +7,23 @@ using UnityEngine;
 
 namespace Genies.Inventory.Providers
 {
-
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UniversalContentLocationsFromDefaultInventory : IResourceLocationMetadataProvider<DefaultInventoryAsset>
+#else
     public class UniversalContentLocationsFromDefaultInventory : IResourceLocationMetadataProvider<DefaultInventoryAsset>
+#endif
     {
         public UniTask<List<ResourceLocationMetadata>> Provide(DefaultInventoryAsset metadata, string platform, string baseUrl, IEnumerable<string> lods, IEnumerable<string> iconSizes)
         {
             var locations = new List<ResourceLocationMetadata>();
-            
+
             if (metadata == null)
             {
                 return UniTask.FromResult(locations);
             }
 
             PipelineData pItem = metadata.PipelineData;
-            
+
             // Skip assets without pipeline data or that aren't universally available
             if (pItem == null || !pItem.UniversalAvailable)
             {

@@ -9,7 +9,11 @@ using UMA.PoseTools;
 namespace UMA
 {
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BlendshapeDNAConverterPlugin : DynamicDNAPlugin
+#else
 	public class BlendshapeDNAConverterPlugin : DynamicDNAPlugin
+#endif
 	{
 		#region FIELDS
 

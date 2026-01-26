@@ -4,7 +4,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Genies.Avatars.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarDefinitionFilter
+#else
     public static class AvatarDefinitionFilter
+#endif
     {
         private static readonly List<string> _persistentOutfitAttributes = new() {"hair", "facialHair" };
 

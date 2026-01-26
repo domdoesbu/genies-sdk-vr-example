@@ -14,7 +14,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Static factory for loading our avatars.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AvatarsFactory
+#else
     public static class AvatarsFactory
+#endif
     {
         private static CustomInstrumentationManager _InstrumentationManager => CustomInstrumentationManager.Instance;
         private static string _RootTransaction => CustomInstrumentationOperations.LoadAvatarTransaction;

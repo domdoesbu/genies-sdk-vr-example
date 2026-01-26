@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class AssetLabelDebugging
+#else
     public static class AssetLabelDebugging
+#endif
     {
         private const string EnabledPlayerPrefsKey = "assetLabelsEnabled";
 

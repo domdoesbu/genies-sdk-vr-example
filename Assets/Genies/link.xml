@@ -39,7 +39,7 @@
   <assembly fullname="Genies.Refs" preserve="all" />
   <assembly fullname="Genies.S3Service" preserve="all" />
   <assembly fullname="Genies.Sdk.Avatar" preserve="all" />
-  <assembly fullname="Genies.Sdk.Avatar.Samples.AvatarStarter" preserve="all" />
+  <assembly fullname="Genies.Sdk.Avatar.Samples.StarterScenes" preserve="all" />
   <assembly fullname="Genies.Sdk.Avatar.Telemetry" preserve="all" />
   <assembly fullname="Genies.Sdk.Core" preserve="all" />
   <assembly fullname="Genies.ServiceManagement" preserve="all" />
@@ -50,5 +50,6 @@
   <assembly fullname="Genies.Ugc" preserve="all" />
   <assembly fullname="Genies.UIFramework" preserve="all" />
   <assembly fullname="Genies.Utilities" preserve="all" />
+  <assembly fullname="Genies.VRExample" preserve="all" />
   <assembly fullname="Genies.Wearables" preserve="all" />
 </linker>

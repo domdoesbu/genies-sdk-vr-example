@@ -20,7 +20,11 @@ namespace Genies.Naf
      * to edit the Unity material by setting textures manually, you should use the custom NativeMaterial.SetTexture
      * methods to ensure that loaded native textures are released properly.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NativeMaterial : IDisposable
+#else
     public sealed class NativeMaterial : IDisposable
+#endif
     {
         private static  readonly Dictionary<uint, string[]> KeywordsByExtrasItemHash = new();
 
@@ -434,6 +438,41 @@ namespace Genies.Naf
             }
 
             _texturesCache.Clear();
+        }
+
+        private static readonly int _urpLitMetallicMapId  = Shader.PropertyToID("_MetallicGlossMap");
+        private static readonly int _urpLitNormalMapId    = Shader.PropertyToID("_BumpMap");
+        private const string        UrpLitMetallicKeyword = "_METALLICSPECGLOSSMAP";
+        private const string        UrpLitNormalKeyword   = "_NORMALMAP";
+
+        /**
+         * Ad-hoc fix to avoid issues with the most commonly used keywords for the URP Lit shader. Sometimes content
+         * doesn't come with the proper keywords set, and this causes issues with rendering.
+         */
+        public void FixUrpLitKeywords()
+        {
+            if (Material.shader.name != "Universal Render Pipeline/Lit")
+            {
+                return;
+            }
+
+            if (Material.GetTexture(_urpLitMetallicMapId))
+            {
+                Material.EnableKeyword(UrpLitMetallicKeyword);
+            }
+            else
+            {
+                Material.DisableKeyword(UrpLitMetallicKeyword);
+            }
+
+            if (Material.GetTexture(_urpLitNormalMapId))
+            {
+                Material.EnableKeyword(UrpLitNormalKeyword);
+            }
+            else
+            {
+                Material.DisableKeyword(UrpLitNormalKeyword);
+            }
         }
 
         public void Dispose()

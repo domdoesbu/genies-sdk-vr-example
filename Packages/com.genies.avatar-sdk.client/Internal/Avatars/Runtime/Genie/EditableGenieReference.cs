@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Genies.Avatars
 {
     /// <summary>
     /// Component that acts as a reference between its GameObject and an <see cref="IEditableGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class EditableGenieReference : MonoBehaviour
+#else
     public sealed class EditableGenieReference : MonoBehaviour
+#endif
     {
         public IEditableGenie Genie { get; private set; }
         

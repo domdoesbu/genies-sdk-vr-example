@@ -2,7 +2,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class JsonObjectUtility
+#else
     public static class JsonObjectUtility
+#endif
     {
         /// <summary>
         /// Searches for a given propertyName on a JObject with maximum depth of 10 nested json objects.

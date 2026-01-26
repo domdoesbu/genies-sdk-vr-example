@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class RepeatableParamBaseFeatureAsset : AnimationFeatureAsset
+#else
     public abstract class RepeatableParamBaseFeatureAsset : AnimationFeatureAsset
+#endif
     {
         public virtual List<string> SupportSuffixes { get; protected set; }
 

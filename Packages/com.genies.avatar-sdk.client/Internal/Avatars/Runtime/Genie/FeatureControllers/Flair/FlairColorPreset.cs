@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairColorPreset
+#else
     public class FlairColorPreset
+#endif
     {
         public string FlairType { get; set;  } = null;
         public string Guid { get; set;  } = null;

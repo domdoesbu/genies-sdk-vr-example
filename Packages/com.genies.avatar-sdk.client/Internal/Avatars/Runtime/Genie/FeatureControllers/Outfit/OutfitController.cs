@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Controls the outfit of a <see cref="IEditableGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class OutfitController : AssetsController<OutfitAsset>
+#else
     public sealed class OutfitController : AssetsController<OutfitAsset>
+#endif
     {
         // expose the rules publicly as we want the outfit rules to be customizable by the user
         public new List<IAssetsAdjustmentRule<OutfitAsset>> EquippingAdjustmentRules => base.EquippingAdjustmentRules;

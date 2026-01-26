@@ -8,7 +8,11 @@ namespace Genies.Models
     /// Models the unity environment lighting as it relates to 'looks' scene tunable parameters
     /// </summary>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SceneEnvironmentLighting
+#else
     public class SceneEnvironmentLighting
+#endif
     {
         /// <summary>
         /// Color of the simulated ambient light from the ground.

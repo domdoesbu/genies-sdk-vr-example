@@ -8,7 +8,11 @@ namespace Genies.Avatars
     /// Used by the <see cref="MaterialController"/> to control each material slot. It extends the <see cref="IGenieMaterial"/>
     /// interface so the slot itself is actually added to the controlled <see cref="IEditableGenie"/> as a genie material.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialSlotController : IGenieMaterial, IDisposable
+#else
     public class MaterialSlotController : IGenieMaterial, IDisposable
+#endif
     {
         public string SlotId { get; }
         public Material Material => EquippedMaterial ? EquippedMaterial : OriginalMaterial;

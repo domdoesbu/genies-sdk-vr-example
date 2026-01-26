@@ -10,7 +10,11 @@ namespace Genies.Models
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "GearSplitElementContainer", menuName = "Genies/Gear/GearSplitElementContainer", order = 0)]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GearSplitContainer : ASplitElementContainer
+#else
     public class GearSplitContainer : ASplitElementContainer
+#endif
     {
         [SerializeField] private List<SlotDataAsset> slotDataAssets;
         [SerializeField] private List<MeshHideAsset> meshHideAssets;

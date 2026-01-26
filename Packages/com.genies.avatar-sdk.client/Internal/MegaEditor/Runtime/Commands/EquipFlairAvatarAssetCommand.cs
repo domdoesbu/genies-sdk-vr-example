@@ -10,7 +10,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Equips the a flair asset using its id <see cref="_assetId"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipFlairAvatarAssetCommand : UnifiedGenieModificationCommand
+#else
     public class EquipFlairAvatarAssetCommand : UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _assetId;
         private readonly string _flairAssetType;

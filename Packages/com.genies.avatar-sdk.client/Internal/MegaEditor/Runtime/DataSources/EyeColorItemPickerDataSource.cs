@@ -17,7 +17,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "EyeColorItemPickerDataSource", menuName = "Genies/Customizer/DataSource/EyeColorItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EyeColorItemPickerDataSource : ColorItemPickerDataSource
+#else
     public class EyeColorItemPickerDataSource : ColorItemPickerDataSource
+#endif
     {
         /// <summary>
         /// The event name to dispatch to analytics

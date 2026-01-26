@@ -13,7 +13,11 @@ namespace Genies.Customization.Framework
     [CreateAssetMenu(fileName = "CustomizationConfig", menuName = "Genies/Customizer/Customization Config")]
 #endif
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CustomizationConfig : ScriptableObject, ICustomizationConfig
+#else
     public class CustomizationConfig : ScriptableObject, ICustomizationConfig
+#endif
     {
         [Header("Info")]
         [Tooltip("Should be set to show a user a breadcrumb they can click back to")]

@@ -4,7 +4,11 @@ using Genies.Utilities;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarDefinitionConverter : SimpleDefinitionConverter
+#else
     public class AvatarDefinitionConverter : SimpleDefinitionConverter
+#endif
     {
         private DefinitionToken _targetDefinition;
         private const string _versionKey = "JsonVersion";

@@ -4,7 +4,12 @@ using UnityEngine.EventSystems;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PopupBlocker : MonoBehaviour, IPointerDownHandler
+#else
     public class PopupBlocker : MonoBehaviour, IPointerDownHandler
+#endif
     {
         public event Action OnBlockerClicked;
 

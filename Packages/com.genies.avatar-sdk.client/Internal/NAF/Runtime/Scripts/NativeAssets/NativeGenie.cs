@@ -11,7 +11,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using UnityEngine;
 
-using Texture = UnityEngine.Texture;
+using Texture  = UnityEngine.Texture;
+using Animator = UnityEngine.Animator;
 
 namespace Genies.Naf
 {
@@ -20,7 +21,12 @@ namespace Genies.Naf
      * manually update it with the more granular set methods.
      */
     [RequireComponent(typeof(Animator))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class NativeGenie : MonoBehaviour, IGenie
+#else
     public sealed class NativeGenie : MonoBehaviour, IGenie
+#endif
     {
         // IGenie
         public string                             Species      => GenieSpecies.Unified;
@@ -41,6 +47,16 @@ namespace Genies.Naf
 
         // NativeGenie
         public NativeMultiMeshBuilder MeshBuilder { get; private set; }
+
+        public PoseContext PoseContext
+        {
+            get => _poseContext;
+            set
+            {
+                _poseContext?.Dispose();
+                _poseContext = value;
+            }
+        }
 
         // inspector
         [Tooltip("If left empty, a default renderer will be created instead. Use this if you need to set some non-default settings to the native renderer. Also keep in mind that the skeleton root will be overriden by the NativeGenie")]
@@ -70,6 +86,8 @@ namespace Genies.Naf
         private List<GenieJointModifier>  _skeletonOffsetModifiers = new();
         private GenieBaker                _genieBaker;
         private SkinnedNativeMeshRenderer _rendererPrefab;
+        private PoseContext               _poseContext;
+
 
         // helpers used by SetExtras() to avoid adding extras that are already added
         private bool          _addedHumanDescriptionExtra;
@@ -194,6 +212,8 @@ namespace Genies.Naf
             using EntityExtras extras = EntityExtras.GetFrom(entity);
             SetExtras(extras);
 
+            PoseContext = AnimationUtils.CreateMultiMeshPoseContext(entity);
+
             if (edit)
             {
                 EndEditing();
@@ -245,6 +265,8 @@ namespace Genies.Naf
                 skeletonModifier.AddModifier(modifier);
                 _skeletonOffsetModifiers.Add(modifier);
             }
+
+            PoseContext = AnimationUtils.CreateMultiMeshPoseContext(skeletonOffset.Owner());
 
             NotifyRebuild();
         }
@@ -417,6 +439,7 @@ namespace Genies.Naf
             ClearTattoos();
             ClearExtras();
             MeshBuilder.Clear();
+            PoseContext = null;
 
             if (edit)
             {
@@ -633,6 +656,9 @@ namespace Genies.Naf
             }
 
             _componentExtras.Clear();
+
+            // dispose pose context
+            PoseContext = null;
 
             /**
              * Since the NativeGenie is a component, we destroy it automatically on dispose. The GameObject should never

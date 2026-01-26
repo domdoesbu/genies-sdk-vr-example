@@ -18,7 +18,11 @@ namespace Genies.Closet
     /// Default implementation of <see cref="IClosetService"/> that provides closet management functionality through remote APIs.
     /// This service handles user closet operations including NFT management, wearables, and collectible items with caching support.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ClosetService : IClosetService
+#else
     public sealed class ClosetService : IClosetService
+#endif
     {
         private string _userId;
         private readonly IClosetApi _closetApi;

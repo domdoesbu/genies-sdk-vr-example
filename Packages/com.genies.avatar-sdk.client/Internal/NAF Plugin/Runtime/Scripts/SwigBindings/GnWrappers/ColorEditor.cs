@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class ColorEditor : AssetBuilderEditor {
+#else
 public class ColorEditor : AssetBuilderEditor {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal ColorEditor(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.ColorEditor_SWIGUpcast(cPtr), cMemoryOwn) {

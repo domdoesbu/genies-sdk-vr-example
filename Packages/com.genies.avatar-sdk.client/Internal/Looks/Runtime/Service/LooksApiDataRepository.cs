@@ -17,7 +17,11 @@ namespace Genies.Looks.Service
     /// This class implements <see cref="ILooksDataRepository"/> and provides remote API-based data operations for look management.
     /// It handles authentication, API initialization, pagination, and error handling for looks-related operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LooksApiDataRepository : ILooksDataRepository
+#else
     public class LooksApiDataRepository : ILooksDataRepository
+#endif
     {
         private readonly ILookApi _lookApi;
         private readonly List<string> _cachedList = new List<string>();

@@ -9,7 +9,11 @@ using Genies.Utilities;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcElementLoader : IAssetLoader<UgcElementAsset>
+#else
     public sealed class UgcElementLoader : IAssetLoader<UgcElementAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

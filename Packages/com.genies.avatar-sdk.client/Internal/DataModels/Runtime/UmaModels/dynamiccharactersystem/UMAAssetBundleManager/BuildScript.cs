@@ -7,7 +7,11 @@ using UMA;
 
 namespace UMA.AssetBundles
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class BuildScript
+#else
 	public class BuildScript
+#endif
 	{
 		public static string overloadedDevelopmentServerURL = "";
 

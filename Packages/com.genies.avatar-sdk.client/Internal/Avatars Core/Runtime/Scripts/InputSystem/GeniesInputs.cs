@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 namespace Genies.Avatars.Sdk
 {
 #if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
 	internal class GeniesInputs : MonoBehaviour
 #else
 	public class GeniesInputs : MonoBehaviour

@@ -8,7 +8,11 @@ namespace Genies.Looks.Customization.Commands
     /// <summary>
     /// Unequip current avatar FacePreset
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UnequipAvatarFacePresetCommand: UnifiedGenieModificationCommand
+#else
     public class UnequipAvatarFacePresetCommand: UnifiedGenieModificationCommand
+#endif
     {
         private readonly string _targetId;
         private readonly List<string> _previousEquippedShapes;

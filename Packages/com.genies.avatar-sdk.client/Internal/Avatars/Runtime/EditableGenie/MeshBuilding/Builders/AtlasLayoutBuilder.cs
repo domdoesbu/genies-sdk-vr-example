@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AtlasLayoutBuilder
+#else
     public sealed class AtlasLayoutBuilder
+#endif
     {
         public Vector2Int AtlasSize    => _atlasSize;
         public int        RectCount    => _rects.Count;

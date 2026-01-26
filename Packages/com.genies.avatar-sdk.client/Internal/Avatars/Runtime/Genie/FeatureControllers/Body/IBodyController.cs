@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <br/><br/>
     /// Attributes MUST ONLY modify body mesh geometry. This controller must never handle things like color and materials.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IBodyController
+#else
     public interface IBodyController
+#endif
     {
         /// <summary>
         /// All attributes existing in this controller.

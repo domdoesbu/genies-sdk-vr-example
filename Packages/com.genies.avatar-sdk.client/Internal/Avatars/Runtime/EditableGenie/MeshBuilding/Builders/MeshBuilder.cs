@@ -20,7 +20,11 @@ namespace Genies.Avatars
     /// group doesn't change from last rebuild. It also uses the <see cref="BlendShapeBuilder"/> to build the blend
     /// shapes in the most efficient way.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MeshBuilder : IDisposable
+#else
     public sealed class MeshBuilder : IDisposable
+#endif
     {
         /// <summary>
         /// Current mesh assets added to the builder.

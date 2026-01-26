@@ -5,7 +5,11 @@ using Genies.Naf;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SetNativeAvatarColorsCommand : ICommand
+#else
     public class SetNativeAvatarColorsCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly GenieColorEntry[]            _colors;

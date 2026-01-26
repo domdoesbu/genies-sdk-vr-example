@@ -7,7 +7,11 @@ namespace Genies.Ugc
     /// <summary>
     /// Contains UGC template data and assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcTemplateAsset : IAsset
+#else
     public sealed class UgcTemplateAsset : IAsset
+#endif
     {
         public string Id => Data.TemplateId;
         public string Lod => AssetLod.Default;

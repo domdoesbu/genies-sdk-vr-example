@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SubSpeciesMetadataService
+#else
     public class SubSpeciesMetadataService
+#endif
     {
         /// <summary>
         /// SubSpecies at this point should only be supported for the UnifiedGAP species.

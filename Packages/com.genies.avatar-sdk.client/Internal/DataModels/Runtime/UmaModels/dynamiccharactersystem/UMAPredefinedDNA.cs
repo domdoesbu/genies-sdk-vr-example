@@ -9,7 +9,11 @@ using UnityEditor; //todo: ifdef this
 namespace UMA
 {
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DnaValue
+#else
 	public class DnaValue
+#endif
 	{
 		public string Name;
 		public float Value;
@@ -21,7 +25,11 @@ namespace UMA
 	}
 
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAPredefinedDNA
+#else
 	public class UMAPredefinedDNA
+#endif
 	{
 		/// <summary>
 		/// This class is used for preloading DNA on DynamicCharacterAvatars  

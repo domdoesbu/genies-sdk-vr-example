@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// the deformation to the target points array.
     /// </summary>
     [BurstCompile]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct TransferDeformJob : IJobParallelFor
+#else
     public struct TransferDeformJob : IJobParallelFor
+#endif
     {
         private NativeArray<Vector3> _targetPoints;
         

@@ -5,12 +5,16 @@ using UnityEngine;
 
 namespace Genies.Looks.Customization.GraphEvaluators
 {
-    
+
     /// <summary>
     /// Evaluates which node to go to next depending on whether the selected feature flag is set
     /// </summary>
     [CreateNodeMenu("Customizer UI/Evaluators/Feature Flag")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagEvaluator : NavigationEvaluationNode
+#else
     public class FeatureFlagEvaluator : NavigationEvaluationNode
+#endif
     {
         private IFeatureFlagsManager _FeatureFlagsManager => ServiceManager.Get<IFeatureFlagsManager>();
 

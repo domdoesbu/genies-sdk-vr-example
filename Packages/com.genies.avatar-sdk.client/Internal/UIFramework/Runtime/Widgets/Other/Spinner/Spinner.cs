@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Spinner : Widget
+#else
     public class Spinner : Widget
+#endif
     {
         public bool IsShown { get; protected set; }
 

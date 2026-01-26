@@ -5,7 +5,11 @@ using System.Reflection;
 
 namespace Genies.MakeupPresets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum MakeupPresetCategory
+#else
     public enum MakeupPresetCategory
+#endif
     {
         None = -1,
         Stickers = 0,
@@ -16,7 +20,11 @@ namespace Genies.MakeupPresets
         Blush = 5,
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum TattooCategory
+#else
     public enum TattooCategory
+#endif
     {
         General,
     }

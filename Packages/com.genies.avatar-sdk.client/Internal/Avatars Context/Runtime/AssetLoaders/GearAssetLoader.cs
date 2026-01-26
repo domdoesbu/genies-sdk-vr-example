@@ -7,7 +7,11 @@ using Genies.Utilities;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearAssetLoader : IAssetLoader<GearAsset>
+#else
     public sealed class GearAssetLoader : IAssetLoader<GearAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

@@ -15,6 +15,7 @@ namespace Genies.Avatars.Sdk
     /// Represents an avatar instance from a user account and provides some basic control functionality.
     /// </summary>
 #if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
     internal sealed class GeniesAvatarLoader : MonoBehaviour
 #else
     public sealed class GeniesAvatarLoader : MonoBehaviour

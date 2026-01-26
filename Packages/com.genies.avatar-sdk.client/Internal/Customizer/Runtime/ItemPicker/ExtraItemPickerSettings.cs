@@ -9,7 +9,11 @@ namespace Genies.Customization.Framework.ItemPicker
     /// such as None CTA or Chaos Sliders
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ExtraItemPickerSettings
+#else
     public class ExtraItemPickerSettings
+#endif
     {
         public enum ExtraItemPickerType
         {

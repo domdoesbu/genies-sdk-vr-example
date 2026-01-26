@@ -7,7 +7,11 @@ namespace UMA
 	/// Class is marked partial so the developer can implement their own properties in UMATextRecipe without
 	/// changing the distribution code.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class UMATextRecipe : UMAPackedRecipeBase
+#else
 	public partial class UMATextRecipe : UMAPackedRecipeBase
+#endif
 	{
 		/// <summary>
 		/// Complete text of recipe.

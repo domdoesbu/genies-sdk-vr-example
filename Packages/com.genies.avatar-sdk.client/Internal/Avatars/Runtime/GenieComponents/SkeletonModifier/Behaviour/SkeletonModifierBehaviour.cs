@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Utilities;
 using UnityEngine;
@@ -13,7 +13,12 @@ namespace Genies.Avatars
     /// hasTranslationDoF property disabled in the human description.
     /// </summary>
     [RequireComponent(typeof(Animator)), DisallowMultipleComponent]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed partial class SkeletonModifierBehaviour : MonoBehaviour
+#else
     public sealed partial class SkeletonModifierBehaviour : MonoBehaviour
+#endif
     {
         [Tooltip("Whether to restore joint transforms to their previous state when being removed")]
         public bool restoreRemovedJoints = true;

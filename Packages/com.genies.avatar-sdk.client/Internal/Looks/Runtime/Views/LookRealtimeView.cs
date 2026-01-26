@@ -13,7 +13,12 @@ namespace Genies.Looks.Core
     /// This implementation of <see cref="IRealtimeLookView"/> provides complete avatar look rendering,
     /// including avatar controller management, camera system integration, and animation support.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class LookRealtimeView : MonoBehaviour, IRealtimeLookView
+#else
     public class LookRealtimeView : MonoBehaviour, IRealtimeLookView
+#endif
     {
         // Controllers
         /// <inheritdoc />

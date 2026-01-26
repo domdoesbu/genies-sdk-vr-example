@@ -12,7 +12,11 @@ namespace Genies.Assets.Services
     /// Merges the results from multiple <see cref="IAssetsService"/> instances together. It may not always work
     /// as expected. This should be mainly used in the editor to test content without the need for building Addressables.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GroupedAssetsService : BaseAssetsService
+#else
     public sealed class GroupedAssetsService : BaseAssetsService
+#endif
     {
         private static readonly IList<IResourceLocation> EmptyLocations = new List<IResourceLocation>(0).AsReadOnly();
 

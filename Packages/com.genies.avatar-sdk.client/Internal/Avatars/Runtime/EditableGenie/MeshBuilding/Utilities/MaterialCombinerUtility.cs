@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// Some utility methods to check the combinability of materials. Shaders are treated as equal shaders if they have
     /// the same name. This is so duplicated shaders coming from the Addressables content build are properly checked.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MaterialCombinerUtility
+#else
     public static class MaterialCombinerUtility
+#endif
     {
         private static readonly Dictionary<string, ShaderProperties> ShaderPropertiesCache = new();
 
@@ -282,7 +286,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Data from a shader's property that cannot be combined.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct NonCombinableProperty
+#else
     public struct NonCombinableProperty
+#endif
     {
         public int                Id;
         public ShaderPropertyType Type;
@@ -297,7 +305,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Data from a shader's texture property that can be combined.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct CombinableTextureProperty
+#else
     public struct CombinableTextureProperty
+#endif
     {
         public int    Id;
         public string Name;

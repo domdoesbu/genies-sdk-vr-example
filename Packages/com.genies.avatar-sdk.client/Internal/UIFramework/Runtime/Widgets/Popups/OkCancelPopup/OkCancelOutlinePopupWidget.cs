@@ -3,7 +3,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace Genies.UI.Widgets {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class OkCancelOutlinePopupWidget : PopupWidget {
+#else
     public class OkCancelOutlinePopupWidget : PopupWidget {
+#endif
         public UnityEvent OnOkButtonClicked = new UnityEvent();
         public UnityEvent OnCancelButtonClicked = new UnityEvent();
         [SerializeField] private OutlineButton OkButton;

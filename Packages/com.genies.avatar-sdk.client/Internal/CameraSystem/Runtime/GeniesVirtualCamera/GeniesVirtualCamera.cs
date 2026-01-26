@@ -1,5 +1,5 @@
 using System;
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Genies.CameraSystem
@@ -11,7 +11,11 @@ namespace Genies.CameraSystem
     /// Cinemachine has several of these.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesVirtualCamera
+#else
     public class GeniesVirtualCamera
+#endif
     {
         [SerializeField] private VirtualCameraType _cameraType;
         [SerializeField] private CinemachineVirtualCameraBase _virtualCamera;
@@ -30,7 +34,11 @@ namespace Genies.CameraSystem
         public CinemachineVirtualCameraBase VirtualCamera => _virtualCamera;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum VirtualCameraType
+#else
     public enum VirtualCameraType
+#endif
     {
         NONE = 0,
         AnimatedCamera = 1,

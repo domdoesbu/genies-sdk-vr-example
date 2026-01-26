@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Assets.Services;
 using Genies.Models;
@@ -6,7 +6,11 @@ using Genies.Refs;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BlendShapeLoader : IAssetLoader<BlendShapeAsset>
+#else
     public sealed class BlendShapeLoader : IAssetLoader<BlendShapeAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

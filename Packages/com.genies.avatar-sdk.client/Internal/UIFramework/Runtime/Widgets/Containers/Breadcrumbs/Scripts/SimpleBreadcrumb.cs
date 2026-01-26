@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SimpleBreadcrumb : IBreadcrumb
+#else
     public class SimpleBreadcrumb : IBreadcrumb
+#endif
     {
         public string Title { get; set; }
         public string BreadcrumbId => _breadcrumbId;

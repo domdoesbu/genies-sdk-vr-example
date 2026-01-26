@@ -5,7 +5,11 @@ using Genies.UI.Widgets;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ItemPickerCtaConfig
+#else
     public class ItemPickerCtaConfig
+#endif
     {
         public delegate UniTask<bool> NoneSelectedAsyncDelegate(CancellationToken cancellationToken);
 

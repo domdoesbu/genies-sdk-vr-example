@@ -6,7 +6,11 @@ namespace Genies.Models.Makeup
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "FaceGemsTemplate", menuName = "Genies/Makeup/FaceGemsTemplate")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FaceGemsTemplate : MakeupTemplate
+#else
     public class FaceGemsTemplate : MakeupTemplate
+#endif
     {
         //Fallback based on FaceGems_1_MaterialDataMakeupColor
         [SerializeField] private Color _fallbackColor1 = new Color(0.3148642F, 0.5377358F, 0.2815503F, 1F);

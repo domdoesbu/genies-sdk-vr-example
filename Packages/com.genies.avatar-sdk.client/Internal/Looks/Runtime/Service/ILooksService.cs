@@ -8,7 +8,11 @@ namespace Genies.Looks.Service
     /// <summary>
     /// Client service for interfacing with the looks apis
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface ILooksService
+#else
     public interface ILooksService
+#endif
     {
         /// <summary>
         /// Fetch recent looks and initialize.

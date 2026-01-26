@@ -10,7 +10,11 @@ namespace Genies.Naf
     /**
      * Static representation of the NAF plugin. Containing the state of the plugin and initialization methods.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NafPlugin
+#else
     public static class NafPlugin
+#endif
     {
         public static bool IsInitialized { get; private set; }
 
@@ -53,7 +57,8 @@ namespace Genies.Naf
          */
         public static void Initialize()
         {
-            if (NafSettings.TryLoadDefault(out NafSettings settings))
+            if (NafSettings.TryLoadProject(out NafSettings settings) ||
+                NafSettings.TryLoadDefault(out settings)) // Fallback to default
             {
                 Initialize(settings);
             }

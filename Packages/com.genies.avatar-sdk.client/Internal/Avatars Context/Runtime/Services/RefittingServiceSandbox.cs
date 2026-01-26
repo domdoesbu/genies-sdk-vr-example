@@ -10,7 +10,12 @@ using Debug = UnityEngine.Debug;
 namespace Genies.Avatars.Context
 {
     [DisallowMultipleComponent]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class RefittingServiceSandbox : MonoBehaviour, IRefittingService
+#else
     public sealed class RefittingServiceSandbox : MonoBehaviour, IRefittingService
+#endif
     {
         private const string LogTag = "<color=magenta>[" + nameof(RefittingServiceSandbox) + "]</color>";
 

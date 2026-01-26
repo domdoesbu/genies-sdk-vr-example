@@ -4,7 +4,11 @@ using System.Runtime.Serialization;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AvatarBodyDeformException : Exception
+#else
     public sealed class AvatarBodyDeformException : Exception
+#endif
     {
         public AvatarBodyDeformException()
         {

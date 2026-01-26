@@ -12,7 +12,11 @@ namespace Genies.Customization.Framework
     [CreateAssetMenu(fileName = "CustomizationController", menuName = "Genies/Customizer/Customization Controller")]
 #endif
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class BaseCustomizationController : ScriptableObject, ICustomizationController
+#else
     public abstract class BaseCustomizationController : ScriptableObject, ICustomizationController
+#endif
     {
         /// <summary>
         /// Added layout override support for Genies Party

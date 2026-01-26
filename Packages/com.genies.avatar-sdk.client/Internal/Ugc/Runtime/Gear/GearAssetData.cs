@@ -2,13 +2,17 @@ using Genies.Avatars;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal readonly struct GearAssetData
+#else
     public readonly struct GearAssetData
+#endif
     {
         /// <summary>
         /// The unique ID of this gear asset.
         /// </summary>
         public readonly string Id;
-        
+
         /// <summary>
         /// The wearable slot.
         /// </summary>

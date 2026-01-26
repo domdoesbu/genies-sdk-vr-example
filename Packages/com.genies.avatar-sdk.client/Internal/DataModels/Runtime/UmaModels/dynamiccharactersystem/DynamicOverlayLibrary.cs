@@ -6,7 +6,11 @@ using System.Collections.Generic;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicOverlayLibrary : OverlayLibrary
+#else
     public class DynamicOverlayLibrary : OverlayLibrary
+#endif
     {
 
         //extra fields for Dynamic Version

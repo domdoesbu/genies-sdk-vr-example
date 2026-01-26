@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the logout process and specific status codes for different logout scenarios.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthLogoutResponse : GeniesAuthMessage
+#else
     public class GeniesAuthLogoutResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the logout operation.</summary>
         [NonSerialized]

@@ -16,7 +16,11 @@ namespace Genies.Naf.Content
     /// <summary>
     /// Fetches metadata from the Inventory (AIGC assets) and converts them into ResourceLocationMetadata for Addressables.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentLocationsFromInventory : IInventoryNafLocationsProvider
+#else
     public class NafContentLocationsFromInventory : IInventoryNafLocationsProvider
+#endif
     {
         private IInventoryService _InventoryService => this.GetService<IInventoryService>();
         private IDefaultInventoryService _DefaultInventoryService => this.GetService<IDefaultInventoryService>();

@@ -6,7 +6,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "Unified-UniquePointsShape-Loader", menuName = "Genies/Reference Shape Loaders/Unified Unique Points Shape")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UnifiedUniquePointsShapeLoader : UnifiedReferenceShapesLoader
+#else
     public sealed class UnifiedUniquePointsShapeLoader : UnifiedReferenceShapesLoader
+#endif
     {
         [Header("Unique Points Shape Settings"), Space(4)]
         public bool enableReferenceCorrelationsCache = false;

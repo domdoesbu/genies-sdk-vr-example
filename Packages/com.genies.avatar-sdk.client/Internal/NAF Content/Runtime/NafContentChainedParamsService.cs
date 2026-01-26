@@ -8,7 +8,11 @@ namespace Genies.Naf.Content
     /// Chained set of IAssetParamsServices that will try to resolve params and ids for a given assetId
     /// order of resolution depends on input
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentChainedParamsService : IAssetParamsService, IAssetIdConverter
+#else
     public class NafContentChainedParamsService : IAssetParamsService, IAssetIdConverter
+#endif
     {
         private readonly IEnumerable<IAssetParamsService> _services;
         private readonly IEnumerable<IAssetIdConverter> _converters;

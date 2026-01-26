@@ -5,7 +5,11 @@
 
 namespace Genies.Assets.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum MergingMode
+#else
     public enum MergingMode
+#endif
     {
         None = 0,
         UseFirst = 0,

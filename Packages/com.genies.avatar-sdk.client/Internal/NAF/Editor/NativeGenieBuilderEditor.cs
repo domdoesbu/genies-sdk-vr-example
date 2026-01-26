@@ -1,4 +1,5 @@
-﻿using System;
+#if !GENIES_SDK || GENIES_INTERNAL
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Cysharp.Threading.Tasks;
@@ -298,3 +299,4 @@ namespace Genies.Naf.Editor
         }
     }
 }
+#endif

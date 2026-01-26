@@ -3,7 +3,11 @@ using Genies.Services.Configs;
 
 namespace Genies.Avatars.Services
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarServiceApiPathResolver : IApiClientPathResolver
+#else
     public class AvatarServiceApiPathResolver : IApiClientPathResolver
+#endif
     {
         public string GetApiBaseUrl(BackendEnvironment environment)
         {

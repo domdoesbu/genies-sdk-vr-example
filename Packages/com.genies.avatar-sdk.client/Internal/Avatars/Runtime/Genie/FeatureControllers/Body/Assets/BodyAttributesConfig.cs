@@ -7,7 +7,11 @@ namespace Genies.Avatars
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "BodyAttributesConfig", menuName = "Genies/Body Attributes Config")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class BodyAttributesConfig : ScriptableObject
+#else
     public sealed partial class BodyAttributesConfig : ScriptableObject
+#endif
     {
         [SerializeField]
         private List<Attribute> attributes;

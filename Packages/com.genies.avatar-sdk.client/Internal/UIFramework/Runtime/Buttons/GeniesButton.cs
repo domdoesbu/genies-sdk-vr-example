@@ -12,7 +12,12 @@ namespace Genies.UIFramework
     /// Advanced button component with customizable animations for various interaction states.
     /// Supports enable/disable, click, selection/deselection, and long press animations with configurable curves and timings.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class GeniesButton : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+#else
     public class GeniesButton : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+#endif
     {
         /// <summary>
         /// Unity event triggered when the button is clicked.
@@ -24,8 +29,8 @@ namespace Genies.UIFramework
         /// The CanvasGroup component used for alpha animations.
         /// </summary>
         public CanvasGroup CanvasGroup;
-        
-        [FormerlySerializedAs("buttonGroupRT")] 
+
+        [FormerlySerializedAs("buttonGroupRT")]
         /// <summary>
         /// The RectTransform component used for scale and position animations.
         /// </summary>
@@ -36,24 +41,24 @@ namespace Genies.UIFramework
         /// Whether to animate the button when it becomes enabled.
         /// </summary>
         public bool AnimateOnEnable = false;
-        
-        [FormerlySerializedAs("onEnableAnimTime")] 
+
+        [FormerlySerializedAs("onEnableAnimTime")]
         /// <summary>
         /// Duration of the enable animation in seconds.
         /// </summary>
         public float OnEnableAnimTime = 0.66f;
-        
-        [FormerlySerializedAs("onEnableScaleRange")] 
+
+        [FormerlySerializedAs("onEnableScaleRange")]
         /// <summary>
         /// Scale range for the enable animation (from X to Y).
         /// </summary>
         public Vector2 OnEnableScaleRange = new Vector2(0f, 1f);
-        
+
         /// <summary>
         /// Animation curve controlling the scale animation when enabled.
         /// </summary>
         public AnimationCurve OnEnableScaleCurve;
-        
+
         /// <summary>
         /// Animation curve controlling the alpha animation when enabled.
         /// </summary>
@@ -64,24 +69,24 @@ namespace Genies.UIFramework
         /// Whether to animate the button when it becomes disabled.
         /// </summary>
         public bool AnimateOnDisable = false;
-        
-        [FormerlySerializedAs("onDisableAnimTime")] 
+
+        [FormerlySerializedAs("onDisableAnimTime")]
         /// <summary>
         /// Duration of the disable animation in seconds.
         /// </summary>
         public float OnDisableAnimTime = 0.66f;
-        
-        [FormerlySerializedAs("onDisableScaleRange")] 
+
+        [FormerlySerializedAs("onDisableScaleRange")]
         /// <summary>
         /// Scale range for the disable animation (from X to Y).
         /// </summary>
         public Vector2 OnDisableScaleRange = new Vector2(0f, 1f);
-        
+
         /// <summary>
         /// Animation curve controlling the scale animation when disabled.
         /// </summary>
         public AnimationCurve OnDisableScaleCurve;
-        
+
         /// <summary>
         /// Animation curve controlling the alpha animation when disabled.
         /// </summary>
@@ -92,24 +97,24 @@ namespace Genies.UIFramework
         /// Whether to animate the button when clicked.
         /// </summary>
         public bool AnimateOnClick = false;
-        
+
         /// <summary>
         /// Whether to trigger the click event at the start of the animation rather than at the end.
         /// </summary>
         public bool RushAnimateClickEvent = false;
-        
-        [FormerlySerializedAs("onClickAnimTime")] 
+
+        [FormerlySerializedAs("onClickAnimTime")]
         /// <summary>
         /// Duration of the click animation in seconds.
         /// </summary>
         public float OnClickAnimTime = 0.66f;
-        
-        [FormerlySerializedAs("onClickScaleRange")] 
+
+        [FormerlySerializedAs("onClickScaleRange")]
         /// <summary>
         /// Scale range for the click animation (from X to Y).
         /// </summary>
         public Vector2 OnClickScaleRange = new Vector2(0f, 1f);
-        
+
         /// <summary>
         /// Animation curve controlling the scale animation when clicked.
         /// </summary>
@@ -136,14 +141,14 @@ namespace Genies.UIFramework
         /// Whether long press functionality is enabled for this button.
         /// </summary>
         public bool EnableLongPress;
-        
-        [FormerlySerializedAs("holdDuration")] 
+
+        [FormerlySerializedAs("holdDuration")]
         /// <summary>
         /// Duration in seconds that the button must be held to trigger a long press.
         /// </summary>
         public float HoldDuration = 1.0f;
 
-        [FormerlySerializedAs("onLongPress")] 
+        [FormerlySerializedAs("onLongPress")]
         /// <summary>
         /// Unity event triggered when the button is long pressed.
         /// </summary>

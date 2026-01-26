@@ -5,7 +5,11 @@ using System.Reflection;
 
 namespace Genies.FeatureFlags
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsHelper
+#else
     public class FeatureFlagsHelper
+#endif
     {
         private static readonly List<string> _cachedFlags;
         private static readonly List<string> _cachedKeys;
@@ -56,7 +60,7 @@ namespace Genies.FeatureFlags
             {
                 return null;
             }
-            
+
             return _keyToValueMap.TryGetValue(key, out var value) ? value : null;
         }
 
@@ -66,10 +70,10 @@ namespace Genies.FeatureFlags
             {
                 return null;
             }
-            
+
             return _valueToKeyMap.TryGetValue(flagValue, out var key) ? key : null;
         }
-        
+
         public static void OverrideFlags(List<string> cachedFlags, List<string> cachedValues)
         {
             _cachedFlags.Clear();

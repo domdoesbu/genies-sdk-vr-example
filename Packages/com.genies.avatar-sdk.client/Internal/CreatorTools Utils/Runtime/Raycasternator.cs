@@ -19,7 +19,11 @@ namespace Genies.Components.CreatorTools.TexturePlacement
     /// Unity. Another job for results processing is implemented here: this takes the results
     /// of the Unity raycasting job and adds its data to the output texture.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Raycasternator : IDisposable
+#else
     public class Raycasternator : IDisposable
+#endif
     {
         public (int width, int height) OutputTextureDims { get; set; }
         public byte[] OutputTextureData { get; set; }  // results will be written here

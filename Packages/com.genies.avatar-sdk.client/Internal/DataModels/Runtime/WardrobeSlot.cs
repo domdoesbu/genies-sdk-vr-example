@@ -1,7 +1,11 @@
 ﻿using System;
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum WardrobeSlot {
+#else
     public enum WardrobeSlot {
+#endif
         none,
         hair,
         eyebrows,
@@ -25,7 +29,11 @@ namespace Genies.Models {
         skinColor
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class WardrobeSlotExtensions {
+#else
     public static class WardrobeSlotExtensions {
+#endif
         public static bool IsTop(this WardrobeSlot slot) {
             return slot == WardrobeSlot.shirt ||
                    slot == WardrobeSlot.hoodie ||

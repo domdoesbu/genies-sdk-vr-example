@@ -19,7 +19,11 @@ namespace Genies.Customization.MegaEditor
     /// Intermediate base class for customization controllers that use InventoryUIDataProvider.
     /// Provides common functionality for inventory-based controllers
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class InventoryCustomizationController : BaseCustomizationController
+#else
     public abstract class InventoryCustomizationController : BaseCustomizationController
+#endif
     {
 
         [SerializeField]
@@ -315,7 +319,7 @@ namespace Genies.Customization.MegaEditor
         /// </summary>
         protected void ActivateCamera()
         {
-            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera);
+            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(_virtualCamera).Forget();
         }
 
         /// <summary>
@@ -323,7 +327,7 @@ namespace Genies.Customization.MegaEditor
         /// </summary>
         protected void ActivateCamera(GeniesVirtualCameraCatalog camera)
         {
-            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(camera);
+            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(camera).Forget();
         }
 
         /// <summary>
@@ -332,7 +336,7 @@ namespace Genies.Customization.MegaEditor
         /// </summary>
         protected void ResetCamera()
         {
-            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera);
+            CustomizationContext.CurrentVirtualCameraController.ActivateVirtualCamera(GeniesVirtualCameraCatalog.FullBodyFocusCamera).Forget();
         }
 
         #endregion

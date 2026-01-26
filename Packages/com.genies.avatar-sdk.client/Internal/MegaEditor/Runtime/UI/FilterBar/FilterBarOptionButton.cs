@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FilterBarOptionButton : GeniesButton
+#else
     public class FilterBarOptionButton : GeniesButton
+#endif
     {
         [SerializeField] private Chip _chip;
 

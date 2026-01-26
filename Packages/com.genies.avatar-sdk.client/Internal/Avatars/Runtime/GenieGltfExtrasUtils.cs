@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieGltfExtrasUtils
+#else
     public static class GenieGltfExtrasUtils
+#endif
     {
         public const string GenieExtrasKey = "genieExtras";
 

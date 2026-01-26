@@ -198,6 +198,71 @@ namespace Genies.UI.Animations
             );
         }
 
+        /// <summary>
+        /// Animate local position with smooth easing (alternative to SpringLocalPosition)
+        /// </summary>
+        public static Animations.UIAnimatorCore<Vector3, Vector3, VectorOptions> AnimateLocalPosition(this RectTransform target, Vector3 endValue, float duration, AnimationSettings settings = default)
+        {
+            if (settings.IsDefault())
+            {
+                settings = AnimationSettings.Default;
+            }
+            
+            var host = GetOrAddAnimationHost(target);
+            Vector3 startValue = target.localPosition;
+
+            return Animations.GeniesUIAnimation.CreateAnimationCore<Vector3, Vector3, VectorOptions>(
+                host,
+                duration,
+                t => target.localPosition = Vector3.Lerp(startValue, endValue, t),
+                settings
+            );
+        }
+
+        /// <summary>
+        /// Animate local position Y with smooth easing
+        /// </summary>
+        public static Animations.UIAnimator AnimateLocalPositionY(this RectTransform target, float endValue, float duration, AnimationSettings settings = default)
+        {
+            if (settings.IsDefault())
+            {
+                settings = AnimationSettings.Default;
+            }
+            
+            var host = GetOrAddAnimationHost(target);
+            Vector3 startValue = target.localPosition;
+            Vector3 endPos = new Vector3(startValue.x, endValue, startValue.z);
+
+            return Animations.GeniesUIAnimation.CreateAnimation(
+                host,
+                duration,
+                t => target.localPosition = Vector3.Lerp(startValue, endPos, t),
+                settings
+            );
+        }
+
+        /// <summary>
+        /// Animate local position X with smooth easing
+        /// </summary>
+        public static Animations.UIAnimator AnimateLocalPositionX(this RectTransform target, float endValue, float duration, AnimationSettings settings = default)
+        {
+            if (settings.IsDefault())
+            {
+                settings = AnimationSettings.Default;
+            }
+            
+            var host = GetOrAddAnimationHost(target);
+            Vector3 startValue = target.localPosition;
+            Vector3 endPos = new Vector3(endValue, startValue.y, startValue.z);
+
+            return Animations.GeniesUIAnimation.CreateAnimation(
+                host,
+                duration,
+                t => target.localPosition = Vector3.Lerp(startValue, endPos, t),
+                settings
+            );
+        }
+
         public static void Terminate(this RectTransform target)
         {
             var host = target.GetComponent<AnimationHost>();

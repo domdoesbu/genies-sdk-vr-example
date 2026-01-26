@@ -5,7 +5,11 @@ using UnityEngine.UIElements;
 
 namespace Genies.Login.Native.Editor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesLoginEditorWindow : EditorWindow
+#else
     public class GeniesLoginEditorWindow : EditorWindow
+#endif
     {
         private GeniesEditorLoginController _Controller;
         private LoginStateInfo _LoginState;

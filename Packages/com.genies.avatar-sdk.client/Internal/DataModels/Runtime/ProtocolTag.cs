@@ -1,6 +1,10 @@
-﻿namespace Genies.Models
+namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum ProtocolTag
+#else
     public enum ProtocolTag
+#endif
     {
         None = 0,
         Poke = 1,

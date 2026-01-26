@@ -7,7 +7,12 @@ using UnityEngine.Events;
 
 namespace Genies.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CustomizeColorView : MonoBehaviour
+#else
     public class CustomizeColorView : MonoBehaviour
+#endif
     {
         [Tooltip("Title of this screen")] [SerializeField]
         private TextMeshProUGUI title;

@@ -11,7 +11,11 @@ using Genies.ServiceManagement;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipNativeAvatarAssetCommand : ICommand
+#else
     public class EquipNativeAvatarAssetCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly string                       _assetGuid;

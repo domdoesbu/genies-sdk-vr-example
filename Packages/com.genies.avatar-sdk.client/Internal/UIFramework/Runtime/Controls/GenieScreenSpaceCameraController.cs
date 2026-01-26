@@ -6,7 +6,12 @@ using UnityEngine.UI;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class GenieScreenSpaceCameraController : MonoBehaviour
+#else
     public class GenieScreenSpaceCameraController : MonoBehaviour
+#endif
     {
         private CanvasScaler CanvasScaler
         {

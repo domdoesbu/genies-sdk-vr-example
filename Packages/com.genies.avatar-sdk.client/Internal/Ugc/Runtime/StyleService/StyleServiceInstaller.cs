@@ -7,13 +7,17 @@ using VContainer;
 namespace Genies.Ugc
 {
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class StyleServiceInstaller : IGeniesInstaller
+#else
     public class StyleServiceInstaller : IGeniesInstaller
+#endif
     {
         public void Install(IContainerBuilder builder)
         {
             RegisterCustomStyles(builder);
         }
-        
+
         private static void RegisterCustomStyles(IContainerBuilder builder)
         {
             //Styles
@@ -32,7 +36,7 @@ namespace Genies.Ugc
                      Lifetime.Singleton
                     )
                    .As<ICloudFeatureSaveService<Style>>();
-            
+
             builder.Register<IDataRepository<Style>, RemoteStyleDataRepository>(Lifetime.Singleton)
                    .WithParameter(StyleServiceStates.CustomStyle);
         }

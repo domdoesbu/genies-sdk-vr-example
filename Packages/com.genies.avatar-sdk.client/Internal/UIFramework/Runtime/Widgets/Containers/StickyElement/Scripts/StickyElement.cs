@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace Genies.UI.Widgets
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class StickyElement : MonoBehaviour
+#else
     public class StickyElement : MonoBehaviour
+#endif
     {
         private List<CollapsibleGeniesButton> _buttons = new List<CollapsibleGeniesButton>();
 

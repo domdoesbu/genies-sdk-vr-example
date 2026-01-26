@@ -1,6 +1,10 @@
 ﻿namespace Genies.NafPlugin
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ImportName
+#else
     public static class ImportName
+#endif
     {
 #if UNITY_EDITOR
         public const string Value = "gnUnityPlugin";

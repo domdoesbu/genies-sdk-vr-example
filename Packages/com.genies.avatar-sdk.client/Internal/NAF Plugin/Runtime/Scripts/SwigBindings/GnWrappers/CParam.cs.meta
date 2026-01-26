@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d29e71873844b49c18bb4c0ce4b65532
+guid: 5eef17d4465198a4695c357e7b16e9dd
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/CParam.cs
+  uploadId: 850608

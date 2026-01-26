@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 
 namespace Genies.Utilities
@@ -57,7 +58,9 @@ namespace Genies.Utilities
             _videoGroup.sizeDelta = sizeDelta;
 
             //Render texture from camera
-            _viewTexture = new RenderTexture(_videoWidth, _videoHeight, 0);
+            _viewTexture = new RenderTexture(_videoWidth, _videoHeight, 24,
+                GraphicsFormat.B10G11R11_UFloatPack32);
+
             _targetImage.texture = _viewTexture;
             _camera.targetTexture = _viewTexture;
             _camera.Render();

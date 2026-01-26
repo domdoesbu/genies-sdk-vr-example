@@ -4,7 +4,11 @@ using Genies.Services.Model;
 
 namespace Genies.Inventory
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultInventoryAsset
+#else
     public class DefaultInventoryAsset
+#endif
     {
         public string AssetId;
         public AssetType AssetType;
@@ -16,29 +20,49 @@ namespace Genies.Inventory
         public PipelineData PipelineData;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ColoredInventoryAsset : DefaultInventoryAsset
+#else
     public class ColoredInventoryAsset : DefaultInventoryAsset
+#endif
     {
         public List<Color> Colors;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ColorTaggedInventoryAsset : DefaultInventoryAsset
+#else
     public class ColorTaggedInventoryAsset : DefaultInventoryAsset
+#endif
     {
         public List<string> ColorTags;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultAvatarBaseAsset : DefaultInventoryAsset
+#else
     public class DefaultAvatarBaseAsset : DefaultInventoryAsset
+#endif
     {
         public List<string> Tags;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultAnimationLibraryAsset : DefaultInventoryAsset
+#else
     public class DefaultAnimationLibraryAsset : DefaultInventoryAsset
+#endif
     {
         public string MoodsTag;
         public List<string> ProtocolTags;
         public List<DefaultAnimationChildAsset> ChildAssets;
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultAnimationChildAsset
+#else
     public class DefaultAnimationChildAsset
+#endif
     {
         public string AssetId;
         public string ProtocolTag;
@@ -50,7 +74,11 @@ namespace Genies.Inventory
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PipelineData
+#else
     public class PipelineData
+#endif
     {
         public long AssetVersion;
         public string PipelineVersion;
@@ -70,7 +98,11 @@ namespace Genies.Inventory
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum AssetType
+#else
     public enum AssetType
+#endif
     {
         WardrobeGear,
         AvatarBase,
@@ -85,7 +117,11 @@ namespace Genies.Inventory
         ModelLibrary
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum AvatarBaseCategory
+#else
     public enum AvatarBaseCategory
+#endif
     {
         None = 0,
         Lips = 1,

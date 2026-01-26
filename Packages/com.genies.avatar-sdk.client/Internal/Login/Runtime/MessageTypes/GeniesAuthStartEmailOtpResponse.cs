@@ -5,7 +5,11 @@ using Genies.Login;
 namespace Genies.Login.AuthMessages
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthStartEmailOtpResponse : GeniesAuthMessage
+#else
     public class GeniesAuthStartEmailOtpResponse : GeniesAuthMessage
+#endif
     {
         public enum StatusCode
         {

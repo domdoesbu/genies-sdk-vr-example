@@ -4,7 +4,11 @@ using System.Runtime.Serialization;
 namespace Genies.CloudSave
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CloudSaveException : Exception
+#else
     public class CloudSaveException : Exception
+#endif
     {
         //
         // For guidelines regarding the creation of new exception types, see

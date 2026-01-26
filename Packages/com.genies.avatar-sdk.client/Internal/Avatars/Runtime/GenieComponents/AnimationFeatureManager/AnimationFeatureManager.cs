@@ -9,7 +9,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [SerializableAs(typeof(GenieComponent), "animation-feature-manager")]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AnimationFeatureManager : GenieComponent
+#else
     public sealed class AnimationFeatureManager : GenieComponent
+#endif
     {
         public override string                        Name               => "Animation Feature Manager";
         public IReadOnlyCollection<IAnimationFeature> Features           => _features;

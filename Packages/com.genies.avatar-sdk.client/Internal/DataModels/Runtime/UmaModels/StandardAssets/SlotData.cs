@@ -9,7 +9,11 @@ namespace UMA
 	/// Slot data contains mesh information and overlay references.
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class SlotData : System.IEquatable<SlotData>, ISerializationCallbackReceiver
+#else
 	public class SlotData : System.IEquatable<SlotData>, ISerializationCallbackReceiver
+#endif
 	{
 		/// <summary>
 		/// The asset contains the immutable portions of the slot.

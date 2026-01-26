@@ -10,7 +10,11 @@ namespace Genies.Avatars
     /// Used to control the makeup slots from a <see cref="MegaSkinGenieMaterial"/> instance.
     /// Any changes made will set the skin material dirty.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MakeupController : AssetSlotsController<Texture2DAsset>
+#else
     public sealed class MakeupController : AssetSlotsController<Texture2DAsset>
+#endif
     {
         private static readonly HashSet<string> Slots = new(MakeupSlot.All);
 

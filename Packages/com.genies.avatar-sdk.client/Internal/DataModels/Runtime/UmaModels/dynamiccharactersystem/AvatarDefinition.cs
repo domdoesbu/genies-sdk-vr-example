@@ -9,7 +9,11 @@ using UnityEngine;
 namespace UmaModels.DynamicCharacterSystem
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct ColorDef
+#else
     public struct ColorDef
+#endif
     {
         public int chan; // What channel this is
         public uint mCol; // The multiplicative
@@ -38,7 +42,11 @@ namespace UmaModels.DynamicCharacterSystem
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SharedColorDef
+#else
     public struct SharedColorDef
+#endif
     {
         public string name;
         public int count;
@@ -58,7 +66,11 @@ namespace UmaModels.DynamicCharacterSystem
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct DnaDef
+#else
     public struct DnaDef
+#endif
     {
         public string Name;
         public int    val;
@@ -88,7 +100,11 @@ namespace UmaModels.DynamicCharacterSystem
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct AvatarDefinition
+#else
     public struct AvatarDefinition
+#endif
     {
         public string RaceName;
         public string[] Wardrobe;
@@ -353,7 +369,11 @@ namespace UmaModels.DynamicCharacterSystem
     }
 
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class BinaryDefinition
+#else
     public class BinaryDefinition
+#endif
     {
         public AvatarDefinition adf;
 

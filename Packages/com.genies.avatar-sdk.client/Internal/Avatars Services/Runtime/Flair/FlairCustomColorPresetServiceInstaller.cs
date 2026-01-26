@@ -7,7 +7,11 @@ using VContainer;
 namespace Genies.Avatars.Services.Flair
 {
     [AutoResolve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairCustomColorPresetServiceInstaller : IGeniesInstaller
+#else
     public class FlairCustomColorPresetServiceInstaller : IGeniesInstaller
+#endif
     {
         public void Install(IContainerBuilder builder)
         {

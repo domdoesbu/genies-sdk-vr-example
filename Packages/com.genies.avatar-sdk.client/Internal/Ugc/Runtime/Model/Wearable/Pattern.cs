@@ -26,14 +26,18 @@ namespace Genies.Ugc
     /// Defines the type of pattern rendering mode to use.
     /// Different pattern types support different combinations of colors, textures, and effects.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PatternType : byte
+#else
     public enum PatternType : byte
+#endif
     {
         /// <summary>
         /// Standard textured pattern mode that uses texture images with optional color adjustments.
         /// Supports texture scaling, rotation, offset, and HSG (Hue, Saturation, Gain) modifications.
         /// </summary>
         Textured,
-        
+
         /// <summary>
         /// Duotone pattern mode that creates patterns using two colors and contrast controls.
         /// Instead of textures, this mode generates patterns using color blending and contrast adjustments.
@@ -47,7 +51,11 @@ namespace Genies.Ugc
     /// This class handles texture mapping, color blending, geometric transformations, and procedural pattern generation.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Pattern : IModel<Pattern>
+#else
     public class Pattern : IModel<Pattern>
+#endif
     {
         /// <summary>
         /// The remote URL where the pattern texture can be downloaded.
@@ -55,77 +63,77 @@ namespace Genies.Ugc
         /// </summary>
         [JsonProperty("TextureRemoteUrl")]
         public string TextureRemoteUrl = string.Empty;
-        
+
         /// <summary>
         /// The type of pattern rendering to use (Textured or Duotone).
         /// This determines which properties are active and how the pattern is generated.
         /// </summary>
         [JsonProperty("PatternType")]
         public PatternType Type = PatternType.Textured;
-        
+
         /// <summary>
         /// The local identifier for the pattern texture asset.
         /// Used to reference textures that are bundled with the application or cached locally.
         /// </summary>
         [JsonProperty("TextureName")]
         public string TextureId = string.Empty;
-        
+
         /// <summary>
         /// The scaling factor applied to the pattern texture.
         /// Values greater than 1.0 will tile the pattern, while values less than 1.0 will scale it up.
         /// </summary>
         [JsonProperty("Scale")]
         public float Scale = 1.0f;
-        
+
         /// <summary>
         /// The UV offset applied to the pattern texture in 2D space.
         /// Used to shift the pattern's position on the surface without changing its scale or rotation.
         /// </summary>
         [JsonProperty("Offset")]
         public Vector2 Offset = Vector2.zero;
-        
+
         /// <summary>
         /// The rotation angle applied to the pattern texture in degrees.
         /// Positive values rotate the pattern clockwise.
         /// </summary>
         [JsonProperty("Rotation")]
         public float Rotation = 0.0f;
-        
+
         /// <summary>
         /// Hue shift adjustment applied to the pattern colors.
         /// Values range from -1.0 to 1.0, with 0.0 being no hue change.
         /// </summary>
         [JsonProperty("Hue")]
         public float Hue = 0.0f;
-        
+
         /// <summary>
         /// Saturation adjustment applied to the pattern colors.
         /// Values around 1.0 maintain original saturation, while 0.0 creates grayscale and values > 1.0 increase vibrancy.
         /// </summary>
         [JsonProperty("Saturation")]
         public float Saturation = 1.0f;
-        
+
         /// <summary>
         /// Gain (brightness) adjustment applied to the pattern.
         /// Values around 1.0 maintain original brightness, while values > 1.0 brighten and < 1.0 darken the pattern.
         /// </summary>
         [JsonProperty("Gain")]
         public float Gain = 1.0f;
-        
+
         /// <summary>
         /// Contrast adjustment used in Duotone pattern mode.
         /// Higher values create sharper transitions between the two duotone colors.
         /// </summary>
         [JsonProperty("DuoContrast")]
         public float DuoContrast = 0.0f;
-        
+
         /// <summary>
         /// The first color used in Duotone pattern mode.
         /// This color typically represents the darker or shadow areas of the pattern.
         /// </summary>
         [JsonProperty("DuoColor1")]
         public Color DuoColor1 = Color.black;
-        
+
         /// <summary>
         /// The second color used in Duotone pattern mode.
         /// This color typically represents the lighter or highlight areas of the pattern.

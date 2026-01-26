@@ -4,8 +4,16 @@ using UnityEngine;
 using Genies.CrashReporting;
 
 namespace Genies.Events {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IEvent {}
+#else
     public interface IEvent {}
+#endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Event : IEvent {
+#else
     public class Event : IEvent {
+#endif
         public List<Action> Actions { get; private set; } = new List<Action>();
 
         public void AddListener(Action action) {
@@ -35,7 +43,11 @@ namespace Genies.Events {
             }
         }
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class Event<T> : IEvent {
+#else
     public class Event<T> : IEvent {
+#endif
         public List<Action<T>> Actions { get; private set; } = new List<Action<T>>();
         public void AddListener(Action<T> action) {
             if (!Actions.Contains(action)) {
@@ -65,7 +77,11 @@ namespace Genies.Events {
         }
 
     }
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EventBus {
+#else
     public class EventBus {
+#endif
 
         public EventBus() {
             _events = new Dictionary<string, IEvent>();

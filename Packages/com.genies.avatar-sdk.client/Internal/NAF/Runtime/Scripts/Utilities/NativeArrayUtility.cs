@@ -4,7 +4,11 @@ using Unity.Collections.LowLevel.Unsafe;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class NativeArrayUtility
+#else
     public static class NativeArrayUtility
+#endif
     {
         public static NativeArray<T> PtrToNativeArray<T>(IntPtr pointer, int size)
             where T : struct
@@ -19,12 +23,12 @@ namespace Genies.Naf
             {
                 array = NativeArrayUnsafeUtility.ConvertExistingDataToNativeArray<T>((void*)pointer, size, Allocator.None);
             }
-        
+
             // set the safety handle (required for safety checks in the editor)
 #if ENABLE_UNITY_COLLECTIONS_CHECKS
             NativeArrayUnsafeUtility.SetAtomicSafetyHandle(ref array, AtomicSafetyHandle.Create());
 #endif
-        
+
             return array;
         }
     }

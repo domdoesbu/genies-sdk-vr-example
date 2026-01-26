@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Genies.Utilities;
 using UnityEngine;
@@ -13,7 +13,12 @@ namespace Genies.Avatars
     /// The parameter-to-blendshape mapping is given by the referenced <see cref="BlendShapeAnimatorConfig"/> asset.
     /// </summary>
     [RequireComponent(typeof(Animator))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class BlendShapeAnimatorBehaviour : MonoBehaviour
+#else
     public sealed class BlendShapeAnimatorBehaviour : MonoBehaviour
+#endif
     {
         public BlendShapeAnimatorConfig config;
         [SerializeField] private List<SkinnedMeshRenderer> renderers = new();

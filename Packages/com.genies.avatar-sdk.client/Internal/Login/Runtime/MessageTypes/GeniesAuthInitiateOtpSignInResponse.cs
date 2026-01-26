@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about the process of starting phone number-based authentication.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthInitiateOtpSignInResponse : GeniesAuthMessage
+#else
     public class GeniesAuthInitiateOtpSignInResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the OTP initiation operation.</summary>
         [NonSerialized]

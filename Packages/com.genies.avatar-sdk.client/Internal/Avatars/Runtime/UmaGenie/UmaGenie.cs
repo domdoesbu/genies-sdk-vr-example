@@ -19,7 +19,12 @@ namespace Genies.Avatars
     /// This is point of abstraction between our tech and UMA and it contains all low level features for customizing and building an avatar.
     /// </summary>
     [RequireComponent(typeof(DynamicCharacterAvatar))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class UmaGenie : MonoBehaviour, IEditableGenie
+#else
     public sealed class UmaGenie : MonoBehaviour, IEditableGenie
+#endif
     {
         // inspector
         [SerializeField]

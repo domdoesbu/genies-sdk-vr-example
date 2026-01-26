@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class EditorMaterialExtensions
+#else
     public static class EditorMaterialExtensions
+#endif
     {
         public static List<ShaderField> GetShaderFields(Material mat)
         {

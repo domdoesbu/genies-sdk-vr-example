@@ -4,7 +4,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     // TODO we need to find a better way to get UtilMeshName from an asset, this class is currently specific to Unified only
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UtilityMeshConverter
+#else
     public static class UtilityMeshConverter
+#endif
     {
         public static UtilMeshName GetUtilityMeshFromAssetCategory(OutfitAsset asset)
         {

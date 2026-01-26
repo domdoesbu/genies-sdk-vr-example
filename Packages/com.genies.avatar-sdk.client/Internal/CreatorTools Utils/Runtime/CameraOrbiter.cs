@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Genies.CreatorTools.utils
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class CameraOrbiter : MonoBehaviour
+#else
     public class CameraOrbiter : MonoBehaviour
+#endif
     {
         [FormerlySerializedAs("camera")] public Camera _camera;
         public List<CameraTarget> targets;

@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal enum TranscodableTextureFormat : byte {
+#else
 public enum TranscodableTextureFormat : byte {
+#endif
   Undefined = 0,
   UASTC = 1,
   ETC1S = 2,

@@ -5,7 +5,11 @@ using Genies.Services.Model;
 namespace Genies.Inventory
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal readonly struct UserInventoryData
+#else
     public readonly struct UserInventoryData
+#endif
     {
         public readonly string UserId;
         public readonly IReadOnlyList<UserInventoryItem> Items;

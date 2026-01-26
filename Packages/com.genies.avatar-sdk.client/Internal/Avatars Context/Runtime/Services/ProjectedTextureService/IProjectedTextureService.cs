@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IProjectedTextureService
+#else
     public interface IProjectedTextureService
+#endif
     {
         /// <summary>
         /// Creates ProjectedTexture object and uploads its texture to s3

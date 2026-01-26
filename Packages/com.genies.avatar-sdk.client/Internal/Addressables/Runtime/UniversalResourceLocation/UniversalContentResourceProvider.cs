@@ -10,7 +10,11 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace Genies.Addressables.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UniversalContentResourceProvider : ResourceProviderBase
+#else
     public class UniversalContentResourceProvider : ResourceProviderBase
+#endif
     {
         private const string _providerSuffix = "universal_content";
         public static string CustomProviderId => $"{typeof(UniversalContentResourceProvider).FullName}{_providerSuffix}";

@@ -70,6 +70,12 @@ namespace Genies.NativeAPI
         public string AuthIdToken =>
             IsInitialized ? Utf8FromNativeAndFree(GetIdToken_NativeAPI()) : string.Empty;
 
+        public bool IsUserAnonymous =>
+            IsInitialized && IsAnonymousUser_NativeAPI();
+        
+        public bool IsTokenAnonymous(string token) =>
+            IsInitialized && IsAnonymousToken_NativeAPI(token);
+       
         // =========================================================
         // Native Interop
         // =========================================================
@@ -111,6 +117,14 @@ namespace Genies.NativeAPI
         [return: MarshalAs(UnmanagedType.I1)]
         private static extern bool CheckAccessTokenValidity_NativeAPI();
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]        
+        private static extern bool IsAnonymousUser_NativeAPI();
+        
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]        
+        private static extern bool IsAnonymousToken_NativeAPI(string token = "");
+                
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int GetTimeUntilTokensExpire_NativeAPI();
 
@@ -234,14 +248,7 @@ namespace Genies.NativeAPI
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr AnonymousRefresh_NativeAPI();
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr AnonymousUpgrade_NativeAPI(
-            [MarshalAs(UnmanagedType.LPUTF8Str)] string email,
-            [MarshalAs(UnmanagedType.LPUTF8Str)] string birthday,
-            [MarshalAs(UnmanagedType.LPUTF8Str)] string firstName,
-            [MarshalAs(UnmanagedType.LPUTF8Str)] string lastName);
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr UpgradeUserV1_NativeAPI(
             [MarshalAs(UnmanagedType.LPUTF8Str)] string email);
@@ -479,6 +486,16 @@ namespace Genies.NativeAPI
                 };
             }
 
+            if (IsUserSignedIn())
+            {
+                return new GeniesAuthInstantLoginResponse
+                {
+                    Message = "User is already signed in",
+                    Status = "success",
+                    ResponseStatusCode = GeniesAuthInstantLoginResponse.StatusCode.None
+                };
+            }
+            
             var result = await RunFunctionExclusiveAsync<GeniesAuthInstantLoginResponse>(
                 nameof(TryInstantLoginAsync),
                 TryRestoreSession_NativeAPI);
@@ -718,13 +735,7 @@ namespace Genies.NativeAPI
             RunFunctionExclusiveAsync<GeniesAuthAnonymousResponse>(
                 nameof(AnonymousRefreshAsync),
                 AnonymousRefresh_NativeAPI);
-
-        internal Task<GeniesAuthAnonymousResponse> AnonymousUpgradeAsync(
-            string email, string birthday = "", string firstName = "", string lastName = "") =>
-            RunFunctionExclusiveAsync<GeniesAuthAnonymousResponse>(
-                nameof(AnonymousUpgradeAsync),
-                () => AnonymousUpgrade_NativeAPI(email ?? "", birthday ?? "", firstName ?? "", lastName ?? ""));
-
+        
         public void InvokeOnUserLoggedIn()
         {
             UserLoggedIn?.Invoke();
@@ -808,7 +819,6 @@ namespace Genies.NativeAPI
                 var resultJson = Utf8FromNativeAndFree(resultPtr);
 
                 CrashReporter.LogInternal($"[GeniesNativeAPIAuth] resultJson: {resultJson}");
-
                 try
                 {
                     return JsonUtility.FromJson<T>(resultJson);

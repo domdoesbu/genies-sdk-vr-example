@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// <see cref="IIkrTarget"/> implementation for grounding IK goals relative to an <see cref="IGenie"/> ground.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GenieGroundIkrTarget : IIkrTarget
+#else
     public sealed class GenieGroundIkrTarget : IIkrTarget
+#endif
     {
         public string     Key         { get; }
         public float      Weight      => _animator.GetFloat(_weightPropertyId);

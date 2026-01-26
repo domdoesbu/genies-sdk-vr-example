@@ -9,7 +9,11 @@ using UnityEditor;
 
 
 namespace Genies.Models {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class MaterialDataEyeContainer : MaterialDataContainer, IDynamicAsset, IShaderlessAsset
+#else
     public class MaterialDataEyeContainer : MaterialDataContainer, IDynamicAsset, IShaderlessAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

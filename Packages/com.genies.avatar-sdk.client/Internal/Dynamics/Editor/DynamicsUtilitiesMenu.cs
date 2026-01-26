@@ -7,7 +7,11 @@ using UMA;
 
 namespace Genies.Components.Dynamics
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class DynamicsUtilitiesMenu
+#else
     public static class DynamicsUtilitiesMenu
+#endif
     {
         /// <summary>
         /// Creates an initial dynamic structures based on clues given by the dynamic joints found in a rig.
@@ -84,7 +88,11 @@ namespace Genies.Components.Dynamics
 #endif
         public static void CreateRecipeFromDynamicsStructure() => CreateRecipeDialog.ShowWindow();
 
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal class CreateRecipeDialog : EditorWindow
+#else
         public class CreateRecipeDialog : EditorWindow
+#endif
         {
             private string _assetName = string.Empty;
             private string _recipeFilePath = string.Empty;
@@ -271,7 +279,11 @@ namespace Genies.Components.Dynamics
 #endif
         public static void AddDynamicsColliders() => AddCollidersDialog.ShowWindow();
 
+#if GENIES_SDK && !GENIES_INTERNAL
+        internal class AddCollidersDialog : EditorWindow
+#else
         public class AddCollidersDialog : EditorWindow
+#endif
         {
             private DynamicsStructure structure;
             private GameObject root;

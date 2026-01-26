@@ -9,7 +9,11 @@ namespace Genies.FeatureFlags
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "FeatureFlagsDataInfo", menuName = "GeniesParty/Feature Flags/FeatureFlagsDataInfo")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FeatureFlagsDataInfo : ScriptableObject
+#else
     public class FeatureFlagsDataInfo : ScriptableObject
+#endif
     {
         [SerializeField] private List<string> _data;
         public List<string> Data => _data;

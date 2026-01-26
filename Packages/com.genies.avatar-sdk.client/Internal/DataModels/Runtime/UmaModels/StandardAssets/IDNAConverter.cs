@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal interface IDNAConverter
+#else
 	public interface IDNAConverter
+#endif
 	{
 		System.Type DNAType { get; }
 

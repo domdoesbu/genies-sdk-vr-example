@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal enum TextureFormat : ushort {
+#else
 public enum TextureFormat : ushort {
+#endif
   Undefined = 0,
   ASTC = 1 << 0,
   BC1_3 = 1 << 1,

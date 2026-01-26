@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using Genies.Refs;
 using Genies.Utilities;
 using UnityEngine;
@@ -10,7 +10,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// Created with the only purpose of fixing normal maps when targeting the Android platform in the editor.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ContentNormalMapFix
+#else
     public static class ContentNormalMapFix
+#endif
     {
         private const string _ag2RgbShaderName = "Genies/Utils/AG to RGB Normal";
         private static Material _ag2RgbMaterial;
@@ -25,11 +29,11 @@ namespace Genies.Avatars.Context
         {
             if (!IsFixNeeded())
                 return default;
-            
+
             // if texture is not a normal map in AG format then do nothing
             if (!GraphicsFormatUtility.IsDXTCFormat(texture.graphicsFormat) && !GraphicsFormatUtility.IsASTCFormat(texture.graphicsFormat))
                 return default;
-            
+
             if (!TryInitializeMaterial())
                 return default;
 
@@ -45,10 +49,10 @@ namespace Genies.Avatars.Context
                 default:
                     return default;
             }
-            
+
             fixedTexture.name = $"{texture.name}--fixed";
             Graphics.Blit(texture, fixedTexture, _ag2RgbMaterial);
-            
+
             return CreateRef.FromUnityObject((Texture)fixedTexture);
         }
 
@@ -56,7 +60,7 @@ namespace Genies.Avatars.Context
         {
             if (_ag2RgbMaterial)
                 return true;
-            
+
             var shader = Shader.Find(_ag2RgbShaderName);
             if (!shader)
             {

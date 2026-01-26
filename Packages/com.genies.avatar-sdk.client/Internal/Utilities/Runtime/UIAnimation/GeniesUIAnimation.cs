@@ -19,7 +19,11 @@ namespace Genies.UI.Animations
         OutQuad,
         InOutQuad,
         InCubic,
-        OutCubic
+        OutCubic,
+        InOutCubic,
+        InQuart,
+        OutQuart,
+        InOutQuart
     }
 
     /// <summary>
@@ -614,6 +618,18 @@ namespace Genies.UI.Animations
 
                 case Ease.OutCubic:
                     return 1f - Mathf.Pow(1f - t, 3f);
+
+                case Ease.InOutCubic:
+                    return t < 0.5f ? 4f * t * t * t : 1f - Mathf.Pow(-2f * t + 2f, 3f) * 0.5f;
+
+                case Ease.InQuart:
+                    return t * t * t * t;
+
+                case Ease.OutQuart:
+                    return 1f - Mathf.Pow(1f - t, 4f);
+
+                case Ease.InOutQuart:
+                    return t < 0.5f ? 8f * t * t * t * t : 1f - Mathf.Pow(-2f * t + 2f, 4f) * 0.5f;
 
                 default:
                     return t;

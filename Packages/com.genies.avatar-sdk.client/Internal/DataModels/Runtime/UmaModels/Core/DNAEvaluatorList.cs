@@ -10,7 +10,11 @@ namespace UMA
 	//a blendshape or bone pose for example.
 	//You can generally treat this like a list of evaluators, but you can call Evaluate on it directly to get the aggregated result
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class DNAEvaluatorList
+#else
 	public class DNAEvaluatorList
+#endif
 	{
 		public enum AggregationMethodOpts
 		{

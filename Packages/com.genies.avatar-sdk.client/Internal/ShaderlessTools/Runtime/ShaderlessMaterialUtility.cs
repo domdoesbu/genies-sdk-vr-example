@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Components.ShaderlessTools
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ShaderlessMaterialUtility
+#else
     public class ShaderlessMaterialUtility
+#endif
     {
         /// <summary>
         /// Sets shader, fields and properties on a MaterialProps.Material using templateMaterial

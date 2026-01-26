@@ -7,7 +7,11 @@ namespace Genies.Closet
     /// API path resolver for closet services that provides the appropriate base URLs for different backend environments.
     /// This class implements <see cref="IApiClientPathResolver"/> to resolve Genies API endpoints for closet-related operations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ClosetApiPathResolver : IApiClientPathResolver
+#else
     public class ClosetApiPathResolver : IApiClientPathResolver
+#endif
     {
         /// <summary>
         /// Gets the appropriate API base URL for the specified backend environment.

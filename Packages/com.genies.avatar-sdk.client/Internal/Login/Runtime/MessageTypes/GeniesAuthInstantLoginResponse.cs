@@ -7,7 +7,11 @@ namespace Genies.Login.AuthMessages
     /// Contains status information about session validation and token refresh processes.
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GeniesAuthInstantLoginResponse : GeniesAuthMessage
+#else
     public class GeniesAuthInstantLoginResponse : GeniesAuthMessage
+#endif
     {
         /// <summary>The specific status code for the instant login operation.</summary>
         [NonSerialized]

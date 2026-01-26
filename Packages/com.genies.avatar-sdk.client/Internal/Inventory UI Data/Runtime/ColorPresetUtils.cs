@@ -10,7 +10,11 @@ namespace Genies.Inventory.UIData
     /// <summary>
     /// Utility class to get all the subcategories for each of our <see cref="ColorMainTypes"/>
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ColorPresetUtils
+#else
     public static class ColorPresetUtils
+#endif
     {
         public static IReadOnlyList<string> DnaColorCategories;
         public static IReadOnlyList<string> MakeupColorCategories;

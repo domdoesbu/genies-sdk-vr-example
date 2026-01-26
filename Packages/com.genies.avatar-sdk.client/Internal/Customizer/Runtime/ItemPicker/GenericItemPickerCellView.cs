@@ -3,7 +3,11 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.ItemPicker
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GenericItemPickerCellView : ItemPickerCellView
+#else
     public class GenericItemPickerCellView : ItemPickerCellView
+#endif
     {
         public Image thumbnail;
 

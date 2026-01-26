@@ -4,7 +4,11 @@ using System.Runtime.Serialization;
 namespace Genies.DataRepositoryFramework
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DataRepositoryException : Exception
+#else
     public class DataRepositoryException : Exception
+#endif
     {
         //
         // For guidelines regarding the creation of new exception types, see

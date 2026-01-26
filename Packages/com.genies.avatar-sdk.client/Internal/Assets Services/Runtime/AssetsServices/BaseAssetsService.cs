@@ -11,7 +11,11 @@ namespace Genies.Assets.Services
     /// Provides some overridable generic implementations for most of <see cref="IAssetsService"/> so implementers can just implement
     /// the core loading methods.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class BaseAssetsService : IAssetsService
+#else
     public abstract class BaseAssetsService : IAssetsService
+#endif
     {
         public abstract UniTask<Ref<T>> LoadAssetAsync<T>(object key, int? version = null, string lod = AssetLod.Default);
         public abstract UniTask<Ref<T>> LoadAssetAsync<T>(IResourceLocation location);

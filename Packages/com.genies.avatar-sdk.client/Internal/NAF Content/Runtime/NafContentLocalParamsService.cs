@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Genies.Naf.Content.AvatarBaseConfig;
 using Cysharp.Threading.Tasks;
 
 namespace Genies.Naf.Content
@@ -8,12 +9,18 @@ namespace Genies.Naf.Content
     /// Hardcoded set of guids used as fallback when core Avatar assets cannot be retrieved
     /// from any of the cms services.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafContentLocalParamsService : IAssetParamsService, IAssetIdConverter
+#else
     public class NafContentLocalParamsService : IAssetParamsService, IAssetIdConverter
+#endif
     {
-        private readonly IReadOnlyDictionary<string, string> _universalGuidMap = LocalParamsMap.LocalGuidMap;
+        private IReadOnlyDictionary<string, string> _universalGuidMap;
 
         public UniTask<string> ConvertToUniversalIdAsync(string assetId)
         {
+            InitializeLocalGuidMap();
+            
             return UniTask.FromResult(_universalGuidMap.TryGetValue(assetId, out var uri) ? UriToUniversalId(uri) : assetId);
         }
 
@@ -36,7 +43,20 @@ namespace Genies.Naf.Content
 
         public UniTask<Dictionary<string, string>> FetchParamsAsync(string assetId)
         {
+            InitializeLocalGuidMap();
+                
             return UniTask.FromResult(_universalGuidMap.TryGetValue(assetId, out var uri) ? UriToDict(uri) : default);
+        }
+        
+        private void InitializeLocalGuidMap()
+        {
+            if (_universalGuidMap != null)
+            {
+                return;
+            }
+
+            var avatarBaseVersion = AvatarBaseVersionService.GetAvatarBaseVersion().GetAwaiter().GetResult();
+            _universalGuidMap = LocalParamsMap.GetLocalGuidMap(avatarBaseVersion: avatarBaseVersion);
         }
 
         private static string UriToUniversalId(string uri)
@@ -99,63 +119,64 @@ namespace Genies.Naf.Content
         {
             // Working version in prod & dev at the time of naf-gp integration
             private const string _defaultVersion = "1758268349";
-            private const string _defaultAvatarBaseVer = "0.0.9";
+            private const string _defaultAvatarBaseVer = "1.0.0";
 
-            // during integration we have to support both types of assetIds
-            // this map is fallback when cms or inventory cannot find the last available version for Core BodyTypes
-            public static readonly IReadOnlyDictionary<string, string> LocalGuidMap = new Dictionary<string, string>()
+            public static IReadOnlyDictionary<string, string> GetLocalGuidMap(string staticVersion = _defaultVersion, string avatarBaseVersion = _defaultAvatarBaseVer)
             {
-                // all Body Type Containers static (legacy)
-                {"Genie_Unified_gen13gp_Race_Container", $"Static/Genie_Unified_gen13gp_Race_Container/manifest.bin?v={_defaultVersion}"},
-                {"Static/Genie_Unified_gen13gp_Race_Container", $"Static/Genie_Unified_gen13gp_Race_Container/manifest.bin?v={_defaultVersion}"},
+                return new Dictionary<string, string>()
+                {
+                    // all Body Type Containers static (legacy)
+                    {"Genie_Unified_gen13gp_Race_Container", $"Static/Genie_Unified_gen13gp_Race_Container/manifest.bin?v={staticVersion}"},
+                    {"Static/Genie_Unified_gen13gp_Race_Container", $"Static/Genie_Unified_gen13gp_Race_Container/manifest.bin?v={staticVersion}"},
 
-                {"Genie_Unified_gen12gp_Container", $"Static/Genie_Unified_gen12gp_Container/manifest.bin?v={_defaultVersion}"},
-                {"Static/Genie_Unified_gen12gp_Container", $"Static/Genie_Unified_gen12gp_Container/manifest.bin?v={_defaultVersion}"},
+                    {"Genie_Unified_gen12gp_Container", $"Static/Genie_Unified_gen12gp_Container/manifest.bin?v={staticVersion}"},
+                    {"Static/Genie_Unified_gen12gp_Container", $"Static/Genie_Unified_gen12gp_Container/manifest.bin?v={staticVersion}"},
 
-                {"Genie_Unified_gen11gp_Container", $"Static/Genie_Unified_gen11gp_Container/manifest.bin?v={_defaultVersion}"},
-                {"Static/Genie_Unified_gen11gp_Container", $"Static/Genie_Unified_gen11gp_Container/manifest.bin?v={_defaultVersion}"},
+                    {"Genie_Unified_gen11gp_Container", $"Static/Genie_Unified_gen11gp_Container/manifest.bin?v={staticVersion}"},
+                    {"Static/Genie_Unified_gen11gp_Container", $"Static/Genie_Unified_gen11gp_Container/manifest.bin?v={staticVersion}"},
 
-                {"DollGen1_RaceData_Container", $"Static/DollGen1_RaceData_Container/manifest.bin?v={_defaultVersion}"},
-                {"Static/DollGen1_RaceData_Container", $"Static/DollGen1_RaceData_Container/manifest.bin?v={_defaultVersion}"},
+                    {"DollGen1_RaceData_Container", $"Static/DollGen1_RaceData_Container/manifest.bin?v={staticVersion}"},
+                    {"Static/DollGen1_RaceData_Container", $"Static/DollGen1_RaceData_Container/manifest.bin?v={staticVersion}"},
 
-                {"BlendShapeContainer_body_female", $"Static/BlendShapeContainer_body_female/manifest.bin?v={_defaultVersion}"},
-                {"Static/BlendShapeContainer_body_female", $"Static/BlendShapeContainer_body_female/manifest.bin?v={_defaultVersion}"},
+                    {"BlendShapeContainer_body_female", $"Static/BlendShapeContainer_body_female/manifest.bin?v={staticVersion}"},
+                    {"Static/BlendShapeContainer_body_female", $"Static/BlendShapeContainer_body_female/manifest.bin?v={staticVersion}"},
 
-                {"BlendShapeContainer_body_male", $"Static/BlendShapeContainer_body_male/manifest.bin?v={_defaultVersion}"},
-                {"Static/BlendShapeContainer_body_male", $"Static/BlendShapeContainer_body_male/manifest.bin?v={_defaultVersion}"},
+                    {"BlendShapeContainer_body_male", $"Static/BlendShapeContainer_body_male/manifest.bin?v={staticVersion}"},
+                    {"Static/BlendShapeContainer_body_male", $"Static/BlendShapeContainer_body_male/manifest.bin?v={staticVersion}"},
 
-                // Avatar base default bodytype
-                {"recmDqoKYpEG1TQV", $"AvatarBase/recmDqoKYpEG1TQV/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recmDqoKYpEG1TQV", $"AvatarBase/recmDqoKYpEG1TQV/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    // Avatar base default bodytype
+                    {"recmDqoKYpEG1TQV", $"AvatarBase/recmDqoKYpEG1TQV/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recmDqoKYpEG1TQV", $"AvatarBase/recmDqoKYpEG1TQV/manifest.bin?v={avatarBaseVersion}"},
 
-                {"recMdZ4WQ4HSkb8U", $"AvatarBase/recMdZ4WQ4HSkb8U/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recMdZ4WQ4HSkb8U", $"AvatarBase/recMdZ4WQ4HSkb8U/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    {"recMdZ4WQ4HSkb8U", $"AvatarBase/recMdZ4WQ4HSkb8U/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recMdZ4WQ4HSkb8U", $"AvatarBase/recMdZ4WQ4HSkb8U/manifest.bin?v={avatarBaseVersion}"},
 
-                {"recmdz4WQ4hM30ZC", $"AvatarBase/recmdz4WQ4hM30ZC/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recmdz4WQ4hM30ZC", $"AvatarBase/recmdz4WQ4hM30ZC/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    {"recmdz4WQ4hM30ZC", $"AvatarBase/recmdz4WQ4hM30ZC/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recmdz4WQ4hM30ZC", $"AvatarBase/recmdz4WQ4hM30ZC/manifest.bin?v={avatarBaseVersion}"},
 
-                {"recMdZ4wQ4HQS1uC", $"AvatarBase/recMdZ4wQ4HQS1uC/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recMdZ4wQ4HQS1uC", $"AvatarBase/recMdZ4wQ4HQS1uC/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    {"recMdZ4wQ4HQS1uC", $"AvatarBase/recMdZ4wQ4HQS1uC/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recMdZ4wQ4HQS1uC", $"AvatarBase/recMdZ4wQ4HQS1uC/manifest.bin?v={avatarBaseVersion}"},
 
-                {"recmdZ4C4enmt630", $"AvatarBase/recmdZ4C4enmt630/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recmdZ4C4enmt630", $"AvatarBase/recmdZ4C4enmt630/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    {"recmdZ4C4enmt630", $"AvatarBase/recmdZ4C4enmt630/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recmdZ4C4enmt630", $"AvatarBase/recmdZ4C4enmt630/manifest.bin?v={avatarBaseVersion}"},
 
-                {"recmdZ4c4ENEO817", $"AvatarBase/recmdZ4c4ENEO817/manifest.bin?v={_defaultAvatarBaseVer}"},
-                {"AvatarBase/recmdZ4c4ENEO817", $"AvatarBase/recmdZ4c4ENEO817/manifest.bin?v={_defaultAvatarBaseVer}"},
+                    {"recmdZ4c4ENEO817", $"AvatarBase/recmdZ4c4ENEO817/manifest.bin?v={avatarBaseVersion}"},
+                    {"AvatarBase/recmdZ4c4ENEO817", $"AvatarBase/recmdZ4c4ENEO817/manifest.bin?v={avatarBaseVersion}"},
 
-                // Edge case legacy eye materials with spaces
-                {"EyeMaterialData_NewBlue Light", $"Static/EyeMaterialData_NewBlueLight/manifest.bin?v={_defaultVersion}"},
-                {"Static/EyeMaterialData_NewBlue Light", $"Static/EyeMaterialData_NewBlueLight/manifest.bin?v={_defaultVersion}"},
+                    // Edge case legacy eye materials with spaces
+                    {"EyeMaterialData_NewBlue Light", $"Static/EyeMaterialData_NewBlueLight/manifest.bin?v={staticVersion}"},
+                    {"Static/EyeMaterialData_NewBlue Light", $"Static/EyeMaterialData_NewBlueLight/manifest.bin?v={staticVersion}"},
 
-                {"EyeMaterialData_NewBrown light", $"Static/EyeMaterialData_NewBrownLight/manifest.bin?v={_defaultVersion}"},
-                {"Static/EyeMaterialData_NewBrown light", $"Static/EyeMaterialData_NewBrownLight/manifest.bin?v={_defaultVersion}"},
+                    {"EyeMaterialData_NewBrown light", $"Static/EyeMaterialData_NewBrownLight/manifest.bin?v={staticVersion}"},
+                    {"Static/EyeMaterialData_NewBrown light", $"Static/EyeMaterialData_NewBrownLight/manifest.bin?v={staticVersion}"},
 
-                {"EyeMaterialData_NewGreenBlue Dark", $"Static/EyeMaterialData_NewGreenBlueDark/manifest.bin?v={_defaultVersion}"},
-                {"Static/EyeMaterialData_NewGreenBlue Dark", $"Static/EyeMaterialData_NewGreenBlueDark/manifest.bin?v={_defaultVersion}"},
+                    {"EyeMaterialData_NewGreenBlue Dark", $"Static/EyeMaterialData_NewGreenBlueDark/manifest.bin?v={staticVersion}"},
+                    {"Static/EyeMaterialData_NewGreenBlue Dark", $"Static/EyeMaterialData_NewGreenBlueDark/manifest.bin?v={staticVersion}"},
 
-                {"EyeMaterialData_NewGreenBlue Light", $"Static/EyeMaterialData_NewGreenBlueLight/manifest.bin?v={_defaultVersion}"},
-                {"Static/EyeMaterialData_NewGreenBlue Light", $"Static/EyeMaterialData_NewGreenBlueLight/manifest.bin?v={_defaultVersion}"},
-            };
+                    {"EyeMaterialData_NewGreenBlue Light", $"Static/EyeMaterialData_NewGreenBlueLight/manifest.bin?v={staticVersion}"},
+                    {"Static/EyeMaterialData_NewGreenBlue Light", $"Static/EyeMaterialData_NewGreenBlueLight/manifest.bin?v={staticVersion}"},
+                };
+            }
         }
     }
 }

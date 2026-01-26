@@ -8,7 +8,11 @@ using System.Collections.Generic;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal partial class RaceData
+#else
     public partial class RaceData
+#endif
     {
 		[Tooltip("This should be set to true for Blender FBX models")]
 		public bool FixupRotations = true;

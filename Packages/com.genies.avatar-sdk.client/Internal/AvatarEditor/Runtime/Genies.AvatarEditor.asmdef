@@ -55,11 +55,6 @@
             "define": "GENIES_SDK"
         },
         {
-            "name": "com.genies.sdk.core",
-            "expression": "",
-            "define": "GENIES_SDK"
-        },
-        {
             "name": "com.genies.avatar-sdk.client",
             "expression": "",
             "define": "GENIES_SDK"

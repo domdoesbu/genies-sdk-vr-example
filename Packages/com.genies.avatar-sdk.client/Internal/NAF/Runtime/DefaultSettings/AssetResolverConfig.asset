@@ -26,14 +26,7 @@ MonoBehaviour:
   - disabled: 0
     type: 2
     order: 4
-    sourcePath: https://d2r0ofqkxzbpt1.cloudfront.net
-    uriSchemes:
-    - http
-    - https
-  - disabled: 0
-    type: 2
-    order: 5
-    sourcePath: https://dyqx2eklpbefu.cloudfront.net
+    sourcePath: https://content-universal.genies.com
     uriSchemes:
     - http
     - https

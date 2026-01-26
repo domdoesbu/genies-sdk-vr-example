@@ -23,7 +23,11 @@ using UnityEditor.Animations;
 namespace UMA
 {
     [PreferBinarySerialization]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class UMAAssetIndexer : ScriptableObject, ISerializationCallbackReceiver
+#else
     public class UMAAssetIndexer : ScriptableObject, ISerializationCallbackReceiver
+#endif
 	{
         public static float DefaultLife = 5.0f;
 

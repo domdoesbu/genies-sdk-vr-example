@@ -8,7 +8,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "EyelashColorItemPickerDataSource", menuName = "Genies/Customizer/DataSource/EyelashColorItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EyelashColorItemPickerDataSource : FlairColorItemPickerDataSource
+#else
     public class EyelashColorItemPickerDataSource : FlairColorItemPickerDataSource
+#endif
     {
 
     }

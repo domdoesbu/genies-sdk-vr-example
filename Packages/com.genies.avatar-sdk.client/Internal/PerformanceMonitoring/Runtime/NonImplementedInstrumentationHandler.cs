@@ -4,7 +4,11 @@ using Cysharp.Threading.Tasks;
 
 namespace Genies.PerformanceMonitoring
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NonImplementedInstrumentationHandler : ICustomInstrumentationHandler
+#else
     public class NonImplementedInstrumentationHandler : ICustomInstrumentationHandler
+#endif
     {
         public void StartTransaction(string name, string operation, string description = "", Dictionary<string, string> extraTags = null) { }
 

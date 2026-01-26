@@ -12,7 +12,11 @@ namespace Genies.CameraSystem
     [CreateAssetMenu(fileName = "CameraFocusStates", menuName = "CameraSystem/CameraFocusStates", order = 1)]
 #endif
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CameraFocusStates : ScriptableObject
+#else
     public class CameraFocusStates : ScriptableObject
+#endif
     {
         [SerializeField] private List<string> _focusTargets = new List<string>();
         [SerializeField] private List<Pose> _cameraFocusPoses = new List<Pose>();

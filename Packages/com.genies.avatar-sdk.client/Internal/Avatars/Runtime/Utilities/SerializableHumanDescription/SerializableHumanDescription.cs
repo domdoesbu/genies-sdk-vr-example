@@ -5,7 +5,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SerializableHumanDescription
+#else
     public sealed class SerializableHumanDescription
+#endif
     {
         public List<SerializableHumanBone>    human;
         public List<SerializableSkeletonBone> skeleton;

@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class BodyAttributesConfig
+#else
     public sealed partial class BodyAttributesConfig
+#endif
     {
         /// <summary>
         /// For those joints mapped to unified genie bones with scale enabled, this will automatically set their

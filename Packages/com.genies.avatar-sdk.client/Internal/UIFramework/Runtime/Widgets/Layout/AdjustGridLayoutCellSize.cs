@@ -6,7 +6,12 @@ namespace Genies.UIFramework
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(GridLayoutGroup))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class AdjustGridLayoutCellSize : MonoBehaviour
+#else
     public class AdjustGridLayoutCellSize : MonoBehaviour
+#endif
     {
         public enum Axis
         {

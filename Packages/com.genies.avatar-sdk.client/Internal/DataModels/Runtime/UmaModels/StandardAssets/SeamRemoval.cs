@@ -9,7 +9,12 @@ namespace UMA
 	/// Utility class for fixing normals along meshe seams.
 	/// </summary>
 	[ExecuteInEditMode]
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class SeamRemoval : MonoBehaviour
+#else
 	public class SeamRemoval : MonoBehaviour
+#endif
 	{
 
 	    public bool runScript;

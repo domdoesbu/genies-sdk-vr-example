@@ -9,7 +9,11 @@ using static Genies.CrashReporting.CrashReporter;
 
 namespace Genies.CloudSave
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class CloudFeatureSaveService<T> : ICloudFeatureSaveService<T>
+#else
     public class CloudFeatureSaveService<T> : ICloudFeatureSaveService<T>
+#endif
     {
         public delegate void SetId(T data, string id);
 

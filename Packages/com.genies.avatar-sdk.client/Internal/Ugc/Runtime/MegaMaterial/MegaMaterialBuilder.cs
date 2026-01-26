@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Ugc
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class MegaMaterialBuilder : IMegaMaterialBuilder
+#else
     public sealed class MegaMaterialBuilder : IMegaMaterialBuilder
+#endif
     {
         // dependencies
         private readonly IAssetLoader<UgcElementAsset> _elementLoader;

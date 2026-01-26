@@ -8,7 +8,11 @@ namespace Genies.Models
     /// Models the 'look' scene postprocessing parameters
     /// </summary>
     [System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ScenePostProcessing
+#else
     public class ScenePostProcessing
+#endif
     {
         /// <summary>
         /// Enabling flag of using the mobile post-processing package.

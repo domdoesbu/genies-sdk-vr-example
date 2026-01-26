@@ -13,7 +13,11 @@ namespace Genies.Naf
      * about skeleton updates. It is much faster than just clearing and redoing the entire skeleton every time you set
      * a new one. It also helps users to rebuild the human avatar only when strictly necessary.
      */
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class NativeSkeleton
+#else
     public sealed class NativeSkeleton
+#endif
     {
         /**
          * Null or a manually set root for the generated skeleton hierarchy. It won't be part of the <see cref="Bones"/>

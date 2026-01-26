@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// Wraps any <see cref="AnimationFeatureAsset"/> and behaves as a reference, so it is automatically destroyed when
     /// no longer used to avoid memory leaks. Highly recommended to use when deserializing animation feature assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class AnimationFeatureAssetRef : IAnimationFeature
+#else
     public sealed class AnimationFeatureAssetRef : IAnimationFeature
+#endif
     {
         public readonly AnimationFeatureAsset Asset;
         

@@ -30,11 +30,21 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "OutfitCustomizationController", menuName = "Genies/Customizer/Controllers/Outfit Customization Controller")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class OutfitCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#else
     public class OutfitCustomizationController : InventoryCustomizationController, IItemPickerDataSource
+#endif
     {
         [FormerlySerializedAs("_colorPresetDataSource")]
         [SerializeField]
         private CustomizationItemPickerDataSource _secondaryDataSource;
+
+        /// <summary>
+        /// Hair color data source for facial hair colors (only used when _subcategory is facialHair).
+        /// </summary>
+        [SerializeField]
+        private HairColorItemPickerDataSource _facialHairColorDataSource;
 
         /// <summary>
         /// The subcategory to load.
@@ -65,6 +75,13 @@ namespace Genies.Customization.MegaEditor
 
             _customizer = customizer;
             _secondaryDataSource?.Initialize(_customizer);
+
+            // Initialize facial hair color data source if subcategory is facialHair
+            if (_subcategory == WardrobeSubcategory.facialHair)
+            {
+                _facialHairColorDataSource?.Initialize(_customizer);
+            }
+
             lock (_loadedDataLock)
             {
                 _loadedData = new();
@@ -187,7 +204,16 @@ namespace Genies.Customization.MegaEditor
                 //Show the item picker and set this controller as the data source.
                 ShowPrimaryPicker(this);
 
-                if (_secondaryDataSource != null)
+                // For facial hair, use _facialHairColorDataSource instead of _secondaryDataSource
+                if (_subcategory == WardrobeSubcategory.facialHair)
+                {
+                    if (_facialHairColorDataSource != null)
+                    {
+                        _facialHairColorDataSource.StartCustomization();
+                        ShowSecondaryPicker(_facialHairColorDataSource);
+                    }
+                }
+                else if (_secondaryDataSource != null)
                 {
                     ShowSecondaryPicker(_secondaryDataSource);
                 }
@@ -204,6 +230,12 @@ namespace Genies.Customization.MegaEditor
             HidePrimaryPicker();
             HideSecondaryPicker();
             _secondaryDataSource?.StopCustomization();
+
+            // Stop facial hair color data source if it was active
+            if (_subcategory == WardrobeSubcategory.facialHair)
+            {
+                _facialHairColorDataSource?.StopCustomization();
+            }
         }
 
         public override void OnUndoRedo()
@@ -212,7 +244,14 @@ namespace Genies.Customization.MegaEditor
             //When an undo/redo happens we want to refresh the current selection
             RefreshPrimaryPickerSelection();
 
-            if (_secondaryDataSource != null)
+            if (_subcategory == WardrobeSubcategory.facialHair)
+            {
+                if (_facialHairColorDataSource != null)
+                {
+                    RefreshSecondaryPickerSelection();
+                }
+            }
+            else if (_secondaryDataSource != null)
             {
                 RefreshSecondaryPickerSelection();
             }
@@ -355,6 +394,11 @@ namespace Genies.Customization.MegaEditor
                 }
                 IAssetIdConverter _iAssetIdConverter = ServiceManager.GetService<IAssetIdConverter>(null);
                 var idToUnequip = await _iAssetIdConverter.ConvertToUniversalIdAsync(currentRef.Item.AssetId);
+                // For facial hair, use the AssetId instead
+                if (_subcategory == WardrobeSubcategory.facialHair)
+                {
+                    idToUnequip = currentRef.Item.AssetId;
+                }
 
                 var props = new AnalyticProperties();
                 props.AddProperty("AssetId", idToUnequip);
@@ -373,6 +417,13 @@ namespace Genies.Customization.MegaEditor
                 }
 
                 _customizer.RegisterCommand(unequipCmd);
+
+                // For facial hair, hide secondary picker when unequipped
+                if (_subcategory == WardrobeSubcategory.facialHair)
+                {
+                    _customizer.View.SecondaryItemPicker.Hide();
+                }
+
                 return true;
             }
             catch (Exception exception)
@@ -440,6 +491,15 @@ namespace Genies.Customization.MegaEditor
             if (cancellationToken.IsCancellationRequested)
             {
                 return false;
+            }
+
+            _customizer.View.SecondaryItemPicker.DisableMaskPadding = false;
+            // For facial hair, show secondary picker (hair colors) after equipping
+            if (_subcategory == WardrobeSubcategory.facialHair && _facialHairColorDataSource != null)
+            {
+                _facialHairColorDataSource.StartCustomization();
+                _customizer.View.SecondaryItemPicker.DisableMaskPadding = true;
+                _customizer.View.SecondaryItemPicker.Show(_facialHairColorDataSource).Forget();
             }
 
             //Analytics
@@ -531,11 +591,12 @@ namespace Genies.Customization.MegaEditor
             base.Dispose();
 
             _secondaryDataSource?.Dispose();
+            _facialHairColorDataSource?.Dispose();
 
             /*if (_PendingAigcAssetService != null)
             {
                 _PendingAigcAssetService.RefreshScreen -= RefreshScreen;
             }*/
         }
-    }
+     }
 }

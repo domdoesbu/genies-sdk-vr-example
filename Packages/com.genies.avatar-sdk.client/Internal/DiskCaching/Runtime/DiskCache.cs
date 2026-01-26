@@ -14,7 +14,11 @@ namespace Genies.DiskCaching
     /// Note: The distributionUrl is the primary key to a cached entry
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DiskCache
+#else
     public class DiskCache
+#endif
     {
         [JsonIgnore]
         private DiskCacheOptions _options;

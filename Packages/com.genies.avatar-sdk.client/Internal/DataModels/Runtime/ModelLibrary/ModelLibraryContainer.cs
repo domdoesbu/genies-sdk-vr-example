@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Models
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class ModelLibraryContainer: OrderedScriptableObject, IShaderlessAsset, IDynamicAsset
+#else
     public class ModelLibraryContainer: OrderedScriptableObject, IShaderlessAsset, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

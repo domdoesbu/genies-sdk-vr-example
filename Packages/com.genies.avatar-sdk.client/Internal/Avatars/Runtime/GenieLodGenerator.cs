@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Static class for generating LODs from gltf/glb baked avatar
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class GenieLodGenerator
+#else
     public static class GenieLodGenerator
+#endif
     {
         public static async UniTask<bool> GenerateLodsAsync(LodGenerateSettings lodGenerateSettings, string filePath)
         {

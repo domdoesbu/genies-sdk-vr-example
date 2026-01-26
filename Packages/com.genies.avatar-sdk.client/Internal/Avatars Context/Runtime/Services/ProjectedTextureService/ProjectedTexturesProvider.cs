@@ -12,7 +12,11 @@ namespace Genies.Avatars.Context
     /// <summary>
     /// An <see cref="IAssetsLoader{T}"/> that just wraps <see cref="ProjectedTextureRemoteLoaderService"/>.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ProjectedTexturesProvider : IAssetsProvider<Texture2D>
+#else
     public sealed class ProjectedTexturesProvider : IAssetsProvider<Texture2D>
+#endif
     {
         public bool IsCached => _allAssetsRef.IsAlive;
 

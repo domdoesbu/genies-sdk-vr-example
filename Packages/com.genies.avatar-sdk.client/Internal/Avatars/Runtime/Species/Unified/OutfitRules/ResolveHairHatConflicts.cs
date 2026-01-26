@@ -9,7 +9,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Resolves some conflicts with certain hair-hat asset combinations. Only for the Unified species.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ResolveHairHatConflicts : IAssetsValidationRule<OutfitAsset>, IDisposable
+#else
     public sealed class ResolveHairHatConflicts : IAssetsValidationRule<OutfitAsset>, IDisposable
+#endif
     {
         // blend shape name used in our hair assets for the blend shapes that hides the hair under hats with blendshape mode.
         private const string _hideHairBlendShapeKey = "hair_geo_blendShape";

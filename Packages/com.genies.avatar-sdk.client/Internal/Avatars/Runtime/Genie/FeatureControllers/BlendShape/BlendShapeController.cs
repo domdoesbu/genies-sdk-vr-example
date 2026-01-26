@@ -7,7 +7,11 @@ using Genies.Assets.Services;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class BlendShapeController : AssetsController<BlendShapeAsset>, IBlendShapeController
+#else
     public sealed class BlendShapeController : AssetsController<BlendShapeAsset>, IBlendShapeController
+#endif
     {
         // dependencies
         private readonly IEditableGenie _genie;

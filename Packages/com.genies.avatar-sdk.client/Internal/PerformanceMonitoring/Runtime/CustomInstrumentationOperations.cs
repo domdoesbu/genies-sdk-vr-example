@@ -1,6 +1,10 @@
 namespace Genies.PerformanceMonitoring
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CustomInstrumentationOperations
+#else
     public static class CustomInstrumentationOperations
+#endif
     {
         public const string LoadAvatarTransaction = "load_avatar";
         public const string LoadBakedAvatarTransaction = "load_baked_avatar";

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UMA;
 using UnityEngine;
@@ -11,7 +11,11 @@ namespace UMA
 	//The whole idea of DNAEvaluator (and its corresoponding DNAEvaluationGraph) is to rid us of the need to make new code every time 
 	//we need to perform a different math calculation on a dna value (and to give this flexibility to users as well)
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal sealed class DNAEvaluator : ISerializationCallbackReceiver
+#else
 	public sealed class DNAEvaluator : ISerializationCallbackReceiver
+#endif
 	{
 		//This is used with the Cumulative option in DNAEvaluatorList. Each line can be added/subtracted etc from the previous one
 		public enum CalcOption

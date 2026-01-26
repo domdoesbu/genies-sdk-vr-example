@@ -11,7 +11,11 @@ namespace Genies.Ugc
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "SplitTextureSettings", menuName = "Genies/UGC/Split Texture Settings")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class SplitTextureSettings : ScriptableObject
+#else
     public sealed class SplitTextureSettings : ScriptableObject
+#endif
     {
         [FormerlySerializedAs("textureSettings")] public TextureSettings TextureSettings;
         [FormerlySerializedAs("useSurfacePixelDensity")] [Tooltip("Calculates the map resolution based on a target surface pixel density. Leave it disabled to use the resolution specified in the texture settings")]

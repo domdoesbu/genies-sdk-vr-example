@@ -8,7 +8,11 @@ namespace UMA
 	/// <summary>
 	/// Default mesh combiner for UMA UMAMeshdata from slots.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMADefaultMeshCombiner : UMAMeshCombiner
+#else
 	public class UMADefaultMeshCombiner : UMAMeshCombiner
+#endif
 	{
 		protected List<SkinnedMeshCombiner.CombineInstance> combinedMeshList;
 		protected List<UMAData.GeneratedMaterial> combinedMaterialList;

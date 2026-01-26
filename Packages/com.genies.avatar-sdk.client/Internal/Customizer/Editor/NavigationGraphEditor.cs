@@ -9,7 +9,11 @@ using Object = UnityEngine.Object;
 namespace Genies.Customization.Framework
 {
     [CustomNodeGraphEditor(typeof(NavigationGraph))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NavigationGraphEditor : NodeGraphEditor
+#else
     public class NavigationGraphEditor : NodeGraphEditor
+#endif
     {
         public override string GetNodeMenuName(Type type)
         {

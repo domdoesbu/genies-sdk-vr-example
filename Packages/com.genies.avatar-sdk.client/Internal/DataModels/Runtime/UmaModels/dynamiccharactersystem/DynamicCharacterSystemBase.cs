@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace UMA.CharacterSystem
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class DynamicCharacterSystemBase : MonoBehaviour
+#else
 	public class DynamicCharacterSystemBase : MonoBehaviour
+#endif
 	{
 		//just here really so that there is something that can be assigned in UMAContextBase. 
 		//We can make some methods available here tho

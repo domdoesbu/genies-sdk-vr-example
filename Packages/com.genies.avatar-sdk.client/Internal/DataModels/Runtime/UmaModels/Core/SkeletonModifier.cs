@@ -9,7 +9,11 @@ namespace UMA.CharacterSystem
 {
 	//To enable us to change how this works in the future I just went the whole hog and changed all the public fields to private with public property get/setters
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class SkeletonModifier
+#else
 	public class SkeletonModifier
+#endif
 	{
 		public enum SkeletonPropType { Position, Rotation, Scale }
 

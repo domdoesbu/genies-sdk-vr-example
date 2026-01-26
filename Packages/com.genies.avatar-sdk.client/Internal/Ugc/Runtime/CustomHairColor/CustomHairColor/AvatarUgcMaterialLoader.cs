@@ -6,9 +6,13 @@ using Genies.Refs;
 
 namespace Genies.Ugc.CustomHair
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarUgcMaterialLoader : ISlottedAssetLoader<MaterialAsset>
+#else
     public class AvatarUgcMaterialLoader : ISlottedAssetLoader<MaterialAsset>
+#endif
     {
-        
+
         private readonly HairColorService _hairColorService;
         private readonly IAssetsService _assetsService;
 

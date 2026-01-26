@@ -2,7 +2,11 @@
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class UnifiedOutfitSlotsData
+#else
     public static class UnifiedOutfitSlotsData
+#endif
     {
         /// <summary>
         /// Outfit slot data for the unified species.

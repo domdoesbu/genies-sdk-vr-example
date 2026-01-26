@@ -22,7 +22,12 @@ namespace Genies.Components.CreatorTools.TexturePlacement
     /// (and have nonzero alpha), a uv coordinate is sampled and with this information we can add
     /// the color contribution to the corresponding texel in the output (projected texture).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class Tattooenator : MonoBehaviour
+#else
     public class Tattooenator : MonoBehaviour
+#endif
     {
         // TexturePlacementBehavior will set all these
         [HideInInspector]

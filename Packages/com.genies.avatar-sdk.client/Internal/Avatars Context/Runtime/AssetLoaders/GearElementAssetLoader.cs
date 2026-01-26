@@ -9,7 +9,11 @@ using UMA;
 
 namespace Genies.Avatars.Context
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GearElementAssetLoader : IAssetLoader<GearElementAsset>
+#else
     public sealed class GearElementAssetLoader : IAssetLoader<GearElementAsset>
+#endif
     {
         // dependencies
         private readonly IAssetsService _assetsService;

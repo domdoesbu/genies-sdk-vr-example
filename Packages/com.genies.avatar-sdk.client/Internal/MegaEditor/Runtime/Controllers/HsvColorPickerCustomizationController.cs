@@ -10,7 +10,11 @@ namespace Genies.Customization.MegaEditor
     /// <summary>
     /// Can be extended to create a custom Hsv color picker controller.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class HsvColorPickerCustomizationController : BaseCustomizationController, IColorPicker
+#else
     public class HsvColorPickerCustomizationController : BaseCustomizationController, IColorPicker
+#endif
     {
         private const string _colorPickerViewId = "hsv-color-picker";
 

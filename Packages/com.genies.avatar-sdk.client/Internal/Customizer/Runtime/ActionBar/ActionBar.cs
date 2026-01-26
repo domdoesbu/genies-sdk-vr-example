@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 namespace Genies.Customization.Framework.Actions
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class ActionBar : MonoBehaviour, IActionBar
+#else
     public class ActionBar : MonoBehaviour, IActionBar
+#endif
     {
         public event Action UndoRequested;
         public event Action RedoRequested;

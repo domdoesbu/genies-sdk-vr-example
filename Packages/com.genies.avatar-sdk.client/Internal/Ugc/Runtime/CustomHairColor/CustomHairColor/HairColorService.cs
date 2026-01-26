@@ -16,7 +16,11 @@ namespace Genies.Ugc.CustomHair
     /// <summary>
     /// Service that handles returning custom and preset hair colors.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class HairColorService
+#else
     public class HairColorService
+#endif
     {
         private readonly Shader _hairShader;
         private readonly IAssetsService _addressableAssetService;
@@ -65,8 +69,8 @@ namespace Genies.Ugc.CustomHair
             {
                 _presetColors = await _defaultInventoryService.GetDefaultColorPresets();
                 // Filter for hair color presets - typically by category or subcategory
-                _presetColors = _presetColors.Where(c => 
-                    c.Category?.ToLower().Contains("hair") == true || 
+                _presetColors = _presetColors.Where(c =>
+                    c.Category?.ToLower().Contains("hair") == true ||
                     c.SubCategories?.Any(s => s.ToLower().Contains("hair")) == true).ToList();
             }
             catch (Exception ex)
@@ -146,18 +150,18 @@ namespace Genies.Ugc.CustomHair
         private async UniTask<Ref<Material>> LoadPresetHairColorMaterial(string id)
         {
             await InitializeAsync();
-            
+
             var presetColor = _presetColors.FirstOrDefault(c => c.AssetId == id);
             if (presetColor?.Colors != null && presetColor.Colors.Count >= 4)
             {
                 var material = new Material(_hairShader);
-                
+
                 // Map the first 4 colors to the hair color shader properties
                 material.SetColor(s_hairColorBase, presetColor.Colors[0]);
                 material.SetColor(s_hairColorR, presetColor.Colors.Count > 1 ? presetColor.Colors[1] : Color.black);
                 material.SetColor(s_hairColorG, presetColor.Colors.Count > 2 ? presetColor.Colors[2] : Color.black);
                 material.SetColor(s_hairColorB, presetColor.Colors.Count > 3 ? presetColor.Colors[3] : Color.black);
-                
+
                 return CreateRef.FromUnityObject(material);
             }
             else if (presetColor?.Colors != null && presetColor.Colors.Count > 0)
@@ -168,7 +172,7 @@ namespace Genies.Ugc.CustomHair
                 material.SetColor(s_hairColorR, Color.black);
                 material.SetColor(s_hairColorG, Color.black);
                 material.SetColor(s_hairColorB, Color.black);
-                
+
                 return CreateRef.FromUnityObject(material);
             }
 
@@ -178,19 +182,19 @@ namespace Genies.Ugc.CustomHair
         private async UniTask<Ref<Material>> LoadCustomHairColorMaterial(string id)
         {
             await InitializeAsync();
-            
+
             CustomHairColorData data = null;
             if (await CheckIsCustomAsync(id))
             {
                 data = await _customHairDataRepository.GetByIdAsync(id);
-                    
+
                 // register to avatar embedded data every time we successfully load from data repository
                 if (data is not null)
                 {
                     AvatarEmbeddedData.SetData(id, data);
                 }
             }
-            
+
             // if we cannot fetch the data from the repository then fallback to the AvatarEmbeddedData
             if (data is null && !AvatarEmbeddedData.TryGetData(id, out data))
             {

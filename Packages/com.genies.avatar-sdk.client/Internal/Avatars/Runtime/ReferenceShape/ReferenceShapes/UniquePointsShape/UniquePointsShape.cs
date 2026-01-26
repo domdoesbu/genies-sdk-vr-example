@@ -14,7 +14,11 @@ namespace Genies.Avatars
     /// for the class initialization is O(n^3) where n is the number of unique vertices in the reference mesh. Once the
     /// reference data has been initialized, the time complexity for transferring deformations is O(n).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class UniquePointsShape : IReferenceShape
+#else
     public sealed partial class UniquePointsShape : IReferenceShape
+#endif
     {
         public string                      Id               { get; }
         public int                         PointCount       => _referencePoints.Length;

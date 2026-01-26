@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Looks.Customization.Commands
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class EquipSkinColorCommand : ICommand
+#else
     public class EquipSkinColorCommand : ICommand
+#endif
     {
         private readonly NativeUnifiedGenieController _controller;
         private readonly Color _color;

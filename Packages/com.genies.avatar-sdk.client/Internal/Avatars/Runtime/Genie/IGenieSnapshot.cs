@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// Represents a disposable snapshot of a genie. A snapshot is not a functional avatar (no animator or skinned mesh renderer)
     /// but just a static mesh. Dispose the snapshot to release all resources associated with it (mesh, materials, textures...).
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IGenieSnapshot : IDisposable
+#else
     public interface IGenieSnapshot : IDisposable
+#endif
     {
         string Species { get; }
         GameObject Root { get; }

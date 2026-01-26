@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace UMA
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal class UMAGenerator : UMAGeneratorBuiltin 
+#else
 	public class UMAGenerator : UMAGeneratorBuiltin 
+#endif
 	{
 		public override void Awake()
 		{

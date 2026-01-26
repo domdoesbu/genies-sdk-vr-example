@@ -17,16 +17,23 @@ namespace Genies.Inventory
     /// Eventually this will entirely replace the <see cref="InventoryService"/>
     /// but it is a separate service for now due to using a different API configuration
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DefaultInventoryService : IDefaultInventoryService
+#else
     public class DefaultInventoryService : IDefaultInventoryService
+#endif
     {
         private IInventoryV2Api _inventoryApi;
         private UniTaskCompletionSource _apiInitializationSource;
-        private const string _orgContext = "ALL", _appContext = "SDK_ALL";
+        private readonly string _orgContext, _appContext;
 
         public event Func<List<DefaultInventoryAsset>, UniTask> AssetsAddedAsync;
 
-        public DefaultInventoryService()
+        public DefaultInventoryService(string orgContext = "ALL", string appContext = "SDK_ALL")
         {
+            _orgContext = orgContext;
+            _appContext = appContext;
+
             AwaitApiInitialization().Forget();
         }
 
@@ -68,7 +75,7 @@ namespace Genies.Inventory
                         pair.Value?.Clear();
                     }
 
-                    Caches.Clear();
+                    Caches.Clear();;
                     HasFetchedAllCategories = false;
                     CompletionSourcesByCategory.Clear();
                     NextCursorsByCategory.Clear();

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 123a0e36ee8698f43a17a90f302e11aa
+guid: dc18eb816dba9d340aa94c55de404d5d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -9,3 +9,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 336166
+  packageName: Genies Avatar SDK
+  packageVersion: 2.0.1
+  assetPath: Packages/com.genies.avatar-sdk.client/Internal/NAF Plugin/Runtime/Scripts/SwigBindings/GnWrappers/Skeleton.cs
+  uploadId: 850608

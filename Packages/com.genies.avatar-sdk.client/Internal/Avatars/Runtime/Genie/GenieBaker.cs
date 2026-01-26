@@ -11,7 +11,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Generic implementation that can bake or take snapshots of any <see cref="IGenie"/> instance.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class GenieBaker
+#else
     public sealed class GenieBaker
+#endif
     {
         public readonly string Lod;
         public readonly MaterialBaker MegaSimpleBaker;

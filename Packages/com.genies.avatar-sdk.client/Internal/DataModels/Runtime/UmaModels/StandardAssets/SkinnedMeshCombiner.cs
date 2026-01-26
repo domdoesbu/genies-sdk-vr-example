@@ -12,7 +12,11 @@ namespace UMA
 	/// <summary>
 	/// Utility class for merging multiple skinned meshes.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal static class SkinnedMeshCombiner
+#else
 	public static class SkinnedMeshCombiner
+#endif
 	{
 #if UNITY_2019_3_OR_NEWER
 		static SkinnedMeshCombiner()

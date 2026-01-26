@@ -8,15 +8,19 @@ namespace Genies.Ugc
     /// <summary>
     /// A mega shader material animation for the pattern gain.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class RegionGainAnimation : MaterialAnimationBase
+#else
     public class RegionGainAnimation : MaterialAnimationBase
+#endif
     {
         public readonly int RegionIndex;
-        
+
         private float _gain;
-        
+
         public RegionGainAnimation(int regionIndex)
             : this(null, regionIndex) { }
-        
+
         public RegionGainAnimation(Material material, int regionIndex)
             : base(material)
         {
@@ -26,7 +30,7 @@ namespace Genies.Ugc
         protected override async UniTask PlayAsync(ValueAnimation animation, Material material, CancellationToken cancellationToken)
         {
             _gain = material.GetFloat(MegaShaderRegionProperty.PatternGain, RegionIndex);
-            
+
             await animation.StartAnimationAsync(value =>
             {
                 float currentGain = Mathf.LerpUnclamped(_gain, 0.0f, value);

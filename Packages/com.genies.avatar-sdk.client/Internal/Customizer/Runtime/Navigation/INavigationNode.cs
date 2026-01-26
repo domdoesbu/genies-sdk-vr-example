@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 namespace Genies.Customization.Framework.Navigation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface INavigationNode
+#else
     public interface INavigationNode
+#endif
     {
         /// <summary>
         /// If the node starts it's own navigation stack, each stack has it's own back button and undo/redo logic

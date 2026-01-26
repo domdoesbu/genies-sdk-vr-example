@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Genies.Utilities;
@@ -14,7 +14,12 @@ namespace Genies.Avatars
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal sealed class Genie : MonoBehaviour, IGenie
+#else
     public sealed class Genie : MonoBehaviour, IGenie
+#endif
     {
         [SerializeField]
         private Config config;

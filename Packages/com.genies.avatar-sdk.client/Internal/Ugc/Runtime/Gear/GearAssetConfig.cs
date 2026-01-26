@@ -5,7 +5,11 @@ using UnityEngine.Serialization;
 namespace Genies.Ugc
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct GearAssetConfig
+#else
     public struct GearAssetConfig
+#endif
     {
         [FormerlySerializedAs("assetAddress")] public string AssetAddress;
         [FormerlySerializedAs("elementAddresses")] public List<string> ElementAddresses;

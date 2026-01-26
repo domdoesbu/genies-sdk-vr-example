@@ -18,7 +18,11 @@ namespace Genies.Addressables.Editor.Utilities
     /// <summary>
     /// Utility that loads, merges, and saves catalogs
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class CatalogUtility
+#else
     public static class CatalogUtility
+#endif
     {
 
         #region Public Methods
@@ -117,7 +121,7 @@ namespace Genies.Addressables.Editor.Utilities
                 mergedCatalog.SetData(entries);
 #else
                 mergedCatalog.SetData(entries, true);
-#endif                
+#endif
 
                 //mergedCatalog = new ContentCatalogData(entries);
                 return mergedCatalog;
@@ -184,12 +188,12 @@ namespace Genies.Addressables.Editor.Utilities
             returnCatalog.ResourceProviderData = contentCatalogData.ResourceProviderData;
             returnCatalog.SetFieldValue("m_resourceTypes", contentCatalogData.GetFieldValue<SerializedType[]>("m_resourceTypes"));
             returnCatalog.SceneProviderData = contentCatalogData.SceneProviderData;
-            
+
 #if  UNITY_6000_0_OR_NEWER
             returnCatalog.SetData(entries);
 #else
             returnCatalog.SetData(entries, true);
-#endif                
+#endif
 
             return returnCatalog;
         }
@@ -274,13 +278,13 @@ namespace Genies.Addressables.Editor.Utilities
             returnCatalog.ResourceProviderData = contentCatalogData.ResourceProviderData;
             returnCatalog.SetFieldValue("m_resourceTypes", contentCatalogData.GetFieldValue<SerializedType[]>("m_resourceTypes"));
             returnCatalog.SceneProviderData = contentCatalogData.SceneProviderData;
-            
+
 #if  UNITY_6000_0_OR_NEWER
             returnCatalog.SetData(entries);
 #else
             returnCatalog.SetData(entries, true);
-#endif                
-            
+#endif
+
             return returnCatalog;
         }
 
@@ -343,13 +347,13 @@ namespace Genies.Addressables.Editor.Utilities
             returnCatalog.ResourceProviderData = contentCatalogData.ResourceProviderData;
             returnCatalog.SetFieldValue("m_resourceTypes", contentCatalogData.GetFieldValue<SerializedType[]>("m_resourceTypes"));
             returnCatalog.SceneProviderData = contentCatalogData.SceneProviderData;
-            
+
 #if  UNITY_6000_0_OR_NEWER
             returnCatalog.SetData(entries);
 #else
             returnCatalog.SetData(entries, true);
-#endif                
-            
+#endif
+
             return returnCatalog;
         }
 #endif

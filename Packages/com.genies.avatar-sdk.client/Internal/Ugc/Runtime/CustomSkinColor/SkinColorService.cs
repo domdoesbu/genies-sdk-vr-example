@@ -15,7 +15,11 @@ namespace Genies.Ugc.CustomSkin
     /// <summary>
     /// Service that handles returning custom and preset skin colors
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SkinColorService
+#else
     public class SkinColorService
+#endif
     {
         private readonly IDataRepository<SkinColorData> _customSkinDataRepository;
         private readonly IDefaultInventoryService _defaultInventoryService;
@@ -56,8 +60,8 @@ namespace Genies.Ugc.CustomSkin
             {
                 _presetColors = await _defaultInventoryService.GetDefaultColorPresets();
                 // Filter for skin color presets - typically by category or subcategory
-                _presetColors = _presetColors.Where(c => 
-                    c.Category?.ToLower().Contains("skin") == true || 
+                _presetColors = _presetColors.Where(c =>
+                    c.Category?.ToLower().Contains("skin") == true ||
                     c.SubCategories?.Any(s => s.ToLower().Contains("skin")) == true).ToList();
             }
             catch (Exception ex)

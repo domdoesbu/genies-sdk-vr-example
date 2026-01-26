@@ -6,18 +6,22 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 namespace Genies.Addressables.CustomResourceLocation
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class CustomResourceLocator : IResourceLocator
+#else
     public sealed class CustomResourceLocator : IResourceLocator
+#endif
     {
         public string LocatorId => "CustomResourceLocator"; // Unique identifier for the locator
         private readonly Dictionary<object, IList<IResourceLocation>> _locations = new();
         private readonly Dictionary<object, string[]> _locationLabels = new();
 
         public IEnumerable<object> Keys => _locations.Keys;
-        
+
 #if  UNITY_6000_0_OR_NEWER
         public IEnumerable<IResourceLocation> AllLocations { get; }
 #endif
-        
+
         public Dictionary<object, IList<IResourceLocation>> Locations => _locations;
 
         public bool Locate(object key, Type type, out IList<IResourceLocation> locations)

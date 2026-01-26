@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Looks.Customization.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class ItemPickerCircleCell : GenericItemPickerCellView
+#else
     public sealed class ItemPickerCircleCell : GenericItemPickerCellView
+#endif
     {
         [SerializeField]
         private RectTransform iconTransform;

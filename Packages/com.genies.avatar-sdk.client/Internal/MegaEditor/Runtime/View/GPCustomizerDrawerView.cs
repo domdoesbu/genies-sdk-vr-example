@@ -19,7 +19,11 @@ using UnityEngine.UI;
 namespace Genies.Looks.View
 {
     // Refactored version of CustomizerDrawerView to match Genies Party's drawer design layout
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class GPCustomizerDrawerView : CustomizerViewBase
+#else
     public class GPCustomizerDrawerView : CustomizerViewBase
+#endif
     {
         private const int ExitedState = 0;
         private const int HiddenState = 1;
@@ -156,7 +160,7 @@ namespace Genies.Looks.View
             PrimaryItemPicker.SourceChangeTriggered += OnSourceChangeTriggered;
             SecondaryItemPicker.SourceChanged += OnSecondarySourceChanged;
             SecondaryItemPicker.SourceChangeTriggered += OnSecondarySourceChangeTriggered;
-
+            SecondaryItemPicker.DisableMaskPadding = false;
             // remove any states that could be registered on the expandable panel
             for (var i = _panel.States.Count - 1; i >= 0; --i)
             {
@@ -407,6 +411,27 @@ namespace Genies.Looks.View
                                 _currentState.HasFlagFast(CustomizerViewFlags.Breadcrumbs)
                                 );
 
+            var nam = requestedNode.Controller?.BreadcrumbName;
+            if (nam?.ToLower() == "facial hair")
+            {
+                SecondaryItemPicker.DisableMaskPadding = true;
+                // Disable RectMask2D component for facial hair
+                var rectMask2D = SecondaryItemPicker.GetComponentInChildren<RectMask2D>(includeInactive: true);
+                if (rectMask2D != null)
+                {
+                    rectMask2D.enabled = false;
+                }
+            }
+            else
+            {
+                // Re-enable RectMask2D and reset mask padding when not facial hair
+                SecondaryItemPicker.DisableMaskPadding = false;
+                var rectMask2D = SecondaryItemPicker.GetComponentInChildren<RectMask2D>(includeInactive: true);
+                if (rectMask2D != null)
+                {
+                    rectMask2D.enabled = true;
+                }
+            }
 
             //Nav bar offset
             var navBarOffset = _navBarRect.offsetMin;

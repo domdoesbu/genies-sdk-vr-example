@@ -10,7 +10,11 @@ namespace Genies.Animations
     /// Implementation of the IAnimationLoader that loads AnimationClips from Unity's Addressables system.
     /// This loader provides asynchronous loading of animation clips with proper reference management and error handling.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AddressablesAnimationLoader : IAnimationLoader
+#else
     public class AddressablesAnimationLoader : IAnimationLoader
+#endif
     {
         private readonly IAssetsService _service;
 

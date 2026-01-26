@@ -6,7 +6,11 @@ using VContainer;
 namespace Genies.Services.DynamicConfigs
 {
     [AutoResolve]
-    public class DynamicConfigServiceInstaller: IGeniesInstaller, IGeniesInitializer
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DynamicConfigServiceInstaller : IGeniesInstaller, IGeniesInitializer
+#else
+    public class DynamicConfigServiceInstaller : IGeniesInstaller, IGeniesInitializer
+#endif
     {
         /// <summary>
         /// Optional list of dynamic config IDs to fetch when no local state exists.
@@ -28,7 +32,9 @@ namespace Genies.Services.DynamicConfigs
 
         public void Install(IContainerBuilder builder)
         {
-            var toolBehavior = new DynamicConfigsToolBehavior(FallbackConfigIds);
+            //legacy layer
+            //var toolBehavior = new DynamicConfigsToolBehavior(FallbackConfigIds);
+            var toolBehavior = new WebRequestDynamicConfigsToolBehavior(FallbackConfigIds);
 
             // Auto-enable API service if we have fallback config IDs or if explicitly requested
             bool shouldUseApiService = ForceEnableApiService ||
@@ -43,10 +49,10 @@ namespace Genies.Services.DynamicConfigs
 
             if (toolBehavior.EnablingUsageToggle)
             {
-                builder.Register<IDynamicConfigService, DynamicConfigServiceFromApi>(Lifetime.Singleton)
-                    .WithParameter(toolBehavior)
-                    .WithParameter(ProdOverride)
-                    .AsSelf();
+
+                IDynamicConfigService service = new DynamicConfigServiceFromApi(toolBehavior, ProdOverride);
+                service.RegisterSelf();
+                service.Initialize().Forget();
             }
             else
             {

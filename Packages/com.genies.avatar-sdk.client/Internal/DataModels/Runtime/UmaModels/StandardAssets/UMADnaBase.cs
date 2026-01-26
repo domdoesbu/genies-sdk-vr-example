@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace UMA
 {
@@ -6,7 +6,11 @@ namespace UMA
 	/// Base class for UMA DNA.
 	/// </summary>
 	[System.Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal abstract class UMADnaBase
+#else
 	public abstract class UMADnaBase
+#endif
 	{
 		public abstract int Count { get; }
 		public abstract float[] Values

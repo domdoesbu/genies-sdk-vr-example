@@ -5,7 +5,11 @@ using UnityEngine.Events;
 
 namespace Genies.UIFramework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class PopupSystem : IPopupSystem
+#else
     public class PopupSystem : IPopupSystem
+#endif
     {
         // Configs
         private List<ScriptablePopupConfig> _configs;

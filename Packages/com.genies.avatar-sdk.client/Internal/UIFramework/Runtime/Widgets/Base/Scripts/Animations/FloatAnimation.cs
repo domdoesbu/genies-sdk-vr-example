@@ -4,7 +4,11 @@ using UnityEngine;
 namespace Genies.UI.Animations
 {
     //TODO: Add easing
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FloatAnimation : IAnimation<float> {
+#else
     public class FloatAnimation : IAnimation<float> {
+#endif
         protected float Delta;
         protected float Start;
         protected float End;

@@ -7,7 +7,11 @@ namespace Genies.UIFramework
     /// Interface for managing the popup system within the UI framework.
     /// Provides methods for showing, hiding, and configuring popups throughout the application.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal interface IPopupSystem
+#else
     public interface IPopupSystem
+#endif
     {
         /// <summary>
         /// Shows a popup with the specified configuration and action handlers.
@@ -16,7 +20,7 @@ namespace Genies.UIFramework
         /// <param name="actions">List of actions to be assigned to the popup buttons in order.</param>
         /// <returns>The popup configuration mapper for the created popup.</returns>
         PopupConfigMapper Show(PopupConfig config, List<UnityAction> actions);
-        
+
         /// <summary>
         /// Shows a popup using a predefined popup type and action handlers.
         /// </summary>
@@ -24,12 +28,12 @@ namespace Genies.UIFramework
         /// <param name="actions">List of actions to be assigned to the popup buttons in order.</param>
         /// <returns>The popup configuration mapper for the created popup.</returns>
         PopupConfigMapper Show(PopupType type, List<UnityAction> actions);
-        
+
         /// <summary>
         /// Hides the most recently shown popup.
         /// </summary>
         void HideLatest();
-        
+
         /// <summary>
         /// Hides all currently visible popups.
         /// </summary>

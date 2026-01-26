@@ -12,9 +12,15 @@ namespace Genies.Naf.Addressables
 {
     [AutoResolve]
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class NafResourceProviderInstaller : IGeniesInstaller, IGeniesInitializer,
+        IRequiresInstaller<NafContentInstaller>,
+        IRequiresInstaller<InventoryServiceInstaller>
+#else
     public class NafResourceProviderInstaller : IGeniesInstaller, IGeniesInitializer,
         IRequiresInstaller<NafContentInstaller>,
         IRequiresInstaller<InventoryServiceInstaller>
+#endif
     {
         public int OperationOrder => DefaultInstallationGroups.DefaultServices + 2;
 
@@ -27,7 +33,9 @@ namespace Genies.Naf.Addressables
 #if GENIES_INTERNAL
                 CrashReporter.Log("Using default NAF asset resolver configuration.");
 #endif
-                if (NafSettings.TryLoadDefault(out NafSettings nafSettings))
+
+                if (NafSettings.TryLoadProject(out NafSettings nafSettings) ||
+                    NafSettings.TryLoadDefault(out nafSettings)) // Fallback to default
                 {
                     nafResolverConfig = nafSettings.defaultAssetResolverConfig;
                 }

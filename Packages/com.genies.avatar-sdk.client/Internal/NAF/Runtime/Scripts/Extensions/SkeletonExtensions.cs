@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace Genies.Naf
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class SkeletonExtensions
+#else
     public static class SkeletonExtensions
+#endif
     {
         /**
          * Creates a hierarchy of GameObjects rooted at the given root (or the scene root if null) from the given
@@ -17,11 +21,11 @@ namespace Genies.Naf
         {
             uint skeletonSize = skeleton.Size();
             var   nativeBones  = new Bone[skeletonSize];
-            
+
             try
             {
                 int indexOffset = bones.Count;
-                
+
                 // initialize Bone wrappers and GameObjects
                 for (uint i = 0; i < skeletonSize; i++)
                 {
@@ -44,7 +48,7 @@ namespace Genies.Naf
                         boneTransform.SetParent(root, worldPositionStays: false);
                         rootBones.Add(boneTransform);
                     }
-                    
+
                     boneTransform.localPosition = Marshal.PtrToStructure<Vector3>(bone.Position());
                     boneTransform.localRotation = Marshal.PtrToStructure<Quaternion>(bone.Rotation());
                     boneTransform.localScale    = Marshal.PtrToStructure<Vector3>(bone.Scale());

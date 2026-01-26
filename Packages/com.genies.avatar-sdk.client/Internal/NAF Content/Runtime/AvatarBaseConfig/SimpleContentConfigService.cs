@@ -1,55 +1,33 @@
-using System;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Newtonsoft.Json;
-using UnityEngine;
-using UnityEngine.Networking;
 
-namespace Genies.Inventory
+namespace Genies.Naf.Content.AvatarBaseConfig
 {
     /// <summary>
-    /// Simplified implementation of IContentConfigService to fetch remote config using UnityWebRequests
+    /// Simplified implementation of IContentConfigService to return constant config data.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SimpleContentConfigService : IContentConfigService
+#else
     public class SimpleContentConfigService : IContentConfigService
+#endif
     {
+        private const string AvatarBaseVersion = "1.1.0";
+        
         /// <summary>
-        /// Fetches the remote JSON config from S3.
-        /// Returns parsed data or null on any failure.
+        /// Fetches config from constant data.
+        /// Returns a RootConfig object with a predefined AvatarBase version.
         /// </summary>
-        public async UniTask<RootConfig> FetchConfig(string configId)
+        public UniTask<RootConfig> FetchConfig(string configId)
         {
-            try
+            var config = new RootConfig
             {
-                using UnityWebRequest request = UnityWebRequest.Get(configId);
-                var operation = request.SendWebRequest();
-
-                while (!operation.isDone)
+                avatarBase = new AvatarBase
                 {
-                    await Task.Yield();
+                    version = AvatarBaseVersion
                 }
-
-                if (request.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogWarning($"[SimpleContentConfigService] Failed to fetch config: {request.error}");
-                    return null;
-                }
-
-                string json = request.downloadHandler.text;
-
-                if (string.IsNullOrEmpty(json))
-                {
-                    Debug.LogWarning("[SimpleContentConfigService] Config file is empty or null.");
-                    return null;
-                }
-
-                var config = JsonConvert.DeserializeObject<RootConfig>(json);
-                return config;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"[SimpleContentConfigService] Exception fetching config: {ex.Message}");
-                return null;
-            }
+            };
+            
+            return UniTask.FromResult(config);
         }
     }
 }

@@ -9,23 +9,27 @@ namespace Genies.Assets.Services
     /// <summary>
     /// An assets provider implementation for a group of assets that are already loaded into the app.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class LoadedAssetsProvider<T> : IAssetsProvider<T>
+#else
     public class LoadedAssetsProvider<T> : IAssetsProvider<T>
+#endif
     {
         private readonly Dictionary<object, T> _assets;
         private readonly IList<T> _readonlyAssets;
         private readonly IList<IResourceLocation> _locations;
         private readonly Dictionary<object, IResourceLocation> _locationsMap = new Dictionary<object, IResourceLocation>();
-        
+
         public bool IsCached => true;
 
         public LoadedAssetsProvider(IDictionary<object, T> assets)
         {
             _assets = new Dictionary<object, T>(assets);
-            
+
             // initialize fake resource locations and readonly assets
             var locations = new List<IResourceLocation>(_assets.Count);
             var assetsList = new List<T>(_assets.Count);
-            
+
             foreach (var pair in _assets)
             {
                 var location = new FakeResourceLocation(pair.Key, typeof(T));
@@ -33,7 +37,7 @@ namespace Genies.Assets.Services
                 _locationsMap[pair.Key] = location;
                 assetsList.Add(pair.Value);
             }
-            
+
             _locations = locations.AsReadOnly();
             _readonlyAssets = assetsList.AsReadOnly();
         }
@@ -48,7 +52,7 @@ namespace Genies.Assets.Services
             var assetRef = CreateRef.FromAny(asset);
             return UniTask.FromResult(assetRef);
         }
-        
+
         public UniTask<IResourceLocation> LoadResourceLocationAsync(object key)
         {
             if (!_locationsMap.TryGetValue(key, out var location))
@@ -63,12 +67,12 @@ namespace Genies.Assets.Services
         {
             return UniTask.FromResult(_locations);
         }
-        
+
         public UniTask<Ref<IList<T>>> LoadAllAssetsAsync()
         {
             return LoadAllAssetsAsync(null);
         }
-        
+
         public UniTask<Ref<IList<T>>> LoadAllAssetsAsync(Action<T> callback)
         {
             if (callback != null)
@@ -82,12 +86,12 @@ namespace Genies.Assets.Services
             var listRef = CreateRef.FromAny(_readonlyAssets);
             return UniTask.FromResult(listRef);
         }
-        
+
         public UniTask<IList<Ref<T>>> LoadAllUnpackedAssetsAsync()
         {
             return LoadAllUnpackedAssetsAsync(null);
         }
-        
+
         public UniTask<IList<Ref<T>>> LoadAllUnpackedAssetsAsync(Action<T> callback)
         {
             var refs = new List<Ref<T>>(_readonlyAssets.Count);
@@ -96,7 +100,7 @@ namespace Genies.Assets.Services
                 callback?.Invoke(asset);
                 refs.Add(CreateRef.FromAny(asset));
             }
-            
+
             IList<Ref<T>> result = refs.AsReadOnly();
             return UniTask.FromResult(result);
         }
@@ -105,17 +109,17 @@ namespace Genies.Assets.Services
         {
             return UniTask.CompletedTask;
         }
-        
+
         public UniTask ReleaseCacheAsync()
         {
             return UniTask.CompletedTask;
         }
     }
-    
+
     internal class FakeResourceLocation : IResourceLocation
     {
         private static readonly IList<IResourceLocation> FakeDependencies = new List<IResourceLocation>(0).AsReadOnly();
-        
+
         public string InternalId => PrimaryKey;
         public string ProviderId => null;
         public IList<IResourceLocation> Dependencies => FakeDependencies;
@@ -130,7 +134,7 @@ namespace Genies.Assets.Services
             Data = data;
             ResourceType = resourceType;
         }
-        
+
         public int Hash(Type resultType)
         {
             return (Data, resultType).GetHashCode();

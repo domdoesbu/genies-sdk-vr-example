@@ -1,4 +1,4 @@
-﻿using Genies.Customization.Framework.Actions;
+using Genies.Customization.Framework.Actions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,12 @@ using UnityEngine.UI;
 namespace Genies.Looks.MultiOptionPopup.Scripts
 {
     [RequireComponent(typeof(Button))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class MultiOptionButton : MonoBehaviour
+#else
     public class MultiOptionButton : MonoBehaviour
+#endif
     {
         private ActionDrawerOption _option;
         [SerializeField] protected TextMeshProUGUI text;

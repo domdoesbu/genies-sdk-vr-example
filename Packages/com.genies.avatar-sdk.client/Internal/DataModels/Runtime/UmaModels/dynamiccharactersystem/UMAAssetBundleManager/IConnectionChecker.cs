@@ -8,7 +8,11 @@ namespace UMA.AssetBundles
 	//If the bundle index and bundles themselves have previously been downloaded ABM will use the last cached version of the index to allow it to load cached bundles.
 	//Create a script that uses this interface as a wrapper for an Internet Connection checker such as 'OnlineCheckPro' or 'InternetReachbility'
 	//Your script should set itself as AssetbundleManager's static ConnectionChecker value when it starts.
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal interface IConnectionChecker
+#else
 	public interface IConnectionChecker
+#endif
 	{
 		//Should tell AssetBundleManager if there is a connection. You should make sure your connection checker completes its initial connection test before anything (ie DynamicAssetLoader) calls Initialize on the AssetBundleManager
 		//i.e make the connection checker turn the DynamicAssetLoader game object on after its completed its initial check (DAL initializes ABM in the UMA implimentation)

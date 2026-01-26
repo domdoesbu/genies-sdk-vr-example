@@ -5,7 +5,11 @@ using UnityEngine.Scripting;
 namespace Genies.Components.ShaderlessTools
 {
     [Preserve]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class MaterialDataExtensions
+#else
     public static class MaterialDataExtensions
+#endif
     {
         public static List<ShaderProperty> ToList(this MaterialData data)
         {

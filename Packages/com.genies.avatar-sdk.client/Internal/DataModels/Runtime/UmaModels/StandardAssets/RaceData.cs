@@ -17,7 +17,11 @@ namespace UMA
 	/// </remarks>
 	[PreferBinarySerialization]
 	[Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+	internal partial class RaceData : ScriptableObject, INameProvider, ISerializationCallbackReceiver
+#else
 	public partial class RaceData : ScriptableObject, INameProvider, ISerializationCallbackReceiver
+#endif
 	{
 	    public string raceName;
 		public List<string> KeepBoneNames = new List<string>();

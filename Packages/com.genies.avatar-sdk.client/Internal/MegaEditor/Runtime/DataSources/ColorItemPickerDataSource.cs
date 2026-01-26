@@ -15,7 +15,11 @@ namespace Genies.Customization.MegaEditor
     /// Base class for color item picker data sources (EyeColor, SkinColor, etc.)
     /// Contains common functionality for simple color-based item pickers
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class ColorItemPickerDataSource : CustomizationItemPickerDataSource
+#else
     public abstract class ColorItemPickerDataSource : CustomizationItemPickerDataSource
+#endif
     {
         [SerializeField]
         protected NoneOrNewCTAController _Cta;

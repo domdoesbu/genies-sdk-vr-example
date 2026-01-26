@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class RefittingService : IRefittingService
+#else
     public sealed class RefittingService : IRefittingService
+#endif
     {
         // state
         private readonly AvatarBodyDeformation _avatarBodyDeformation;

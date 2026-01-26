@@ -7,7 +7,11 @@ namespace Genies.Avatars
     /// <summary>
     /// Base <see cref="ScriptableObject"/> class to create <see cref="IAnimationFeature"/> assets.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class AnimationFeatureAsset : ScriptableObject, IAnimationFeature
+#else
     public abstract class AnimationFeatureAsset : ScriptableObject, IAnimationFeature
+#endif
     {
         public abstract bool SupportsParameters(AnimatorParameters parameters);
         public abstract GenieComponent CreateFeatureComponent(AnimatorParameters parameters);

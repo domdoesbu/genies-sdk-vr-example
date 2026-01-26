@@ -9,7 +9,11 @@ namespace Genies.Animations.Model
     /// Components for an <see cref="AnimatorSwitcher"/>
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AnimatorSwitcherComponents
+#else
     public class AnimatorSwitcherComponents
+#endif
     {
         /// <summary>
         /// Triggers when animation loop has started.

@@ -22,7 +22,11 @@ namespace Genies.Customization.MegaEditor
 #if GENIES_INTERNAL
     [CreateAssetMenu(fileName = "SkinColorItemPickerDataSource", menuName = "Genies/Customizer/DataSource/SkinColorItemPickerDataSource")]
 #endif
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SkinColorItemPickerDataSource : ColorItemPickerDataSource
+#else
     public class SkinColorItemPickerDataSource : ColorItemPickerDataSource
+#endif
     {
         /// <summary>
         /// The event name to dispatch to analytics
@@ -113,7 +117,7 @@ namespace Genies.Customization.MegaEditor
         public override int GetCurrentSelectedIndex()
         {
             var currentSkinColor = CurrentCustomizableAvatar.GetColor(GenieColor.Skin) ?? Color.black;
-            
+
             // Use base helper method to find matching color
             var index = GetCurrentSelectedIndexByColor<SimpleColorUiData>(
                 currentSkinColor,

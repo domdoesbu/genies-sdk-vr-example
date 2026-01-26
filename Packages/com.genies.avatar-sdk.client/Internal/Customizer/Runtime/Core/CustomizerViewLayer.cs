@@ -1,6 +1,10 @@
 namespace Genies.Customization.Framework
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum CustomizerViewLayer
+#else
     public enum CustomizerViewLayer
+#endif
     {
         //Layer for customization controls views above the nar bar/below if using drawer style
         CustomizationEditor,

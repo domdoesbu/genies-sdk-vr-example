@@ -3,11 +3,16 @@ using UnityEngine.EventSystems;
 
 namespace Genies.UI
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class DragInputHandler : UIBehaviour,
+        IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, UnityEngine.EventSystems.IScrollHandler
+#else
     public class DragInputHandler : UIBehaviour,
         IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, UnityEngine.EventSystems.IScrollHandler
+#endif
     {
         public DragInputHandler MasterHandler;
-        
+
         public int PointerId { get; private set; }
         public bool PointerPressed { get; private set; } // whether or not the pointer was pressed down (on this object) during this frame
         public bool PointerDown { get; private set; } // wether or not the pointer is currently pressed down on this object
@@ -176,7 +181,7 @@ namespace Genies.UI
                 MasterHandler.OnScroll(this, eventData);
             }
         }
-        
+
         public virtual void OnPointerDown(DragInputHandler slaveHandler, PointerEventData eventData)
             => OnPointerDown(eventData.pointerId, eventData.position);
 

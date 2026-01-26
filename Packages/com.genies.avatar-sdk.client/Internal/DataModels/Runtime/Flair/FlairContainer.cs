@@ -6,7 +6,11 @@ namespace Genies.Models
     /// <summary>
     /// Represents a container for Flair data in the Genies application.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class FlairContainer : OrderedScriptableObject, IDynamicAsset
+#else
     public class FlairContainer : OrderedScriptableObject, IDynamicAsset
+#endif
     {
         public const int CurrentPipelineVersion = 0;
         public int PipelineVersion { get; set; } = CurrentPipelineVersion;

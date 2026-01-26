@@ -13,7 +13,12 @@ namespace Genies.UIFramework.Widgets
     /// Provide methods to display the Picture in Picture window,
     /// to preview Avatars when editing UI takes full-screen
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    [AddComponentMenu("")]
+    internal class PictureInPictureController : MonoBehaviour
+#else
     public class PictureInPictureController : MonoBehaviour
+#endif
     {
         private InputProvider _InputProvider => this.GetService<InputProvider>();
         private PictureInPictureCameraProvider _CameraProvider => this.GetService<PictureInPictureCameraProvider>();
@@ -562,7 +567,11 @@ namespace Genies.UIFramework.Widgets
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum PictureInPictureSizeMode
+#else
     public enum PictureInPictureSizeMode
+#endif
     {
         Small = 0,
         Big = 1,

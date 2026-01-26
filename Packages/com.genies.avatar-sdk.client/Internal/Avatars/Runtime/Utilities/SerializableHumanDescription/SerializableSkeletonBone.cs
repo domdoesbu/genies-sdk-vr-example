@@ -5,7 +5,11 @@ using UnityEngine;
 namespace Genies.Avatars
 {
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal struct SerializableSkeletonBone
+#else
     public struct SerializableSkeletonBone
+#endif
     {
         public string     name;
         public Vector3    position;

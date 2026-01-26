@@ -12,7 +12,11 @@ namespace Genies.Avatars
     /// It takes care of caching all the asset references so child classes must only implement the specific logic for
     /// loading the assets and equipping/unequipping them from slots.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal abstract class AssetSlotsController<TAsset> : IAssetSlotsController<TAsset>, IDisposable
+#else
     public abstract class AssetSlotsController<TAsset> : IAssetSlotsController<TAsset>, IDisposable
+#endif
         where TAsset : IAsset
     {
         // child class must only define what slots are valid, how to load an asset from its ID and what to do when an asset is equipped/unequipped from a slot

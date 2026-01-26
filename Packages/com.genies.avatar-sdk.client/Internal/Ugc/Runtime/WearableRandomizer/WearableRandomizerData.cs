@@ -12,7 +12,11 @@ namespace Genies.Ugc
     /// </summary>
     [Serializable]
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class WearableRandomizerData
+#else
     public sealed class WearableRandomizerData
+#endif
     {
         public List<string> BasicMaterialIds = new();
         public List<string> AccentMaterialIds = new();

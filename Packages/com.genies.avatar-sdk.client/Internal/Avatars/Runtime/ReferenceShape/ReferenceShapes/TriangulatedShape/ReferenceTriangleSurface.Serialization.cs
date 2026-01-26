@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed partial class TriangulatedShape
+#else
     public sealed partial class TriangulatedShape
+#endif
     {
         /// <summary>
         /// Supports serialization of a <see cref="TriangulatedShape"/>. In practice, initialization is so fast that

@@ -1,11 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace UMA
 {
 	/// <summary>
 	/// Utility class for enabling twist bones in Unity rig.
 	/// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+	[AddComponentMenu("")]
+	internal class TwistBones : MonoBehaviour
+#else
 	public class TwistBones : MonoBehaviour
+#endif
 	{
 		public float twistValue;
 		

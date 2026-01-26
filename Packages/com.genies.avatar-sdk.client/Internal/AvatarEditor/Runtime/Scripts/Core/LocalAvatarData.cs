@@ -16,7 +16,11 @@ namespace AvatarEditor.Core
     /// Serializable wrapper for Dictionary<string, Color> to work with Unity's serialization
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SerializableColorDictionary
+#else
     public class SerializableColorDictionary
+#endif
     {
         [SerializeField] private List<string> keys = new List<string>();
         [SerializeField] private List<Color> values = new List<Color>();
@@ -54,7 +58,11 @@ namespace AvatarEditor.Core
     /// Serializable wrapper for Dictionary<string, float> to work with Unity's serialization
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SerializableFloatDictionary
+#else
     public class SerializableFloatDictionary
+#endif
     {
         [SerializeField] private List<string> keys = new List<string>();
         [SerializeField] private List<float> values = new List<float>();
@@ -92,7 +100,11 @@ namespace AvatarEditor.Core
     /// Serializable wrapper for Dictionary<MegaSkinTattooSlot, string> to work with Unity's serialization
     /// </summary>
     [Serializable]
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class SerializableTattooDictionary
+#else
     public class SerializableTattooDictionary
+#endif
     {
         [SerializeField] private List<int> keys = new List<int>(); // Store enum as int
         [SerializeField] private List<string> values = new List<string>();

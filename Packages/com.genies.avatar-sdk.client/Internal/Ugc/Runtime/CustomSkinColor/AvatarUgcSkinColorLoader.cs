@@ -5,7 +5,11 @@ using Genies.Refs;
 
 namespace Genies.Ugc.CustomSkin
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal class AvatarUgcSkinColorLoader : IAssetLoader<ColorAsset>
+#else
     public class AvatarUgcSkinColorLoader : IAssetLoader<ColorAsset>
+#endif
     {
         private readonly SkinColorService _skinColorService;
 

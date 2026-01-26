@@ -10,7 +10,11 @@
 
 namespace GnWrappers {
 
+#if GENIES_SDK && !GENIES_INTERNAL
+internal class SkeletonOffset : EntityAttribute {
+#else
 public class SkeletonOffset : EntityAttribute {
+#endif
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal SkeletonOffset(global::System.IntPtr cPtr, bool cMemoryOwn) : base(GnCoreWrapperPINVOKE.SkeletonOffset_SWIGUpcast(cPtr), cMemoryOwn) {

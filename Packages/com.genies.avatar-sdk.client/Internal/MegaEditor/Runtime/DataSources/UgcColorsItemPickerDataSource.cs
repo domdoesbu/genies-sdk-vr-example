@@ -7,7 +7,11 @@ using UnityEngine;
 
 namespace Genies.Customization.MegaEditor
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UgcColorsItemPickerDataSource : IItemPickerDataSource
+#else
     public sealed class UgcColorsItemPickerDataSource : IItemPickerDataSource
+#endif
     {
         // dependencies
         private readonly IColorPickerController _controller;

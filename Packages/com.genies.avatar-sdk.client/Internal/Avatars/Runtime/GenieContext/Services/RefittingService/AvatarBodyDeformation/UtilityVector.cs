@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace Genies.Avatars
 {
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UtilityVector
+#else
     public sealed class UtilityVector
+#endif
     {
         public readonly string Name;
         public readonly string Version;
@@ -17,7 +21,11 @@ namespace Genies.Avatars
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UtilMesh
+#else
     public sealed class UtilMesh
+#endif
     {
         public readonly UtilMeshName Name;
         public readonly IReadOnlyList<UtilMeshRegion> Regions;
@@ -29,7 +37,11 @@ namespace Genies.Avatars
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal sealed class UtilMeshRegion
+#else
     public sealed class UtilMeshRegion
+#endif
     {
         public readonly RegionType Region;
         public readonly Vector3[] UniquePoints;
@@ -41,7 +53,11 @@ namespace Genies.Avatars
         }
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum UtilMeshName
+#else
     public enum UtilMeshName
+#endif
     {
         bodysuit,
         dress,
@@ -54,7 +70,11 @@ namespace Genies.Avatars
         none
     }
 
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal enum RegionType
+#else
     public enum RegionType
+#endif
     {
         wholeTarget,
         biceps,

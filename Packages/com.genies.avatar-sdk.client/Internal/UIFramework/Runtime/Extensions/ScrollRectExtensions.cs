@@ -6,7 +6,11 @@ namespace Genies.UI.Scroller
     /// <summary>
     /// Extension methods for ScrollRect to provide additional scrolling functionality and calculations.
     /// </summary>
+#if GENIES_SDK && !GENIES_INTERNAL
+    internal static class ScrollRectExtensions
+#else
     public static class ScrollRectExtensions
+#endif
     {
         /// <summary>
         /// Normalize a distance to be used in verticalNormalizedPosition or horizontalNormalizedPosition.
