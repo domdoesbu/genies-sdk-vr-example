@@ -11,7 +11,7 @@ This example Unity project demonstrates the integration of the Genies’ and Met
 
 ## Requirements
 
-- Unity **2022.3.62f2**
+- Unity **2022.3.62f2** or later
 - Android build support installed via Unity Hub
 - Git installed and accessible to Unity/UPM (required to fetch the Meta Movement SDK Git dependency)
 - Network access on first open (some packages restore from GitHub)
