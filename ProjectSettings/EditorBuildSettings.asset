@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/LocomotionTest.unity
     guid: 8892968db787c4278aed5574faf04179
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: eb97f28556efcd04ab2969b0046048f9,
+      type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ff5f55b47a5d0448eadce3fbb920bcae,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e3419be1e786344f98d947060fb6884c,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 6d1f58b78a60240c6a61ba3ae7653e9d,
       type: 2}
+  m_UseUCBPForAssetBundles: 0
