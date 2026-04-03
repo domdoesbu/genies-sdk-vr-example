@@ -96,10 +96,10 @@
   <Project Path="Genies.Naf.Editor.csproj" />
   <Project Path="Genies.Sdk.Avatar.Telemetry.Editor.csproj" />
   <Project Path="Genies.ABTesting.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Genies.Sdk.Core.Editor.csproj" />
   <Project Path="UnityGLTF.Helpers.csproj" />
   <Project Path="UniTask.Addressables.csproj" />
   <Project Path="UMI.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UniTask.DOTween.csproj" />
 </Solution>
