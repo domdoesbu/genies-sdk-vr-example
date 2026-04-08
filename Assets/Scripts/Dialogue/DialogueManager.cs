@@ -32,7 +32,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(string title, DialogueNode node, GameObject NPC)
     {
         this.NPC = NPC;
-        dialogueParent.transform.position = new Vector3(NPC.transform.position.x + 1.0f, NPC.transform.position.y, NPC.transform.rotation.y);
+        //dialogueParent.transform.position = new Vector3(NPC.transform.position.x + 1.0f, NPC.transform.position.y, NPC.transform.rotation.y);
         // Display the dialogue UI
         ShowDialogue();
 

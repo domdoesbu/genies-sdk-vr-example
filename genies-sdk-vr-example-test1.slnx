@@ -9,6 +9,7 @@
   <Project Path="UnityGLTFScripts.csproj" />
   <Project Path="Genies.Looks.csproj" />
   <Project Path="Genies.Avatars.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UMA_Core.csproj" />
   <Project Path="UniTask.csproj" />
   <Project Path="Genies.Avatars.Context.csproj" />
@@ -74,7 +75,6 @@
   <Project Path="Genies.Refs.csproj" />
   <Project Path="Newtonsoft.Json.UnityConverters.Addressables.csproj" />
   <Project Path="UnityGLTF.ShaderGraph.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Genies.ServiceManagement.Editor.csproj" />
   <Project Path="Genies.Sdk.Avatar.Telemetry.csproj" />
   <Project Path="Newtonsoft.Json.UnityConverters.Editor.csproj" />
