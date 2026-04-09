@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,62 @@ public class GameManager : MonoBehaviour
 
     // 2D array of NPC and item
 
-    
+    /** LIST:
+        - 1 bundt cake
+        - 3 Green grapes
+        - 5 apples
+        - 2 meat
+        - 1 rubber duck
+    **/
+
+    [SerializeField] public int[] groceryItemCount = new int[5];
+    [SerializeField] public TextMeshProUGUI groceryList;
+    private string[] groceryItemString = new string[5];
+
+    public Health health;
+
+    private void Start()
+    {
+        
+        groceryItemString[0] = " asepoifj";
+        groceryItemString[1] = " asrgha ";
+        groceryItemString[2] = " rvasrg";
+        groceryItemString[3] = " afvcd";
+        groceryItemString[4] = " aduhafga";
+
+        groceryList.text = "";
+        for (int i = 0; i < groceryItemCount.Length; i++)
+        {
+            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+        }
+    }
 
 
+    public void DecreaseHealth()
+    {
+        health.DecreaseHealth();
+        if(health.healthCount == 0)
+        {
+            GameEnd();
+        }
+    }
+
+    public void UpdateList()
+    {
+        groceryList.text = "";
+        for (int i = 0; i < groceryItemCount.Length; i++)
+        {
+            if (groceryItemCount[i] == 0)
+            {
+                Debug.Log("i :  " + groceryItemCount[i]);
+                groceryItemString[i] = "<s>" + groceryItemString[i] + "</s>";
+            }
+            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+        }
+    }
+
+    public void GameEnd()
+    {
+        groceryList.text = "GAME OVER";
+    }
 }
