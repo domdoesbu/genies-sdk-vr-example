@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueName, dialogueText; // Name and main text
     public GameObject responseButtonPrefab; // Prefab for generating response buttons
     public Transform responseButtonContainer; // container holding the response buttons
+    public AvatarMovement movement;
 
     public GameObject NPC;
     private void Awake()
@@ -69,6 +70,7 @@ public class DialogueManager : MonoBehaviour
         {
             // If no follow-up node, end the dialogue
             HideDialogue();
+            movement.RandomizeState();
         }
     }
 
