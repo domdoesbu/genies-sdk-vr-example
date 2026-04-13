@@ -41,7 +41,7 @@ namespace GUnityGLTF
 {
 #if UNITY_2020_2_OR_NEWER
 #if ENABLE_DEFAULT_GLB_IMPORTER
-    [ScriptedImporter(ImporterVersion, new[] { "glb", "gltf" })]
+    //[ScriptedImporter(ImporterVersion, new[] { "glb", "gltf" })]
 #else
     [ScriptedImporter(ImporterVersion, null, overrideExts: new[] { "glb", "gltf" })]
 #endif

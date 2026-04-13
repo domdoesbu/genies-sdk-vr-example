@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager Instance { get; private set; }
+    
 
     // UI elements
     public GameObject dialogueParent; // Main container
@@ -13,26 +13,15 @@ public class DialogueManager : MonoBehaviour
     public Transform responseButtonContainer; // container holding the response buttons
     public AvatarMovement movement;
 
-    public GameObject NPC;
     private void Awake()
     {
-        // Makes sure we only have one dia-manager
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        // on awake, make sure it is hidden
+
         HideDialogue();
     }
 
     // Starts the dialogue with given title and dialogue node
-    public void StartDialogue(string title, DialogueNode node, GameObject NPC)
+    public void StartDialogue(string title, DialogueNode node)
     {
-        this.NPC = NPC;
         //dialogueParent.transform.position = new Vector3(NPC.transform.position.x + 1.0f, NPC.transform.position.y, NPC.transform.rotation.y);
         // Display the dialogue UI
         ShowDialogue();
@@ -64,7 +53,7 @@ public class DialogueManager : MonoBehaviour
         // Check if there's a follow-up node
         if (!response.nextNode.IsLastNode())
         {
-            StartDialogue(title, response.nextNode, NPC); // Start next dialogue
+            StartDialogue(title, response.nextNode); // Start next dialogue
         }
         else
         {
