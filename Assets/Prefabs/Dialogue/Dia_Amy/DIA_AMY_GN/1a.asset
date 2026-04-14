@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: Root
+  m_Name: 1a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  dialogueText: What are you looking at?
+  dialogueText: I don't have all day. Item three is in the fridge. One pack comes
+    with three inside. Hard to miss
   responses:
-  - responseText: Nothing. I'm just looking for some help.
-    nextNode: {fileID: 11400000, guid: d15af03441f8aa9409eb3c8fb8fad21f, type: 2}
-  - responseText: At you....
-    nextNode: {fileID: 11400000, guid: 1911a983583a78a42af52f4d30efd1b4, type: 2}
+  - responseText: Do you recognize any others?
+    nextNode: {fileID: 11400000, guid: 45b727e0a8b2ca4449a50d1687deb7fb, type: 2}
+  - responseText: You don't have to be so sassy...
+    nextNode: {fileID: 11400000, guid: f601f26198d69a247bc835bb8532b25a, type: 2}

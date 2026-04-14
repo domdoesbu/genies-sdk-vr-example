@@ -4,31 +4,39 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    
-
     // UI elements
     public GameObject dialogueParent; // Main container
     public TextMeshProUGUI dialogueName, dialogueText; // Name and main text
     public GameObject responseButtonPrefab; // Prefab for generating response buttons
     public Transform responseButtonContainer; // container holding the response buttons
     public AvatarMovement movement;
-
+    public DialogueVariables dialogueVariables;
+    
+    public GameManager gameManager;
+    
     private void Awake()
     {
-
+        gameManager = FindAnyObjectByType<GameManager>();
         HideDialogue();
     }
 
     // Starts the dialogue with given title and dialogue node
     public void StartDialogue(string title, DialogueNode node)
     {
-        //dialogueParent.transform.position = new Vector3(NPC.transform.position.x + 1.0f, NPC.transform.position.y, NPC.transform.rotation.y);
         // Display the dialogue UI
         ShowDialogue();
 
         // Set dialogue title and body text
         dialogueName.text = title;
-        dialogueText.text = node.dialogueText;
+        if (gameManager.genderNeutral)
+        {
+            dialogueText.text = node.dialogueText;
+        }
+        else
+        {
+            dialogueText.text = DialogueParser.Parse(node.dialogueText, dialogueVariables, gameManager.pluralVerbage);
+        }
+        
 
         // Remove any existing response buttons
         foreach (Transform child in responseButtonContainer)

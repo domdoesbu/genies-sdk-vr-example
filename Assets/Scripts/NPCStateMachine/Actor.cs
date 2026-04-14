@@ -14,10 +14,12 @@ public class Actor : MonoBehaviour
     public AvatarMovement movement;
     public DialogueManager dialogueManager;
     public string Name;
-    public Dialogue Dialogue;
+    public Dialogue GN_dialogue;
+    public Dialogue G_dialogue;
     public List<TargetItems> items = new List<TargetItems>();
     public bool spokenTo;
     public BoxCollider boxCollider;
+    public GameManager gameManager;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class Actor : MonoBehaviour
         movement = GetComponent<AvatarMovement>();
         dialogueManager = GetComponent<DialogueManager>();
         boxCollider = GetComponent<BoxCollider>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     public float CurrentSpeed
@@ -37,7 +40,10 @@ public class Actor : MonoBehaviour
     // Call this to trigger dialogue with an NPC. (like when clicking on the avatar)
     public void SpeakTo()
     {
-        dialogueManager.StartDialogue(Name, Dialogue.RootNode);
+        if(gameManager.genderNeutral)
+            dialogueManager.StartDialogue(Name, GN_dialogue.RootNode);
+        else
+            dialogueManager.StartDialogue(Name, G_dialogue.RootNode);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,9 +60,4 @@ public class Actor : MonoBehaviour
             }
         }
     }
-
-    // Animation
-
-
-
 }

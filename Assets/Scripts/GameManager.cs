@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
 
     public Health health;
 
+    public bool genderNeutral;
+    public bool pluralVerbage;
+
     private void Start()
     {
         

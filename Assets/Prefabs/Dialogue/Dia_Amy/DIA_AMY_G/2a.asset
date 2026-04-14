@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: 1b
+  m_Name: 2a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  dialogueText: Leave me alone.
+  dialogueText: Duh. Item 4 is literally a bath toy. Groceries, snacks, and toys?
+    This list is all over the place.
   responses:
-  - responseText: Close.
-    nextNode: {fileID: 11400000, guid: 98ec359db5fde28418a48f7ccb7bbd82, type: 2}
+  - responseText: Thank you for your help.
+    nextNode: {fileID: 11400000, guid: f601f26198d69a247bc835bb8532b25a, type: 2}
