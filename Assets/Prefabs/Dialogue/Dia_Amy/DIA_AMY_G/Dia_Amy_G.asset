@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4298957cc11a8a4788ce2246c2004f2, type: 3}
   m_Name: Dia_Amy_G
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
-  RootNode: {fileID: 11400000, guid: cbc7e75a62f09ea4cae41d762ed08ede, type: 2}
+  RootNode: {fileID: 11400000, guid: c209d8f0bbce50b47865c93d28ad8211, type: 2}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-
+using System.Diagnostics;
+using UnityEngine;
 public static class DialogueParser
 {
     public static string Parse(string text, DialogueVariables vars, bool pluralVerbage)
@@ -9,20 +10,29 @@ public static class DialogueParser
             // Name
             {"{playerName}", vars.playerName },
             // Pronouns
-            {"{subjectPronoun}", vars.subjectPronoun },
-            {"{objectPronoun}", vars.objectPronoun  },
+            {"{subjectivePronoun}", vars.subjectivePronoun },
+            {"{SubjectivePronoun}", char.ToUpper(vars.subjectivePronoun[0]) + vars.subjectivePronoun.Substring(1) },
+            {"{objectivePronoun}", vars.objectivePronoun  },
+            {"posessiveAdjective}", vars.possesiveAdjectives },
             {"{posessivePronoun}", vars.possesivePronoun },
+            {"{reflexivePronoun}", vars.reflexivePronoun },
             // Gendered term
-            {"{genderedTerm}", vars.genderedTerm },
+            {"{person}", vars.genderedTerm },
+
+            {"{sassy}", vars.sassy },
+            {"{polite}", vars.polite },
             // Verbs
             {"{be}", pluralVerbage ? "are" : "is" },
             {"{have}", pluralVerbage ? "have" : "has"},
-            {"{do}", pluralVerbage ? "do" : "does" }
+            {"{do}", pluralVerbage ? "do" : "does" },
+            {"{seek}", pluralVerbage ? "seeks" : "seek" }
         };
 
         foreach (var pair in replacements)
         {
+            UnityEngine.Debug.Log(text);
             text = text.Replace(pair.Key, pair.Value);
+            UnityEngine.Debug.Log(text);
         }
 
         return text;

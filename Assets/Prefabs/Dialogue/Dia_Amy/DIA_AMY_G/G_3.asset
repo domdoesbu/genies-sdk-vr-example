@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
+  m_Name: G_3
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  dialogueText: Whatever. Good luck with that chaos. Now leave me alone.
+  responses:
+  - responseText: Close.
+    nextNode: {fileID: 11400000, guid: e53427829883b2640a1669b2172cfd04, type: 2}

@@ -11,13 +11,17 @@ public class DialogueManager : MonoBehaviour
     public Transform responseButtonContainer; // container holding the response buttons
     public AvatarMovement movement;
     public DialogueVariables dialogueVariables;
-    
+
+    // Interact prompt
+    public GameObject interactPrompt;
     public GameManager gameManager;
     
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        dialogueVariables = FindAnyObjectByType<DialogueVariables>();
         HideDialogue();
+        HideInteractPrompt();
     }
 
     // Starts the dialogue with given title and dialogue node
@@ -28,16 +32,8 @@ public class DialogueManager : MonoBehaviour
 
         // Set dialogue title and body text
         dialogueName.text = title;
-        if (gameManager.genderNeutral)
-        {
-            dialogueText.text = node.dialogueText;
-        }
-        else
-        {
-            dialogueText.text = DialogueParser.Parse(node.dialogueText, dialogueVariables, gameManager.pluralVerbage);
-        }
+        dialogueText.text = DialogueParser.Parse(node.dialogueText, dialogueVariables, gameManager.pluralVerbage);
         
-
         // Remove any existing response buttons
         foreach (Transform child in responseButtonContainer)
         {
@@ -88,4 +84,15 @@ public class DialogueManager : MonoBehaviour
     {
         return dialogueParent.activeSelf;
     }
+
+    public void HideInteractPrompt()
+    {
+        interactPrompt.SetActive(false);
+    }
+
+    public void ShowInteractPrompt()
+    {
+        interactPrompt.SetActive(true);
+    }
+
 }

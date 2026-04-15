@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
+  m_Name: G_Root
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  dialogueText: Hi there {polite}! Looking for a hand with that list?
+  responses:
+  - responseText: No thank you.
+    nextNode: {fileID: 11400000, guid: 1d6c1141ce286824ab15d0cde4c7a8af, type: 2}
+  - responseText: Yea, but I'm having trouble finding these tiems. Do you know what
+      they are?
+    nextNode: {fileID: 11400000, guid: e8c16ecdb8a3eac4c9d20dc0316eb709, type: 2}

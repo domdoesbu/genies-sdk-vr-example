@@ -7,20 +7,24 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Animator))]
 public class Actor : MonoBehaviour
 {
+    public List<TargetItems> items = new List<TargetItems>();
+    public GameManager gameManager;
+
     // NAV
     private float speed;
     public NavMeshAgent agent;
     public Animator animator;
     public AvatarMovement movement;
-    public DialogueManager dialogueManager;
+
+    // UI
     public string Name;
+    public BoxCollider boxCollider;
+    
+    // Dialogue
+    public bool spokenTo;
     public Dialogue GN_dialogue;
     public Dialogue G_dialogue;
-    public List<TargetItems> items = new List<TargetItems>();
-    public bool spokenTo;
-    public BoxCollider boxCollider;
-    public GameManager gameManager;
-
+    public DialogueManager dialogueManager;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -36,7 +40,6 @@ public class Actor : MonoBehaviour
         get { return agent.velocity.magnitude; }
     }
 
-
     // Call this to trigger dialogue with an NPC. (like when clicking on the avatar)
     public void SpeakTo()
     {
@@ -50,11 +53,22 @@ public class Actor : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && !spokenTo)
         {
+            dialogueManager.ShowInteractPrompt();
+            movement.Talking();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && !spokenTo && OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
+        {
+
+            dialogueManager.HideInteractPrompt();
             boxCollider.enabled = false;
             movement.Talking();
             SpeakTo();
             spokenTo = true;
-            foreach (TargetItems item in items) 
+            foreach (TargetItems item in items)
             {
                 item.Validate();
             }
