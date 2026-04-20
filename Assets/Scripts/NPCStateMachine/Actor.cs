@@ -74,4 +74,12 @@ public class Actor : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && !spokenTo)
+        {
+            dialogueManager.HideInteractPrompt();
+        }
+    }
 }

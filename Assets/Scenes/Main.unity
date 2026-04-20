@@ -64480,6 +64480,38 @@ MonoBehaviour:
   _movementProvider: {fileID: 0}
   _handAligment: 0
   _handGrabPoses: []
+--- !u!21 &341919428
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1151641609}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &341954583
 GameObject:
   m_ObjectHideFlags: 0
@@ -69072,7 +69104,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.22
-  m_Speed: 0.5
+  m_Speed: 0.8
   m_Acceleration: 2
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -71675,7 +71707,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1082341524}
+  - {fileID: 688498271}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98025,43 +98057,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 532755356}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &532925113
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 237
-  m_Height: 256
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &533540834
 GameObject:
   m_ObjectHideFlags: 0
@@ -121752,7 +121747,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1719133443}
+  - {fileID: 839282878}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123183,6 +123178,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0851102, y: 0.15637612, z: 0.08511044}
   m_Center: {x: 0, y: 0.07871324, z: -0.0000005364418}
+--- !u!21 &688498271
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 751785093}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &689329323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125890,43 +125917,6 @@ MonoBehaviour:
   _movementProvider: {fileID: 0}
   _handAligment: 0
   _handGrabPoses: []
---- !u!84 &699597584
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 253
-  m_Height: 256
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &699910466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130236,6 +130226,43 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 723292610}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &723901663
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 237
+  m_Height: 256
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &724525825
 GameObject:
   m_ObjectHideFlags: 0
@@ -135030,6 +135057,43 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 751494429}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &751785093
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 245
+  m_Height: 256
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &751966019
 GameObject:
   m_ObjectHideFlags: 0
@@ -137826,7 +137890,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 23
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1466810718}
+  m_TargetTexture: {fileID: 1401123351}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -152827,6 +152891,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.07093339, y: 0.22749034, z: 0.07669199}
   m_Center: {x: 0.000000070780516, y: 0.113745235, z: 0.000000007450581}
+--- !u!21 &839282878
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1401123351}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &839287058
 GameObject:
   m_ObjectHideFlags: 0
@@ -179544,7 +179640,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1131185427}
+  - {fileID: 341919428}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180293,7 +180389,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 23
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 532925113}
+  m_TargetTexture: {fileID: 723901663}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -181384,7 +181480,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 23
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 699597584}
+  m_TargetTexture: {fileID: 1151641609}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -188686,6 +188782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebuggerOnScreen
   errorText: {fileID: 908821446}
+  messageLifetime: 5
 --- !u!114 &1053575167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193849,38 +193946,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 761702518}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1082341524
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1100260415}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1084758885
 GameObject:
   m_ObjectHideFlags: 0
@@ -195605,43 +195670,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.09211874, y: 0.15357041, z: 0.047386646}
   m_Center: {x: -0.000000044703484, y: 0.07678521, z: -0.000000040978193}
---- !u!84 &1100260415
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 245
-  m_Height: 256
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &1101955217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -201175,38 +201203,6 @@ MonoBehaviour:
   _movementProvider: {fileID: 0}
   _handAligment: 0
   _handGrabPoses: []
---- !u!21 &1131185427
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 699597584}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1131394899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205715,6 +205711,43 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20040113, y: 0.074526854, z: 0.20596425}
   m_Center: {x: -0.000000067055225, y: 0.037263352, z: -0.0000011771917}
+--- !u!84 &1151641609
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 253
+  m_Height: 256
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1151956001
 GameObject:
   m_ObjectHideFlags: 0
@@ -223231,7 +223264,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 23
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1100260415}
+  m_TargetTexture: {fileID: 751785093}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
@@ -237160,6 +237193,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.19470598, y: 0.3500548, z: 0.19470537}
   m_Center: {x: -0.000000022351742, y: 0.1750274, z: 0.0000001937151}
+--- !u!21 &1316251268
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 723901663}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1316893357
 GameObject:
   m_ObjectHideFlags: 0
@@ -253494,6 +253559,43 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.046591774, y: 0.18074416, z: 0.046592794}
   m_Center: {x: -0.000000029802322, y: 0.09037208, z: -0.0000001899898}
+--- !u!84 &1401123351
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 666
+  m_Height: 720
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &1401410269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264124,38 +264226,6 @@ MonoBehaviour:
   _movementProvider: {fileID: 0}
   _handAligment: 0
   _handGrabPoses: []
---- !u!21 &1462226901
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 532925113}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1462491281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264780,43 +264850,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464765466}
   m_Mesh: {fileID: 4300000, guid: 2a1d62b100d5e82478abb2b08dfff546, type: 2}
---- !u!84 &1466810718
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 666
-  m_Height: 720
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1467992015
 GameObject:
   m_ObjectHideFlags: 0
@@ -284192,7 +284225,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.31
-  m_Speed: 0.5
+  m_Speed: 0.8
   m_Acceleration: 2
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -290231,7 +290264,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1462226901}
+  - {fileID: 1316251268}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -299496,7 +299529,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.19
-  m_Speed: 0.5
+  m_Speed: 0.8
   m_Acceleration: 2
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -313177,38 +313210,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4192505, y: 0.026569605, z: 0.41924953}
   m_Center: {x: 0.00000008940697, y: 0.013284802, z: 0}
---- !u!21 &1719133443
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1466810718}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1721002840
 GameObject:
   m_ObjectHideFlags: 0
