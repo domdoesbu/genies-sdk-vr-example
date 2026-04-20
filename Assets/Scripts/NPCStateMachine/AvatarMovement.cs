@@ -79,6 +79,11 @@ public class AvatarMovement : MonoBehaviour
         ChangeState(EState.Talking);
     }
 
+    public void Walking()
+    {
+        ChangeState(EState.Wandering);
+    }
+
     bool HasArrived()
     {
         return actor.agent.remainingDistance <= actor.agent.stoppingDistance;

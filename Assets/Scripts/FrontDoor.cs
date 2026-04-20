@@ -10,13 +10,14 @@ public class FrontDoor : MonoBehaviour
     public Vector3 pStart;
     public Vector3 pEnd;
     public TextMeshProUGUI debugText;
-
+    public GameManager gameManager;
     int interpolationFramesCount = 100;
     int elapsedFrames = 0;
     int maxFrameReset = 900;
 
     void Start()
     {
+        gameManager = FindFirstObjectByType<GameManager>();
         pStart = FrontDoorPrefab.transform.position;
         pEnd = new Vector3(pStart.x - 1f, pStart.y, pStart.z);
     }
@@ -41,6 +42,7 @@ public class FrontDoor : MonoBehaviour
     {   
         if (other.gameObject.tag.Equals("Player"))
         {
+            gameManager.ToggleOutsideMirror();
             elapsedFrames = 0;
             open = true;
             close = false;

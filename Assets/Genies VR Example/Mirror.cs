@@ -9,14 +9,16 @@ namespace Genies.VRExample
     public class Mirror : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Camera _mirrorCamera;
+        [SerializeField] public Camera _mirrorCamera;
         [SerializeField] private Renderer _displayRenderer;
 
         [Header("Render Texture")]
-        [SerializeField, Min(16)] private int _targetTextureHeight = 720;
+        [SerializeField, Min(16)] public int _targetTextureHeight = 720;
         [SerializeField, Min(1)] private int _maxTextureSize = 4096;
         [SerializeField] private FilterMode _filterMode = FilterMode.Bilinear;
-
+        [Header("Sharing")]
+        [SerializeField] private bool _useSharedTexture = false;
+        [SerializeField] private Mirror _sourceMirror;
         [Header("Behavior")]
         [SerializeField] private bool _matchDisplayAspect = true;
 
@@ -153,6 +155,13 @@ namespace Genies.VRExample
 
         private void EnsureRenderTexture()
         {
+            if (_useSharedTexture && _sourceMirror != null)
+            {
+                _renderTexture = _sourceMirror._renderTexture;
+                _currentWidth = _renderTexture != null ? _renderTexture.width : 0;
+                _currentHeight = _renderTexture != null ? _renderTexture.height : 0;
+                return;
+            }
             if (_mirrorCamera == null)
                 return;
 
@@ -185,6 +194,14 @@ namespace Genies.VRExample
 
         private void ApplyLinks()
         {
+            if (!_useSharedTexture && _mirrorCamera != null)
+            {
+                _mirrorCamera.targetTexture = _renderTexture;
+
+                if (_renderTexture != null)
+                    _mirrorCamera.aspect = (float)_renderTexture.width / _renderTexture.height;
+            }
+
             if (_mirrorCamera != null)
             {
                 _mirrorCamera.targetTexture = _renderTexture;

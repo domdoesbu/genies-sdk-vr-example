@@ -54,6 +54,7 @@ public class DialogueVariables : MonoBehaviour
     {
         if(i == 1)
         {
+            Debug.Log(genderedTermInput.options[genderedTermInput.value].text);
             genderedTerm = genderedTermInput.options[genderedTermInput.value].text;
         }
         if (i == 2) 

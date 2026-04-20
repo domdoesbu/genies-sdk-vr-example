@@ -80,6 +80,7 @@ public class Actor : MonoBehaviour
         if (other.gameObject.tag == "Player" && !spokenTo)
         {
             dialogueManager.HideInteractPrompt();
+            movement.Walking();
         }
     }
 }

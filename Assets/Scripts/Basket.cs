@@ -12,8 +12,8 @@ public class Basket : MonoBehaviour
         if(other.gameObject.tag != "Player")
         {
             Item item = other.gameObject.GetComponent<Item>();
-            Debug.Log(item.validated);
-            if(item.validated)
+            
+            if(item != null && item.validated)
             {
                 if (gameManager.groceryItemCount[item.itemId] == 0)
                 {

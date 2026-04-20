@@ -1,3 +1,4 @@
+using Meta.XR.Movement;
 using TMPro;
 using UnityEngine;
 
@@ -29,9 +30,10 @@ public class GameManager : MonoBehaviour
     public bool genderNeutral = false;
     public bool pluralVerbage = false;
 
+    public GameObject[] mirrors = new GameObject[4];
+
     private void Start()
-    {
-        
+    { 
         groceryItemString[0] = " asepoifj";
         groceryItemString[1] = " asrgha ";
         groceryItemString[2] = " rvasrg";
@@ -45,6 +47,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ToggleOutsideMirror()
+    {
+        mirrors[0].gameObject.SetActive(false);
+    }
+
+    public void ToggleInsideMirror()
+    {
+        for(int i = 1; i < mirrors.Length; i++)
+        {
+            mirrors[i].gameObject.SetActive(!mirrors[i].gameObject.activeSelf);
+        }
+    }
 
     public void DecreaseHealth()
     {
@@ -72,5 +86,20 @@ public class GameManager : MonoBehaviour
     public void GameEnd()
     {
         groceryList.text = "GAME OVER";
+    }
+
+    public void SetPluralConjugation()
+    {
+        pluralVerbage = !pluralVerbage;
+    }
+
+    public void SetGroupA()
+    {
+        genderNeutral = true;
+    }
+
+    public void SetGroupB()
+    {
+        genderNeutral = false;
     }
 }

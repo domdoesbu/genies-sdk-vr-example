@@ -25,7 +25,7 @@ public static class DialogueParser
             {"{be}", pluralVerbage ? "are" : "is" },
             {"{have}", pluralVerbage ? "have" : "has"},
             {"{do}", pluralVerbage ? "do" : "does" },
-            {"{seek}", pluralVerbage ? "seeks" : "seek" }
+            {"{seek}", pluralVerbage ? "seek" : "seeks" }
         };
 
         foreach (var pair in replacements)
