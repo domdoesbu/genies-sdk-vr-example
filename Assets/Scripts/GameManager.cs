@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour
     public bool genderNeutral = false;
     public bool pluralVerbage = false;
 
-    public GameObject[] mirrors = new GameObject[4];
-
     private void Start()
     { 
         groceryItemString[0] = " asepoifj";
@@ -47,18 +45,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ToggleOutsideMirror()
-    {
-        mirrors[0].gameObject.SetActive(false);
-    }
-
-    public void ToggleInsideMirror()
-    {
-        for(int i = 1; i < mirrors.Length; i++)
-        {
-            mirrors[i].gameObject.SetActive(!mirrors[i].gameObject.activeSelf);
-        }
-    }
 
     public void DecreaseHealth()
     {
@@ -76,8 +62,20 @@ public class GameManager : MonoBehaviour
         {
             if (groceryItemCount[i] == 0)
             {
-                Debug.Log("i :  " + groceryItemCount[i]);
                 groceryItemString[i] = "<s>" + groceryItemString[i] + "</s>";
+            }
+            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+        }
+    }
+
+    public void UpdateFontColour(int j)
+    {
+        groceryList.text = "";
+        for (int i = 0; i < groceryItemCount.Length; i++)
+        {
+            if (i == j)
+            {
+                groceryItemString[i] = "<color=green>" + groceryItemString[i] + "</color>";
             }
             groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
         }

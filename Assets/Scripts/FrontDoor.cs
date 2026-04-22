@@ -42,7 +42,6 @@ public class FrontDoor : MonoBehaviour
     {   
         if (other.gameObject.tag.Equals("Player"))
         {
-            gameManager.ToggleOutsideMirror();
             elapsedFrames = 0;
             open = true;
             close = false;

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4499841556976304053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1790500780510810539}
+  - component: {fileID: 1982009890113726188}
+  - component: {fileID: 2311768063978021934}
+  - component: {fileID: 5155855436654617704}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1790500780510810539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499841556976304053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.81826, y: 0.56716, z: -1.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982009890113726188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499841556976304053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4a84772e0be9d4b8faac471abb6611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  groceryItemCount: 0100000002000000020000000100000001000000
+  groceryList: {fileID: 0}
+  health: {fileID: 0}
+  genderNeutral: 0
+  pluralVerbage: 0
+--- !u!114 &2311768063978021934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499841556976304053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d8664ca9bfb6044a66e3e19dad0300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueVariables
+  pronounParent: {fileID: 0}
+  playerNameInput: {fileID: 0}
+  subPronounInput: {fileID: 0}
+  objPronounInput: {fileID: 0}
+  possAdjInput: {fileID: 0}
+  possPronounInput: {fileID: 0}
+  reflexPronounInput: {fileID: 0}
+  genderedTermInput: {fileID: 0}
+  sassyInput: {fileID: 0}
+  politeInput: {fileID: 0}
+  playerName: 
+  subjectivePronoun: 
+  subjectivePronounCaps: 
+  objectivePronoun: 
+  possesiveAdjectives: 
+  possesivePronoun: 
+  reflexivePronoun: 
+  genderedTerm: 
+  sassy: 
+  polite: 
+  beVerb: 
+  haveVerb: 
+  doVerb: 
+  seekVerb: 
+--- !u!114 &5155855436654617704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499841556976304053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19773f803b26a9d4aadcd2ae69bd668e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ListUI
+  HUD: {fileID: 0}
+  hidden: 0
+  originalScale: {x: 0, y: 0, z: 0}
