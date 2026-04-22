@@ -1,6 +1,7 @@
 using Meta.XR.Movement;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
         health.DecreaseHealth();
         if(health.healthCount == 0)
         {
-            GameEnd();
+            GameLost();
         }
     }
 
@@ -65,6 +66,15 @@ public class GameManager : MonoBehaviour
                 groceryItemString[i] = "<s>" + groceryItemString[i] + "</s>";
             }
             groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+        }
+        CheckFinishedGame();
+    }
+
+    private void CheckFinishedGame()
+    {
+        if(groceryItemCount.All(x => x == 0))
+        {
+            groceryList.text = "YOU WON!";
         }
     }
 
@@ -81,10 +91,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameEnd()
+    private void GameLost()
     {
         groceryList.text = "GAME OVER";
     }
+
+    
 
     public void SetPluralConjugation()
     {
