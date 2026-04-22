@@ -60,7 +60,7 @@ public class Actor : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !spokenTo && OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
+        if (other.gameObject.tag == "Player" && !spokenTo && OVRInput.GetDown(OVRInput.RawButton.Y))
         {
 
             dialogueManager.HideInteractPrompt();
