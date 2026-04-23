@@ -67,6 +67,8 @@ namespace Genies.Sdk.Samples.Common
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [SerializeField] public bool FirstPerson;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -94,7 +96,7 @@ namespace Genies.Sdk.Samples.Common
         private Animator _animator;
         private GeniesAnimationPlayer _geniesAnimationPlayer;
         private GeniesAnimatorEventBridge _geniesAnimatorEventBridge;
-        //private CharacterController _controller;
+        private CharacterController _controller;
         private GeniesInputs _input;
         private GameObject _mainCamera;
 
@@ -126,7 +128,7 @@ namespace Genies.Sdk.Samples.Common
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             GetGenieAnimator();
-            //_controller = GetComponent<CharacterController>();
+            if (!FirstPerson) { _controller = GetComponent<CharacterController>(); }
             _input = GetComponent<GeniesInputs>();
 
             AssignAnimationIDs();
@@ -144,7 +146,7 @@ namespace Genies.Sdk.Samples.Common
             }
 
             JumpAndGravity();
-            //GroundedCheck();
+            GroundedCheck();
             Move();
 
         }
@@ -193,7 +195,7 @@ namespace Genies.Sdk.Samples.Common
 
             // Colliders check to parent Avatar to any ground object (mainly for moving platforms)
             var colliders = Physics.OverlapSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
-            //bool grounded = false;
+            bool grounded = false;
             // Note: Parent assignment is commented out - uncomment if moving platform support is needed
             // Transform parent = null;
             if (colliders.Length > 0)
@@ -205,12 +207,12 @@ namespace Genies.Sdk.Samples.Common
                         continue;
                     }
 
-                    //grounded = true;
+                    grounded = true;
                     // parent = collider.transform;
                 }
             }
 
-            //Grounded = grounded;
+            Grounded = grounded;
             // transform.parent = parent; // Uncomment if moving platform support is needed
             // update animator if using character
 
@@ -222,22 +224,26 @@ namespace Genies.Sdk.Samples.Common
 
         private void CameraRotation()
         {
-            //// if there is an input and camera position is not fixed
-            //if (_input.Look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            //{
-            //    float deltaTimeMultiplier = Time.deltaTime;
+            if (!FirstPerson)
+            {
+                // if there is an input and camera position is not fixed
+                if (_input.Look.sqrMagnitude >= _threshold && !LockCameraPosition)
+                {
+                    float deltaTimeMultiplier = Time.deltaTime;
 
-            //    _cinemachineTargetYaw += _input.Look.x * deltaTimeMultiplier;
-            //    _cinemachineTargetPitch += _input.Look.y * deltaTimeMultiplier;
-            //}
+                    _cinemachineTargetYaw += _input.Look.x * deltaTimeMultiplier;
+                    _cinemachineTargetPitch += _input.Look.y * deltaTimeMultiplier;
+                }
 
-            //// clamp our rotations so our values are limited 360 degrees
-            //_cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            //_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+                // clamp our rotations so our values are limited 360 degrees
+                _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-            ////// Cinemachine will follow this target
-            //CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-            //    _cinemachineTargetYaw, 0.0f);
+                //// Cinemachine will follow this target
+                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+                    _cinemachineTargetYaw, 0.0f);
+            }
+            
         }
 
         private void Move()
@@ -255,27 +261,35 @@ namespace Genies.Sdk.Samples.Common
             }
 
             // a reference to the players current horizontal velocity
-            //float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+           
 
             float speedOffset = _speedOffsetThreshold;
             float inputMagnitude = _input.AnalogMovement ? _input.Move.magnitude : 1f;
 
-            // accelerate or decelerate to target speed
-            //if (currentHorizontalSpeed < _targetSpeed - speedOffset ||
-            //    currentHorizontalSpeed > _targetSpeed + speedOffset)
-            //{
-            //    // creates curved result rather than a linear one giving a more organic speed change
-            //    // note T in Lerp is clamped, so we don't need to clamp our speed
-            //    _speed = Mathf.Lerp(currentHorizontalSpeed, _targetSpeed * inputMagnitude,
-            //        Time.deltaTime * SpeedChangeRate);
-
-            //    // round speed to 3 decimal places
-            //    _speed = Mathf.Round(_speed * _speedRoundingPrecision) / _speedRoundingPrecision;
-            //}
-            //else
+            if (!FirstPerson)
             {
-                _speed = _targetSpeed;
+                float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+                // accelerate or decelerate to target speed
+                if (currentHorizontalSpeed < _targetSpeed - speedOffset ||
+                    currentHorizontalSpeed > _targetSpeed + speedOffset)
+                {
+                    // creates curved result rather than a linear one giving a more organic speed change
+                    // note T in Lerp is clamped, so we don't need to clamp our speed
+                    _speed = Mathf.Lerp(currentHorizontalSpeed, _targetSpeed * inputMagnitude,
+                        Time.deltaTime * SpeedChangeRate);
+
+                    // round speed to 3 decimal places
+                    _speed = Mathf.Round(_speed * _speedRoundingPrecision) / _speedRoundingPrecision;
+                }
+                else
+                {
+                    _speed = _targetSpeed;
+                }
             }
+
+            
+            _speed = _targetSpeed;
+            
 
             _animationBlend = Mathf.Lerp(_animationBlend, _targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < _animationBlendMinimum)
@@ -313,8 +327,11 @@ namespace Genies.Sdk.Samples.Common
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
             // move the player
-            //_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             //new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            if (!FirstPerson)
+            {
+                _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+            }
 
             // update animator if using character
             if (_hasAnimator && GenieSpawned)
@@ -447,8 +464,11 @@ namespace Genies.Sdk.Samples.Common
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    //AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center),
-                    //    FootstepAudioVolume);
+                    if (!FirstPerson) {
+                        AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center),
+                        FootstepAudioVolume);
+                    }
+                    
                 }
             }
         }
@@ -457,8 +477,12 @@ namespace Genies.Sdk.Samples.Common
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                //AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
-                //    FootstepAudioVolume);
+                if (!FirstPerson)
+                {
+                    AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
+                    FootstepAudioVolume);
+                }
+                
             }
         }
 
