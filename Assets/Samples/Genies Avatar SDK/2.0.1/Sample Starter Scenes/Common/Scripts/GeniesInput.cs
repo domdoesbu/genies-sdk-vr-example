@@ -76,7 +76,7 @@ namespace Genies.Sdk.Samples.Common
         private bool _analogMovement;
 
         [Header("Mouse Cursor Settings (Read-Only)")] [SerializeField]
-        private bool _cursorLocked = true;
+        private bool _cursorLocked = false;
 
         [SerializeField] private bool _cursorInputForLook = true;
         private bool _inputInitialized = false;
@@ -84,6 +84,12 @@ namespace Genies.Sdk.Samples.Common
         public void MoveInput(Vector2 newMoveDirection)
         {
             Move = newMoveDirection;
+        }
+
+        public void UnlockCursor()
+        {
+            _cursorLocked = false;
+            _cursorInputForLook = true;
         }
 
         public void LookInput(Vector2 newLookDirection)

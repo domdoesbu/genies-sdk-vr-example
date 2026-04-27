@@ -12,7 +12,7 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
-
+		public bool toggleHUD;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -20,10 +20,12 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+		public GameManager gameManager;
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			if(!gameManager.disableMove)
+				MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
@@ -43,7 +45,20 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+
+		public void OnToggleHUD(InputValue value)
+		{
+			ToggleInput(!toggleHUD);
+		}
+
 #endif
+
+
+		public void ToggleInput(bool newToggleInput)
+		{
+			toggleHUD = newToggleInput;
+		}
+
 
 
 		public void MoveInput(Vector2 newMoveDirection)
@@ -71,10 +86,16 @@ namespace StarterAssets
 			SetCursorState(cursorLocked);
 		}
 
-		private void SetCursorState(bool newState)
+		public void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
+
+		public void SetCursorForLookState(bool newState)
+		{
+            cursorInputForLook = newState;
+
+        }
 	}
 	
 }

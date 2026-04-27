@@ -64,6 +64,7 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
+		public GameManager manager;
 	
 #if ENABLE_INPUT_SYSTEM
 		private PlayerInput _playerInput;
@@ -108,13 +109,15 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+			manager = FindAnyObjectByType<GameManager>();
 		}
 
 		private void Update()
 		{
 			JumpAndGravity();
 			GroundedCheck();
-			Move();
+			if(!manager.disableMove)
+				Move();
 		}
 
 		private void LateUpdate()

@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
         - 1 rubber duck
     **/
 
+    public bool VR;
+
     [SerializeField] public int[] groceryItemCount = new int[5];
     [SerializeField] public TextMeshProUGUI groceryList;
     private string[] groceryItemString = new string[5];
@@ -30,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public bool genderNeutral = false;
     public bool pluralVerbage = false;
-
+    public bool disableMove = true;
     private void Start()
     { 
         groceryItemString[0] = " asepoifj";
@@ -45,7 +47,6 @@ public class GameManager : MonoBehaviour
             groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
         }
     }
-
 
     public void DecreaseHealth()
     {
@@ -96,7 +97,15 @@ public class GameManager : MonoBehaviour
         groceryList.text = "GAME OVER";
     }
 
-    
+    public void CloseUIElement(GameObject UIElement)
+    {
+        UIElement.SetActive(false);
+    }
+
+    public void OpenUIElement(GameObject UIElement)
+    {
+        UIElement.SetActive(true);
+    }
 
     public void SetPluralConjugation()
     {
@@ -111,5 +120,15 @@ public class GameManager : MonoBehaviour
     public void SetGroupB()
     {
         genderNeutral = false;
+    }
+
+    public void DisableMove()
+    {
+        disableMove = true;
+    }
+
+    public void EnableMove()
+    {
+        disableMove = false;
     }
 }
