@@ -194,6 +194,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24286025}
   m_CullTransparentMesh: 1
+--- !u!21 &55408207
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1696528484}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &93800291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1290,6 +1322,7 @@ GameObject:
   - component: {fileID: 112428163}
   - component: {fileID: 112428162}
   - component: {fileID: 112428165}
+  - component: {fileID: 112428166}
   m_Layer: 0
   m_Name: FirstPersonController
   m_TagString: Player
@@ -1421,6 +1454,33 @@ MonoBehaviour:
   cursorLocked: 0
   cursorInputForLook: 0
   gameManager: {fileID: 1634168845}
+--- !u!114 &112428166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112428160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af868be39cdfbd2448b04219fd448283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  pickableLayerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  basketLayerMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  playerCameraTransform: {fileID: 727130527}
+  pickUpUI: {fileID: 0}
+  hitRange: 3
+  interactionInput: {fileID: -9092013468426000690, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+    type: 3}
+  dropInput: {fileID: 0}
+  avatarHand: {fileID: 0}
+  inHandItem: {fileID: 0}
+  basket: {fileID: 0}
 --- !u!1 &114053793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,38 +1767,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &309462634
-Material:
-  serializedVersion: 8
+--- !u!1 &234483239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 323788152717632436, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1265860083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &234483243 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2269444691321242209, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1265860083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &234483246
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1859763060}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_GameObject: {fileID: 234483239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4529e3dcdc1be44a190c8878c447e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Highlight
+  renderers:
+  - {fileID: 234483243}
+  color: {r: 1, g: 1, b: 1, a: 0.015686275}
+--- !u!65 &234483247
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234483239}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4413433, y: 0.22579479, z: 0.33843386}
+  m_Center: {x: 0.0011873245, y: 0.112897396, z: -0.000000059604645}
 --- !u!1001 &327706491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1819,38 +1895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd163b5274b717948bdcb3a169629e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Area
---- !u!21 &370351013
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1859763060}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &388628247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1868,7 +1912,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 652091763}
+      objectReference: {fileID: 872128371}
     - target: {fileID: 2405131243285396979, guid: 1aa1ff1ca81cdc34aa3f854906b6a68d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1933,17 +1977,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1859763060}
+      objectReference: {fileID: 1230533159}
     - target: {fileID: 3887716994993201514, guid: 1aa1ff1ca81cdc34aa3f854906b6a68d,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 309462634}
+      objectReference: {fileID: 1101505963}
     - target: {fileID: 7538722786823483174, guid: 1aa1ff1ca81cdc34aa3f854906b6a68d,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 370351013}
+      objectReference: {fileID: 1142790656}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2290,38 +2334,33 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!21 &652091763
-Material:
-  serializedVersion: 8
+--- !u!1 &648538195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8680780663089744555, guid: 34d3d60c39021b245bb0f3f623fe770c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1642639256}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &648538200 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7167664027460758398, guid: 34d3d60c39021b245bb0f3f623fe770c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1642639256}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &648538202
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1859763060}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_GameObject: {fileID: 648538195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa4529e3dcdc1be44a190c8878c447e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Highlight
+  renderers:
+  - {fileID: 648538200}
+  color: {r: 1, g: 1, b: 1, a: 0.24705882}
 --- !u!1 &653253005
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,6 +3591,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 885a618f97328f243bfe4bbca79e0d4f, type: 3}
+--- !u!21 &872128371
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1230533159}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &872605089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5701,7 +5772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0464fa2f04103f46a69bbcd42dd2816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetItem
---- !u!21 &1052665749
+--- !u!21 &1101505963
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -5725,7 +5796,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 1527647466}
+        m_Texture: {fileID: 1230533159}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -7733,6 +7804,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0464fa2f04103f46a69bbcd42dd2816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetItem
+--- !u!21 &1142790656
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1230533159}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1166233691
 GameObject:
   m_ObjectHideFlags: 0
@@ -7776,6 +7879,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Amy
+      objectReference: {fileID: 0}
+    - target: {fileID: 925412623262388132, guid: 094814d3f8d3e534ca4c7f6866829a1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3361487535450995508, guid: 094814d3f8d3e534ca4c7f6866829a1c,
         type: 3}
@@ -7923,6 +8031,43 @@ RectTransform:
   m_AnchoredPosition: {x: 294, y: -128.49994}
   m_SizeDelta: {x: 134, y: 125.9}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!84 &1230533159
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 703
+  m_Height: 720
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &1265860083
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7936,15 +8081,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shopping Basket
       objectReference: {fileID: 0}
+    - target: {fileID: 323788152717632436, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1095926329125550350, guid: 5acc8ddf9ca9104419be774ea2b246f3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.6669235
+      value: -7.576
       objectReference: {fileID: 0}
     - target: {fileID: 1095926329125550350, guid: 5acc8ddf9ca9104419be774ea2b246f3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.133
+      value: 0.263
       objectReference: {fileID: 0}
     - target: {fileID: 1095926329125550350, guid: 5acc8ddf9ca9104419be774ea2b246f3,
         type: 3}
@@ -7986,10 +8136,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    - target: {fileID: 3472791089687257823, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055170194382614868, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9190459063974066756, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9190459063974066756, guid: 5acc8ddf9ca9104419be774ea2b246f3, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 5055170194382614868, guid: 5acc8ddf9ca9104419be774ea2b246f3, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 323788152717632436, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 234483247}
+    - targetCorrespondingSourceObject: {fileID: 323788152717632436, guid: 5acc8ddf9ca9104419be774ea2b246f3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 234483246}
   m_SourcePrefab: {fileID: 100100000, guid: 5acc8ddf9ca9104419be774ea2b246f3, type: 3}
 --- !u!1 &1323371416
 GameObject:
@@ -8131,38 +8306,6 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
---- !u!21 &1376088942
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1527647466}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &1379315426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9092,6 +9235,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Deborah
       objectReference: {fileID: 0}
+    - target: {fileID: 5130603734657923053, guid: 4149184970efa0745b6c266aee9e247f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7044019777924945567, guid: 4149184970efa0745b6c266aee9e247f,
         type: 3}
       propertyPath: area
@@ -9163,43 +9311,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4149184970efa0745b6c266aee9e247f, type: 3}
---- !u!84 &1527647466
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 703
-  m_Height: 720
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1579768251
 GameObject:
   m_ObjectHideFlags: 0
@@ -14313,6 +14424,11 @@ PrefabInstance:
       propertyPath: _pointableElement
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8680780663089744555, guid: 34d3d60c39021b245bb0f3f623fe770c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8718131778479703668, guid: 34d3d60c39021b245bb0f3f623fe770c,
         type: 3}
       propertyPath: _pointableElement
@@ -14831,7 +14947,11 @@ PrefabInstance:
     - {fileID: 2981672651744005108, guid: 34d3d60c39021b245bb0f3f623fe770c, type: 3}
     - {fileID: 2895501594361761975, guid: 34d3d60c39021b245bb0f3f623fe770c, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8680780663089744555, guid: 34d3d60c39021b245bb0f3f623fe770c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 648538202}
   m_SourcePrefab: {fileID: 100100000, guid: 34d3d60c39021b245bb0f3f623fe770c, type: 3}
 --- !u!114 &1642639257 stripped
 MonoBehaviour:
@@ -14845,6 +14965,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0464fa2f04103f46a69bbcd42dd2816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetItem
+--- !u!21 &1654123294
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1696528484}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!84 &1696528484
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 703
+  m_Height: 720
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1736227753
 GameObject:
   m_ObjectHideFlags: 0
@@ -14962,6 +15151,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Steve
       objectReference: {fileID: 0}
+    - target: {fileID: 3251944173732824998, guid: ff042b362ef4faf44bf25979c0e685f3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4113359555463733250, guid: ff042b362ef4faf44bf25979c0e685f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15040,43 +15234,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0458b197d4b034c4d913ed41b86286da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
---- !u!84 &1859763060
-RenderTexture:
+--- !u!21 &1834637337
+Material:
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 703
-  m_Height: 720
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1696528484}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &1880078325 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7591287886584429977, guid: ab56c81f4b3384ad5b59c400f212427e,
@@ -17664,38 +17853,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed3fca50e86484347b5676d2011cc1a8, type: 3}
---- !u!21 &2064044290
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1527647466}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &557500859543395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24406,6 +24563,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1634168845}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: EnableMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 112428166}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: FindAvatarHand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
