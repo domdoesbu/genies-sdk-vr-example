@@ -1,3 +1,5 @@
+using Genies.Sdk.Samples.Common;
+using StarterAssets;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,8 +7,8 @@ using UnityEngine.InputSystem;
 //https://www.youtube.com/watch?v=pzaxC-P3sgs
 public class Player : MonoBehaviour
 {
-    [SerializeField] private LayerMask pickableLayerMask;
-    [SerializeField] private LayerMask basketLayerMask;
+    [SerializeField] private LayerMask pickableLayerMask, basketLayerMask, npcLayerMask;
+
     [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private GameObject pickUpUI;
     [SerializeField][Min(1)] private float hitRange = 3;
@@ -15,8 +17,15 @@ public class Player : MonoBehaviour
     public Transform avatarHand;
     [SerializeField] private GameObject inHandItem;
     public GameObject basket;
+    [SerializeField] private GameObject NPC;
+    public GameManager manager;
+    public StarterAssetsInputs starterInput;
+    public GeniesInputs geniesInputs;
     private void Start()
     {
+        starterInput = FindAnyObjectByType<StarterAssetsInputs>();
+        geniesInputs = FindAnyObjectByType<GeniesInputs>();
+        manager = FindAnyObjectByType<GameManager>();
         interactionInput.action.performed += Interact;
     }
     private void Update()
@@ -34,10 +43,9 @@ public class Player : MonoBehaviour
         // If item in hand, don't detect anything else
         if (inHandItem != null )
         {
-            
             if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hit, hitRange, basketLayerMask))
             {
-                Debug.Log("basket");
+                hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
             }
             return;
         }
@@ -46,6 +54,11 @@ public class Player : MonoBehaviour
         {
             hit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
             //pickUpUI.SetActive(true);
+        }
+
+        if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hit, hitRange, npcLayerMask))
+        {
+            NPC = hit.collider.gameObject;
         }
     }
 
@@ -57,7 +70,7 @@ public class Player : MonoBehaviour
     private void Interact(InputAction.CallbackContext obj)
     {
         Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-        if (hit.collider != null && inHandItem == null && hit.collider.GetComponent<Basket>() == null)
+        if (NPC == null && hit.collider != null && inHandItem == null && hit.collider.GetComponent<Basket>() == null)
         {
 
             Debug.Log(hit.collider.name);
@@ -72,9 +85,8 @@ public class Player : MonoBehaviour
             }
             return;
         }
-        else if (hit.collider != null && inHandItem != null && hit.collider.GetComponent<Basket>() != null)
+        else if (NPC == null && hit.collider != null && inHandItem != null && hit.collider.GetComponent<Basket>() != null)
         {
-            Debug.Log("Put in basket");
             
             inHandItem.transform.SetParent(hit.collider.transform, false);
             inHandItem.transform.localPosition = Vector3.zero;
@@ -83,6 +95,14 @@ public class Player : MonoBehaviour
             {
                 rb.isKinematic = true;
             }
+        }
+
+        if(NPC != null)
+        {
+            manager.DisableMove();
+           
+            NPC.GetComponent<Actor>().StartDialogue();
+            NPC = null;
         }
     }
 }

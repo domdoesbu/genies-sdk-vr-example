@@ -64,6 +64,10 @@ public class DialogueManager : MonoBehaviour
             // If no follow-up node, end the dialogue
             HideDialogue();
             movement.RandomizeState();
+            if (!gameManager.VR)
+            {
+                gameManager.EnableMove();
+            }
         }
     }
 

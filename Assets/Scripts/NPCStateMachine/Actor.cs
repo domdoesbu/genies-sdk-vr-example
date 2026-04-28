@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
 public class Actor : MonoBehaviour
@@ -35,6 +36,7 @@ public class Actor : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
     }
 
+
     public float CurrentSpeed
     {
         get { return agent.velocity.magnitude; }
@@ -60,18 +62,22 @@ public class Actor : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !spokenTo && OVRInput.GetDown(OVRInput.RawButton.Y))
+        if (gameManager.VR && other.gameObject.tag == "Player" && !spokenTo && OVRInput.GetDown(OVRInput.RawButton.Y))
         {
+            StartDialogue();
+        }
+    }
 
-            dialogueManager.HideInteractPrompt();
-            boxCollider.enabled = false;
-            movement.Talking();
-            SpeakTo();
-            spokenTo = true;
-            foreach (TargetItems item in items)
-            {
-                item.Validate();
-            }
+    public void StartDialogue()
+    {
+        dialogueManager.HideInteractPrompt();
+        boxCollider.enabled = false;
+        movement.Talking();
+        SpeakTo();
+        spokenTo = true;
+        foreach (TargetItems item in items)
+        {
+            item.Validate();
         }
     }
 

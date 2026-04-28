@@ -30,7 +30,7 @@ public class ListUI : MonoBehaviour
                 hidden = true;
             }
         }
-        else if(_input != null) 
+        else if(_input != null && !manager.disableMove) 
         {
             if (_input.toggleHUD)
             { 

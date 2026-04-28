@@ -1,7 +1,9 @@
+using Genies.Sdk.Samples.Common;
 using Meta.XR.Movement;
+using StarterAssets;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,7 +29,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int[] groceryItemCount = new int[5];
     [SerializeField] public TextMeshProUGUI groceryList;
     private string[] groceryItemString = new string[5];
-
+    public GeniesInputs geniesInputs;
+    public StarterAssetsInputs starterInput;
     public Health health;
 
     public bool genderNeutral = false;
@@ -125,10 +128,16 @@ public class GameManager : MonoBehaviour
     public void DisableMove()
     {
         disableMove = true;
+        geniesInputs.CursorLocked = true;
+        starterInput.SetCursorForLookState(false);
+        starterInput.SetCursorState(false);
     }
 
     public void EnableMove()
     {
         disableMove = false;
+        geniesInputs.CursorLocked = false;
+        starterInput.SetCursorForLookState(true);
+        starterInput.SetCursorState(true);
     }
 }

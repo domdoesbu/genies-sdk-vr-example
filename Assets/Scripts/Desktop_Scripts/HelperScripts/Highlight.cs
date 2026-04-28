@@ -5,8 +5,8 @@ using UnityEngine;
 public class Highlight : MonoBehaviour
 {
     //we assign all the renderers here through the inspector
-    [SerializeField]
-    private List<Renderer> renderers;
+    
+    private MeshRenderer renderers;
 
     [SerializeField]
     private Color color = Color.white;
@@ -18,12 +18,12 @@ public class Highlight : MonoBehaviour
     private void Awake()
     {
         materials = new List<Material>();
-        foreach (var renderer in renderers)
-        {
+        renderers = GetComponent<MeshRenderer>();
+       
             //A single child-object might have mutliple materials on it
             //that is why we need to all materials with "s"
-            materials.AddRange(new List<Material>(renderer.materials));
-        }
+            materials.AddRange(new List<Material>(renderers.materials));
+        
     }
 
     public void ToggleHighlight(bool val)
