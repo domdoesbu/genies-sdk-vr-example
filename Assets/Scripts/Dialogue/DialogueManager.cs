@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
     public Transform responseButtonContainer; // container holding the response buttons
     public AvatarMovement movement;
     public DialogueVariables dialogueVariables;
-
+    public Actor actor;
     // Interact prompt
     public GameObject interactPrompt;
     public GameManager gameManager;
@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
     {
         gameManager = FindAnyObjectByType<GameManager>();
         dialogueVariables = FindAnyObjectByType<DialogueVariables>();
+        actor = GetComponent<Actor>();
         HideDialogue();
         HideInteractPrompt();
     }
@@ -67,6 +68,7 @@ public class DialogueManager : MonoBehaviour
             if (!gameManager.VR)
             {
                 gameManager.EnableMove();
+                actor.movement.Walking();
             }
         }
     }

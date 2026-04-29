@@ -55,15 +55,15 @@ public class DialogueVariables : MonoBehaviour
         if(i == 1)
         {
             Debug.Log(genderedTermInput.options[genderedTermInput.value].text);
-            genderedTerm = genderedTermInput.options[genderedTermInput.value].text;
+            genderedTerm = genderedTermInput.options[genderedTermInput.value].text.ToLower();
         }
         if (i == 2) 
         {
-            sassy = sassyInput.options[sassyInput.value].text;
+            sassy = sassyInput.options[sassyInput.value].text.ToLower();
         }
         if (i == 3)
         {
-            polite = politeInput.options[politeInput.value].text;
+            polite = politeInput.options[politeInput.value].text.ToLower();
         }
     }
 }
