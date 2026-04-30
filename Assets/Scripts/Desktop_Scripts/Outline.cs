@@ -4,7 +4,7 @@ using UnityEngine;
 public class Outline : MonoBehaviour
 {
     public Color OutlineColor = Color.yellow;
-    public float OutlineWidth = 5f;
+    public float OutlineWidth = 0.01f;
 
     private Renderer[] renderers;
     private Material outlineMaterial;

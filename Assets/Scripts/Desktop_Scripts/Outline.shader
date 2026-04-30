@@ -33,15 +33,31 @@ Shader "Hidden/Outline"
                 float4 pos : SV_POSITION;
             };
 
-            v2f vert(appdata v)
-            {
+            // v2f vert(appdata v)
+            // {
+            //     v2f o;
+            //     float3 norm = normalize(v.normal);
+            //     v.vertex.xyz += norm * _OutlineWidth;
+            //     o.pos = UnityObjectToClipPos(v.vertex);
+            //     return o;
+            // }
+            v2f vert(appdata v) {
                 v2f o;
+
                 float3 norm = normalize(v.normal);
-                v.vertex.xyz += norm * _OutlineWidth;
-                o.pos = UnityObjectToClipPos(v.vertex);
+
+                // convert to view space
+                float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, norm);
+
+                // push outward in screen-consistent direction
+                float2 offset = normalize(viewNormal.xy) * _OutlineWidth;
+
+                float4 pos = UnityObjectToClipPos(v.vertex);
+                pos.xy += offset;
+
+                o.pos = pos;
                 return o;
             }
-
             fixed4 frag(v2f i) : SV_Target
             {
                 return _OutlineColor;

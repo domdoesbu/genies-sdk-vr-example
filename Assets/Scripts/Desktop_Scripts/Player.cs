@@ -2,6 +2,7 @@ using Genies.Sdk.Samples.Common;
 using Oculus.Interaction;
 using StarterAssets;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,8 @@ public class Player : MonoBehaviour
     public GeniesInputs geniesInputs;
     public Actor npcActor;
     public GameObject fridgeDoor;
+    public GameObject interactUI;
+    public TextMeshProUGUI interactText;
     private void Start()
     {
         starterInput = FindAnyObjectByType<StarterAssetsInputs>();
@@ -39,34 +42,36 @@ public class Player : MonoBehaviour
     {
         Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
 
-        
+        // Reset highlights on all objects
         if(itemHit.collider != null)
         {
             itemHit.collider.GetComponent<Outline>()?.SetOutline(false);
-            //pickUpUI.SetActive(false);
         }
         if (basketHit.collider != null)
         { 
-            basketHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+            basketHit.collider.GetComponent<Outline>()?.SetOutline(false);
         }
         if (fridgeHit.collider != null)
         {
-            fridgeHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+            fridgeHit.collider.GetComponent<Outline>()?.SetOutline(false);
         }
+
+        // If interacting with NPC
         if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out NPCHit, hitRange, npcLayerMask))
         {
             NPC = NPCHit.collider.gameObject;
             npcActor = NPC.GetComponent<Actor>();
+            
             if (npcActor != null && !npcActor.spokenTo)
             {
                 npcActor.dialogueManager.ShowInteractPrompt();
                 npcActor.movement.Talking();
             }
-            
+            return;
         }
         else
         {
-            if(npcActor != null)
+            if (npcActor != null)
             {
                 npcActor.dialogueManager.HideInteractPrompt();
                 if (!npcActor.spokenTo)
@@ -79,21 +84,35 @@ public class Player : MonoBehaviour
         // If item in hand, don't detect anything else
         if (inHandItem != null )
         {
+            interactUI.SetActive(false);
+            // If item in hand and hover basket
             if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out basketHit, hitRange, basketLayerMask))
             {
-                basketHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+                interactUI.SetActive(true);
+                interactText.text = "Press E to drop item in basket";
+                basketHit.collider.GetComponent<Outline>()?.SetOutline(true);
             }
             return;
         }
-
-        if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out itemHit, hitRange, pickableLayerMask))
-        {
-            itemHit.collider.GetComponent<Outline>()?.SetOutline(true);
-            //pickUpUI.SetActive(true);
-        }
+        // If fridge interaction
         if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out fridgeHit, hitRange, fridgeLayerMask))
         {
-            fridgeHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+            interactUI.SetActive(true);
+            interactText.text = "Press E to interact";
+            fridgeHit.collider.GetComponent<Outline>()?.SetOutline(true);
+            return;
+        }
+        // If hovering a pickable item
+        else if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out itemHit, hitRange, pickableLayerMask))
+        {
+            interactUI.SetActive(true);
+            interactText.text = "Press E to pick up item";
+            itemHit.collider.GetComponent<Outline>()?.SetOutline(true);
+            return;
+        }
+        else
+        {
+            interactUI.SetActive(false);
         }
     }
 
@@ -109,32 +128,27 @@ public class Player : MonoBehaviour
         {
             fridgeDoor = fridgeHit.collider.gameObject;
             FridgeDoor doorScript = fridgeDoor.GetComponent<FridgeDoor>();
+            
             if (doorScript != null)
             {
                 doorScript.isClosed = !doorScript.isClosed;
                 doorScript.interact = true;
             }
-
         }
         else if (NPC != null && NPCHit.collider != null && NPCHit.collider.GetComponent<Actor>() != null)
         {
-            Debug.Log("E :: NPC !null " + NPCHit.collider.name);
             manager.DisableMove();
-           
             Actor actor = NPC.GetComponent<Actor>();
+
             if (actor != null)
             {
                 actor.StartDialogue();
             }
-            else
-                Debug.Log("Actor is null");
-            
         }
        
         else if (itemHit.collider != null && inHandItem == null)
         {
             rb = itemHit.collider.GetComponent<Rigidbody>();
-            Debug.Log("E :: NPC null, hit !null, inhanditem null, basket component null: " + itemHit.collider.name);
             inHandItem = itemHit.collider.gameObject;
             inHandItem.transform.SetParent(avatarHand.transform, false);
             inHandItem.transform.localPosition = Vector3.zero;
@@ -149,7 +163,6 @@ public class Player : MonoBehaviour
         else if (basketHit.collider != null && inHandItem != null && basketHit.collider.GetComponent<Basket>() != null)
         {
             rb = basketHit.collider.GetComponent<Rigidbody>();
-            Debug.Log("E :: NPC null, hit !null, inhanditem !null, basket component !null: " + basketHit.collider.name);
             inHandItem.transform.SetParent(basketHit.collider.transform, false);
             inHandItem.transform.localPosition = Vector3.zero;
             inHandItem.transform.rotation = Quaternion.identity;
@@ -158,7 +171,6 @@ public class Player : MonoBehaviour
                 rb.isKinematic = true;
             }
         }
-         
     }
 
     public void Drop(InputAction.CallbackContext obj)
@@ -173,7 +185,6 @@ public class Player : MonoBehaviour
             }
             inHandItem.transform.SetParent(null);
             inHandItem = null;
-            
         }
     }
 }

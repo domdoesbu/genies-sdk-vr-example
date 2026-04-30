@@ -6,6 +6,7 @@ namespace Genies.VRExample
     {
         [SerializeField] private Transform target;
         [SerializeField] private float smoothFactor = 5f;
+        public float offset = 0f;
 
         // Only adjust Y when the target is farther than this many units away on Y.
         [SerializeField, Min(0f)] private float yThreshold = 0.05f;
@@ -23,7 +24,7 @@ namespace Genies.VRExample
 
             float newY = Mathf.Lerp(
                 currentPosition.y,
-                targetY,
+                targetY + offset,
                 smoothFactor * Time.deltaTime
             );
 
