@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         
         if(itemHit.collider != null)
         {
-            itemHit.collider.GetComponent<Highlight>()?.ToggleHighlight(false);
+            itemHit.collider.GetComponent<Outline>()?.SetOutline(false);
             //pickUpUI.SetActive(false);
         }
         if (basketHit.collider != null)
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
 
         if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out itemHit, hitRange, pickableLayerMask))
         {
-            itemHit.collider.GetComponent<Highlight>()?.ToggleHighlight(true);
+            itemHit.collider.GetComponent<Outline>()?.SetOutline(true);
             //pickUpUI.SetActive(true);
         }
         if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out fridgeHit, hitRange, fridgeLayerMask))

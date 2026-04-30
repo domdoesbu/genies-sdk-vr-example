@@ -18,12 +18,13 @@ public class Highlight : MonoBehaviour
     private void Awake()
     {
         materials = new List<Material>();
-        renderers = GetComponent<MeshRenderer>();
-       
-            //A single child-object might have mutliple materials on it
-            //that is why we need to all materials with "s"
-            materials.AddRange(new List<Material>(renderers.materials));
-        
+
+        MeshRenderer[] allRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var renderer in allRenderers)
+        {
+            materials.AddRange(renderer.materials);
+        }
     }
 
     public void ToggleHighlight(bool val)

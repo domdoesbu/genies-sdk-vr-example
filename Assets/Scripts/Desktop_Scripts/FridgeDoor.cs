@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class FridgeDoor : MonoBehaviour
 {
-    int interpolationFramesCount = 100;
-    int elapsedFrames = 0;
-    int maxFrameReset = 900;
     public bool interact;
     public float closedAngle;
     public float openAngle;
