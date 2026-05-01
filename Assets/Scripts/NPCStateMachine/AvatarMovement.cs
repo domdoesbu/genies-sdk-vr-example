@@ -5,7 +5,7 @@ public class AvatarMovement : MonoBehaviour
 {
     public Area area;
     public Actor actor;
-
+    public Transform player;
     enum EState
     {
         Wandering,
@@ -19,6 +19,7 @@ public class AvatarMovement : MonoBehaviour
     private float waitTime = 0f;
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         RandomizeState();   
     }
 
@@ -60,6 +61,7 @@ public class AvatarMovement : MonoBehaviour
         if (state == EState.Wandering)
         {
             actor.agent.isStopped = false;
+            actor.agent.updateRotation = true;
             SetRandomPosition();
         }
         else if (state == EState.Waiting) 
@@ -70,12 +72,15 @@ public class AvatarMovement : MonoBehaviour
         else if (state == EState.Talking) 
         {
             actor.agent.isStopped = true;
+            actor.agent.updateRotation = false;
         }
+    
 
     }
 
     public void Talking()
     {
+        FacePlayer();
         ChangeState(EState.Talking);
     }
 
@@ -92,5 +97,17 @@ public class AvatarMovement : MonoBehaviour
     void SetRandomPosition()
     {
         actor.agent.SetDestination(area.GetRandomPoint());
+    }
+
+    void FacePlayer()
+    {
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0f; // keep only horizontal rotation
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
     }
 }

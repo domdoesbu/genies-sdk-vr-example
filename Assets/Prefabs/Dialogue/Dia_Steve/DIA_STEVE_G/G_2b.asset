@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
   m_Name: G_2b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  npcName: Steve
   dialogueText: A {person} like you could share it with all your friends, and it
     has white icing on top.
   responses:

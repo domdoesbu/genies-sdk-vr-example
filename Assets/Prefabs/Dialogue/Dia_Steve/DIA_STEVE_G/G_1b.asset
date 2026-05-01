@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
   m_Name: G_1b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  npcName: Steve
   dialogueText: Ah, let's have a look. Item 1 is a sweet treat with a hole in the
     middle.
   responses:

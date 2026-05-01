@@ -26,13 +26,13 @@ public class DialogueManager : MonoBehaviour
     }
 
     // Starts the dialogue with given title and dialogue node
-    public void StartDialogue(string title, DialogueNode node)
+    public void StartDialogue(DialogueNode node)
     {
         // Display the dialogue UI
         ShowDialogue();
 
         // Set dialogue title and body text
-        dialogueName.text = title;
+        dialogueName.text = node.npcName;
         dialogueText.text = DialogueParser.Parse(node.dialogueText, dialogueVariables, gameManager.pluralVerbage);
         
         // Remove any existing response buttons
@@ -48,23 +48,24 @@ public class DialogueManager : MonoBehaviour
             buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
 
             // Setup button to trigger SelectResponse when clicked
-            buttonObj.GetComponent<Button>().onClick.AddListener(() => SelectResponse(response, title));
+            buttonObj.GetComponent<Button>().onClick.AddListener(() => SelectResponse(response));
         }
     }
 
     // Handles response selection and triggers next dialogue node
-    public void SelectResponse(DialogueResponse response, string title)
+    public void SelectResponse(DialogueResponse response)
     {
         // Check if there's a follow-up node
         if (!response.nextNode.IsLastNode())
         {
-            StartDialogue(title, response.nextNode); // Start next dialogue
+            StartDialogue(response.nextNode); // Start next dialogue
         }
         else
         {
             // If no follow-up node, end the dialogue
             HideDialogue();
-            movement.RandomizeState();
+            if(movement != null)
+                movement.RandomizeState();
             if (!gameManager.VR)
             {
                 gameManager.EnableMove();

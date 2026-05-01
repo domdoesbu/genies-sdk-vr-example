@@ -35,6 +35,7 @@ public class DialogueVariables : MonoBehaviour
     public string polite;               // sir, ma'am, friend
 
     public string beVerb;
+    public string BeVerb;
     public string haveVerb;
     public string doVerb;
     public string seekVerb;

@@ -23,6 +23,7 @@ public static class DialogueParser
             {"{polite}", vars.polite },
             // Verbs
             {"{be}", pluralVerbage ? "are" : "is" },
+            {"{Be}", pluralVerbage ? "Are" : "Is" },
             {"{have}", pluralVerbage ? "have" : "has"},
             {"{do}", pluralVerbage ? "do" : "does" },
             {"{seek}", pluralVerbage ? "seek" : "seeks" }

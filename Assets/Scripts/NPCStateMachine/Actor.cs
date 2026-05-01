@@ -45,24 +45,24 @@ public class Actor : MonoBehaviour
     // Call this to trigger dialogue with an NPC. (like when clicking on the avatar)
     public void SpeakTo()
     {
-        if(gameManager.genderNeutral)
-            dialogueManager.StartDialogue(Name, GN_dialogue.RootNode);
-        else
-            dialogueManager.StartDialogue(Name, G_dialogue.RootNode);
-    }
+        if(gameManager.genderNeutral && dialogueManager != null)
+            dialogueManager.StartDialogue(GN_dialogue.RootNode);
+        else if (dialogueManager != null)
+            dialogueManager.StartDialogue(G_dialogue.RootNode);    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !spokenTo)
+        if (other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null)
         {
             dialogueManager.ShowInteractPrompt();
-            movement.Talking();
+            if(movement != null)
+                movement.Talking();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (gameManager.VR && other.gameObject.tag == "Player" && !spokenTo && OVRInput.GetDown(OVRInput.RawButton.Y))
+        if (gameManager.VR && other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null && OVRInput.GetDown(OVRInput.RawButton.Y))
         {
             StartDialogue();
         }
@@ -72,7 +72,8 @@ public class Actor : MonoBehaviour
     {
         dialogueManager.HideInteractPrompt();
         boxCollider.enabled = false;
-        movement.Talking();
+        if(movement != null)
+            movement.Talking();
         SpeakTo();
         spokenTo = true;
         foreach (TargetItems item in items)
@@ -85,8 +86,10 @@ public class Actor : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && !spokenTo)
         {
-            dialogueManager.HideInteractPrompt();
-            movement.Walking();
+            if(dialogueManager != null)
+                dialogueManager.HideInteractPrompt();
+            if(movement != null)
+                movement.Walking();
         }
     }
 }

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
   m_Name: GN_Node2a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  dialogueText: 'Both items can be found in the fruit section. '
+  npcName: Deborah
+  dialogueText: What's happening?
   responses:
-  - responseText: Do you know which ones they are?
-    nextNode: {fileID: 11400000, guid: 382844571916128458b91778651f0a7b, type: 2}
-  - responseText: That doesn't help, there are so many fruits.
-    nextNode: {fileID: 11400000, guid: 6a44bbd7e3105204facbbf25769dca17, type: 2}
+  - responseText: Next
+    nextNode: {fileID: 11400000, guid: 764d51e406f3a7646b39f70c6ff84e50, type: 2}

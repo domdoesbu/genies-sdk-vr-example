@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DialogueNode : ScriptableObject
 {
+    public string npcName;
     public string dialogueText;
     public List<DialogueResponse> responses;
     internal bool IsLastNode()

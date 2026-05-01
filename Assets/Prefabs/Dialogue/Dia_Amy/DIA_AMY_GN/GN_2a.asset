@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
   m_Name: GN_2a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
+  npcName: Amy
   dialogueText: Duh. Item 4 is literally a bath toy. Groceries, snacks, and toys?
     This list is all over the place.
   responses:

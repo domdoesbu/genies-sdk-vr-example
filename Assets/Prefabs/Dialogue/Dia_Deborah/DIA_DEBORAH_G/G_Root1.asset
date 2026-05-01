@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
   m_Name: G_Root1
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  dialogueText: So... {subjectivePronoun} {seek} answers.
+  npcName: Bob
+  dialogueText: Do you need help {polite}?
   responses:
   - responseText: Yes actually. Do you recognize these items?
-    nextNode: {fileID: 11400000, guid: bc02c553c47bbf1499a7cfd72ac62411, type: 2}
+    nextNode: {fileID: 11400000, guid: b844ae15b3c3bd544aef7684d78b6e3f, type: 2}
   - responseText: No, I'm okay.
-    nextNode: {fileID: 11400000, guid: 09452100d2cf6074796bdd35feb4c896, type: 2}
+    nextNode: {fileID: 11400000, guid: 99536458e040d9243a64e21d871533b1, type: 2}

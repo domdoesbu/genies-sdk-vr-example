@@ -65,7 +65,8 @@ public class Player : MonoBehaviour
             if (npcActor != null && !npcActor.spokenTo)
             {
                 npcActor.dialogueManager.ShowInteractPrompt();
-                npcActor.movement.Talking();
+                if(npcActor.movement != null)
+                    npcActor.movement.Talking();
             }
             return;
         }
@@ -76,7 +77,8 @@ public class Player : MonoBehaviour
                 npcActor.dialogueManager.HideInteractPrompt();
                 if (!npcActor.spokenTo)
                 {
-                    npcActor.movement.Walking();
+                    if(npcActor.movement != null)
+                        npcActor.movement.Walking();
                 }
             }
             
