@@ -38,16 +38,16 @@ public class GameManager : MonoBehaviour
     public bool disableMove = true;
     private void Start()
     { 
-        groceryItemString[0] = " asepoifj";
-        groceryItemString[1] = " asrgha ";
-        groceryItemString[2] = " rvasrg";
-        groceryItemString[3] = " afvcd";
-        groceryItemString[4] = " aduhafga";
+        groceryItemString[0] = " &*(^%#";
+        groceryItemString[1] = " !#()&@$";
+        groceryItemString[2] = " ~><:@#(*& ";
+        groceryItemString[3] = " >:#**@&$";
+        groceryItemString[4] = " >{}@!#*$&!";
 
         groceryList.text = "";
         for (int i = 0; i < groceryItemCount.Length; i++)
         {
-            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+            groceryList.text += groceryItemCount[i] + "x" + groceryItemString[i] + "\n";
         }
     }
 
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             {
                 groceryItemString[i] = "<s>" + groceryItemString[i] + "</s>";
             }
-            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+            groceryList.text += groceryItemCount[i] + "x" + groceryItemString[i] + "\n";
         }
         CheckFinishedGame();
     }
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
             {
                 groceryItemString[i] = "<color=green>" + groceryItemString[i] + "</color>";
             }
-            groceryList.text += groceryItemCount[i] + groceryItemString[i] + "\n";
+            groceryList.text += groceryItemCount[i] + "x" + groceryItemString[i] + "\n";
         }
     }
 

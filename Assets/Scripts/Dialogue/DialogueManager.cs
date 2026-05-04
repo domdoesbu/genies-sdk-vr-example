@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     // Interact prompt
     public GameObject interactPrompt;
     public GameManager gameManager;
+    public bool meetUpNPC;
     
     private void Awake()
     {
@@ -30,7 +31,10 @@ public class DialogueManager : MonoBehaviour
     {
         // Display the dialogue UI
         ShowDialogue();
-
+        if (meetUpNPC && actor != null)
+        {
+            actor.movement.MeetUp();
+        }
         // Set dialogue title and body text
         dialogueName.text = node.npcName;
         dialogueText.text = DialogueParser.Parse(node.dialogueText, dialogueVariables, gameManager.pluralVerbage);

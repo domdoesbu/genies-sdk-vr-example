@@ -6,11 +6,13 @@ public class AvatarMovement : MonoBehaviour
     public Area area;
     public Actor actor;
     public Transform player;
+    [SerializeField] Actor otherNPC;
     enum EState
     {
         Wandering,
         Waiting,
-        Talking
+        Talking,
+        MeetUp
     }
 
     EState state = EState.Wandering;
@@ -39,6 +41,16 @@ public class AvatarMovement : MonoBehaviour
             {
                 ChangeState(EState.Waiting);
             }
+        }
+        else if (state == EState.MeetUp)
+        {
+            if (HasArrived()) 
+            {
+                ChangeState(EState.Talking);
+            }
+
+            ChangeState(EState.MeetUp);
+            
         }
     }
 
@@ -74,8 +86,13 @@ public class AvatarMovement : MonoBehaviour
             actor.agent.isStopped = true;
             actor.agent.updateRotation = false;
         }
-    
-
+        else if(state == EState.MeetUp)
+        {
+            if(otherNPC != null)
+            {
+                otherNPC.agent.SetDestination(new Vector3(transform.position.x + 0.75f, transform.position.y, transform.position.z));
+            }
+        }
     }
 
     public void Talking()
@@ -87,6 +104,11 @@ public class AvatarMovement : MonoBehaviour
     public void Walking()
     {
         ChangeState(EState.Wandering);
+    }
+
+    public void MeetUp()
+    {
+        ChangeState(EState.MeetUp);
     }
 
     bool HasArrived()

@@ -66,7 +66,10 @@ public class Player : MonoBehaviour
             {
                 npcActor.dialogueManager.ShowInteractPrompt();
                 if(npcActor.movement != null)
+                {
                     npcActor.movement.Talking();
+                }
+                    
             }
             return;
         }
@@ -84,18 +87,17 @@ public class Player : MonoBehaviour
             
         }
         // If item in hand, don't detect anything else
-        if (inHandItem != null )
+       
+        // If item in hand and hover basket
+        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out basketHit, hitRange, basketLayerMask))
         {
-            interactUI.SetActive(false);
-            // If item in hand and hover basket
-            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out basketHit, hitRange, basketLayerMask))
-            {
-                interactUI.SetActive(true);
-                interactText.text = "Press E to drop item in basket";
-                basketHit.collider.GetComponent<Outline>()?.SetOutline(true);
-            }
+            interactUI.SetActive(true);
+            interactText.text = "Press E to pick up basket";
+            basketHit.collider.GetComponent<Outline>()?.SetOutline(true);
             return;
         }
+        
+        
         // If fridge interaction
         if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out fridgeHit, hitRange, fridgeLayerMask))
         {
@@ -114,6 +116,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            interactText.text = "Press E to interact";
             interactUI.SetActive(false);
         }
     }
@@ -126,6 +129,24 @@ public class Player : MonoBehaviour
     private void Interact(InputAction.CallbackContext obj)
     {
         Rigidbody rb;
+
+        // Pick up basket
+        if(basketHit.collider != null)
+        {
+            rb = basketHit.collider.GetComponent<Rigidbody>();
+            
+            basketHit.collider.gameObject.transform.SetParent(avatarHand.transform, false);
+            basketHit.collider.gameObject.transform.localPosition = new Vector3(0.133f, 0.339f, 0.053f);
+            basketHit.collider.gameObject.transform.localScale = new Vector3(0.71f, 0.71f, 0.71f);
+            basketHit.collider.gameObject.transform.rotation = Quaternion.identity;
+
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+            return;
+
+        }
         if (fridgeHit.collider != null)
         {
             fridgeDoor = fridgeHit.collider.gameObject;
@@ -147,7 +168,7 @@ public class Player : MonoBehaviour
                 actor.StartDialogue();
             }
         }
-       
+        
         else if (itemHit.collider != null && inHandItem == null)
         {
             rb = itemHit.collider.GetComponent<Rigidbody>();
@@ -155,23 +176,7 @@ public class Player : MonoBehaviour
             inHandItem.transform.SetParent(avatarHand.transform, false);
             inHandItem.transform.localPosition = Vector3.zero;
             inHandItem.transform.rotation = Quaternion.identity;
-
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-            }
             return;
-        }
-        else if (basketHit.collider != null && inHandItem != null && basketHit.collider.GetComponent<Basket>() != null)
-        {
-            rb = basketHit.collider.GetComponent<Rigidbody>();
-            inHandItem.transform.SetParent(basketHit.collider.transform, false);
-            inHandItem.transform.localPosition = Vector3.zero;
-            inHandItem.transform.rotation = Quaternion.identity;
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-            }
         }
     }
 

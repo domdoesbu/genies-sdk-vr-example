@@ -17,6 +17,6 @@ MonoBehaviour:
   responses:
   - responseText: No thank you.
     nextNode: {fileID: 11400000, guid: 465702a9e4071b54581661d047ae5a14, type: 2}
-  - responseText: Yea, but I'm having trouble finding these tiems. Do you know what
+  - responseText: Yea, but I'm having trouble finding these items. Do you know what
       they are?
     nextNode: {fileID: 11400000, guid: da54d06d19942e348a0333c221e97d8c, type: 2}
