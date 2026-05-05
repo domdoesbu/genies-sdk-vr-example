@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GN_2a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Steve
-  dialogueText: Enjoy your shopping.
+  dialogueText: There are a few items like this, would you like some more information?
   responses:
-  - responseText: Close.
-    nextNode: {fileID: 11400000, guid: ed6bbc58d86005941a95bed500c0d7f6, type: 2}
+  - responseText: Yeah, sure!
+    nextNode: {fileID: 11400000, guid: d61e4ace1a53d384dad0b2c84a2c1afa, type: 2}

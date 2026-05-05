@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: GN_Node4
+  m_Name: G_2b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Bob
-  dialogueText: Item 2 has three variations, you'll want the green one. The 5th item
-    is on the bottom shelf, and doesn't have any leafs.
+  npcName: Amy
+  dialogueText: Well you're annoying me
   responses:
-  - responseText: Ok thank you.
-    nextNode: {fileID: 11400000, guid: 55f042b852f9088409e5e5ec70f1f104, type: 2}
+  - responseText: Whatever. Do you recognize any other items?
+    nextNode: {fileID: 11400000, guid: 45b727e0a8b2ca4449a50d1687deb7fb, type: 2}

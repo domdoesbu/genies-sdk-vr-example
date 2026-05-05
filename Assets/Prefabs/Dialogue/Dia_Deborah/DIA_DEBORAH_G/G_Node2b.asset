@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: G_Node2b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Bob
-  dialogueText: Have a nice day.
+  dialogueText: Sorry, ignore her. Items 2 and 5 can be found in the fruit section.
   responses:
-  - responseText: Close
-    nextNode: {fileID: 11400000, guid: e871ceca6d60ec54b84b97ac0ad817e0, type: 2}
+  - responseText: That doesn't help, there are so many fruits.
+    nextNode: {fileID: 11400000, guid: ceac38044664eeb488193f0102ea0f47, type: 2}
+  - responseText: Do you know which ones they are?
+    nextNode: {fileID: 11400000, guid: 82b31a724f68aae45af7e4bee0fbcc0a, type: 2}

@@ -9,27 +9,41 @@ using UnityEngine.InputSystem;
 //https://www.youtube.com/watch?v=pzaxC-P3sgs
 public class Player : MonoBehaviour
 {
+    [Header("Ray casts")]
     [SerializeField] private LayerMask pickableLayerMask, basketLayerMask, npcLayerMask, fridgeLayerMask;
-
-    [SerializeField] private Transform playerCameraTransform;
-    [SerializeField] private GameObject pickUpUI;
-    [SerializeField][Min(1)] private float hitRange = 3;
     private RaycastHit itemHit;
     private RaycastHit NPCHit;
     private RaycastHit basketHit;
     private RaycastHit fridgeHit;
-    [SerializeField] private InputActionReference interactionInput, dropInput;
+
+    [Header("Player")]
+    [SerializeField] private Transform playerCameraTransform;
     public Transform avatarHand;
-    [SerializeField] private GameObject inHandItem;
-    public GameObject basket;
-    [SerializeField] private GameObject NPC;
     public GameManager manager;
+
+    [Header("Inputs")]
     public StarterAssetsInputs starterInput;
     public GeniesInputs geniesInputs;
-    public Actor npcActor;
+    [SerializeField] private InputActionReference interactionInput, dropInput, pauseInput;
+    
+    [Header("Game Objects")]
     public GameObject fridgeDoor;
-    public GameObject interactUI;
+    public GameObject basket;
+    [SerializeField] private GameObject inHandItem;
+    [SerializeField] private GameObject NPC;
+
+    [Header("UI")]
     public TextMeshProUGUI interactText;
+    public GameObject interactUI;
+    public GameObject pauseUI;
+    public Vector2 pauseUISize;
+    public bool paused = false;
+    [SerializeField] private GameObject pickUpUI;
+
+    [Header("Other")]
+    [SerializeField][Min(1)] private float hitRange = 3;
+    public Actor npcActor;
+
     private void Start()
     {
         starterInput = FindAnyObjectByType<StarterAssetsInputs>();
@@ -37,6 +51,9 @@ public class Player : MonoBehaviour
         manager = FindAnyObjectByType<GameManager>();
         interactionInput.action.performed += Interact;
         dropInput.action.performed += Drop;
+        pauseInput.action.performed += Pause;
+        pauseUISize = pauseUI.transform.localScale;
+        pauseUI.SetActive(false);
     }
     private void Update()
     {
@@ -194,4 +211,11 @@ public class Player : MonoBehaviour
             inHandItem = null;
         }
     }
+
+    public void Pause(InputAction.CallbackContext obj)
+    {
+        paused = !paused;
+        pauseUI.SetActive(paused);
+    }
+
 }

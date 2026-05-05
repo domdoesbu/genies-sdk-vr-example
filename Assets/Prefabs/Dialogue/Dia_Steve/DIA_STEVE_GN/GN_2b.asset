@@ -16,4 +16,4 @@ MonoBehaviour:
   dialogueText: It's big enough to share, with white icing on top.
   responses:
   - responseText: Okay, thank you.
-    nextNode: {fileID: 11400000, guid: 10b8ba584db6e9045bab46bf2613e55b, type: 2}
+    nextNode: {fileID: 11400000, guid: 73d313e8e61be614fa8762d5c6324c79, type: 2}

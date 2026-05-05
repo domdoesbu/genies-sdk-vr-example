@@ -15,7 +15,7 @@ MonoBehaviour:
   npcName: Bob
   dialogueText: Do you need help?
   responses:
+  - responseText: I'm okay, thanks.
+    nextNode: {fileID: 11400000, guid: 4c1feb40ebae20f4eb32883c4fecd029, type: 2}
   - responseText: Yes actually. Do you recognize these items?
-    nextNode: {fileID: 11400000, guid: c2bc574cf3430ec47b6be64e69ac24e8, type: 2}
-  - responseText: No, I'm okay.
-    nextNode: {fileID: 11400000, guid: 55f042b852f9088409e5e5ec70f1f104, type: 2}
+    nextNode: {fileID: 11400000, guid: 7ef692ca0269eed4294599663dd21b5b, type: 2}

@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Root
+  m_Name: G_1b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Amy
-  dialogueText: Oh wow {sassy}... this list is something. The {person} who wrote
-    this is crazy.
+  dialogueText: That's a weird list. I'm in a rush, what do you want?
   responses:
-  - responseText: I wrote it... could you help me?
-    nextNode: {fileID: 11400000, guid: d15af03441f8aa9409eb3c8fb8fad21f, type: 2}
-  - responseText: I wrote it...
-    nextNode: {fileID: 11400000, guid: bbf481bf11f474144a10ab781c8be017, type: 2}
+  - responseText: Do you recognize any of these items?
+    nextNode: {fileID: 11400000, guid: dfa29f330a328de419aa18ec1b4dae60, type: 2}
+  - responseText: You don't need to be sassy...
+    nextNode: {fileID: 11400000, guid: ab74bf1e3abcb8d41a5536b12e01ccdb, type: 2}

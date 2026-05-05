@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Root
+  m_Name: GN_Node4b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Amy
-  dialogueText: Oh wow {sassy}... this list is something. The {person} who wrote
-    this is crazy.
+  npcName: Bob
+  dialogueText: Item 2 has three variations, you'll want the green one. The 5th item
+    is on the bottom shelf, and doesn't have any leafs.
   responses:
-  - responseText: I wrote it... could you help me?
-    nextNode: {fileID: 11400000, guid: d15af03441f8aa9409eb3c8fb8fad21f, type: 2}
-  - responseText: I wrote it...
-    nextNode: {fileID: 11400000, guid: bbf481bf11f474144a10ab781c8be017, type: 2}
+  - responseText: Ok thank you.
+    nextNode: {fileID: 11400000, guid: 925debe293fdbe2428da31aa323d0a12, type: 2}

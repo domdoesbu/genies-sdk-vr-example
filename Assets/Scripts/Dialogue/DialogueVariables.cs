@@ -5,6 +5,7 @@ public class DialogueVariables : MonoBehaviour
 {
 
     // GUI elements
+    [Header("TMP Objects")]
     public GameObject pronounParent;
 
     public TextMeshProUGUI playerNameInput;
@@ -18,6 +19,7 @@ public class DialogueVariables : MonoBehaviour
     public TMP_Dropdown sassyInput;
     public TMP_Dropdown politeInput;
 
+    [Header("Pronoun values")]
     // Name
     public string playerName;
 

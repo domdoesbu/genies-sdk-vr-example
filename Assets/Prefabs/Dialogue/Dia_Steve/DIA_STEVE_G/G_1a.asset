@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: G_1a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Steve
-  dialogueText: Okay {polite}, have a nice day!
+  dialogueText: Are you sure? You seem a bit confused.
   responses:
-  - responseText: Close.
-    nextNode: {fileID: 11400000, guid: 4c554bcda6cabcb4ca8e10d4f6ec186d, type: 2}
+  - responseText: Actually, I am. Can you help me find these items?
+    nextNode: {fileID: 11400000, guid: e8c16ecdb8a3eac4c9d20dc0316eb709, type: 2}

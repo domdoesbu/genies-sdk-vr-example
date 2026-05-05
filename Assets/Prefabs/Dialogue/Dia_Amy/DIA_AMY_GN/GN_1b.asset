@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: GN_3
+  m_Name: GN_1b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Amy
-  dialogueText: Whatever. Good luck with that chaos. Now leave me alone.
+  dialogueText: That's a weird list. I'm in a rush, what do you want?
   responses:
-  - responseText: Close.
-    nextNode: {fileID: 11400000, guid: 98ec359db5fde28418a48f7ccb7bbd82, type: 2}
+  - responseText: Do you recognize any of these items?
+    nextNode: {fileID: 11400000, guid: 45e0318fa90ac374f9a7d4852432ffee, type: 2}
+  - responseText: You don't have to be sassy...
+    nextNode: {fileID: 11400000, guid: 18cdb9dd9e2f73644a3bc4048820446a, type: 2}

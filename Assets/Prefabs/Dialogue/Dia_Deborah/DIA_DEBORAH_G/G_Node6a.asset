@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Node5
+  m_Name: G_Node6a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Deborah
-  dialogueText: Do you know {objectivePronoun}? {Be} {subjectivePronoun} a friend?
+  npcName: Bob
+  dialogueText: No, I don't know {objectivePronoun}. Anyways, that's all I can help
+    you with.
   responses:
-  - responseText: Next.
-    nextNode: {fileID: 11400000, guid: 5db73c550a02e1542a53dfeac64571f5, type: 2}
+  - responseText: Okay thank you.
+    nextNode: {fileID: 11400000, guid: 99536458e040d9243a64e21d871533b1, type: 2}

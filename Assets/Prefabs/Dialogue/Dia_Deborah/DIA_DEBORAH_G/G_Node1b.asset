@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_3
+  m_Name: G_Node1b
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Amy
-  dialogueText: Whatever. Good luck with that chaos. Now leave me alone.
+  npcName: Deborah
+  dialogueText: What's happening? Who {be} {subjectivePronoun}?
   responses:
-  - responseText: Close.
-    nextNode: {fileID: 11400000, guid: e53427829883b2640a1669b2172cfd04, type: 2}
+  - responseText: Next...
+    nextNode: {fileID: 11400000, guid: 99536458e040d9243a64e21d871533b1, type: 2}

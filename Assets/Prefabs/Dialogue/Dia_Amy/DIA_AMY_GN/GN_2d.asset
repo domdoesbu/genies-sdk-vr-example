@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Node4
+  m_Name: GN_2d
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Bob
-  dialogueText: Item 2 has three variations, you'll want the green one. The 5th item
-    is on the bottom shelf, and doesn't have any leafs.
+  npcName: Amy
+  dialogueText: Well you're annoying me. What is it?
   responses:
-  - responseText: Next.
-    nextNode: {fileID: 11400000, guid: 9d8c492d559e72f4380fe59bae75419b, type: 2}
+  - responseText: I need help with my groceries. Do you know what they are?
+    nextNode: {fileID: 11400000, guid: 45e0318fa90ac374f9a7d4852432ffee, type: 2}

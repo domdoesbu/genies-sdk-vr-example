@@ -18,4 +18,4 @@ MonoBehaviour:
   - responseText: I did... could you help me?
     nextNode: {fileID: 11400000, guid: cce65b5e2e1cb9446bd208b5f8ea8891, type: 2}
   - responseText: I did....
-    nextNode: {fileID: 11400000, guid: f601f26198d69a247bc835bb8532b25a, type: 2}
+    nextNode: {fileID: 11400000, guid: 4dfb1134c8fb35846a64b9715258af89, type: 2}

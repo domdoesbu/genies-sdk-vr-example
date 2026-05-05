@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Node6
+  m_Name: G_2c
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Bob
-  dialogueText: No, I don't know {objectivePronoun}.
+  npcName: Amy
+  dialogueText: Item 3 is in the fridge. One pack comes with three items.
   responses:
-  - responseText: Okay thank you.
-    nextNode: {fileID: 11400000, guid: 99536458e040d9243a64e21d871533b1, type: 2}
+  - responseText: Do you recognize any others?
+    nextNode: {fileID: 11400000, guid: 45b727e0a8b2ca4449a50d1687deb7fb, type: 2}

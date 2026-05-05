@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: G_Root
+  m_Name: GN_Node3a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
-  npcName: Amy
-  dialogueText: Oh wow {sassy}... this list is something. The {person} who wrote
-    this is crazy.
+  npcName: Bob
+  dialogueText: Sorry, ignore her. Both items can be found in the fruit section.
   responses:
-  - responseText: I wrote it... could you help me?
-    nextNode: {fileID: 11400000, guid: d15af03441f8aa9409eb3c8fb8fad21f, type: 2}
-  - responseText: I wrote it...
-    nextNode: {fileID: 11400000, guid: bbf481bf11f474144a10ab781c8be017, type: 2}
+  - responseText: There are so many fruits, that doesn't help much.
+    nextNode: {fileID: 11400000, guid: 2701faa80465c014fa90075bd71dab19, type: 2}
+  - responseText: Do you know which fruits they are?
+    nextNode: {fileID: 11400000, guid: 1aa1c0165f28825478781aff6fb3e981, type: 2}

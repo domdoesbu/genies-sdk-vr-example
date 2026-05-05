@@ -7,37 +7,38 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // 1. Unlock NPC
-    // 2. Unlock item associated with NPC
-    // 3. Check items being put in basket
-    // 4. If item is not unlocked, it is invalid
-    //    If item is incorrect, it is invalid
-    // 5. If item is unlocked and correct, it is valid, and that is checked off the list.
-
-    // 2D array of NPC and item
-
-    /** LIST:
-        - 1 bundt cake
-        - 3 Green grapes
-        - 5 apples
-        - 2 meat
-        - 1 rubber duck
-    **/
-
+    [Header("VR?")]
     public bool VR;
 
+    [Header("Grocery List")]
     [SerializeField] public int[] groceryItemCount = new int[5];
     [SerializeField] public TextMeshProUGUI groceryList;
     private string[] groceryItemString = new string[5];
+
+    [Header("Hint list")]
+    [SerializeField] public TextMeshProUGUI[] itemHints = new TextMeshProUGUI[5];
+    private string[] itemHintsText = new string[5];
+
+    [Header("Inputs")]
     public GeniesInputs geniesInputs;
     public StarterAssetsInputs starterInput;
+
+    [Header("Health")]
     public Health health;
 
+    [Header("Toggles")]
     public bool genderNeutral = false;
     public bool pluralVerbage = false;
     public bool disableMove = true;
     private void Start()
-    { 
+    {
+        itemHintsText[0] = "Sweet treat, hole in the middle, white icing, sharable.";
+        itemHintsText[1] = "Fruit, three variations, the green one.";
+        itemHintsText[2] = "In the fridge, comes in packs of 3.";
+        itemHintsText[3] = "Bath toy.";
+        itemHintsText[4] = "Fruit, bottom shelf, no leafs.";
+
+
         groceryItemString[0] = " &*(^%#";
         groceryItemString[1] = " !#()&@$";
         groceryItemString[2] = " ~><:@#(*& ";
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
             if (i == j)
             {
                 groceryItemString[i] = "<color=green>" + groceryItemString[i] + "</color>";
+                itemHints[i].text = itemHintsText[i];
             }
             groceryList.text += groceryItemCount[i] + "x" + groceryItemString[i] + "\n";
         }

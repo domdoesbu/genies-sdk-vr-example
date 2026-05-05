@@ -19,4 +19,4 @@ MonoBehaviour:
   - responseText: Do you recognize any others?
     nextNode: {fileID: 11400000, guid: 45b727e0a8b2ca4449a50d1687deb7fb, type: 2}
   - responseText: You don't have to be so sassy...
-    nextNode: {fileID: 11400000, guid: 916ee0cce593e164ba684ed846889060, type: 2}
+    nextNode: {fileID: 11400000, guid: 45078f67eb99c0048b8e8ce99ef7ced5, type: 2}

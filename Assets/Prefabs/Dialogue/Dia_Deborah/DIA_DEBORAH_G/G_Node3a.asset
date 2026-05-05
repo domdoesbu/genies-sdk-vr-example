@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97403bc6be0f23941804ce05ec47d0d6, type: 3}
-  m_Name: GN_Node2b
+  m_Name: G_Node3a
   m_EditorClassIdentifier: Assembly-CSharp::DialogueNode
   npcName: Bob
-  dialogueText: Sorry, ignore her. Both items can be found in the fruit section.
+  dialogueText: '{SubjectivePronoun} {be} asking for help. Sorry, ignore her, she
+    can''t hear much. Both items can be found in the fruit section.'
   responses:
-  - responseText: That doesn't help, there are so many fruits.
-    nextNode: {fileID: 11400000, guid: 2701faa80465c014fa90075bd71dab19, type: 2}
+  - responseText: That doesn't help, there are so many fruit.
+    nextNode: {fileID: 11400000, guid: ceac38044664eeb488193f0102ea0f47, type: 2}
   - responseText: Do you know which ones they are?
-    nextNode: {fileID: 11400000, guid: 1aa1c0165f28825478781aff6fb3e981, type: 2}
+    nextNode: {fileID: 11400000, guid: ceac38044664eeb488193f0102ea0f47, type: 2}
