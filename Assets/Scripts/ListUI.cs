@@ -5,29 +5,36 @@ using UnityEngine.InputSystem;
 public class ListUI : MonoBehaviour
 {
     public GameObject HUD;
+    public GameObject hintList;
     public StarterAssetsInputs _input;
-    public bool hidden = false;
-    public Vector3 originalScale;
+    public bool listHidden = false;
+    public bool hintHidden = true;
+    public Vector3 listOriginalScale;
     public GameManager manager;
     private void Start()
     {
         manager = FindAnyObjectByType<GameManager>();
-        originalScale = HUD.transform.localScale;
+        listOriginalScale = HUD.transform.localScale;
    
     }
     private void Update()
     {
         if (_input == null)
         {
-            if(OVRInput.GetDown(OVRInput.RawButton.X) && hidden)
+            if(OVRInput.GetDown(OVRInput.RawButton.X) && listHidden)
             {
-                HUD.transform.localScale = originalScale;
-                hidden = false;
+                HUD.transform.localScale = listOriginalScale;
+                listHidden = false;
             }
-            else if(OVRInput.GetDown(OVRInput.RawButton.X) && !hidden)
+            else if(OVRInput.GetDown(OVRInput.RawButton.X) && !listHidden)
             {
                 HUD.transform.localScale = Vector3.zero;
-                hidden = true;
+                listHidden = true;
+            }
+            if (OVRInput.GetDown(OVRInput.RawButton.B))
+            {
+                hintHidden = !hintHidden;
+                hintList.SetActive(hintHidden);
             }
         }
         else if(_input != null && !manager.disableMove) 
@@ -35,12 +42,12 @@ public class ListUI : MonoBehaviour
             if (_input.toggleHUD)
             { 
                 HUD.transform.localScale = Vector3.zero;
-                hidden = false;
+                listHidden = false;
             }   
             else if(!_input.toggleHUD)
             {
-                HUD.transform.localScale = originalScale;
-                hidden = true;
+                HUD.transform.localScale = listOriginalScale;
+                listHidden = true;
             }
         }
     }

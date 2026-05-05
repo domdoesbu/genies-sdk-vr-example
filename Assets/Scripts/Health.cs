@@ -7,8 +7,12 @@ public class Health : MonoBehaviour
 
     public void DecreaseHealth()
     {
-        Destroy(health[healthCount - 1]);
-        healthCount -= 1;
+        if(healthCount > 0)
+        {
+            Destroy(health[healthCount - 1]);
+            healthCount -= 1;
+        }
+        
 
     }
 }

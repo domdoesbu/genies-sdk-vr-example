@@ -9,7 +9,8 @@ public class Basket : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag != "Player")
+        // Pickable is layer 12
+        if(other.gameObject.layer == 12)
         {
             Item item = other.gameObject.GetComponent<Item>();
             

@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public void DecreaseHealth()
     {
         health.DecreaseHealth();
-        if(health.healthCount == 0)
+        if(health.healthCount <= 0)
         {
             GameLost();
         }

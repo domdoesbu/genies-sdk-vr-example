@@ -50,23 +50,23 @@ public class Actor : MonoBehaviour
         else if (dialogueManager != null)
             dialogueManager.StartDialogue(G_dialogue.RootNode);    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null)
-        {
-            dialogueManager.ShowInteractPrompt();
-            if(movement != null)
-                movement.Talking();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null)
+    //    {
+    //        dialogueManager.ShowInteractPrompt();
+    //        if(movement != null)
+    //            movement.Talking();
+    //    }
+    //}
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (gameManager.VR && other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null && OVRInput.GetDown(OVRInput.RawButton.Y))
-        {
-            StartDialogue();
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (gameManager.VR && other.gameObject.tag == "Player" && !spokenTo && dialogueManager != null && OVRInput.GetDown(OVRInput.RawButton.Y))
+    //    {
+    //        StartDialogue();
+    //    }
+    //}
 
     public void StartDialogue()
     {
@@ -82,14 +82,14 @@ public class Actor : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player" && !spokenTo)
-        {
-            if(dialogueManager != null)
-                dialogueManager.HideInteractPrompt();
-            if(movement != null)
-                movement.Walking();
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player" && !spokenTo)
+    //    {
+    //        if(dialogueManager != null)
+    //            dialogueManager.HideInteractPrompt();
+    //        if(movement != null)
+    //            movement.Walking();
+    //    }
+    //}
 }

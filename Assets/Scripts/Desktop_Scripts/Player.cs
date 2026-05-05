@@ -46,96 +46,102 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        manager = FindAnyObjectByType<GameManager>();
         starterInput = FindAnyObjectByType<StarterAssetsInputs>();
         geniesInputs = FindAnyObjectByType<GeniesInputs>();
-        manager = FindAnyObjectByType<GameManager>();
+        
         interactionInput.action.performed += Interact;
         dropInput.action.performed += Drop;
         pauseInput.action.performed += Pause;
         pauseUISize = pauseUI.transform.localScale;
         pauseUI.SetActive(false);
+        
+        
     }
     private void Update()
     {
-        Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
 
-        // Reset highlights on all objects
-        if(itemHit.collider != null)
-        {
-            itemHit.collider.GetComponent<Outline>()?.SetOutline(false);
-        }
-        if (basketHit.collider != null)
-        { 
-            basketHit.collider.GetComponent<Outline>()?.SetOutline(false);
-        }
-        if (fridgeHit.collider != null)
-        {
-            fridgeHit.collider.GetComponent<Outline>()?.SetOutline(false);
-        }
+            Debug.DrawRay(playerCameraTransform.position, playerCameraTransform.forward * hitRange, Color.red);
 
-        // If interacting with NPC
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out NPCHit, hitRange, npcLayerMask))
-        {
-            NPC = NPCHit.collider.gameObject;
-            npcActor = NPC.GetComponent<Actor>();
-            
-            if (npcActor != null && !npcActor.spokenTo)
+            // Reset highlights on all objects
+            if (itemHit.collider != null)
             {
-                npcActor.dialogueManager.ShowInteractPrompt();
-                if(npcActor.movement != null)
-                {
-                    npcActor.movement.Talking();
-                }
-                    
+                itemHit.collider.GetComponent<Outline>()?.SetOutline(false);
             }
-            return;
-        }
-        else
-        {
-            if (npcActor != null)
+            if (basketHit.collider != null)
             {
-                npcActor.dialogueManager.HideInteractPrompt();
-                if (!npcActor.spokenTo)
-                {
-                    if(npcActor.movement != null)
-                        npcActor.movement.Walking();
-                }
+                basketHit.collider.GetComponent<Outline>()?.SetOutline(false);
             }
-            
-        }
-        // If item in hand, don't detect anything else
-       
-        // If item in hand and hover basket
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out basketHit, hitRange, basketLayerMask))
-        {
-            interactUI.SetActive(true);
-            interactText.text = "Press E to pick up basket";
-            basketHit.collider.GetComponent<Outline>()?.SetOutline(true);
-            return;
-        }
+            if (fridgeHit.collider != null)
+            {
+                fridgeHit.collider.GetComponent<Outline>()?.SetOutline(false);
+            }
+
+            // If interacting with NPC
+            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out NPCHit, hitRange, npcLayerMask))
+            {
+                NPC = NPCHit.collider.gameObject;
+                npcActor = NPC.GetComponent<Actor>();
+
+                if (npcActor != null && !npcActor.spokenTo)
+                {
+                    npcActor.dialogueManager.ShowInteractPrompt();
+                    if (npcActor.movement != null)
+                    {
+                        npcActor.movement.Talking();
+                    }
+
+                }
+                return;
+            }
+            else
+            {
+                if (npcActor != null)
+                {
+                    npcActor.dialogueManager.HideInteractPrompt();
+                    if (!npcActor.spokenTo)
+                    {
+                        if (npcActor.movement != null)
+                            npcActor.movement.Walking();
+                    }
+                }
+
+            }
+            // If item in hand, don't detect anything else
+
+            // If item in hand and hover basket
+            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out basketHit, hitRange, basketLayerMask))
+            {
+                interactUI.SetActive(true);
+                interactText.text = "Press E to pick up basket";
+                basketHit.collider.GetComponent<Outline>()?.SetOutline(true);
+                return;
+            }
+
+
+            // If fridge interaction
+            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out fridgeHit, hitRange, fridgeLayerMask))
+            {
+                interactUI.SetActive(true);
+                interactText.text = "Press E to interact";
+                fridgeHit.collider.GetComponent<Outline>()?.SetOutline(true);
+                return;
+            }
+            // If hovering a pickable item
+            else if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out itemHit, hitRange, pickableLayerMask))
+            {
+                interactUI.SetActive(true);
+                interactText.text = "Press E to pick up item";
+                itemHit.collider.GetComponent<Outline>()?.SetOutline(true);
+                return;
+            }
+            else
+            {
+                interactText.text = "Press E to interact";
+                interactUI.SetActive(false);
+            }
         
-        
-        // If fridge interaction
-        if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out fridgeHit, hitRange, fridgeLayerMask))
-        {
-            interactUI.SetActive(true);
-            interactText.text = "Press E to interact";
-            fridgeHit.collider.GetComponent<Outline>()?.SetOutline(true);
-            return;
-        }
-        // If hovering a pickable item
-        else if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out itemHit, hitRange, pickableLayerMask))
-        {
-            interactUI.SetActive(true);
-            interactText.text = "Press E to pick up item";
-            itemHit.collider.GetComponent<Outline>()?.SetOutline(true);
-            return;
-        }
-        else
-        {
-            interactText.text = "Press E to interact";
-            interactUI.SetActive(false);
-        }
+
     }
 
     public void FindAvatarHand()
