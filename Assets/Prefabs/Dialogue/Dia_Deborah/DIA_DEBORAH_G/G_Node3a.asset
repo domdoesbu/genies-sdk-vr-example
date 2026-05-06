@@ -19,4 +19,4 @@ MonoBehaviour:
   - responseText: That doesn't help, there are so many fruit.
     nextNode: {fileID: 11400000, guid: ceac38044664eeb488193f0102ea0f47, type: 2}
   - responseText: Do you know which ones they are?
-    nextNode: {fileID: 11400000, guid: ceac38044664eeb488193f0102ea0f47, type: 2}
+    nextNode: {fileID: 11400000, guid: 82b31a724f68aae45af7e4bee0fbcc0a, type: 2}

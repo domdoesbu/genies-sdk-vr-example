@@ -21,7 +21,8 @@ public class AvatarMovement : MonoBehaviour
     private float waitTime = 0f;
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if(player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
         RandomizeState();   
     }
 
@@ -47,10 +48,15 @@ public class AvatarMovement : MonoBehaviour
             if (HasArrived()) 
             {
                 ChangeState(EState.Talking);
+                return;
             }
 
             ChangeState(EState.MeetUp);
             
+        }
+        else if (state == EState.Talking)
+        {
+            FacePlayer();
         }
     }
 
@@ -97,8 +103,9 @@ public class AvatarMovement : MonoBehaviour
 
     public void Talking()
     {
-        FacePlayer();
         ChangeState(EState.Talking);
+        
+        
     }
 
     public void Walking()

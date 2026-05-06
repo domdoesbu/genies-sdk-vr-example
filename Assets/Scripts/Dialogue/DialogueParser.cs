@@ -31,9 +31,7 @@ public static class DialogueParser
 
         foreach (var pair in replacements)
         {
-            UnityEngine.Debug.Log(text);
             text = text.Replace(pair.Key, pair.Value);
-            UnityEngine.Debug.Log(text);
         }
 
         return text;

@@ -8,7 +8,7 @@ public class ListUI : MonoBehaviour
     public GameObject hintList;
     public StarterAssetsInputs _input;
     public bool listHidden = false;
-    public bool hintHidden = true;
+    public bool hintHidden = false;
     public Vector3 listOriginalScale;
     public GameManager manager;
     private void Start()
@@ -21,17 +21,22 @@ public class ListUI : MonoBehaviour
     {
         if (_input == null)
         {
-            if(OVRInput.GetDown(OVRInput.RawButton.X) && listHidden)
+            //if(OVRInput.GetDown(OVRInput.RawButton.X) && listHidden)
+            //{
+            //    HUD.transform.localScale = listOriginalScale;
+            //    listHidden = false;
+            //}
+            //else if(OVRInput.GetDown(OVRInput.RawButton.X) && !listHidden)
+            //{
+            //    HUD.transform.localScale = Vector3.zero;
+            //    listHidden = true;
+            //}
+            if (OVRInput.GetDown(OVRInput.RawButton.X))
             {
-                HUD.transform.localScale = listOriginalScale;
-                listHidden = false;
+                listHidden = !listHidden;
+                HUD.transform.localScale = listHidden ?  Vector3.zero : listOriginalScale;
             }
-            else if(OVRInput.GetDown(OVRInput.RawButton.X) && !listHidden)
-            {
-                HUD.transform.localScale = Vector3.zero;
-                listHidden = true;
-            }
-            if (OVRInput.GetDown(OVRInput.RawButton.B))
+            if (OVRInput.GetDown(OVRInput.RawButton.Y))
             {
                 hintHidden = !hintHidden;
                 hintList.SetActive(hintHidden);

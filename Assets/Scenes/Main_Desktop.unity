@@ -4174,7 +4174,7 @@ Transform:
   m_GameObject: {fileID: 112428160}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.36346, y: 1.265, z: -15.60507}
+  m_LocalPosition: {x: -8.619, y: 1.265, z: -7.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8851,38 +8851,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
---- !u!21 &407447114
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1254948787}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &407842720 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2958633438147335437, guid: ed3fca50e86484347b5676d2011cc1a8,
@@ -12252,7 +12220,7 @@ PrefabInstance:
     - target: {fileID: 778113579087864465, guid: fc1bcbbb4155db045962170045ad5a14,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.529
+      value: -8.445
       objectReference: {fileID: 0}
     - target: {fileID: 778113579087864465, guid: fc1bcbbb4155db045962170045ad5a14,
         type: 3}
@@ -12262,7 +12230,7 @@ PrefabInstance:
     - target: {fileID: 778113579087864465, guid: fc1bcbbb4155db045962170045ad5a14,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.392
+      value: -4.247
       objectReference: {fileID: 0}
     - target: {fileID: 778113579087864465, guid: fc1bcbbb4155db045962170045ad5a14,
         type: 3}
@@ -19672,6 +19640,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
+--- !u!21 &994883113
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1924820584}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1001 &995454086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29449,43 +29449,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
---- !u!84 &1254948787
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MirrorRT (Runtime)
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 703
-  m_Height: 720
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 0
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1255265061 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5867581858446445564, guid: ed3fca50e86484347b5676d2011cc1a8,
@@ -33100,6 +33063,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
+--- !u!1001 &1429048009
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.32418
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.982
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.628
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890998696849620971, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437801778630275907, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908915619372380982, guid: 4d84c0e45c1224c48970c224fc8c31fb,
+        type: 3}
+      propertyPath: m_Name
+      value: Audio Source
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4d84c0e45c1224c48970c224fc8c31fb, type: 3}
 --- !u!1001 &1429924096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33855,6 +33891,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
+--- !u!21 &1497996358
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1924820584}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1500447139 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 942011930597563022, guid: b6ea15642e52e7444948bb64db23f010,
@@ -33985,38 +34053,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
---- !u!21 &1527320716
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1254948787}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1528145672 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1466193781995924879, guid: 63f53ae46daf5dd41bb8e105156ed3af,
@@ -49183,38 +49219,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
---- !u!21 &1918085013
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Mirror (Runtime)
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 1254948787}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1920806999 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1579557242177733535, guid: f120b97de8231954db9690dd755d7c9a,
@@ -49286,6 +49290,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &1924820584
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MirrorRT (Runtime)
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 703
+  m_Height: 720
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 0
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!114 &1928272575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55567,6 +55608,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Outline
   OutlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OutlineWidth: 0.01
+--- !u!21 &2114633501
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mirror (Runtime)
+  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 1924820584}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats: []
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &2119854631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60800,7 +60873,7 @@ PrefabInstance:
         type: 3}
       propertyPath: otherNPC
       value: 
-      objectReference: {fileID: 153859430}
+      objectReference: {fileID: 153859434}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -79299,6 +79372,7 @@ SceneRoots:
   - {fileID: 1750692432}
   - {fileID: 820581563}
   - {fileID: 220931343}
+  - {fileID: 1429048009}
   - {fileID: 653253006}
   - {fileID: 8900220409059068513}
   - {fileID: 1881152445}

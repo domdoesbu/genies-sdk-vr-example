@@ -24,7 +24,7 @@ public class NPCInteractorVR : MonoBehaviour
     {
         if(actor != null && !actor.spokenTo)
         {
-            actor.dialogueManager.HideDialogue();
+            actor.dialogueManager.HideInteractPrompt();
             if (actor.movement != null)
             {
                 actor.movement.Walking();
