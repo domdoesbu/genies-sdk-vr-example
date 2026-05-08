@@ -199,6 +199,7 @@ public class Player : MonoBehaviour
             inHandItem.transform.SetParent(avatarHand.transform, false);
             inHandItem.transform.localPosition = Vector3.zero;
             inHandItem.transform.rotation = Quaternion.identity;
+            inHandItem.GetComponent<ChangeGrabbedLayer>().Grabbed();
             return;
         }
     }
